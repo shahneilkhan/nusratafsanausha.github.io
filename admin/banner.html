@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Banner — Nusrat Admin</title>
+
+  <meta
+    name="description"
+    content="Manage Nusrat Afsana Usha portfolio banner and hero presentation."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="./admin.css">
+
+  <style>
+    /* =====================================================
+       BANNER PAGE — LOCAL STYLES
+    ====================================================== */
+
+    .banner-preview {
+      position: relative;
+      min-height: 430px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: #111216;
+      isolation: isolate;
+    }
+
+    .banner-preview-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      opacity: .72;
+      transition:
+        opacity .3s ease,
+        object-position .3s ease,
+        transform .5s ease;
+    }
+
+    .banner-preview::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,.88) 0%,
+          rgba(0,0,0,.58) 42%,
+          rgba(0,0,0,.12) 100%
+        );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .banner-preview-content {
+      position: relative;
+      z-index: 2;
+      min-height: 430px;
+      width: min(720px, 80%);
+      padding: 58px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .banner-preview-kicker {
+      display: inline-flex;
+      width: fit-content;
+      margin-bottom: 18px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      color: rgba(255,255,255,.78);
+      background: rgba(255,255,255,.06);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .banner-preview h2 {
+      max-width: 760px;
+      margin: 0;
+      color: #fff;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(38px, 5vw, 72px);
+      line-height: .94;
+      letter-spacing: -.055em;
+    }
+
+    .banner-preview p {
+      max-width: 580px;
+      margin: 22px 0 0;
+      color: rgba(255,255,255,.72);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .banner-preview-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .preview-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 0 17px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .preview-pill.primary {
+      color: #111;
+      background: #fff;
+      border-color: #fff;
+    }
+
+    .banner-mode-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .mode-card {
+      position: relative;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--panel);
+      cursor: pointer;
+      transition:
+        border-color .2s ease,
+        transform .2s ease,
+        background .2s ease;
+    }
+
+    .mode-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .mode-card.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .mode-card strong {
+      display: block;
+      margin-bottom: 5px;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 15px;
+    }
+
+    .mode-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .range-wrap {
+      display: grid;
+      grid-template-columns: 1fr 72px;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .range-wrap input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .range-value {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--white-soft);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .position-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 150px;
+      gap: 7px;
+      margin-top: 4px;
+    }
+
+    .position-button {
+      width: 44px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--muted);
+      background: var(--white-soft);
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .position-button:hover,
+    .position-button.active {
+      color: var(--text);
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .device-preview {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 14px;
+    }
+
+    .device-frame {
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #111216;
+    }
+
+    .device-frame.mobile {
+      min-height: 390px;
+    }
+
+    .device-frame img {
+      width: 100%;
+      height: 100%;
+      min-height: inherit;
+      object-fit: cover;
+      opacity: .72;
+    }
+
+    .device-label {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      z-index: 2;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 999px;
+      color: #fff;
+      background: rgba(0,0,0,.45);
+      backdrop-filter: blur(10px);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .danger-zone {
+      border-color: rgba(190, 80, 80, .28);
+    }
+
+    .danger-zone .panel-head h3 {
+      color: #d88989;
+    }
+
+    @media (max-width: 900px) {
+
+      .banner-mode-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .device-preview {
+        grid-template-columns: 1fr;
+      }
+
+      .device-frame.mobile {
+        min-height: 300px;
+      }
+
+    }
+
+    @media (max-width: 600px) {
+
+      .banner-preview-content {
+        width: 100%;
+        padding: 32px 24px;
+      }
+
+      .banner-preview {
+        min-height: 520px;
+      }
+
+      .banner-preview-content {
+        min-height: 520px;
+      }
+
+    }
+  </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        NU
+      </div>
+
+      <div class="brand-copy">
+        <strong>Nusrat</strong>
+        <span>Portfolio Admin</span>
+      </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+      <span class="sidebar-label">
+        Workspace
+      </span>
+
+
+      <nav class="side-nav">
+
+        <button class="nav-item" data-page="dashboard">
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-page="homepage">
+          <span class="nav-icon">◉</span>
+          <span>Homepage</span>
+        </button>
+
+        <button class="nav-item active" data-page="banner">
+          <span class="nav-icon">▧</span>
+          <span>Banner</span>
+        </button>
+
+        <button class="nav-item" data-page="browser-ui">
+          <span class="nav-icon">▣</span>
+          <span>Browser UI</span>
+        </button>
+
+        <button class="nav-item" data-page="newsletter">
+          <span class="nav-icon">✉</span>
+          <span>Newsletter</span>
+        </button>
+
+        <button class="nav-item" data-page="admin-management">
+          <span class="nav-icon">◎</span>
+          <span>Admin Management</span>
+        </button>
+
+        <button class="nav-item" data-page="system">
+          <span class="nav-icon">⚙</span>
+          <span>System</span>
+        </button>
+
+      </nav>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+      <a
+        href="../index.html"
+        target="_blank"
+        class="preview-link"
+      >
+        <span>↗</span>
+        View Portfolio
+      </a>
+
+
+      <div class="account-card">
+
+        <div class="avatar">
+          NU
+        </div>
+
+        <div class="account-info">
+          <strong>Nusrat</strong>
+          <span>Content Admin</span>
+        </div>
+
+        <button
+          class="more-button"
+          id="accountMenu"
+          aria-label="Account menu"
+        >
+          •••
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="mobile-brand">
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+        <strong>NUS</strong>
+
+      </div>
+
+
+      <div class="breadcrumb">
+
+        <span>Portfolio</span>
+        <b>/</b>
+        <strong>Banner</strong>
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <button
+          class="icon-button"
+          id="themeToggle"
+          aria-label="Toggle theme"
+        >
+          ◐
+        </button>
+
+        <button
+          class="save-button"
+          id="globalSave"
+        >
+          <span>Save Changes</span>
+          <kbd>⌘ S</kbd>
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ===================================================
+         CONTENT
+    ==================================================== -->
+
+    <div class="content">
+
+      <section class="page active">
+
+        <div class="page-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              Visual presentation
+            </span>
+
+            <h1>
+              Banner
+              <em>studio.</em>
+            </h1>
+
+            <p>
+              Control the visual presentation of the homepage
+              hero without changing the portfolio structure.
+            </p>
+
+          </div>
+
+
+          <a
+            href="../index.html"
+            target="_blank"
+            class="primary-button"
+          >
+            Open live site
+            <span>↗</span>
+          </a>
+
+        </div>
+
+
+        <!-- =================================================
+             LIVE PREVIEW
+        ================================================== -->
+
+        <div class="section-head">
+
+          <div>
+
+            <span class="eyebrow">
+              Live composition
+            </span>
+
+            <h2>
+              Banner preview
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="banner-preview" id="bannerPreview">
+
+          <img
+            src="../nusrat-afsana-photo.jpg"
+            alt=""
+            class="banner-preview-image"
+            id="bannerPreviewImage"
+          >
+
+
+          <div class="banner-preview-content">
+
+            <span
+              class="banner-preview-kicker"
+              id="previewKicker"
+            >
+              UX / UI DESIGNER
+            </span>
+
+
+            <h2 id="previewHeadline">
+              Designing clarity into digital experiences.
+            </h2>
+
+
+            <p id="previewDescription">
+              Thoughtful digital experiences shaped by
+              research, structure and visual craft.
+            </p>
+
+
+            <div class="banner-preview-actions">
+
+              <span class="preview-pill primary">
+                Explore selected work
+              </span>
+
+              <span class="preview-pill">
+                Start a conversation
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              01 / Content
+            </span>
+
+            <h2>
+              Banner messaging
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="editor-grid">
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="eyebrow">
+                  Typography
+                </span>
+
+                <h3>
+                  Primary content
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <label class="field">
+
+              <span>
+                Eyebrow
+              </span>
+
+              <input
+                id="bannerEyebrow"
+                type="text"
+                value="UX / UI DESIGNER"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Headline
+              </span>
+
+              <textarea
+                id="bannerHeadline"
+                rows="4"
+              >Designing clarity into digital experiences.</textarea>
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Description
+              </span>
+
+              <textarea
+                id="bannerDescription"
+                rows="6"
+              >Thoughtful digital experiences shaped by research, structure and visual craft.</textarea>
+
+            </label>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="eyebrow">
+                  Calls to action
+                </span>
+
+                <h3>
+                  CTA controls
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <label class="field">
+
+              <span>
+                Primary CTA
+              </span>
+
+              <input
+                type="text"
+                value="Explore selected work"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Primary link
+              </span>
+
+              <input
+                type="text"
+                value="#work"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Secondary CTA
+              </span>
+
+              <input
+                type="text"
+                value="Start a conversation"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Secondary link
+              </span>
+
+              <input
+                type="text"
+                value="#contact"
+              >
+
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             IMAGE
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              02 / Media
+            </span>
+
+            <h2>
+              Banner image
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="image-upload">
+
+            <div class="image-preview">
+
+              <img
+                src="../nusrat-afsana-photo.jpg"
+                alt="Banner image"
+                id="bannerImagePreview"
+              >
+
+            </div>
+
+
+            <div class="upload-info">
+
+              <strong>
+                Current portfolio portrait
+              </strong>
+
+              <p>
+                Use a high-resolution image. The subject's
+                face should remain unobstructed and readable.
+              </p>
+
+
+              <label class="secondary-button upload-button">
+
+                Upload new image
+
+                <input
+                  type="file"
+                  id="bannerImageInput"
+                  accept="image/*"
+                  hidden
+                >
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             IMAGE POSITION
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              03 / Composition
+            </span>
+
+            <h2>
+              Image positioning
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="editor-grid">
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="eyebrow">
+                  Position
+                </span>
+
+                <h3>
+                  Focal point
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <div class="position-grid">
+
+              <button
+                class="position-button"
+                data-position="left top"
+                aria-label="Top left"
+              >
+                ↖
+              </button>
+
+              <button
+                class="position-button"
+                data-position="center top"
+                aria-label="Top center"
+              >
+                ↑
+              </button>
+
+              <button
+                class="position-button"
+                data-position="right top"
+                aria-label="Top right"
+              >
+                ↗
+              </button>
+
+
+              <button
+                class="position-button"
+                data-position="left center"
+                aria-label="Center left"
+              >
+                ←
+              </button>
+
+              <button
+                class="position-button active"
+                data-position="center center"
+                aria-label="Center"
+              >
+                •
+              </button>
+
+              <button
+                class="position-button"
+                data-position="right center"
+                aria-label="Center right"
+              >
+                →
+              </button>
+
+
+              <button
+                class="position-button"
+                data-position="left bottom"
+                aria-label="Bottom left"
+              >
+                ↙
+              </button>
+
+              <button
+                class="position-button"
+                data-position="center bottom"
+                aria-label="Bottom center"
+              >
+                ↓
+              </button>
+
+              <button
+                class="position-button"
+                data-position="right bottom"
+                aria-label="Bottom right"
+              >
+                ↘
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="eyebrow">
+                  Image treatment
+                </span>
+
+                <h3>
+                  Visual intensity
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <label class="field">
+
+              <span>
+                Image opacity
+              </span>
+
+              <div class="range-wrap">
+
+                <input
+                  type="range"
+                  id="imageOpacity"
+                  min="20"
+                  max="100"
+                  value="72"
+                >
+
+                <span
+                  class="range-value"
+                  id="imageOpacityValue"
+                >
+                  72%
+                </span>
+
+              </div>
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Image scale
+              </span>
+
+              <div class="range-wrap">
+
+                <input
+                  type="range"
+                  id="imageScale"
+                  min="100"
+                  max="125"
+                  value="100"
+                >
+
+                <span
+                  class="range-value"
+                  id="imageScaleValue"
+                >
+                  100%
+                </span>
+
+              </div>
+
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DISPLAY MODES
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              04 / Layout
+            </span>
+
+            <h2>
+              Banner layout
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="banner-mode-grid">
+
+
+            <button
+              class="mode-card active"
+              type="button"
+              data-layout="editorial"
+            >
+
+              <strong>
+                Editorial
+              </strong>
+
+              <span>
+                Large typography with strong
+                visual storytelling.
+              </span>
+
+            </button>
+
+
+            <button
+              class="mode-card"
+              type="button"
+              data-layout="balanced"
+            >
+
+              <strong>
+                Balanced
+              </strong>
+
+              <span>
+                Equal visual weight between
+                content and image.
+              </span>
+
+            </button>
+
+
+            <button
+              class="mode-card"
+              type="button"
+              data-layout="minimal"
+            >
+
+              <strong>
+                Minimal
+              </strong>
+
+              <span>
+                Quiet presentation with reduced
+                visual emphasis.
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DEVICE PREVIEW
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              05 / Responsive
+            </span>
+
+            <h2>
+              Device preview
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="device-preview">
+
+          <div class="device-frame">
+
+            <img
+              src="../nusrat-afsana-photo.jpg"
+              alt=""
+              id="desktopDeviceImage"
+            >
+
+            <span class="device-label">
+              Desktop
+            </span>
+
+          </div>
+
+
+          <div class="device-frame mobile">
+
+            <img
+              src="../nusrat-afsana-photo.jpg"
+              alt=""
+              id="mobileDeviceImage"
+            >
+
+            <span class="device-label">
+              Mobile
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             VISIBILITY
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              06 / Visibility
+            </span>
+
+            <h2>
+              Publishing controls
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="content-list">
+
+
+            <article class="content-row">
+
+              <div class="row-number">
+                01
+              </div>
+
+              <div class="row-content">
+
+                <strong>
+                  Homepage banner
+                </strong>
+
+                <span>
+                  Show the banner on the public homepage.
+                </span>
+
+              </div>
+
+              <button
+                class="row-action visibility-toggle"
+                data-visible="true"
+                type="button"
+              >
+                Visible
+              </button>
+
+            </article>
+
+
+            <article class="content-row">
+
+              <div class="row-number">
+                02
+              </div>
+
+              <div class="row-content">
+
+                <strong>
+                  Desktop presentation
+                </strong>
+
+                <span>
+                  Display the full banner composition on desktop.
+                </span>
+
+              </div>
+
+              <button
+                class="row-action visibility-toggle"
+                data-visible="true"
+                type="button"
+              >
+                Visible
+              </button>
+
+            </article>
+
+
+            <article class="content-row">
+
+              <div class="row-number">
+                03
+              </div>
+
+              <div class="row-content">
+
+                <strong>
+                  Mobile presentation
+                </strong>
+
+                <span>
+                  Display the responsive banner on mobile devices.
+                </span>
+
+              </div>
+
+              <button
+                class="row-action visibility-toggle"
+                data-visible="true"
+                type="button"
+              >
+                Visible
+              </button>
+
+            </article>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SEO
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              07 / Search
+            </span>
+
+            <h2>
+              SEO metadata
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <label class="field">
+
+            <span>
+              SEO title
+            </span>
+
+            <input
+              type="text"
+              value="Nusrat Afsana Usha — UX/UI Designer"
+            >
+
+          </label>
+
+
+          <label class="field">
+
+            <span>
+              SEO description
+            </span>
+
+            <textarea rows="4">Nusrat Afsana Usha is a UX/UI Designer focused on thoughtful digital experiences, intuitive interfaces and human-centered design.</textarea>
+
+          </label>
+
+
+          <label class="field">
+
+            <span>
+              Social sharing image
+            </span>
+
+            <input
+              type="text"
+              value="./nusrat-afsana-photo.jpg"
+            >
+
+          </label>
+
+        </div>
+
+
+        <!-- =================================================
+             DANGER ZONE
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              Advanced
+            </span>
+
+            <h2>
+              Publishing state
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel danger-zone">
+
+          <div class="panel-head">
+
+            <div>
+
+              <span class="eyebrow">
+                Caution
+              </span>
+
+              <h3>
+                Banner publishing
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div class="status-card">
+
+            <div class="status-left">
+
+              <div class="status-dot"></div>
+
+              <div>
+
+                <strong>
+                  Banner is published
+                </strong>
+
+                <span>
+                  Changes will become visible after saving
+                  and publishing through the connected backend.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="secondary-button"
+              id="draftButton"
+              type="button"
+            >
+              Save as draft
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER STATUS
+        ================================================== -->
+
+        <div
+          class="status-card"
+          style="margin-top:58px;"
+        >
+
+          <div class="status-left">
+
+            <div class="status-dot"></div>
+
+            <div>
+
+              <strong>
+                Banner editor ready
+              </strong>
+
+              <span>
+                Use Save Changes after editing the banner.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="status-right">
+
+            <span>
+              Shortcut
+            </span>
+
+            <strong>
+              Ctrl / Cmd + S
+            </strong>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- =======================================================
+     TOAST
+======================================================== -->
+
+<div
+  class="toast"
+  id="toast"
+  role="status"
+  aria-live="polite"
+>
+  <span>✓</span>
+
+  <strong>
+    Changes saved
+  </strong>
+</div>
+
+
+<!-- =======================================================
+     MOBILE OVERLAY
+======================================================== -->
+
+<div
+  class="mobile-overlay"
+  id="mobileOverlay"
+></div>
+
+
+<script src="./admin.js"></script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const toast =
+    document.getElementById("toast");
+
+  const headline =
+    document.getElementById("bannerHeadline");
+
+  const description =
+    document.getElementById("bannerDescription");
+
+  const eyebrow =
+    document.getElementById("bannerEyebrow");
+
+  const previewHeadline =
+    document.getElementById("previewHeadline");
+
+  const previewDescription =
+    document.getElementById("previewDescription");
+
+  const previewKicker =
+    document.getElementById("previewKicker");
+
+  const previewImage =
+    document.getElementById("bannerPreviewImage");
+
+  const bannerImagePreview =
+    document.getElementById("bannerImagePreview");
+
+  const desktopImage =
+    document.getElementById("desktopDeviceImage");
+
+  const mobileImage =
+    document.getElementById("mobileDeviceImage");
+
+  const imageInput =
+    document.getElementById("bannerImageInput");
+
+  const opacity =
+    document.getElementById("imageOpacity");
+
+  const opacityValue =
+    document.getElementById("imageOpacityValue");
+
+  const scale =
+    document.getElementById("imageScale");
+
+  const scaleValue =
+    document.getElementById("imageScaleValue");
+
+
+  function showToast(message){
+
+    if(!toast) return;
+
+    const text =
+      toast.querySelector("strong");
+
+    if(text){
+      text.textContent = message;
+    }
+
+    toast.classList.add("show");
+
+    clearTimeout(
+      window.__bannerToast
+    );
+
+    window.__bannerToast =
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+  }
+
+
+  /* =======================================================
+     LIVE TEXT PREVIEW
+  ======================================================= */
+
+  function updateTextPreview(){
+
+    if(previewHeadline && headline){
+      previewHeadline.textContent =
+        headline.value ||
+        "Designing clarity into digital experiences.";
+    }
+
+    if(previewDescription && description){
+      previewDescription.textContent =
+        description.value ||
+        "Thoughtful digital experiences shaped by research, structure and visual craft.";
+    }
+
+    if(previewKicker && eyebrow){
+      previewKicker.textContent =
+        eyebrow.value ||
+        "UX / UI DESIGNER";
+    }
+
+  }
+
+
+  [headline, description, eyebrow]
+    .forEach(input => {
+
+      if(!input) return;
+
+      input.addEventListener(
+        "input",
+        updateTextPreview
+      );
+
+    });
+
+
+  /* =======================================================
+     IMAGE UPLOAD
+  ======================================================= */
+
+  if(imageInput){
+
+    imageInput.addEventListener(
+      "change",
+      event => {
+
+        const file =
+          event.target.files &&
+          event.target.files[0];
+
+        if(!file) return;
+
+        if(!file.type.startsWith("image/")){
+
+          showToast(
+            "Please select an image file"
+          );
+
+          return;
+        }
+
+        const reader =
+          new FileReader();
+
+        reader.onload = () => {
+
+          const source =
+            reader.result;
+
+          if(previewImage)
+            previewImage.src = source;
+
+          if(bannerImagePreview)
+            bannerImagePreview.src = source;
+
+          if(desktopImage)
+            desktopImage.src = source;
+
+          if(mobileImage)
+            mobileImage.src = source;
+
+          showToast(
+            "Banner image updated"
+          );
+
+        };
+
+        reader.readAsDataURL(file);
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     IMAGE OPACITY
+  ======================================================= */
+
+  if(opacity){
+
+    opacity.addEventListener(
+      "input",
+      () => {
+
+        const value =
+          Number(opacity.value);
+
+        if(opacityValue){
+          opacityValue.textContent =
+            `${value}%`;
+        }
+
+        if(previewImage){
+          previewImage.style.opacity =
+            String(value / 100);
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     IMAGE SCALE
+  ======================================================= */
+
+  if(scale){
+
+    scale.addEventListener(
+      "input",
+      () => {
+
+        const value =
+          Number(scale.value);
+
+        if(scaleValue){
+          scaleValue.textContent =
+            `${value}%`;
+        }
+
+        if(previewImage){
+          previewImage.style.transform =
+            `scale(${value / 100})`;
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     POSITION
+  ======================================================= */
+
+  document
+    .querySelectorAll(".position-button")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(".position-button")
+            .forEach(item => {
+              item.classList.remove("active");
+            });
+
+          button.classList.add("active");
+
+          const position =
+            button.dataset.position;
+
+          if(previewImage){
+            previewImage.style.objectPosition =
+              position;
+          }
+
+          showToast(
+            `Image position: ${position}`
+          );
+
+        }
+      );
+
+    });
+
+
+  /* =======================================================
+     LAYOUT MODE
+  ======================================================= */
+
+  document
+    .querySelectorAll(".mode-card")
+    .forEach(card => {
+
+      card.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(".mode-card")
+            .forEach(item => {
+              item.classList.remove("active");
+            });
+
+          card.classList.add("active");
+
+          const layout =
+            card.dataset.layout;
+
+          const content =
+            document.querySelector(
+              ".banner-preview-content"
+            );
+
+          if(!content) return;
+
+
+          if(layout === "minimal"){
+
+            content.style.width = "620px";
+            content.style.padding = "42px";
+
+          }
+
+          else if(layout === "balanced"){
+
+            content.style.width = "680px";
+            content.style.padding = "50px";
+
+          }
+
+          else {
+
+            content.style.width = "720px";
+            content.style.padding = "58px";
+
+          }
+
+          showToast(
+            `${card.querySelector("strong").textContent} layout selected`
+          );
+
+        }
+      );
+
+    });
+
+
+  /* =======================================================
+     VISIBILITY
+  ======================================================= */
+
+  document
+    .querySelectorAll(".visibility-toggle")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const current =
+            button.dataset.visible === "true";
+
+          const next =
+            !current;
+
+          button.dataset.visible =
+            String(next);
+
+          button.textContent =
+            next
+              ? "Visible"
+              : "Hidden";
+
+          if(next){
+
+            button.style.color =
+              "var(--text-soft)";
+
+            button.style.background =
+              "var(--white-soft)";
+
+          }else{
+
+            button.style.color =
+              "var(--muted)";
+
+            button.style.background =
+              "transparent";
+
+          }
+
+          showToast(
+            next
+              ? "Banner element enabled"
+              : "Banner element disabled"
+          );
+
+        }
+      );
+
+    });
+
+
+  /* =======================================================
+     DRAFT
+  ======================================================= */
+
+  const draftButton =
+    document.getElementById("draftButton");
+
+  if(draftButton){
+
+    draftButton.addEventListener(
+      "click",
+      () => {
+
+        showToast(
+          "Banner saved as draft"
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     INITIAL PREVIEW
+  ======================================================= */
+
+  updateTextPreview();
+
+});
+</script>
+
+</body>
+</html>
