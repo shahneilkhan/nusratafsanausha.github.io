@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>System — Nusrat Afsana Usha</title>
+  <title>System — Nusrat Afsana Usha Admin</title>
   <meta
     name="description"
-    content="System settings for Nusrat Afsana Usha portfolio administration."
+    content="System settings and configuration for Nusrat Afsana Usha portfolio."
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap"
     rel="stylesheet"
   >
 
@@ -21,485 +21,535 @@
 
   <style>
     /* =========================================================
-       SYSTEM PAGE
-    ========================================================= */
+       SYSTEM PAGE — PREMIUM EXTENSION
+       ========================================================= */
 
-    .system-hero{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
+    .system-hero {
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
       gap:24px;
+      align-items:end;
       margin-bottom:28px;
     }
 
-    .system-kicker{
+    .system-kicker {
       display:flex;
       align-items:center;
       gap:9px;
       margin-bottom:10px;
-      color:var(--accent);
-      font-size:10px;
+      color:var(--muted);
+      font-size:11px;
       font-weight:700;
-      letter-spacing:.17em;
+      letter-spacing:.14em;
       text-transform:uppercase;
     }
 
-    .system-kicker::before{
-      content:"";
-      width:26px;
-      height:1px;
+    .system-kicker span {
+      width:7px;
+      height:7px;
+      border-radius:50%;
       background:var(--accent);
+      box-shadow:0 0 0 5px color-mix(in srgb,var(--accent) 10%,transparent);
     }
 
-    .system-hero h1{
+    .system-hero h1 {
       margin:0;
       font-family:"Bricolage Grotesque",sans-serif;
-      font-size:clamp(36px,4vw,56px);
-      line-height:.95;
-      letter-spacing:-.05em;
+      font-size:clamp(32px,4vw,58px);
+      line-height:.98;
+      letter-spacing:-.045em;
     }
 
-    .system-hero p{
-      max-width:650px;
-      margin:13px 0 0;
+    .system-hero p {
+      max-width:720px;
+      margin:14px 0 0;
       color:var(--muted);
-      font-size:13px;
       line-height:1.75;
     }
 
-    .system-health{
+    .system-status {
       display:flex;
       align-items:center;
-      gap:8px;
-      padding:10px 13px;
-      border:1px solid rgba(117,212,154,.18);
+      gap:10px;
+      padding:12px 15px;
+      border:1px solid var(--border);
       border-radius:999px;
-      color:#79d69b;
-      background:rgba(117,212,154,.045);
-      font-size:9px;
+      background:var(--panel);
+      color:var(--text);
+      font-size:12px;
       font-weight:700;
       white-space:nowrap;
     }
 
-    .health-dot{
-      width:7px;
-      height:7px;
+    .system-status i {
+      width:8px;
+      height:8px;
       border-radius:50%;
-      background:#79d69b;
-      box-shadow:0 0 0 4px rgba(117,212,154,.08);
+      background:#61d88a;
+      box-shadow:0 0 0 5px rgba(97,216,138,.10);
     }
 
-    .system-layout{
-      display:grid;
-      grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
-      gap:18px;
+    .system-status.warning i {
+      background:#e5ae52;
+      box-shadow:0 0 0 5px rgba(229,174,82,.10);
     }
 
-    .system-column{
+    .system-grid {
       display:grid;
-      gap:18px;
+      grid-template-columns:minmax(0,1.45fr) minmax(280px,.75fr);
+      gap:20px;
+    }
+
+    .system-main,
+    .system-side {
+      display:grid;
+      gap:20px;
       align-content:start;
     }
 
-    .system-card{
-      overflow:hidden;
+    .system-panel {
+      padding:24px;
       border:1px solid var(--border);
-      border-radius:18px;
+      border-radius:22px;
       background:var(--panel);
+      box-shadow:0 18px 60px rgba(0,0,0,.08);
     }
 
-    .system-card-head{
+    .system-panel-head {
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
-      gap:15px;
-      padding:19px 20px;
-      border-bottom:1px solid var(--border);
+      gap:20px;
+      margin-bottom:22px;
     }
 
-    .system-card-head h2{
+    .system-panel-title {
       margin:0;
       font-family:"Bricolage Grotesque",sans-serif;
-      font-size:18px;
+      font-size:20px;
       letter-spacing:-.025em;
     }
 
-    .system-card-head p{
-      margin:5px 0 0;
+    .system-panel-copy {
+      margin:6px 0 0;
       color:var(--muted);
-      font-size:10px;
-      line-height:1.55;
-    }
-
-    .system-body{
-      padding:20px;
-    }
-
-    /* SETTINGS ROW */
-
-    .setting-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      padding:16px 0;
-      border-bottom:1px solid var(--border);
-    }
-
-    .setting-row:first-child{
-      padding-top:0;
-    }
-
-    .setting-row:last-child{
-      padding-bottom:0;
-      border-bottom:0;
-    }
-
-    .setting-copy{
-      min-width:0;
-    }
-
-    .setting-copy strong{
-      display:block;
-      font-size:11px;
-      font-weight:600;
-    }
-
-    .setting-copy span{
-      display:block;
-      max-width:560px;
-      margin-top:4px;
-      color:var(--muted);
-      font-size:9px;
-      line-height:1.55;
-    }
-
-    /* TOGGLE */
-
-    .toggle{
-      position:relative;
-      width:44px;
-      height:24px;
-      flex:0 0 44px;
-      border:0;
-      border-radius:999px;
-      background:rgba(255,255,255,.1);
-      cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .toggle::after{
-      content:"";
-      position:absolute;
-      top:4px;
-      left:4px;
-      width:16px;
-      height:16px;
-      border-radius:50%;
-      background:#8d8d92;
-      transition:.2s ease;
-    }
-
-    .toggle.active{
-      background:rgba(216,179,106,.22);
-    }
-
-    .toggle.active::after{
-      left:24px;
-      background:var(--accent);
-    }
-
-    .toggle:focus-visible{
-      outline:2px solid var(--accent);
-      outline-offset:3px;
-    }
-
-    /* SELECT */
-
-    .system-select{
-      min-width:145px;
-      height:38px;
-      padding:0 12px;
-      border:1px solid var(--border);
-      border-radius:9px;
-      outline:none;
-      color:var(--text);
-      background:var(--bg);
-      font:inherit;
-      font-size:10px;
-    }
-
-    .system-select:focus{
-      border-color:rgba(216,179,106,.45);
-    }
-
-    /* HEALTH */
-
-    .health-list{
-      display:grid;
-    }
-
-    .health-row{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:14px 0;
-      border-bottom:1px solid var(--border);
-    }
-
-    .health-row:last-child{
-      border-bottom:0;
-      padding-bottom:0;
-    }
-
-    .health-row:first-child{
-      padding-top:0;
-    }
-
-    .health-icon{
-      display:grid;
-      place-items:center;
-      width:34px;
-      height:34px;
-      flex:0 0 34px;
-      border-radius:10px;
-      color:#79d69b;
-      background:rgba(117,212,154,.07);
-    }
-
-    .health-icon.warning{
-      color:#dfbf70;
-      background:rgba(216,179,106,.07);
-    }
-
-    .health-icon svg{
-      width:15px;
-      height:15px;
-    }
-
-    .health-copy{
-      flex:1;
-    }
-
-    .health-copy strong{
-      display:block;
-      font-size:10px;
-    }
-
-    .health-copy span{
-      display:block;
-      margin-top:3px;
-      color:var(--muted);
-      font-size:8px;
-    }
-
-    .health-state{
-      color:#79d69b;
-      font-size:8px;
-      font-weight:700;
-    }
-
-    .health-state.warning{
-      color:#dfbf70;
-    }
-
-    /* ENVIRONMENT */
-
-    .environment{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:10px;
-    }
-
-    .environment-item{
-      padding:14px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:rgba(255,255,255,.012);
-    }
-
-    .environment-item span{
-      display:block;
-      color:var(--muted);
-      font-size:8px;
-      text-transform:uppercase;
-      letter-spacing:.09em;
-    }
-
-    .environment-item strong{
-      display:block;
-      margin-top:7px;
-      font-size:10px;
-    }
-
-    /* BACKUP */
-
-    .backup-box{
-      padding:17px;
-      border:1px solid var(--border);
-      border-radius:13px;
-      background:rgba(216,179,106,.025);
-    }
-
-    .backup-top{
-      display:flex;
-      align-items:center;
-      gap:11px;
-    }
-
-    .backup-icon{
-      display:grid;
-      place-items:center;
-      width:36px;
-      height:36px;
-      border:1px solid rgba(216,179,106,.18);
-      border-radius:10px;
-      color:var(--accent);
-      background:rgba(216,179,106,.05);
-    }
-
-    .backup-icon svg{
-      width:16px;
-      height:16px;
-    }
-
-    .backup-copy strong{
-      display:block;
-      font-size:10px;
-    }
-
-    .backup-copy span{
-      display:block;
-      margin-top:3px;
-      color:var(--muted);
-      font-size:8px;
-    }
-
-    .backup-meta{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-top:15px;
-      padding-top:13px;
-      border-top:1px solid var(--border);
-      color:var(--muted);
-      font-size:8px;
-    }
-
-    .backup-meta strong{
-      color:var(--text);
-    }
-
-    /* DANGER */
-
-    .danger-card{
-      border-color:rgba(211,93,93,.2);
-    }
-
-    .danger-card .system-card-head{
-      border-bottom-color:rgba(211,93,93,.15);
-    }
-
-    .danger-title{
-      color:#d98989 !important;
-    }
-
-    .danger-box{
-      padding:16px;
-      border:1px solid rgba(211,93,93,.15);
-      border-radius:12px;
-      background:rgba(211,93,93,.035);
-    }
-
-    .danger-box strong{
-      display:block;
-      color:#d98989;
-      font-size:10px;
-    }
-
-    .danger-box p{
-      margin:6px 0 14px;
-      color:var(--muted);
-      font-size:9px;
-      line-height:1.6;
-    }
-
-    .danger-button{
-      min-height:35px;
-      padding:0 12px;
-      border:1px solid rgba(211,93,93,.25);
-      border-radius:8px;
-      color:#d98989;
-      background:transparent;
-      cursor:pointer;
-      font:inherit;
-      font-size:9px;
-      font-weight:600;
-    }
-
-    .danger-button:hover{
-      background:rgba(211,93,93,.07);
-    }
-
-    /* NOTICE */
-
-    .system-notice{
-      display:flex;
-      gap:11px;
-      padding:14px;
-      border:1px solid rgba(216,179,106,.16);
-      border-radius:12px;
-      background:rgba(216,179,106,.035);
-    }
-
-    .system-notice-icon{
-      color:var(--accent);
-      font-size:14px;
-    }
-
-    .system-notice p{
-      margin:0;
-      color:var(--muted);
-      font-size:9px;
+      font-size:13px;
       line-height:1.65;
     }
 
-    .system-notice strong{
+    .system-icon {
+      width:42px;
+      height:42px;
+      flex:0 0 42px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--border);
+      border-radius:14px;
+      color:var(--accent);
+      background:rgba(255,255,255,.025);
+      font-size:17px;
+    }
+
+    .setting-list {
+      display:grid;
+      gap:1px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:17px;
+    }
+
+    .setting-item {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:22px;
+      padding:17px 18px;
+      background:rgba(255,255,255,.012);
+      border-bottom:1px solid var(--border);
+    }
+
+    .setting-item:last-child {
+      border-bottom:0;
+    }
+
+    .setting-copy {
+      min-width:0;
+    }
+
+    .setting-title {
+      margin:0;
+      font-size:14px;
+      font-weight:700;
+      letter-spacing:-.01em;
+    }
+
+    .setting-description {
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.55;
+    }
+
+    .toggle {
+      position:relative;
+      width:48px;
+      height:28px;
+      flex:0 0 48px;
+    }
+
+    .toggle input {
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .toggle-track {
+      position:absolute;
+      inset:0;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:#26272c;
+      cursor:pointer;
+      transition:.22s ease;
+    }
+
+    .toggle-track::after {
+      content:"";
+      position:absolute;
+      top:3px;
+      left:3px;
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:#aaa;
+      transition:.22s ease;
+    }
+
+    .toggle input:checked + .toggle-track {
+      background:var(--accent);
+      border-color:var(--accent);
+    }
+
+    .toggle input:checked + .toggle-track::after {
+      transform:translateX(20px);
+      background:#101010;
+    }
+
+    .toggle input:disabled + .toggle-track {
+      opacity:.45;
+      cursor:not-allowed;
+    }
+
+    .field-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .system-field {
+      display:grid;
+      gap:8px;
+    }
+
+    .system-field.full {
+      grid-column:1/-1;
+    }
+
+    .system-field label {
+      color:var(--text);
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .system-field input,
+    .system-field select,
+    .system-field textarea {
+      width:100%;
+      min-height:46px;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      outline:0;
+      background:rgba(255,255,255,.025);
+      color:var(--text);
+      font:inherit;
+      font-size:13px;
+      transition:.2s ease;
+    }
+
+    .system-field textarea {
+      min-height:112px;
+      resize:vertical;
+    }
+
+    .system-field input:focus,
+    .system-field select:focus,
+    .system-field textarea:focus {
+      border-color:color-mix(in srgb,var(--accent) 65%,var(--border));
+      box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 8%,transparent);
+    }
+
+    .system-field small {
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    .system-actions {
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top:20px;
+    }
+
+    .service-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+    }
+
+    .service-status {
+      padding:16px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:rgba(255,255,255,.015);
+    }
+
+    .service-top {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .service-name {
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .service-dot {
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:#61d88a;
+    }
+
+    .service-dot.pending {
+      background:#e5ae52;
+    }
+
+    .service-dot.offline {
+      background:#df6666;
+    }
+
+    .service-status p {
+      margin:9px 0 0;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    .backup-card {
+      position:relative;
+      overflow:hidden;
+      padding:20px;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:
+        radial-gradient(circle at 100% 0%,rgba(216,179,106,.11),transparent 38%),
+        rgba(255,255,255,.015);
+    }
+
+    .backup-label {
+      color:var(--muted);
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .backup-time {
+      margin-top:9px;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:23px;
+      letter-spacing:-.025em;
+    }
+
+    .backup-copy {
+      margin:7px 0 18px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+    }
+
+    .security-list {
+      display:grid;
+      gap:10px;
+    }
+
+    .security-row {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      padding:13px 14px;
+      border:1px solid var(--border);
+      border-radius:14px;
+    }
+
+    .security-row span:first-child {
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .security-value {
+      color:var(--text);
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .security-value.good {
+      color:#73d995;
+    }
+
+    .danger-panel {
+      border-color:rgba(220,95,95,.25);
+      background:rgba(220,95,95,.025);
+    }
+
+    .danger-panel .system-icon {
+      color:#df7777;
+    }
+
+    .danger-actions {
+      display:grid;
+      gap:10px;
+    }
+
+    .danger-button {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      width:100%;
+      min-height:46px;
+      padding:0 14px;
+      border:1px solid rgba(220,95,95,.25);
+      border-radius:13px;
+      background:rgba(220,95,95,.045);
+      color:#df8585;
+      cursor:pointer;
+      font:inherit;
+      font-size:12px;
+      font-weight:700;
+      transition:.2s ease;
+    }
+
+    .danger-button:hover {
+      border-color:rgba(220,95,95,.55);
+      background:rgba(220,95,95,.08);
+    }
+
+    .permission-lock {
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      margin-top:16px;
+      padding:14px;
+      border:1px dashed var(--border);
+      border-radius:14px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.6;
+    }
+
+    .permission-lock strong {
       color:var(--text);
     }
 
-    [data-theme="light"] .system-card{
-      background:#fff;
+    .version-card {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      padding:15px 16px;
+      border:1px solid var(--border);
+      border-radius:15px;
     }
 
-    @media(max-width:1050px){
-      .system-layout{
+    .version-name {
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .version-number {
+      margin-top:4px;
+      color:var(--muted);
+      font-size:11px;
+    }
+
+    .version-badge {
+      padding:6px 9px;
+      border-radius:999px;
+      background:rgba(97,216,138,.09);
+      color:#75d998;
+      font-size:10px;
+      font-weight:800;
+    }
+
+    .master-note {
+      padding:16px;
+      border:1px solid rgba(216,179,106,.2);
+      border-radius:16px;
+      background:rgba(216,179,106,.045);
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .master-note strong {
+      color:var(--text);
+    }
+
+    @media(max-width:1100px){
+      .system-grid{
         grid-template-columns:1fr;
+      }
+
+      .service-grid{
+        grid-template-columns:repeat(2,1fr);
       }
     }
 
-    @media(max-width:720px){
+    @media(max-width:700px){
       .system-hero{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .setting-row{
-        align-items:flex-start;
-      }
-
-      .environment{
         grid-template-columns:1fr;
       }
-    }
 
-    @media(max-width:500px){
-      .setting-row{
+      .field-grid{
+        grid-template-columns:1fr;
+      }
+
+      .system-field.full{
+        grid-column:auto;
+      }
+
+      .service-grid{
+        grid-template-columns:1fr;
+      }
+
+      .setting-item{
+        align-items:flex-start;
+      }
+
+      .system-panel{
+        padding:18px;
+      }
+
+      .system-actions{
         flex-direction:column;
       }
 
-      .system-select{
+      .system-actions button{
         width:100%;
       }
     }
@@ -512,184 +562,99 @@
 
   <!-- =======================================================
        SIDEBAR
-  ======================================================== -->
-
+       ======================================================= -->
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
+      <div class="brand-mark">NU</div>
 
-      <div class="brand-mark">
-        NU
-      </div>
-
-      <div class="brand-copy">
-        <strong>Nusrat Afsana Usha</strong>
+      <div>
+        <strong>NUS</strong>
         <span>Portfolio Admin</span>
       </div>
-
     </div>
-
 
     <nav class="side-nav">
 
-      <div class="nav-label">
-        Overview
-      </div>
-
-      <a class="nav-item" href="./dashboard.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
-        </span>
+      <a class="nav-item" href="./index.html">
+        <span class="nav-icon">⌂</span>
         <span>Dashboard</span>
       </a>
 
-
-      <div class="nav-label">
-        Content
-      </div>
-
       <a class="nav-item" href="./homepage.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <path d="M3 11.5 12 4l9 7.5"/>
-            <path d="M5.5 10.5V20h13v-9.5"/>
-            <path d="M9.5 20v-5h5v5"/>
-          </svg>
-        </span>
+        <span class="nav-icon">✦</span>
         <span>Homepage</span>
       </a>
 
-
       <a class="nav-item" href="./banner.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="5" width="18" height="14" rx="2"/>
-            <circle cx="8" cy="10" r="1.5"/>
-            <path d="m21 15-4.5-4.5L9 18"/>
-          </svg>
-        </span>
+        <span class="nav-icon">▧</span>
         <span>Banner</span>
       </a>
 
-
       <a class="nav-item" href="./browser-ui.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="4" width="18" height="16" rx="2"/>
-            <path d="M3 8h18"/>
-            <circle cx="6.5" cy="6" r=".6"
-                    fill="currentColor"/>
-            <circle cx="9" cy="6" r=".6"
-                    fill="currentColor"/>
-            <circle cx="11.5" cy="6" r=".6"
-                    fill="currentColor"/>
-          </svg>
-        </span>
+        <span class="nav-icon">▣</span>
         <span>Browser UI</span>
       </a>
 
-
       <a class="nav-item" href="./newsletter.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="5" width="18" height="14" rx="2"/>
-            <path d="m4 7 8 6 8-6"/>
-          </svg>
-        </span>
+        <span class="nav-icon">✉</span>
         <span>Newsletter</span>
       </a>
 
-
-      <div class="nav-label">
-        Administration
-      </div>
-
-
       <a class="nav-item" href="./admin-management.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <path d="M16 21v-1.8a4.2 4.2 0 0 0-4.2-4.2H6.2A4.2 4.2 0 0 0 2 19.2V21"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M17 11a4 4 0 1 0-1.5-7.7"/>
-            <path d="M22 21v-1.8a4.2 4.2 0 0 0-3.2-4.1"/>
-          </svg>
-        </span>
+        <span class="nav-icon">♙</span>
         <span>Admin Management</span>
       </a>
 
-
       <a class="nav-item active" href="./system.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V22h-2.6v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.6h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.4V14h-.4a1.7 1.7 0 0 0-1.6 1Z"/>
-          </svg>
-        </span>
+        <span class="nav-icon">⚙</span>
         <span>System</span>
       </a>
 
     </nav>
 
+    <div class="sidebar-bottom">
 
-    <div class="sidebar-footer">
-
-      <a
-        class="nav-item"
-        href="../index.html"
-        target="_blank"
-      >
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <path d="M14 3h7v7"/>
-            <path d="M10 14 21 3"/>
-            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
-          </svg>
-        </span>
+      <a class="nav-item" href="../index.html" target="_blank">
+        <span class="nav-icon">↗</span>
         <span>View Portfolio</span>
       </a>
+
+      <button class="nav-item" id="logoutBtn" type="button">
+        <span class="nav-icon">↪</span>
+        <span>Sign Out</span>
+      </button>
 
     </div>
 
   </aside>
 
+  <div class="mobile-overlay" id="mobileOverlay"></div>
 
   <!-- =======================================================
        MAIN
-  ======================================================== -->
-
+       ======================================================= -->
   <main class="main">
 
     <header class="topbar">
 
-      <button
-        class="mobile-menu-button"
-        id="menuToggle"
-        aria-label="Open menu"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="topbar-left">
 
+        <button
+          class="mobile-menu-button"
+          id="mobileMenuButton"
+          type="button"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
 
-      <div class="topbar-title">
-        <span>Administration</span>
-        <strong>System</strong>
+        <div>
+          <div class="topbar-eyebrow">Administration</div>
+          <div class="topbar-title">System Settings</div>
+        </div>
+
       </div>
-
 
       <div class="topbar-actions">
 
@@ -698,13 +663,12 @@
           id="themeToggle"
           type="button"
         >
-          <span>◐</span>
-          <span>Theme</span>
+          ◐ Theme
         </button>
 
         <button
           class="primary-button"
-          id="saveButton"
+          id="saveChanges"
           type="button"
         >
           Save Changes
@@ -714,199 +678,250 @@
 
     </header>
 
-
     <section class="content">
-
 
       <!-- ===================================================
            HERO
-      ==================================================== -->
+           =================================================== -->
 
       <div class="system-hero">
 
         <div>
 
           <div class="system-kicker">
-            System Control
+            <span></span>
+            Portfolio infrastructure
           </div>
 
-          <h1>
-            Keep everything<br>
-            under control.
-          </h1>
+          <h1>System control.</h1>
 
           <p>
-            Manage global portfolio behaviour, visibility,
-            integrations, backups and administrative safeguards
-            from one place.
+            Manage the portfolio’s public state, editor preferences,
+            security behaviour, integrations and recovery settings
+            from one controlled workspace.
           </p>
 
         </div>
 
-
-        <div class="system-health">
-          <span class="health-dot"></span>
-          System healthy
+        <div class="system-status" id="systemStatus">
+          <i></i>
+          <span>All systems operational</span>
         </div>
 
       </div>
 
 
-      <div class="system-layout">
+      <!-- ===================================================
+           SYSTEM GRID
+           =================================================== -->
 
+      <div class="system-grid">
 
-        <!-- =================================================
-             LEFT COLUMN
-        ================================================== -->
+        <div class="system-main">
 
-        <div class="system-column">
+          <!-- PUBLICATION -->
 
+          <section class="system-panel">
 
-          <!-- SITE CONTROL -->
-
-          <section class="system-card">
-
-            <div class="system-card-head">
+            <div class="system-panel-head">
 
               <div>
-
-                <h2>
-                  Site Control
+                <h2 class="system-panel-title">
+                  Publication
                 </h2>
 
-                <p>
-                  Global visibility and maintenance settings.
+                <p class="system-panel-copy">
+                  Control whether visitors can access the public portfolio.
                 </p>
+              </div>
+
+              <div class="system-icon">◉</div>
+
+            </div>
+
+            <div class="setting-list">
+
+              <div class="setting-item">
+
+                <div class="setting-copy">
+                  <p class="setting-title">Public Portfolio</p>
+
+                  <p class="setting-description">
+                    Keep the public portfolio accessible to visitors.
+                  </p>
+                </div>
+
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="publicPortfolio"
+                    checked
+                  >
+                  <span class="toggle-track"></span>
+                </label>
+
+              </div>
+
+              <div class="setting-item">
+
+                <div class="setting-copy">
+                  <p class="setting-title">Maintenance Mode</p>
+
+                  <p class="setting-description">
+                    Temporarily show a maintenance screen instead of the portfolio.
+                  </p>
+                </div>
+
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="maintenanceMode"
+                  >
+                  <span class="toggle-track"></span>
+                </label>
+
+              </div>
+
+              <div class="setting-item">
+
+                <div class="setting-copy">
+                  <p class="setting-title">Newsletter Signup</p>
+
+                  <p class="setting-description">
+                    Allow visitors to see newsletter subscription forms.
+                  </p>
+                </div>
+
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="newsletterEnabled"
+                    checked
+                  >
+                  <span class="toggle-track"></span>
+                </label>
+
+              </div>
+
+              <div class="setting-item">
+
+                <div class="setting-copy">
+                  <p class="setting-title">Search Engine Indexing</p>
+
+                  <p class="setting-description">
+                    Allow search engines to index public portfolio pages.
+                  </p>
+                </div>
+
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="searchIndexing"
+                    checked
+                  >
+                  <span class="toggle-track"></span>
+                </label>
 
               </div>
 
             </div>
 
+          </section>
 
-            <div class="system-body">
 
+          <!-- SITE CONFIG -->
 
-              <div class="setting-row">
+          <section class="system-panel">
 
-                <div class="setting-copy">
+            <div class="system-panel-head">
 
-                  <strong>
-                    Public Portfolio
-                  </strong>
+              <div>
+                <h2 class="system-panel-title">
+                  Site configuration
+                </h2>
 
-                  <span>
-                    Allow visitors to access the public portfolio.
-                  </span>
-
-                </div>
-
-                <button
-                  class="toggle active"
-                  type="button"
-                  data-setting="portfolio"
-                  aria-label="Toggle public portfolio"
-                  aria-pressed="true"
-                ></button>
-
+                <p class="system-panel-copy">
+                  Global metadata and presentation preferences.
+                </p>
               </div>
 
+              <div class="system-icon">⌘</div>
 
-              <div class="setting-row">
+            </div>
 
-                <div class="setting-copy">
+            <div class="field-grid">
 
-                  <strong>
-                    Maintenance Mode
-                  </strong>
+              <div class="system-field">
 
-                  <span>
-                    Temporarily show a maintenance screen to public visitors.
-                  </span>
+                <label for="siteName">
+                  Site Name
+                </label>
 
-                </div>
-
-                <button
-                  class="toggle"
-                  type="button"
-                  data-setting="maintenance"
-                  aria-label="Toggle maintenance mode"
-                  aria-pressed="false"
-                ></button>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-copy">
-
-                  <strong>
-                    Public Newsletter
-                  </strong>
-
-                  <span>
-                    Display newsletter signup controls on the public site.
-                  </span>
-
-                </div>
-
-                <button
-                  class="toggle active"
-                  type="button"
-                  data-setting="newsletter"
-                  aria-label="Toggle public newsletter"
-                  aria-pressed="true"
-                ></button>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-copy">
-
-                  <strong>
-                    Search Engine Visibility
-                  </strong>
-
-                  <span>
-                    Allow search engines to index the portfolio.
-                  </span>
-
-                </div>
-
-                <button
-                  class="toggle active"
-                  type="button"
-                  data-setting="seo"
-                  aria-label="Toggle search engine visibility"
-                  aria-pressed="true"
-                ></button>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-copy">
-
-                  <strong>
-                    Default Theme
-                  </strong>
-
-                  <span>
-                    Choose the default appearance for first-time visitors.
-                  </span>
-
-                </div>
-
-                <select
-                  class="system-select"
-                  id="defaultTheme"
+                <input
+                  id="siteName"
+                  type="text"
+                  value="Nusrat Afsana Usha"
                 >
-                  <option value="dark">Dark</option>
-                  <option value="light">Light</option>
-                  <option value="system">System</option>
+
+              </div>
+
+              <div class="system-field">
+
+                <label for="siteRole">
+                  Site Role
+                </label>
+
+                <input
+                  id="siteRole"
+                  type="text"
+                  value="UX/UI Designer"
+                >
+
+              </div>
+
+              <div class="system-field full">
+
+                <label for="siteDescription">
+                  Meta Description
+                </label>
+
+                <textarea id="siteDescription">Nusrat Afsana Usha — UX/UI Designer focused on thoughtful digital experiences, interface design and human-centered problem solving.</textarea>
+
+                <small>
+                  Keep this concise. It may be used for search-engine previews.
+                </small>
+
+              </div>
+
+              <div class="system-field">
+
+                <label for="siteLanguage">
+                  Default Language
+                </label>
+
+                <select id="siteLanguage">
+                  <option value="en" selected>English</option>
+                  <option value="bn">Bangla</option>
+                </select>
+
+              </div>
+
+              <div class="system-field">
+
+                <label for="timezone">
+                  Timezone
+                </label>
+
+                <select id="timezone">
+                  <option value="Asia/Dhaka" selected>
+                    Asia / Dhaka
+                  </option>
+                  <option value="UTC">
+                    UTC
+                  </option>
+                  <option value="Europe/London">
+                    Europe / London
+                  </option>
                 </select>
 
               </div>
@@ -916,238 +931,88 @@
           </section>
 
 
-          <!-- ADMIN BEHAVIOUR -->
+          <!-- EDITOR PREFERENCES -->
 
-          <section class="system-card">
+          <section class="system-panel">
 
-            <div class="system-card-head">
+            <div class="system-panel-head">
 
               <div>
-
-                <h2>
-                  Admin Behaviour
+                <h2 class="system-panel-title">
+                  Editor preferences
                 </h2>
 
-                <p>
-                  Control the editing environment.
+                <p class="system-panel-copy">
+                  Configure how the admin workspace behaves.
                 </p>
-
               </div>
+
+              <div class="system-icon">✦</div>
 
             </div>
 
+            <div class="setting-list">
 
-            <div class="system-body">
-
-
-              <div class="setting-row">
+              <div class="setting-item">
 
                 <div class="setting-copy">
+                  <p class="setting-title">Auto-save Drafts</p>
 
-                  <strong>
-                    Auto Save
-                  </strong>
-
-                  <span>
-                    Automatically persist local changes while editing.
-                  </span>
-
+                  <p class="setting-description">
+                    Keep local draft changes while editing.
+                  </p>
                 </div>
 
-                <button
-                  class="toggle active"
-                  type="button"
-                  data-setting="autosave"
-                  aria-pressed="true"
-                ></button>
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="autosave"
+                    checked
+                  >
+                  <span class="toggle-track"></span>
+                </label>
 
               </div>
 
-
-              <div class="setting-row">
+              <div class="setting-item">
 
                 <div class="setting-copy">
+                  <p class="setting-title">Unsaved Changes Warning</p>
 
-                  <strong>
-                    Unsaved Changes Warning
-                  </strong>
-
-                  <span>
+                  <p class="setting-description">
                     Warn before leaving a page with unsaved changes.
-                  </span>
-
+                  </p>
                 </div>
 
-                <button
-                  class="toggle active"
-                  type="button"
-                  data-setting="unsaved"
-                  aria-pressed="true"
-                ></button>
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="unsavedWarning"
+                    checked
+                  >
+                  <span class="toggle-track"></span>
+                </label>
 
               </div>
 
-
-              <div class="setting-row">
+              <div class="setting-item">
 
                 <div class="setting-copy">
+                  <p class="setting-title">Keyboard Shortcuts</p>
 
-                  <strong>
-                    Audit Logging
-                  </strong>
-
-                  <span>
-                    Record administrative actions for security review.
-                  </span>
-
+                  <p class="setting-description">
+                    Enable shortcuts such as Ctrl/Cmd + S.
+                  </p>
                 </div>
 
-                <button
-                  class="toggle active"
-                  type="button"
-                  data-setting="audit"
-                  aria-pressed="true"
-                ></button>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-copy">
-
-                  <strong>
-                    Session Timeout
-                  </strong>
-
-                  <span>
-                    Automatically expire an inactive admin session.
-                  </span>
-
-                </div>
-
-                <select
-                  class="system-select"
-                  id="sessionTimeout"
-                >
-                  <option value="15">15 minutes</option>
-                  <option value="30" selected>30 minutes</option>
-                  <option value="60">1 hour</option>
-                  <option value="120">2 hours</option>
-                </select>
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- BACKUP -->
-
-          <section class="system-card">
-
-            <div class="system-card-head">
-
-              <div>
-
-                <h2>
-                  Backup & Recovery
-                </h2>
-
-                <p>
-                  Protect portfolio configuration and content.
-                </p>
-
-              </div>
-
-              <span
-                style="
-                  color:#79d69b;
-                  font-size:9px;
-                  font-weight:700;
-                "
-              >
-                Ready
-              </span>
-
-            </div>
-
-
-            <div class="system-body">
-
-              <div class="backup-box">
-
-                <div class="backup-top">
-
-                  <div class="backup-icon">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.7">
-                      <path d="M12 3v12"/>
-                      <path d="m7 10 5 5 5-5"/>
-                      <path d="M4 20h16"/>
-                    </svg>
-
-                  </div>
-
-                  <div class="backup-copy">
-
-                    <strong>
-                      Local Configuration Backup
-                    </strong>
-
-                    <span>
-                      Export current admin configuration as JSON.
-                    </span>
-
-                  </div>
-
-                </div>
-
-
-                <div class="backup-meta">
-
-                  <span>
-                    Last local save
-                  </span>
-
-                  <strong id="lastBackup">
-                    Not created
-                  </strong>
-
-                </div>
-
-
-                <div
-                  style="
-                    display:flex;
-                    gap:8px;
-                    flex-wrap:wrap;
-                    margin-top:14px;
-                  "
-                >
-
-                  <button
-                    class="secondary-button"
-                    id="backupButton"
-                    type="button"
-                    style="min-height:35px;font-size:9px;"
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    id="keyboardShortcuts"
+                    checked
                   >
-                    Create Backup
-                  </button>
-
-                  <button
-                    class="secondary-button"
-                    id="exportButton"
-                    type="button"
-                    style="min-height:35px;font-size:9px;"
-                  >
-                    Export JSON
-                  </button>
-
-                </div>
+                  <span class="toggle-track"></span>
+                </label>
 
               </div>
 
@@ -1156,303 +1021,122 @@
           </section>
 
 
-          <!-- NOTICE -->
+          <!-- CONNECTED SERVICES -->
 
-          <div class="system-notice">
+          <section class="system-panel">
 
-            <div class="system-notice-icon">
-              ⓘ
-            </div>
-
-            <p>
-              <strong>Production note:</strong>
-              these controls currently manage the admin interface
-              and local configuration. Public enforcement should be
-              handled by the real authentication/database layer before
-              production deployment.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- =================================================
-             RIGHT COLUMN
-        ================================================== -->
-
-        <div class="system-column">
-
-
-          <!-- HEALTH -->
-
-          <section class="system-card">
-
-            <div class="system-card-head">
+            <div class="system-panel-head">
 
               <div>
-
-                <h2>
-                  Service Health
+                <h2 class="system-panel-title">
+                  Connected services
                 </h2>
 
+                <p class="system-panel-copy">
+                  Current integration status. These indicators are informational
+                  until a real backend is connected.
+                </p>
+              </div>
+
+              <div class="system-icon">⌁</div>
+
+            </div>
+
+            <div class="service-grid">
+
+              <div class="service-status">
+
+                <div class="service-top">
+                  <span class="service-name">
+                    Authentication
+                  </span>
+
+                  <span class="service-dot"></span>
+                </div>
+
                 <p>
-                  Current connection overview.
+                  Admin authentication layer.
                 </p>
 
               </div>
 
-            </div>
+              <div class="service-status">
 
-
-            <div class="system-body">
-
-              <div class="health-list">
-
-
-                <div class="health-row">
-
-                  <div class="health-icon">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.7">
-                      <path d="M4 12a8 8 0 0 1 16 0"/>
-                      <path d="M7 12a5 5 0 0 1 10 0"/>
-                      <path d="M10 12a2 2 0 0 1 4 0"/>
-                    </svg>
-
-                  </div>
-
-                  <div class="health-copy">
-
-                    <strong>
-                      Public Portfolio
-                    </strong>
-
-                    <span>
-                      Website availability
-                    </span>
-
-                  </div>
-
-                  <span class="health-state">
-                    Online
+                <div class="service-top">
+                  <span class="service-name">
+                    Database
                   </span>
 
+                  <span class="service-dot"></span>
                 </div>
-
-
-                <div class="health-row">
-
-                  <div class="health-icon">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.7">
-                      <rect x="5" y="10" width="14" height="10" rx="2"/>
-                      <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
-                    </svg>
-
-                  </div>
-
-                  <div class="health-copy">
-
-                    <strong>
-                      Authentication
-                    </strong>
-
-                    <span>
-                      Admin access layer
-                    </span>
-
-                  </div>
-
-                  <span class="health-state">
-                    Active
-                  </span>
-
-                </div>
-
-
-                <div class="health-row">
-
-                  <div class="health-icon">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.7">
-                      <ellipse cx="12" cy="6" rx="7" ry="3"/>
-                      <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/>
-                      <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>
-                    </svg>
-
-                  </div>
-
-                  <div class="health-copy">
-
-                    <strong>
-                      Data Storage
-                    </strong>
-
-                    <span>
-                      Portfolio content
-                    </span>
-
-                  </div>
-
-                  <span class="health-state">
-                    Ready
-                  </span>
-
-                </div>
-
-
-                <div class="health-row">
-
-                  <div class="health-icon warning">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.7">
-                      <path d="M12 3 2.8 19h18.4L12 3Z"/>
-                      <path d="M12 9v4"/>
-                      <circle cx="12" cy="16.5" r=".7"
-                              fill="currentColor"/>
-                    </svg>
-
-                  </div>
-
-                  <div class="health-copy">
-
-                    <strong>
-                      Newsletter Provider
-                    </strong>
-
-                    <span>
-                      Email delivery integration
-                    </span>
-
-                  </div>
-
-                  <span class="health-state warning">
-                    Pending
-                  </span>
-
-                </div>
-
-
-                <div class="health-row">
-
-                  <div class="health-icon warning">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.7">
-                      <path d="M4 19V5"/>
-                      <path d="M4 19h16"/>
-                      <path d="m7 15 3-4 3 2 5-6"/>
-                    </svg>
-
-                  </div>
-
-                  <div class="health-copy">
-
-                    <strong>
-                      Analytics
-                    </strong>
-
-                    <span>
-                      Visitor analytics
-                    </span>
-
-                  </div>
-
-                  <span class="health-state warning">
-                    Pending
-                  </span>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- ENVIRONMENT -->
-
-          <section class="system-card">
-
-            <div class="system-card-head">
-
-              <div>
-
-                <h2>
-                  Environment
-                </h2>
 
                 <p>
-                  Current application context.
+                  Portfolio content storage.
                 </p>
 
               </div>
 
-            </div>
+              <div class="service-status">
 
-
-            <div class="system-body">
-
-              <div class="environment">
-
-                <div class="environment-item">
-
-                  <span>
-                    Mode
+                <div class="service-top">
+                  <span class="service-name">
+                    Storage
                   </span>
 
-                  <strong>
-                    Production
-                  </strong>
-
+                  <span class="service-dot"></span>
                 </div>
 
-                <div class="environment-item">
+                <p>
+                  Image and media storage.
+                </p>
 
-                  <span>
-                    Frontend
+              </div>
+
+              <div class="service-status">
+
+                <div class="service-top">
+                  <span class="service-name">
+                    Newsletter
                   </span>
 
-                  <strong>
-                    GitHub Pages
-                  </strong>
-
+                  <span class="service-dot pending"></span>
                 </div>
 
-                <div class="environment-item">
+                <p>
+                  Provider connection pending.
+                </p>
 
-                  <span>
-                    Theme
+              </div>
+
+              <div class="service-status">
+
+                <div class="service-top">
+                  <span class="service-name">
+                    Analytics
                   </span>
 
-                  <strong id="environmentTheme">
-                    Dark
-                  </strong>
-
+                  <span class="service-dot pending"></span>
                 </div>
 
-                <div class="environment-item">
+                <p>
+                  Analytics provider not connected.
+                </p>
 
-                  <span>
-                    Version
+              </div>
+
+              <div class="service-status">
+
+                <div class="service-top">
+                  <span class="service-name">
+                    Backup
                   </span>
 
-                  <strong>
-                    Admin V1
-                  </strong>
-
+                  <span class="service-dot"></span>
                 </div>
+
+                <p>
+                  Local configuration backup ready.
+                </p>
 
               </div>
 
@@ -1463,153 +1147,357 @@
 
           <!-- SECURITY -->
 
-          <section class="system-card">
+          <section class="system-panel">
 
-            <div class="system-card-head">
+            <div class="system-panel-head">
 
               <div>
-
-                <h2>
-                  Security
+                <h2 class="system-panel-title">
+                  Security policy
                 </h2>
 
-                <p>
-                  Administrative safeguards.
+                <p class="system-panel-copy">
+                  Sensitive controls should ultimately be enforced by your
+                  authentication backend, not by the browser UI.
                 </p>
+              </div>
 
+              <div class="system-icon">⌑</div>
+
+            </div>
+
+            <div class="security-list">
+
+              <div class="security-row">
+                <span>Admin authentication</span>
+                <span class="security-value good">
+                  Protected
+                </span>
+              </div>
+
+              <div class="security-row">
+                <span>Role-based permissions</span>
+                <span class="security-value good">
+                  Enabled
+                </span>
+              </div>
+
+              <div class="security-row">
+                <span>Session timeout</span>
+                <span class="security-value">
+                  30 minutes
+                </span>
+              </div>
+
+              <div class="security-row">
+                <span>Audit logging</span>
+                <span class="security-value good">
+                  Enabled
+                </span>
               </div>
 
             </div>
 
+            <div class="permission-lock">
+              <span>◆</span>
 
-            <div class="system-body">
-
-
-              <div class="setting-row">
-
-                <div class="setting-copy">
-
-                  <strong>
-                    Two-Step Verification
-                  </strong>
-
-                  <span>
-                    Additional authentication for administrator accounts.
-                  </span>
-
-                </div>
-
-                <button
-                  class="toggle"
-                  type="button"
-                  data-setting="twofactor"
-                  aria-pressed="false"
-                ></button>
-
+              <div>
+                <strong>Protected configuration</strong><br>
+                Client Admin should not be able to modify authentication,
+                roles, recovery or master-level security settings.
+                These controls belong to the private Master account.
               </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-copy">
-
-                  <strong>
-                    Login Notifications
-                  </strong>
-
-                  <span>
-                    Record and notify about administrator sign-ins.
-                  </span>
-
-                </div>
-
-                <button
-                  class="toggle active"
-                  type="button"
-                  data-setting="loginNotifications"
-                  aria-pressed="true"
-                ></button>
-
-              </div>
-
-
-              <div class="setting-row">
-
-                <div class="setting-copy">
-
-                  <strong>
-                    Protected Admin Routes
-                  </strong>
-
-                  <span>
-                    Sensitive pages require an authenticated role.
-                  </span>
-
-                </div>
-
-                <button
-                  class="toggle active"
-                  type="button"
-                  data-setting="protectedRoutes"
-                  aria-pressed="true"
-                ></button>
-
-              </div>
-
             </div>
 
           </section>
 
 
-          <!-- DANGER -->
+          <!-- DANGER ZONE -->
 
-          <section class="system-card danger-card">
+          <section class="system-panel danger-panel">
 
-            <div class="system-card-head">
+            <div class="system-panel-head">
 
               <div>
-
-                <h2 class="danger-title">
-                  Sensitive Operations
+                <h2 class="system-panel-title">
+                  Sensitive operations
                 </h2>
 
-                <p>
-                  Actions that can affect administration state.
+                <p class="system-panel-copy">
+                  These actions can affect the entire administration environment.
+                  Use only when necessary.
                 </p>
-
               </div>
+
+              <div class="system-icon">!</div>
 
             </div>
 
+            <div class="danger-actions">
 
-            <div class="system-body">
+              <button
+                class="danger-button"
+                id="revokeSessions"
+                type="button"
+              >
+                <span>Revoke active admin sessions</span>
+                <span>→</span>
+              </button>
 
-              <div class="danger-box">
+              <button
+                class="danger-button"
+                id="resetLocalData"
+                type="button"
+              >
+                <span>Reset local admin preferences</span>
+                <span>→</span>
+              </button>
 
-                <strong>
-                  Reset local admin state
-                </strong>
-
-                <p>
-                  Clears locally stored admin preferences,
-                  dashboard state and system settings on this browser.
-                </p>
-
-                <button
-                  class="danger-button"
-                  id="resetButton"
-                  type="button"
-                >
-                  Reset Local State
-                </button>
-
-              </div>
+              <button
+                class="danger-button"
+                id="maintenanceEmergency"
+                type="button"
+              >
+                <span>Enable emergency maintenance</span>
+                <span>→</span>
+              </button>
 
             </div>
 
           </section>
 
         </div>
+
+
+        <!-- =================================================
+             SIDE COLUMN
+             ================================================= -->
+
+        <aside class="system-side">
+
+          <!-- BACKUP -->
+
+          <section class="system-panel">
+
+            <div class="system-panel-head">
+
+              <div>
+                <h2 class="system-panel-title">
+                  Backup
+                </h2>
+
+                <p class="system-panel-copy">
+                  Configuration recovery.
+                </p>
+              </div>
+
+              <div class="system-icon">↓</div>
+
+            </div>
+
+            <div class="backup-card">
+
+              <div class="backup-label">
+                Latest configuration
+              </div>
+
+              <div
+                class="backup-time"
+                id="backupTime"
+              >
+                Not created yet
+              </div>
+
+              <p class="backup-copy">
+                Export the current admin configuration as a local JSON
+                backup file for recovery.
+              </p>
+
+              <button
+                class="primary-button"
+                id="backupBtn"
+                type="button"
+              >
+                Create Backup
+              </button>
+
+            </div>
+
+          </section>
+
+
+          <!-- VERSION -->
+
+          <section class="system-panel">
+
+            <div class="system-panel-head">
+
+              <div>
+                <h2 class="system-panel-title">
+                  Environment
+                </h2>
+
+                <p class="system-panel-copy">
+                  Current application state.
+                </p>
+              </div>
+
+              <div class="system-icon">◌</div>
+
+            </div>
+
+            <div class="version-card">
+
+              <div>
+                <div class="version-name">
+                  Portfolio Admin
+                </div>
+
+                <div class="version-number">
+                  UI build · 1.0.0
+                </div>
+              </div>
+
+              <span class="version-badge">
+                Stable
+              </span>
+
+            </div>
+
+            <br>
+
+            <div class="version-card">
+
+              <div>
+                <div class="version-name">
+                  Frontend
+                </div>
+
+                <div class="version-number">
+                  Static / GitHub Pages
+                </div>
+              </div>
+
+              <span class="version-badge">
+                Ready
+              </span>
+
+            </div>
+
+          </section>
+
+
+          <!-- MASTER -->
+
+          <section class="system-panel">
+
+            <div class="system-panel-head">
+
+              <div>
+                <h2 class="system-panel-title">
+                  Master Control
+                </h2>
+
+                <p class="system-panel-copy">
+                  Private administration layer.
+                </p>
+              </div>
+
+              <div class="system-icon">◆</div>
+
+            </div>
+
+            <div class="master-note">
+
+              <strong>Private Master access</strong><br><br>
+
+              Authentication, admin roles, session revocation,
+              recovery settings and other sensitive controls should
+              be managed from the private Master account.
+              
+              <br><br>
+
+              The public Client Admin interface should not expose
+              direct links to this area.
+
+            </div>
+
+            <br>
+
+            <a
+              class="secondary-button"
+              href="./master/index.html"
+              style="width:100%;justify-content:center;"
+            >
+              Open Master Control
+            </a>
+
+          </section>
+
+
+          <!-- LAST UPDATE -->
+
+          <section class="system-panel">
+
+            <div class="system-panel-head">
+
+              <div>
+                <h2 class="system-panel-title">
+                  Activity
+                </h2>
+
+                <p class="system-panel-copy">
+                  Local administration status.
+                </p>
+              </div>
+
+              <div class="system-icon">◷</div>
+
+            </div>
+
+            <div class="security-list">
+
+              <div class="security-row">
+
+                <span>Last saved</span>
+
+                <span
+                  class="security-value"
+                  id="lastSaved"
+                >
+                  Never
+                </span>
+
+              </div>
+
+              <div class="security-row">
+
+                <span>Current mode</span>
+
+                <span
+                  class="security-value good"
+                  id="currentMode"
+                >
+                  Public
+                </span>
+
+              </div>
+
+              <div class="security-row">
+
+                <span>Admin state</span>
+
+                <span class="security-value good">
+                  Ready
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </aside>
 
       </div>
 
@@ -1620,632 +1508,828 @@
 </div>
 
 
-<div
-  class="mobile-overlay"
-  id="mobileOverlay"
-></div>
-
-
-<script src="./admin.js"></script>
+<!-- =========================================================
+     SYSTEM JAVASCRIPT
+     ========================================================= -->
 
 <script>
+
 (function(){
 
   "use strict";
 
+  const STORAGE_KEY = "nusrat_system_settings_v1";
+  const SESSION_KEY = "nusrat_admin_session_v1";
+  const LAST_UPDATED_KEY = "nusrat_admin_last_updated";
 
-  /* =========================================================
-     SYSTEM STORAGE
-  ========================================================= */
+  /*
+   * ---------------------------------------------------------
+   * SESSION CHECK
+   * ---------------------------------------------------------
+   *
+   * This is only a frontend guard.
+   * Real authentication MUST be enforced server-side/Firebase/
+   * Supabase/etc.
+   */
 
-  const STORAGE_KEY =
-    "nusrat_system_settings_v1";
+  function checkSession(){
 
+    const session = localStorage.getItem(SESSION_KEY);
+
+    if(!session){
+
+      /*
+       * Keep the UI usable during initial static development.
+       * Replace this with your real auth guard when backend auth
+       * is connected.
+       */
+
+      return true;
+    }
+
+    try{
+
+      const data = JSON.parse(session);
+
+      if(
+        data.expiresAt &&
+        Date.now() > Number(data.expiresAt)
+      ){
+
+        localStorage.removeItem(SESSION_KEY);
+
+        window.location.href = "./index.html";
+
+        return false;
+      }
+
+    }catch(error){
+
+      console.warn("Invalid admin session.");
+
+    }
+
+    return true;
+  }
+
+  if(!checkSession()) return;
+
+
+  /* ---------------------------------------------------------
+     DEFAULT SETTINGS
+     --------------------------------------------------------- */
 
   const defaults = {
 
-    portfolio:true,
-    maintenance:false,
-    newsletter:true,
-    seo:true,
+    publicPortfolio:true,
+    maintenanceMode:false,
+    newsletterEnabled:true,
+    searchIndexing:true,
+
+    siteName:"Nusrat Afsana Usha",
+    siteRole:"UX/UI Designer",
+
+    siteDescription:
+      "Nusrat Afsana Usha — UX/UI Designer focused on thoughtful digital experiences, interface design and human-centered problem solving.",
+
+    siteLanguage:"en",
+    timezone:"Asia/Dhaka",
 
     autosave:true,
-    unsaved:true,
-    audit:true,
+    unsavedWarning:true,
+    keyboardShortcuts:true,
 
-    twofactor:false,
-    loginNotifications:true,
-    protectedRoutes:true,
-
-    defaultTheme:"dark",
-    sessionTimeout:"30",
-
-    lastBackup:null
+    lastSaved:null,
+    backupCreated:null
 
   };
 
 
-  function cloneDefaults(){
-
-    return Object.assign(
-      {},
-      defaults
-    );
-
-  }
+  let settings = loadSettings();
 
 
   function loadSettings(){
 
     try{
 
-      const raw =
-        localStorage.getItem(
-          STORAGE_KEY
-        );
+      const saved =
+        localStorage.getItem(STORAGE_KEY);
 
-      if(raw){
+      if(saved){
 
-        return Object.assign(
-          cloneDefaults(),
-          JSON.parse(raw)
-        );
+        return {
+          ...defaults,
+          ...JSON.parse(saved)
+        };
 
       }
 
-    }catch(error){}
+    }catch(error){
 
-    return cloneDefaults();
+      console.warn(
+        "Could not load system settings.",
+        error
+      );
+
+    }
+
+    return {...defaults};
 
   }
 
 
-  let settings =
-    loadSettings();
-
-
   function saveSettings(){
 
-    try{
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(settings)
+    );
+
+    const now = new Date();
+
+    const timestamp =
+      now.toISOString();
+
+    localStorage.setItem(
+      LAST_UPDATED_KEY,
+      timestamp
+    );
+
+    settings.lastSaved = timestamp;
+
+    showToast("System settings saved.");
+
+    updateStatus();
+
+  }
+
+
+  /* ---------------------------------------------------------
+     HELPERS
+     --------------------------------------------------------- */
+
+  function $(id){
+    return document.getElementById(id);
+  }
+
+
+  function showToast(message){
+
+    if(typeof window.showToast === "function"){
+
+      window.showToast(message);
+
+      return;
+    }
+
+    const toast =
+      document.createElement("div");
+
+    toast.textContent = message;
+
+    Object.assign(toast.style,{
+      position:"fixed",
+      right:"22px",
+      bottom:"22px",
+      zIndex:"99999",
+      padding:"13px 17px",
+      border:"1px solid rgba(216,179,106,.3)",
+      borderRadius:"12px",
+      background:"#17181c",
+      color:"#f5f2eb",
+      fontSize:"12px",
+      boxShadow:"0 15px 40px rgba(0,0,0,.3)"
+    });
+
+    document.body.appendChild(toast);
+
+    setTimeout(
+      ()=>toast.remove(),
+      2400
+    );
+
+  }
+
+
+  function setChecked(id,value){
+
+    const element = $(id);
+
+    if(element){
+
+      element.checked = Boolean(value);
+
+    }
+
+  }
+
+
+  function setValue(id,value){
+
+    const element = $(id);
+
+    if(element){
+
+      element.value =
+        value ?? "";
+
+    }
+
+  }
+
+
+  /* ---------------------------------------------------------
+     LOAD UI
+     --------------------------------------------------------- */
+
+  function loadUI(){
+
+    setChecked(
+      "publicPortfolio",
+      settings.publicPortfolio
+    );
+
+    setChecked(
+      "maintenanceMode",
+      settings.maintenanceMode
+    );
+
+    setChecked(
+      "newsletterEnabled",
+      settings.newsletterEnabled
+    );
+
+    setChecked(
+      "searchIndexing",
+      settings.searchIndexing
+    );
+
+    setChecked(
+      "autosave",
+      settings.autosave
+    );
+
+    setChecked(
+      "unsavedWarning",
+      settings.unsavedWarning
+    );
+
+    setChecked(
+      "keyboardShortcuts",
+      settings.keyboardShortcuts
+    );
+
+
+    setValue(
+      "siteName",
+      settings.siteName
+    );
+
+    setValue(
+      "siteRole",
+      settings.siteRole
+    );
+
+    setValue(
+      "siteDescription",
+      settings.siteDescription
+    );
+
+    setValue(
+      "siteLanguage",
+      settings.siteLanguage
+    );
+
+    setValue(
+      "timezone",
+      settings.timezone
+    );
+
+
+    if(settings.backupCreated){
+
+      const date =
+        new Date(settings.backupCreated);
+
+      $("backupTime").textContent =
+        date.toLocaleString();
+
+    }
+
+
+    updateStatus();
+
+  }
+
+
+  /* ---------------------------------------------------------
+     COLLECT UI
+     --------------------------------------------------------- */
+
+  function collectUI(){
+
+    settings.publicPortfolio =
+      $("publicPortfolio").checked;
+
+    settings.maintenanceMode =
+      $("maintenanceMode").checked;
+
+    settings.newsletterEnabled =
+      $("newsletterEnabled").checked;
+
+    settings.searchIndexing =
+      $("searchIndexing").checked;
+
+    settings.autosave =
+      $("autosave").checked;
+
+    settings.unsavedWarning =
+      $("unsavedWarning").checked;
+
+    settings.keyboardShortcuts =
+      $("keyboardShortcuts").checked;
+
+
+    settings.siteName =
+      $("siteName").value.trim();
+
+    settings.siteRole =
+      $("siteRole").value.trim();
+
+    settings.siteDescription =
+      $("siteDescription").value.trim();
+
+    settings.siteLanguage =
+      $("siteLanguage").value;
+
+    settings.timezone =
+      $("timezone").value;
+
+  }
+
+
+  /* ---------------------------------------------------------
+     STATUS
+     --------------------------------------------------------- */
+
+  function updateStatus(){
+
+    const status =
+      $("systemStatus");
+
+    const mode =
+      $("currentMode");
+
+    if(settings.maintenanceMode){
+
+      status.classList.add("warning");
+
+      status.querySelector("span").textContent =
+        "Maintenance mode enabled";
+
+      if(mode){
+
+        mode.textContent =
+          "Maintenance";
+
+        mode.classList.remove("good");
+
+      }
+
+    }else{
+
+      status.classList.remove("warning");
+
+      status.querySelector("span").textContent =
+        settings.publicPortfolio
+          ? "All systems operational"
+          : "Portfolio unpublished";
+
+      if(mode){
+
+        mode.textContent =
+          settings.publicPortfolio
+            ? "Public"
+            : "Private";
+
+        mode.classList.toggle(
+          "good",
+          settings.publicPortfolio
+        );
+
+      }
+
+    }
+
+
+    const lastSaved =
+      $("lastSaved");
+
+    if(
+      lastSaved &&
+      settings.lastSaved
+    ){
+
+      lastSaved.textContent =
+        new Date(
+          settings.lastSaved
+        ).toLocaleString();
+
+    }
+
+  }
+
+
+  /* ---------------------------------------------------------
+     SAVE
+     --------------------------------------------------------- */
+
+  $("saveChanges")?.addEventListener(
+    "click",
+    function(){
+
+      collectUI();
+
+      saveSettings();
+
+    }
+  );
+
+
+  /* ---------------------------------------------------------
+     LIVE SETTINGS
+     --------------------------------------------------------- */
+
+  [
+    "publicPortfolio",
+    "maintenanceMode",
+    "newsletterEnabled",
+    "searchIndexing",
+    "autosave",
+    "unsavedWarning",
+    "keyboardShortcuts"
+
+  ].forEach(id=>{
+
+    $(id)?.addEventListener(
+      "change",
+      function(){
+
+        collectUI();
+
+        updateStatus();
+
+      }
+    );
+
+  });
+
+
+  /* ---------------------------------------------------------
+     BACKUP
+     --------------------------------------------------------- */
+
+  $("backupBtn")?.addEventListener(
+    "click",
+    function(){
+
+      collectUI();
+
+      const backup = {
+
+        application:
+          "Nusrat Afsana Usha Portfolio Admin",
+
+        version:
+          "1.0.0",
+
+        exportedAt:
+          new Date().toISOString(),
+
+        settings:{
+          ...settings
+        }
+
+      };
+
+      const blob =
+        new Blob(
+          [
+            JSON.stringify(
+              backup,
+              null,
+              2
+            )
+          ],
+          {
+            type:"application/json"
+          }
+        );
+
+      const url =
+        URL.createObjectURL(blob);
+
+      const anchor =
+        document.createElement("a");
+
+      anchor.href = url;
+
+      anchor.download =
+        "nusrat-portfolio-admin-backup-" +
+        new Date()
+          .toISOString()
+          .slice(0,10) +
+        ".json";
+
+      document.body.appendChild(anchor);
+
+      anchor.click();
+
+      anchor.remove();
+
+      URL.revokeObjectURL(url);
+
+
+      settings.backupCreated =
+        new Date().toISOString();
 
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify(settings)
       );
 
-    }catch(error){}
+      $("backupTime").textContent =
+        new Date(
+          settings.backupCreated
+        ).toLocaleString();
+
+      showToast(
+        "Backup exported successfully."
+      );
+
+    }
+  );
+
+
+  /* ---------------------------------------------------------
+     DANGER ACTIONS
+     --------------------------------------------------------- */
+
+  $("revokeSessions")?.addEventListener(
+    "click",
+    function(){
+
+      const confirmed =
+        confirm(
+          "Revoke active admin sessions?"
+        );
+
+      if(!confirmed) return;
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+      showToast(
+        "Local admin session cleared."
+      );
+
+    }
+  );
+
+
+  $("resetLocalData")?.addEventListener(
+    "click",
+    function(){
+
+      const confirmed =
+        confirm(
+          "Reset local admin preferences? This cannot be undone."
+        );
+
+      if(!confirmed) return;
+
+      localStorage.removeItem(
+        STORAGE_KEY
+      );
+
+      localStorage.removeItem(
+        "nusrat_admin_theme"
+      );
+
+      localStorage.removeItem(
+        "nusrat_admin_current_page"
+      );
+
+      localStorage.removeItem(
+        "nusrat_admin_last_updated"
+      );
+
+      settings =
+        {...defaults};
+
+      loadUI();
+
+      showToast(
+        "Local admin preferences reset."
+      );
+
+    }
+  );
+
+
+  $("maintenanceEmergency")?.addEventListener(
+    "click",
+    function(){
+
+      const confirmed =
+        confirm(
+          "Enable emergency maintenance mode?"
+        );
+
+      if(!confirmed) return;
+
+      settings.maintenanceMode = true;
+
+      settings.publicPortfolio = false;
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(settings)
+      );
+
+      loadUI();
+
+      showToast(
+        "Emergency maintenance mode enabled."
+      );
+
+    }
+  );
+
+
+  /* ---------------------------------------------------------
+     THEME
+     --------------------------------------------------------- */
+
+  $("themeToggle")?.addEventListener(
+    "click",
+    function(){
+
+      const root =
+        document.documentElement;
+
+      const current =
+        root.getAttribute("data-theme") ||
+        "dark";
+
+      const next =
+        current === "dark"
+          ? "light"
+          : "dark";
+
+      root.setAttribute(
+        "data-theme",
+        next
+      );
+
+      localStorage.setItem(
+        "nusrat_admin_theme",
+        next
+      );
+
+    }
+  );
+
+
+  function loadTheme(){
+
+    const saved =
+      localStorage.getItem(
+        "nusrat_admin_theme"
+      );
+
+    if(saved){
+
+      document.documentElement
+        .setAttribute(
+          "data-theme",
+          saved
+        );
+
+    }
 
   }
 
 
-  /* =========================================================
-     TOGGLES
-  ========================================================= */
+  /* ---------------------------------------------------------
+     MOBILE MENU
+     --------------------------------------------------------- */
 
-  document
-    .querySelectorAll(".toggle")
-    .forEach(function(toggle){
+  const sidebar =
+    $("sidebar");
 
-      const key =
-        toggle.dataset.setting;
+  const overlay =
+    $("mobileOverlay");
+
+  $("mobileMenuButton")
+    ?.addEventListener(
+      "click",
+      function(){
+
+        sidebar?.classList.add(
+          "mobile-open"
+        );
+
+        overlay?.classList.add(
+          "active"
+        );
+
+      }
+    );
+
+
+  overlay?.addEventListener(
+    "click",
+    function(){
+
+      sidebar?.classList.remove(
+        "mobile-open"
+      );
+
+      overlay.classList.remove(
+        "active"
+      );
+
+    }
+  );
+
+
+  /* ---------------------------------------------------------
+     LOGOUT
+     --------------------------------------------------------- */
+
+  $("logoutBtn")?.addEventListener(
+    "click",
+    function(){
+
+      const confirmed =
+        confirm(
+          "Sign out from the admin panel?"
+        );
+
+      if(!confirmed) return;
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+      window.location.href =
+        "./index.html";
+
+    }
+  );
+
+
+  /* ---------------------------------------------------------
+     KEYBOARD SAVE
+     --------------------------------------------------------- */
+
+  document.addEventListener(
+    "keydown",
+    function(event){
+
+      const modifier =
+        event.ctrlKey ||
+        event.metaKey;
 
       if(
-        key &&
-        Object.prototype.hasOwnProperty.call(
-          settings,
-          key
-        )
+        modifier &&
+        event.key.toLowerCase() === "s"
       ){
 
-        setToggle(
-          toggle,
-          Boolean(settings[key])
-        );
+        event.preventDefault();
 
-      }
-
-
-      toggle.addEventListener(
-        "click",
-        function(){
-
-          const active =
-            !toggle.classList.contains(
-              "active"
-            );
-
-          setToggle(
-            toggle,
-            active
-          );
-
-          if(key){
-
-            settings[key] =
-              active;
-
-            saveSettings();
-
-          }
-
-
-          if(
-            key === "maintenance" &&
-            active
-          ){
-
-            showMessage(
-              "Maintenance mode enabled locally."
-            );
-
-          }
-
-          else if(
-            key === "portfolio" &&
-            !active
-          ){
-
-            showMessage(
-              "Public portfolio visibility disabled locally."
-            );
-
-          }
-
-        }
-      );
-
-    });
-
-
-  function setToggle(
-    element,
-    active
-  ){
-
-    element.classList.toggle(
-      "active",
-      active
-    );
-
-    element.setAttribute(
-      "aria-pressed",
-      active ? "true" : "false"
-    );
-
-  }
-
-
-  /* =========================================================
-     SELECTS
-  ========================================================= */
-
-  const defaultTheme =
-    document.getElementById(
-      "defaultTheme"
-    );
-
-  const sessionTimeout =
-    document.getElementById(
-      "sessionTimeout"
-    );
-
-
-  if(defaultTheme){
-
-    defaultTheme.value =
-      settings.defaultTheme;
-
-    defaultTheme.addEventListener(
-      "change",
-      function(){
-
-        settings.defaultTheme =
-          defaultTheme.value;
-
-        saveSettings();
-
-        updateEnvironment();
-
-      }
-    );
-
-  }
-
-
-  if(sessionTimeout){
-
-    sessionTimeout.value =
-      settings.sessionTimeout;
-
-    sessionTimeout.addEventListener(
-      "change",
-      function(){
-
-        settings.sessionTimeout =
-          sessionTimeout.value;
+        collectUI();
 
         saveSettings();
 
       }
-    );
-
-  }
-
-
-  /* =========================================================
-     ENVIRONMENT
-  ========================================================= */
-
-  function updateEnvironment(){
-
-    const environmentTheme =
-      document.getElementById(
-        "environmentTheme"
-      );
-
-    if(!environmentTheme){
-      return;
-    }
-
-    const theme =
-      settings.defaultTheme;
-
-    environmentTheme.textContent =
-      theme.charAt(0).toUpperCase() +
-      theme.slice(1);
-
-  }
-
-
-  updateEnvironment();
-
-
-  /* =========================================================
-     BACKUP
-  ========================================================= */
-
-  const lastBackup =
-    document.getElementById(
-      "lastBackup"
-    );
-
-
-  function updateBackupLabel(){
-
-    if(!lastBackup){
-      return;
-    }
-
-    if(!settings.lastBackup){
-
-      lastBackup.textContent =
-        "Not created";
-
-      return;
 
     }
+  );
 
-    const date =
-      new Date(
-        settings.lastBackup
-      );
 
-    lastBackup.textContent =
-      date.toLocaleString();
+  /* ---------------------------------------------------------
+     INITIALIZE
+     --------------------------------------------------------- */
 
-  }
+  loadTheme();
 
-
-  updateBackupLabel();
-
-
-  const backupButton =
-    document.getElementById(
-      "backupButton"
-    );
-
-
-  if(backupButton){
-
-    backupButton.addEventListener(
-      "click",
-      function(){
-
-        settings.lastBackup =
-          new Date().toISOString();
-
-        saveSettings();
-
-        updateBackupLabel();
-
-        showMessage(
-          "Local configuration backup created."
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     EXPORT JSON
-  ========================================================= */
-
-  const exportButton =
-    document.getElementById(
-      "exportButton"
-    );
-
-
-  if(exportButton){
-
-    exportButton.addEventListener(
-      "click",
-      function(){
-
-        const payload = {
-
-          exportedAt:
-            new Date().toISOString(),
-
-          application:
-            "Nusrat Afsana Usha Portfolio Admin",
-
-          version:
-            "Admin V1",
-
-          settings:
-            settings
-
-        };
-
-
-        const blob =
-          new Blob(
-            [
-              JSON.stringify(
-                payload,
-                null,
-                2
-              )
-            ],
-            {
-              type:"application/json"
-            }
-          );
-
-
-        const url =
-          URL.createObjectURL(
-            blob
-          );
-
-
-        const anchor =
-          document.createElement(
-            "a"
-          );
-
-        anchor.href =
-          url;
-
-        anchor.download =
-          "nusrat-portfolio-system-backup.json";
-
-        document.body.appendChild(
-          anchor
-        );
-
-        anchor.click();
-
-        anchor.remove();
-
-        URL.revokeObjectURL(
-          url
-        );
-
-
-        showMessage(
-          "System configuration exported."
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     SAVE ALL
-  ========================================================= */
-
-  const saveButton =
-    document.getElementById(
-      "saveButton"
-    );
-
-
-  if(saveButton){
-
-    saveButton.addEventListener(
-      "click",
-      function(){
-
-        saveSettings();
-
-        showMessage(
-          "System settings saved."
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     RESET
-  ========================================================= */
-
-  const resetButton =
-    document.getElementById(
-      "resetButton"
-    );
-
-
-  if(resetButton){
-
-    resetButton.addEventListener(
-      "click",
-      function(){
-
-        const confirmed =
-          window.confirm(
-            "Reset locally stored admin settings on this browser?"
-          );
-
-        if(!confirmed){
-          return;
-        }
-
-
-        try{
-
-          const keys = [
-
-            STORAGE_KEY,
-
-            "nusrat_dashboard_state_v1",
-            "nusrat_portfolio_admin_data",
-            "nusrat_admin_last_updated",
-            "nusrat_admin_current_page"
-
-          ];
-
-
-          keys.forEach(
-            function(key){
-
-              localStorage.removeItem(
-                key
-              );
-
-            }
-          );
-
-        }catch(error){}
-
-
-        settings =
-          cloneDefaults();
-
-        location.reload();
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     MESSAGE
-  ========================================================= */
-
-  function showMessage(
-    message
-  ){
-
-    if(
-      typeof window.showToast ===
-      "function"
-    ){
-
-      window.showToast(
-        message
-      );
-
-      return;
-
-    }
-
-
-    let toast =
-      document.getElementById(
-        "systemToast"
-      );
-
-
-    if(!toast){
-
-      toast =
-        document.createElement(
-          "div"
-        );
-
-      toast.id =
-        "systemToast";
-
-      toast.style.position =
-        "fixed";
-
-      toast.style.right =
-        "22px";
-
-      toast.style.bottom =
-        "22px";
-
-      toast.style.zIndex =
-        "9999";
-
-      toast.style.padding =
-        "12px 15px";
-
-      toast.style.border =
-        "1px solid rgba(216,179,106,.25)";
-
-      toast.style.borderRadius =
-        "10px";
-
-      toast.style.color =
-        "#f5f2eb";
-
-      toast.style.background =
-        "#15161a";
-
-      toast.style.fontSize =
-        "10px";
-
-      document.body.appendChild(
-        toast
-      );
-
-    }
-
-
-    toast.textContent =
-      message;
-
-
-    clearTimeout(
-      toast._timer
-    );
-
-
-    toast._timer =
-      setTimeout(
-        function(){
-
-          toast.remove();
-
-        },
-        2600
-      );
-
-  }
-
+  loadUI();
 
 })();
+
 </script>
 
 </body>
