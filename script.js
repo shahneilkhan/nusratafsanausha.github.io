@@ -1,14 +1,15 @@
-/* =========================================================
-   NUSRAT AFSANA USHA — ULTRA PREMIUM PORTFOLIO
-   script.js
-   ========================================================= */
+/*
+  Nusrat Afsana Usha
+  UX / UI Designer Portfolio
+  Main interaction script
+*/
 
 (() => {
   "use strict";
 
-  /* =======================================================
-     DOM HELPERS
-     ======================================================= */
+  /* --------------------------------
+     HELPERS
+  -------------------------------- */
 
   const $ = (selector, parent = document) =>
     parent.querySelector(selector);
@@ -16,63 +17,69 @@
   const $$ = (selector, parent = document) =>
     [...parent.querySelectorAll(selector)];
 
-  const html = document.documentElement;
+
+  /* --------------------------------
+     DOM
+  -------------------------------- */
+
   const body = document.body;
+  const html = document.documentElement;
 
   const pageLoader = $("#pageLoader");
   const progressBar = $("#progressBar");
+
+  const siteHeader = $("#siteHeader");
 
   const cursor = $("#cursor");
   const cursorDot = $("#cursorDot");
 
   const themeToggle = $("#themeToggle");
+  const themeIcon = $("[data-theme-icon]", themeToggle);
+
   const menuToggle = $("#menuToggle");
   const mobileMenu = $("#mobileMenu");
+
+  const currentYear = $("#currentYear");
 
   const sectionCounter = $("#sectionCounter");
   const sectionLabel = $("#sectionLabel");
 
-  const currentYear = $("#currentYear");
 
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
-
-  /* =======================================================
-     PAGE LOADER
-     ======================================================= */
-
-  const hideLoader = () => {
-    if (!pageLoader) return;
-
-    setTimeout(() => {
-      pageLoader.classList.add("is-hidden");
-      body.classList.add("page-loaded");
-    }, reducedMotion ? 0 : 700);
-  };
-
-  if (document.readyState === "complete") {
-    hideLoader();
-  } else {
-    window.addEventListener("load", hideLoader, {
-      once: true
-    });
-  }
-
-
-  /* =======================================================
-     CURRENT YEAR
-     ======================================================= */
+  /* --------------------------------
+     YEAR
+  -------------------------------- */
 
   if (currentYear) {
     currentYear.textContent = new Date().getFullYear();
   }
 
 
-  /* =======================================================
+  /* --------------------------------
+     PAGE LOADER
+  -------------------------------- */
+
+  const hideLoader = () => {
+    if (!pageLoader) return;
+
+    pageLoader.classList.add("is-hidden");
+
+    setTimeout(() => {
+      pageLoader.style.display = "none";
+    }, 1000);
+  };
+
+  if (document.readyState === "complete") {
+    setTimeout(hideLoader, 350);
+  } else {
+    window.addEventListener("load", () => {
+      setTimeout(hideLoader, 350);
+    });
+  }
+
+
+  /* --------------------------------
      SCROLL PROGRESS
-     ======================================================= */
+  -------------------------------- */
 
   const updateScrollProgress = () => {
     if (!progressBar) return;
@@ -97,138 +104,23 @@
   };
 
 
-  /* =======================================================
-     HEADER SCROLL STATE
-     ======================================================= */
-
-  const header = $(".site-header");
+  /* --------------------------------
+     HEADER
+  -------------------------------- */
 
   const updateHeader = () => {
-    if (!header) return;
+    if (!siteHeader) return;
 
-    header.classList.toggle(
+    siteHeader.classList.toggle(
       "scrolled",
-      window.scrollY > 30
+      window.scrollY > 40
     );
   };
 
 
-  /* =======================================================
-     COMBINED SCROLL HANDLER
-     ======================================================= */
-
-  let ticking = false;
-
-  const onScroll = () => {
-    if (ticking) return;
-
-    window.requestAnimationFrame(() => {
-      updateScrollProgress();
-      updateHeader();
-
-      if (!reducedMotion) {
-        updateParallax();
-      }
-
-      ticking = false;
-    });
-
-    ticking = true;
-  };
-
-  window.addEventListener("scroll", onScroll, {
-    passive: true
-  });
-
-  updateScrollProgress();
-  updateHeader();
-
-
-  /* =======================================================
-     CUSTOM CURSOR
-     ======================================================= */
-
-  const canUseCustomCursor =
-    window.matchMedia("(pointer:fine)").matches &&
-    !reducedMotion &&
-    cursor &&
-    cursorDot;
-
-  if (canUseCustomCursor) {
-
-    let mouseX = window.innerWidth / 2;
-    let mouseY = window.innerHeight / 2;
-
-    let cursorX = mouseX;
-    let cursorY = mouseY;
-
-    let dotX = mouseX;
-    let dotY = mouseY;
-
-    let cursorAnimation;
-
-    document.addEventListener("mousemove", (event) => {
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-
-      body.classList.add("cursor-ready");
-    });
-
-    const animateCursor = () => {
-
-      cursorX += (mouseX - cursorX) * 0.16;
-      cursorY += (mouseY - cursorY) * 0.16;
-
-      dotX += (mouseX - dotX) * 0.32;
-      dotY += (mouseY - dotY) * 0.32;
-
-      cursor.style.transform =
-        `translate3d(${cursorX}px, ${cursorY}px, 0) translate(-50%, -50%)`;
-
-      cursorDot.style.transform =
-        `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
-
-      cursorAnimation =
-        window.requestAnimationFrame(animateCursor);
-    };
-
-    animateCursor();
-
-    document.addEventListener("mouseleave", () => {
-      body.classList.remove("cursor-ready");
-    });
-
-    document.addEventListener("mouseenter", () => {
-      body.classList.add("cursor-ready");
-    });
-
-    const interactiveElements = $$(
-      "a, button, .project, .skill, .service-row, .journal-card"
-    );
-
-    interactiveElements.forEach((element) => {
-
-      element.addEventListener("mouseenter", () => {
-        cursor.classList.add("cursor-hover");
-      });
-
-      element.addEventListener("mouseleave", () => {
-        cursor.classList.remove("cursor-hover");
-      });
-
-    });
-
-    window.addEventListener("beforeunload", () => {
-      if (cursorAnimation) {
-        cancelAnimationFrame(cursorAnimation);
-      }
-    });
-  }
-
-
-  /* =======================================================
-     THEME SYSTEM
-     ======================================================= */
+  /* --------------------------------
+     THEME
+  -------------------------------- */
 
   const THEME_KEY = "nusrat_usha_theme";
 
@@ -244,75 +136,65 @@
     try {
       localStorage.setItem(THEME_KEY, theme);
     } catch {
-      /* Storage may be disabled */
+      // Storage may be unavailable.
     }
   };
 
-  const getPreferredTheme = () => {
+  const updateThemeButton = (theme) => {
+    if (!themeToggle) return;
 
-    const stored = getStoredTheme();
+    const isDark = theme === "dark";
 
-    if (stored === "dark" || stored === "light") {
-      return stored;
+    themeToggle.setAttribute(
+      "aria-pressed",
+      String(isDark)
+    );
+
+    themeToggle.setAttribute(
+      "aria-label",
+      isDark
+        ? "Switch to light mode"
+        : "Switch to dark mode"
+    );
+
+    if (themeIcon) {
+      themeIcon.textContent = isDark ? "☼" : "◐";
     }
-
-    return window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches
-      ? "dark"
-      : "light";
   };
 
   const applyTheme = (theme) => {
+    const safeTheme =
+      theme === "dark" ? "dark" : "light";
 
-    html.setAttribute(
-      "data-theme",
-      theme
+    if (safeTheme === "dark") {
+      html.setAttribute("data-theme", "dark");
+    } else {
+      html.setAttribute("data-theme", "light");
+    }
+
+    body.classList.toggle(
+      "dark-theme",
+      safeTheme === "dark"
     );
 
-    if (theme === "dark") {
-      body.classList.add("dark-theme");
-    } else {
-      body.classList.remove("dark-theme");
-    }
-
-    if (themeToggle) {
-
-      themeToggle.setAttribute(
-        "aria-pressed",
-        theme === "dark" ? "true" : "false"
-      );
-
-      themeToggle.setAttribute(
-        "aria-label",
-        theme === "dark"
-          ? "Switch to light theme"
-          : "Switch to dark theme"
-      );
-
-      const icon = $(
-        "[data-theme-icon]",
-        themeToggle
-      );
-
-      if (icon) {
-        icon.textContent =
-          theme === "dark"
-            ? "☼"
-            : "☾";
-      }
-    }
+    updateThemeButton(safeTheme);
   };
 
-  applyTheme(getPreferredTheme());
+  const storedTheme = getStoredTheme();
+
+  if (storedTheme) {
+    applyTheme(storedTheme);
+  } else {
+    applyTheme("light");
+  }
 
   if (themeToggle) {
-
     themeToggle.addEventListener("click", () => {
 
       const current =
-        html.getAttribute("data-theme") ||
-        "light";
+        html.getAttribute("data-theme") === "dark"
+          ? "dark"
+          : "light";
 
       const next =
         current === "dark"
@@ -321,133 +203,105 @@
 
       applyTheme(next);
       saveTheme(next);
-
     });
   }
 
 
-  /* =======================================================
+  /* --------------------------------
      MOBILE MENU
-     ======================================================= */
+  -------------------------------- */
 
-  const openMenu = () => {
+  const setMenuState = (open) => {
+    if (!menuToggle || !mobileMenu) return;
 
-    if (!mobileMenu || !menuToggle) return;
+    menuToggle.classList.toggle(
+      "is-open",
+      open
+    );
 
-    mobileMenu.classList.add("is-open");
-    menuToggle.setAttribute("aria-expanded", "true");
+    mobileMenu.classList.toggle(
+      "is-open",
+      open
+    );
 
-    body.classList.add("menu-open");
-
-    const firstLink =
-      $(".mobile-nav a", mobileMenu);
-
-    if (firstLink) {
-      setTimeout(() => {
-        firstLink.focus();
-      }, 250);
-    }
-  };
-
-  const closeMenu = () => {
-
-    if (!mobileMenu || !menuToggle) return;
-
-    mobileMenu.classList.remove("is-open");
-    menuToggle.setAttribute("aria-expanded", "false");
-
-    body.classList.remove("menu-open");
-  };
-
-  if (menuToggle) {
+    body.classList.toggle(
+      "menu-open",
+      open
+    );
 
     menuToggle.setAttribute(
       "aria-expanded",
-      "false"
+      String(open)
     );
 
+    menuToggle.setAttribute(
+      "aria-label",
+      open
+        ? "Close menu"
+        : "Open menu"
+    );
+  };
+
+  if (menuToggle) {
     menuToggle.addEventListener("click", () => {
 
       const isOpen =
-        mobileMenu &&
-        mobileMenu.classList.contains("is-open");
+        menuToggle.getAttribute("aria-expanded") === "true";
 
-      if (isOpen) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
-
+      setMenuState(!isOpen);
     });
   }
 
-  $$(".mobile-nav a").forEach((link) => {
-
+  $$("#mobileMenu a").forEach((link) => {
     link.addEventListener("click", () => {
-      closeMenu();
+      setMenuState(false);
     });
-
   });
 
   document.addEventListener("keydown", (event) => {
 
     if (event.key === "Escape") {
-      closeMenu();
+      setMenuState(false);
     }
 
   });
 
 
-  /* =======================================================
-     CLOSE MOBILE MENU ON RESIZE
-     ======================================================= */
+  /* --------------------------------
+     SMOOTH ANCHOR LINKS
+  -------------------------------- */
 
-  window.addEventListener("resize", () => {
+  const anchorLinks = $$(
+    'a[href^="#"]:not([href="#"])'
+  );
 
-    if (window.innerWidth > 900) {
-      closeMenu();
-    }
-
-  });
-
-
-  /* =======================================================
-     SMOOTH ANCHOR SCROLL
-     ======================================================= */
-
-  $$('a[href^="#"]').forEach((link) => {
+  anchorLinks.forEach((link) => {
 
     link.addEventListener("click", (event) => {
 
       const href = link.getAttribute("href");
 
-      if (!href || href === "#") {
-        return;
-      }
+      if (!href) return;
 
-      const target = $(href);
+      const target = document.querySelector(href);
 
-      if (!target) {
-        return;
-      }
+      if (!target) return;
 
       event.preventDefault();
 
       const headerOffset =
-        header
-          ? header.offsetHeight + 15
+        siteHeader
+          ? siteHeader.offsetHeight + 15
           : 20;
 
-      const targetPosition =
+      const targetTop =
         target.getBoundingClientRect().top +
         window.scrollY -
         headerOffset;
 
       window.scrollTo({
-        top: targetPosition,
-        behavior: reducedMotion
-          ? "auto"
-          : "smooth"
+        top: targetTop,
+        behavior: "smooth"
       });
 
     });
@@ -455,176 +309,239 @@
   });
 
 
-  /* =======================================================
+  /* --------------------------------
      REVEAL ANIMATIONS
-     ======================================================= */
+  -------------------------------- */
 
-  const revealElements = $$(
-    ".reveal, .image-reveal, .service-row, .process-step, " +
-    ".project, .principle, .timeline-item, .skill-group, " +
-    ".journal-card"
-  );
+  const revealElements = $$(".reveal");
 
-  if (reducedMotion) {
+  const revealObserver =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          (entries, observer) => {
 
-    revealElements.forEach((element) => {
-      element.classList.add("is-visible");
-    });
+            entries.forEach((entry) => {
 
-  } else {
+              if (!entry.isIntersecting) return;
 
-    const revealObserver =
-      new IntersectionObserver(
-        (entries, observer) => {
+              entry.target.classList.add(
+                "is-visible"
+              );
 
-          entries.forEach((entry) => {
+              observer.unobserve(
+                entry.target
+              );
 
-            if (!entry.isIntersecting) {
-              return;
-            }
+            });
 
-            entry.target.classList.add(
-              "is-visible"
-            );
+          },
+          {
+            threshold: 0.12,
+            rootMargin: "0px 0px -60px 0px"
+          }
+        )
+      : null;
 
-            observer.unobserve(
-              entry.target
-            );
-
-          });
-
-        },
-        {
-          threshold:0.12,
-          rootMargin:"0px 0px -60px 0px"
-        }
-      );
+  if (revealObserver) {
 
     revealElements.forEach((element) => {
       revealObserver.observe(element);
     });
 
+  } else {
+
+    revealElements.forEach((element) => {
+      element.classList.add("is-visible");
+    });
+
   }
 
 
-  /* =======================================================
-     STAGGERED REVEAL
-     ======================================================= */
+  /* --------------------------------
+     STAGGERED ELEMENTS
+  -------------------------------- */
 
   const staggerGroups = [
-    ".services-list",
-    ".process-grid",
-    ".work-grid",
-    ".principles-list",
-    ".timeline",
-    ".skills-grid",
-    ".journal-grid"
+    ".service-row",
+    ".process-step",
+    ".project",
+    ".principle",
+    ".timeline-item",
+    ".skill-group",
+    ".journal-card"
   ];
 
   staggerGroups.forEach((selector) => {
 
-    const group = $(selector);
+    const elements = $$(selector);
 
-    if (!group) return;
+    elements.forEach((element, index) => {
 
-    const children = [
-      ...group.children
-    ];
-
-    children.forEach((child, index) => {
-
-      if (!child.classList.contains("reveal")) {
-        child.classList.add("reveal");
-      }
-
-      child.style.transitionDelay =
-        `${Math.min(index * 0.07, 0.42)}s`;
+      element.style.transitionDelay =
+        `${Math.min(index * 70, 420)}ms`;
 
     });
 
   });
 
 
-  /* =======================================================
-     HERO PARALLAX
-     ======================================================= */
+  /* --------------------------------
+     IMAGE REVEAL
+  -------------------------------- */
 
-  const heroVisual = $(".hero-visual");
-  const heroCopy = $(".hero-copy");
-  const heroImage = $(".hero-image-wrap");
+  const heroImage = $(".hero-image");
 
-  let parallaxScroll = 0;
-  let mouseParallaxX = 0;
-  let mouseParallaxY = 0;
+  if (heroImage) {
 
-  const updateParallax = () => {
+    heroImage.addEventListener(
+      "load",
+      () => {
 
-    if (!heroVisual) return;
-
-    const scrollY = window.scrollY;
-
-    parallaxScroll =
-      Math.min(scrollY * 0.045, 45);
-
-    heroVisual.style.transform =
-      `translate3d(0, ${parallaxScroll}px, 0)`;
-
-    if (heroCopy) {
-
-      const copyOffset =
-        Math.min(scrollY * -0.018, 18);
-
-      heroCopy.style.transform =
-        `translate3d(0, ${copyOffset}px, 0)`;
-    }
-
-    if (heroImage) {
-
-      heroImage.style.transform =
-        `translate3d(${mouseParallaxX}px, ${mouseParallaxY}px, 0)`;
-    }
-  };
-
-  if (!reducedMotion) {
-
-    document.addEventListener(
-      "mousemove",
-      (event) => {
-
-        if (window.innerWidth < 901) {
-          return;
-        }
-
-        const x =
-          (event.clientX /
-            window.innerWidth -
-            0.5);
-
-        const y =
-          (event.clientY /
-            window.innerHeight -
-            0.5);
-
-        mouseParallaxX = x * 10;
-        mouseParallaxY = y * 10;
+        heroImage.classList.add(
+          "image-loaded"
+        );
 
       },
-      { passive:true }
+      { once: true }
     );
 
   }
 
 
-  /* =======================================================
-     MAGNETIC BUTTONS
-     ======================================================= */
+  /* --------------------------------
+     IMAGE ERROR HANDLING
+  -------------------------------- */
 
-  if (!reducedMotion &&
-      window.matchMedia("(pointer:fine)").matches) {
+  $$(".hero-image").forEach((image) => {
 
-    const magneticButtons = $$(
-      ".button, .text-link, .back-top"
+    image.addEventListener("error", () => {
+
+      image.style.display = "none";
+
+      const wrapper =
+        image.closest(".hero-image-wrap");
+
+      if (wrapper) {
+        wrapper.classList.add(
+          "image-missing"
+        );
+      }
+
+    });
+
+  });
+
+
+  /* --------------------------------
+     CUSTOM CURSOR
+  -------------------------------- */
+
+  const finePointer =
+    window.matchMedia(
+      "(pointer:fine)"
+    ).matches;
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  let cursorX = 0;
+  let cursorY = 0;
+
+  let cursorDotX = 0;
+  let cursorDotY = 0;
+
+  if (
+    finePointer &&
+    cursor &&
+    cursorDot
+  ) {
+
+    cursor.style.opacity = "1";
+    cursorDot.style.opacity = "1";
+
+    window.addEventListener(
+      "mousemove",
+      (event) => {
+
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+
+      },
+      { passive: true }
     );
+
+    const animateCursor = () => {
+
+      cursorX +=
+        (mouseX - cursorX) * 0.14;
+
+      cursorY +=
+        (mouseY - cursorY) * 0.14;
+
+      cursorDotX +=
+        (mouseX - cursorDotX) * 0.35;
+
+      cursorDotY +=
+        (mouseY - cursorDotY) * 0.35;
+
+      cursor.style.transform =
+        `translate3d(
+          ${cursorX}px,
+          ${cursorY}px,
+          0
+        ) translate(-50%,-50%)`;
+
+      cursorDot.style.transform =
+        `translate3d(
+          ${cursorDotX}px,
+          ${cursorDotY}px,
+          0
+        ) translate(-50%,-50%)`;
+
+      requestAnimationFrame(
+        animateCursor
+      );
+    };
+
+    animateCursor();
+
+
+    const interactiveElements = $$(
+      "a, button, .project, .service-row, .journal-card, .skill-list span"
+    );
+
+    interactiveElements.forEach((element) => {
+
+      element.addEventListener(
+        "mouseenter",
+        () => {
+          cursor.classList.add(
+            "cursor-hover"
+          );
+        }
+      );
+
+      element.addEventListener(
+        "mouseleave",
+        () => {
+          cursor.classList.remove(
+            "cursor-hover"
+          );
+        }
+      );
+
+    });
+
+  }
+
+
+  /* --------------------------------
+     MAGNETIC BUTTONS
+  -------------------------------- */
+
+  if (finePointer) {
+
+    const magneticButtons = $$(".magnetic");
 
     magneticButtons.forEach((button) => {
 
@@ -637,23 +554,27 @@
 
           const x =
             event.clientX -
-            rect.left -
-            rect.width / 2;
+            (rect.left + rect.width / 2);
 
           const y =
             event.clientY -
-            rect.top -
-            rect.height / 2;
+            (rect.top + rect.height / 2);
 
           button.style.transform =
-            `translate(${x * 0.12}px, ${y * 0.12}px)`;
+            `translate(
+              ${x * 0.08}px,
+              ${y * 0.08}px
+            )`;
+
         }
       );
 
       button.addEventListener(
         "mouseleave",
         () => {
+
           button.style.transform = "";
+
         }
       );
 
@@ -662,244 +583,331 @@
   }
 
 
-  /* =======================================================
-     ACTIVE NAVIGATION
-     ======================================================= */
+  /* --------------------------------
+     HERO PARALLAX
+  -------------------------------- */
 
-  const navLinks = $$(".main-nav a");
+  const heroVisual = $(".hero-visual");
 
-  const sections = $$(
-    "main section[id]"
-  );
+  let ticking = false;
 
-  const sectionData = sections.map(
-    (section) => ({
-      element:section,
-      id:section.id,
-      label:
-        section.dataset.label ||
-        section.querySelector(
-          ".section-kicker"
-        )?.textContent?.trim() ||
-        section.id
-    })
-  );
+  const updateParallax = () => {
 
-  const updateActiveSection = (activeId) => {
-
-    navLinks.forEach((link) => {
-
-      const href =
-        link.getAttribute("href");
-
-      link.classList.toggle(
-        "active",
-        href === `#${activeId}`
-      );
-
-      if (
-        href === `#${activeId}`
-      ) {
-        link.setAttribute(
-          "aria-current",
-          "page"
-        );
-      } else {
-        link.removeAttribute(
-          "aria-current"
-        );
-      }
-
-    });
-
-    const index =
-      sectionData.findIndex(
-        (item) =>
-          item.id === activeId
-      );
-
-    if (sectionCounter) {
-
-      sectionCounter.textContent =
-        String(index + 1).padStart(
-          2,
-          "0"
-        );
-    }
-
-    if (sectionLabel) {
-
-      sectionLabel.textContent =
-        sectionData[index]?.label ||
-        "";
-    }
-  };
-
-  if (sectionData.length) {
-
-    const sectionObserver =
-      new IntersectionObserver(
-        (entries) => {
-
-          const visible =
-            entries
-              .filter(
-                (entry) =>
-                  entry.isIntersecting
-              )
-              .sort(
-                (a, b) =>
-                  b.intersectionRatio -
-                  a.intersectionRatio
-              );
-
-          if (!visible.length) {
-            return;
-          }
-
-          updateActiveSection(
-            visible[0].target.id
-          );
-
-        },
-        {
-          threshold:[
-            0.15,
-            0.35,
-            0.55,
-            0.75
-          ],
-          rootMargin:
-            "-15% 0px -45% 0px"
-        }
-      );
-
-    sectionData.forEach(
-      ({ element }) =>
-        sectionObserver.observe(element)
-    );
-
-  }
-
-
-  /* =======================================================
-     IMAGE LOADING
-     ======================================================= */
-
-  const images = $$("img");
-
-  images.forEach((img) => {
-
-    if (img.complete) {
-      img.classList.add("loaded");
+    if (
+      !heroVisual ||
+      window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches
+    ) {
+      ticking = false;
       return;
     }
 
-    img.addEventListener(
-      "load",
-      () => {
-        img.classList.add("loaded");
-      },
-      { once:true }
-    );
+    const scroll =
+      window.scrollY;
 
-    img.addEventListener(
-      "error",
-      () => {
-        img.classList.add("image-error");
-      },
-      { once:true }
-    );
+    if (window.innerWidth > 900) {
 
-  });
+      const amount =
+        Math.min(scroll * 0.08, 45);
+
+      heroVisual.style.transform =
+        `translateY(${amount}px)`;
+
+    } else {
+
+      heroVisual.style.transform = "";
+
+    }
+
+    ticking = false;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+
+      if (!ticking) {
+
+        requestAnimationFrame(
+          updateParallax
+        );
+
+        ticking = true;
+
+      }
+
+    },
+    { passive: true }
+  );
 
 
-  /* =======================================================
-     BACK TO TOP
-     ======================================================= */
+  /* --------------------------------
+     PROJECT TILT
+  -------------------------------- */
 
-  $$(".back-top").forEach((button) => {
+  if (
+    finePointer &&
+    !window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches
+  ) {
 
-    button.addEventListener("click", (event) => {
+    const projectVisuals =
+      $$(".project-visual");
 
-      const href =
-        button.getAttribute("href");
+    projectVisuals.forEach((visual) => {
 
-      if (
-        href === "#" ||
-        href === "#home"
-      ) {
+      visual.addEventListener(
+        "mousemove",
+        (event) => {
 
-        event.preventDefault();
+          const rect =
+            visual.getBoundingClientRect();
 
-        window.scrollTo({
-          top:0,
-          behavior:
-            reducedMotion
-              ? "auto"
-              : "smooth"
-        });
+          const x =
+            (event.clientX - rect.left) /
+            rect.width -
+            0.5;
+
+          const y =
+            (event.clientY - rect.top) /
+            rect.height -
+            0.5;
+
+          const rotateX =
+            y * -2;
+
+          const rotateY =
+            x * 2;
+
+          visual.style.transform =
+            `perspective(1000px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)`;
+
+        }
+      );
+
+      visual.addEventListener(
+        "mouseleave",
+        () => {
+
+          visual.style.transform = "";
+
+        }
+      );
+
+    });
+
+  }
+
+
+  /* --------------------------------
+     SECTION TRACKING
+  -------------------------------- */
+
+  const sections = [
+    {
+      id: "home",
+      label: "Home"
+    },
+    {
+      id: "services",
+      label: "Services"
+    },
+    {
+      id: "thinking",
+      label: "Thinking"
+    },
+    {
+      id: "work",
+      label: "Work"
+    },
+    {
+      id: "principles",
+      label: "Principles"
+    },
+    {
+      id: "about",
+      label: "About"
+    },
+    {
+      id: "experience",
+      label: "Experience"
+    },
+    {
+      id: "skills",
+      label: "Skills"
+    },
+    {
+      id: "journal",
+      label: "Journal"
+    },
+    {
+      id: "contact",
+      label: "Contact"
+    }
+  ];
+
+  const sectionElements =
+    sections
+      .map((section) => ({
+        ...section,
+        element:
+          document.getElementById(section.id)
+      }))
+      .filter((section) => section.element);
+
+
+  const updateSectionIndicator = () => {
+
+    if (!sectionElements.length) return;
+
+    const marker =
+      window.scrollY +
+      window.innerHeight * 0.35;
+
+    let active =
+      sectionElements[0];
+
+    sectionElements.forEach((section) => {
+
+      const top =
+        section.element.offsetTop;
+
+      if (marker >= top) {
+        active = section;
       }
 
     });
 
-  });
+    if (sectionCounter) {
+
+      const index =
+        sectionElements.indexOf(active) + 1;
+
+      sectionCounter.textContent =
+        `${String(index).padStart(2, "0")} / ${String(sectionElements.length).padStart(2, "0")}`;
+
+    }
+
+    if (sectionLabel) {
+      sectionLabel.textContent =
+        active.label;
+    }
+
+  };
 
 
-  /* =======================================================
-     HOVER IMAGE TILT
-     ======================================================= */
+  /* --------------------------------
+     ACTIVE NAV
+  -------------------------------- */
 
-  if (
-    !reducedMotion &&
-    window.matchMedia("(pointer:fine)").matches
-  ) {
+  const navLinks =
+    $$(".main-nav .nav-link");
 
-    $$(".project-visual").forEach(
-      (visual) => {
+  const setActiveNav =
+    (sectionId) => {
 
-        visual.addEventListener(
-          "mousemove",
-          (event) => {
+      navLinks.forEach((link) => {
 
-            const rect =
-              visual.getBoundingClientRect();
+        const href =
+          link.getAttribute("href");
 
-            const x =
-              (event.clientX -
-                rect.left) /
-                rect.width -
-              0.5;
-
-            const y =
-              (event.clientY -
-                rect.top) /
-                rect.height -
-              0.5;
-
-            visual.style.transform =
-              `perspective(1000px)
-               rotateX(${y * -2}deg)
-               rotateY(${x * 2}deg)`;
-          }
+        link.classList.toggle(
+          "active",
+          href === `#${sectionId}`
         );
 
-        visual.addEventListener(
-          "mouseleave",
-          () => {
-            visual.style.transform = "";
-          }
-        );
+      });
 
+    };
+
+
+  const navObserver =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          (entries) => {
+
+            entries.forEach((entry) => {
+
+              if (
+                entry.isIntersecting &&
+                entry.intersectionRatio > 0.25
+              ) {
+
+                setActiveNav(
+                  entry.target.id
+                );
+
+              }
+
+            });
+
+          },
+          {
+            threshold: [0.25, 0.5],
+            rootMargin:
+              "-15% 0px -55% 0px"
+          }
+        )
+      : null;
+
+  if (navObserver) {
+
+    sectionElements.forEach(
+      ({ element }) => {
+        navObserver.observe(element);
       }
     );
 
   }
 
 
-  /* =======================================================
-     KEYBOARD ACCESSIBILITY
-     ======================================================= */
+  /* --------------------------------
+     SCROLL HANDLER
+  -------------------------------- */
+
+  const handleScroll = () => {
+
+    updateScrollProgress();
+    updateHeader();
+    updateSectionIndicator();
+
+  };
+
+  window.addEventListener(
+    "scroll",
+    handleScroll,
+    { passive: true }
+  );
+
+  handleScroll();
+
+
+  /* --------------------------------
+     RESIZE
+  -------------------------------- */
+
+  window.addEventListener(
+    "resize",
+    () => {
+
+      if (
+        window.innerWidth > 900
+      ) {
+        setMenuState(false);
+      }
+
+    },
+    { passive: true }
+  );
+
+
+  /* --------------------------------
+     ACCESSIBILITY
+  -------------------------------- */
 
   document.addEventListener(
     "keydown",
@@ -913,80 +921,45 @@
         );
       }
 
-    },
-    { once:true }
+    }
   );
-
-
-  /* =======================================================
-     EXTERNAL PLACEHOLDER LINKS
-     ======================================================= */
-
-  $$(
-    'a[data-placeholder="true"]'
-  ).forEach((link) => {
-
-    link.addEventListener(
-      "click",
-      (event) => {
-        event.preventDefault();
-      }
-    );
-
-    link.setAttribute(
-      "aria-disabled",
-      "true"
-    );
-
-  });
-
-
-  /* =======================================================
-     RESIZE / VISIBILITY
-     ======================================================= */
 
   document.addEventListener(
-    "visibilitychange",
+    "mousedown",
     () => {
 
-      if (
-        document.hidden
-      ) {
-        body.classList.add(
-          "page-hidden"
-        );
-      } else {
-        body.classList.remove(
-          "page-hidden"
-        );
-      }
+      body.classList.remove(
+        "keyboard-user"
+      );
 
-    }
+    },
+    { passive: true }
   );
 
 
-  /* =======================================================
-     INITIAL STATE
-     ======================================================= */
+  /* --------------------------------
+     CONTACT MAILTO
+  -------------------------------- */
 
-  window.requestAnimationFrame(() => {
+  const emailLinks =
+    $$('a[href^="mailto:"]');
 
-    updateScrollProgress();
-    updateHeader();
+  emailLinks.forEach((link) => {
 
-    if (!reducedMotion) {
-      updateParallax();
-    }
-
-    if (
-      sectionData.length &&
-      window.scrollY < 100
-    ) {
-      updateActiveSection(
-        sectionData[0].id
-      );
-    }
+    link.setAttribute(
+      "rel",
+      "noopener"
+    );
 
   });
+
+
+  /* --------------------------------
+     INITIAL STATE
+  -------------------------------- */
+
+  document.body.classList.add(
+    "page-ready"
+  );
 
 })();
