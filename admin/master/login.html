@@ -1,721 +1,808 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
-  <title>Private Access — Nusrat Afsana Usha</title>
-  <meta name="description" content="Private administration access.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
-    :root{
-      --bg:#08090b;
-      --panel:#111318;
-      --panel2:#17191e;
-      --border:rgba(255,255,255,.09);
-      --border2:rgba(255,255,255,.15);
-      --text:#f5f2eb;
-      --muted:#8d8f97;
-      --soft:#bdbec5;
-      --gold:#d8b36a;
-      --gold2:#f1d79c;
-      --green:#69c995;
-      --red:#e77878;
-      --shadow:0 35px 100px rgba(0,0,0,.48);
-    }
-
-    [data-theme="light"]{
-      --bg:#f4f2ed;
-      --panel:#fff;
-      --panel2:#f4f2ed;
-      --border:rgba(20,20,20,.09);
-      --border2:rgba(20,20,20,.15);
-      --text:#171719;
-      --muted:#707078;
-      --soft:#55555d;
-      --gold:#a77931;
-      --gold2:#8c6325;
-      --green:#278458;
-      --red:#c64d4d;
-      --shadow:0 30px 80px rgba(30,25,15,.14);
-    }
-
-    html,
-    body{
-      min-height:100%;
-    }
-
-    body{
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:24px;
-      overflow-x:hidden;
-      background:
-        radial-gradient(
-          circle at 50% -10%,
-          rgba(216,179,106,.13),
-          transparent 38%
-        ),
-        radial-gradient(
-          circle at 10% 90%,
-          rgba(216,179,106,.04),
-          transparent 30%
-        ),
-        var(--bg);
-      color:var(--text);
-      font-family:"Instrument Sans",sans-serif;
-    }
-
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      background:
-        linear-gradient(
-          rgba(255,255,255,.012) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,.012) 1px,
-          transparent 1px
-        );
-      background-size:55px 55px;
-      mask-image:linear-gradient(
-        to bottom,
-        black,
-        transparent 80%
-      );
-    }
-
-    button,
-    input{
-      font:inherit;
-    }
-
-    button{
-      cursor:pointer;
-    }
-
-    /* =========================
-       PAGE
-    ========================= */
-
-    .page{
-      width:100%;
-      max-width:500px;
-      position:relative;
-      z-index:2;
-    }
-
-    .top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:18px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:11px;
-    }
-
-    .brand-mark{
-      width:41px;
-      height:41px;
-      display:grid;
-      place-items:center;
-      border-radius:13px;
-      background:
-        linear-gradient(
-          145deg,
-          #f1d79c,
-          #a77931
-        );
-      color:#17120a;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:14px;
-      font-weight:800;
-      letter-spacing:-.07em;
-      box-shadow:
-        0 12px 30px
-        rgba(216,179,106,.16);
-    }
-
-    .brand strong{
-      display:block;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:14px;
-      letter-spacing:-.025em;
-    }
-
-    .brand span{
-      display:block;
-      color:var(--muted);
-      font-size:10px;
-      margin-top:2px;
-    }
-
-    .theme-button{
-      width:40px;
-      height:40px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:var(--panel);
-      color:var(--soft);
-      display:grid;
-      place-items:center;
-      transition:.2s ease;
-    }
-
-    .theme-button:hover{
-      border-color:var(--border2);
-      color:var(--text);
-    }
-
-    /* =========================
-       CARD
-    ========================= */
-
-    .card{
-      border:1px solid var(--border);
-      border-radius:28px;
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.035),
-          rgba(255,255,255,.012)
-        );
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    [data-theme="light"] .card{
-      background:var(--panel);
-    }
-
-    .card-top{
-      height:7px;
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          var(--gold),
-          transparent
-        );
-      opacity:.85;
-    }
-
-    .card-inner{
-      padding:34px;
-    }
-
-    .access-icon{
-      width:58px;
-      height:58px;
-      display:grid;
-      place-items:center;
-      border-radius:18px;
-      background:rgba(216,179,106,.08);
-      border:1px solid rgba(216,179,106,.13);
-      color:var(--gold);
-      font-size:23px;
-      margin-bottom:23px;
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:7px;
-      color:var(--gold);
-      font-size:9px;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.17em;
-      margin-bottom:10px;
-    }
-
-    .eyebrow::before{
-      content:"";
-      width:17px;
-      height:1px;
-      background:var(--gold);
-    }
-
-    h1{
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:clamp(32px,7vw,46px);
-      line-height:.96;
-      letter-spacing:-.055em;
-    }
-
-    .intro{
-      margin-top:13px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.65;
-      max-width:390px;
-    }
-
-    /* =========================
-       FORM
-    ========================= */
-
-    .form{
-      margin-top:30px;
-    }
-
-    .field{
-      margin-bottom:17px;
-    }
-
-    .field label{
-      display:block;
-      margin-bottom:7px;
-      color:var(--soft);
-      font-size:10px;
-      font-weight:700;
-      letter-spacing:.02em;
-    }
-
-    .input-wrap{
-      position:relative;
-    }
-
-    .input{
-      width:100%;
-      height:48px;
-      border:1px solid var(--border);
-      border-radius:13px;
-      background:rgba(255,255,255,.025);
-      color:var(--text);
-      padding:0 13px;
-      outline:none;
-      transition:.2s ease;
-    }
-
-    [data-theme="light"] .input{
-      background:#faf9f6;
-    }
-
-    .input::placeholder{
-      color:#65666e;
-    }
-
-    .input:focus{
-      border-color:rgba(216,179,106,.5);
-      box-shadow:
-        0 0 0 4px
-        rgba(216,179,106,.07);
-    }
-
-    .password-input{
-      padding-right:48px;
-    }
-
-    .show-password{
-      position:absolute;
-      top:50%;
-      right:7px;
-      width:35px;
-      height:35px;
-      transform:translateY(-50%);
-      border:0;
-      border-radius:9px;
-      background:transparent;
-      color:var(--muted);
-    }
-
-    .show-password:hover{
-      color:var(--text);
-      background:var(--panel2);
-    }
-
-    .form-options{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:15px;
-      margin:5px 0 21px;
-    }
-
-    .remember{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      color:var(--muted);
-      font-size:10px;
-      cursor:pointer;
-    }
-
-    .remember input{
-      width:15px;
-      height:15px;
-      accent-color:var(--gold);
-    }
-
-    .session-note{
-      color:#66676f;
-      font-size:9px;
-      text-align:right;
-    }
-
-    .login-button{
-      width:100%;
-      min-height:50px;
-      border:0;
-      border-radius:14px;
-      background:
-        linear-gradient(
-          135deg,
-          var(--gold2),
-          var(--gold)
-        );
-      color:#17120a;
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.01em;
-      box-shadow:
-        0 14px 35px
-        rgba(216,179,106,.13);
-      transition:.2s ease;
-    }
-
-    .login-button:hover{
-      transform:translateY(-1px);
-      box-shadow:
-        0 17px 42px
-        rgba(216,179,106,.19);
-    }
-
-    .login-button:active{
-      transform:translateY(0);
-    }
-
-    .login-button.loading{
-      opacity:.65;
-      pointer-events:none;
-    }
-
-    /* =========================
-       SECURITY MESSAGE
-    ========================= */
-
-    .security{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      margin-top:19px;
-      padding:12px 13px;
-      border:1px solid rgba(105,201,149,.13);
-      border-radius:13px;
-      background:rgba(105,201,149,.035);
-    }
-
-    .security-dot{
-      width:7px;
-      height:7px;
-      margin-top:4px;
-      flex:0 0 auto;
-      border-radius:50%;
-      background:var(--green);
-      box-shadow:
-        0 0 0 4px
-        rgba(105,201,149,.07);
-    }
-
-    .security p{
-      color:var(--muted);
-      font-size:9px;
-      line-height:1.55;
-    }
-
-    /* =========================
-       ERROR
-    ========================= */
-
-    .error{
-      display:none;
-      margin-top:15px;
-      padding:11px 13px;
-      border:1px solid rgba(231,120,120,.18);
-      border-radius:12px;
-      background:rgba(231,120,120,.05);
-      color:var(--red);
-      font-size:10px;
-      line-height:1.5;
-    }
-
-    .error.show{
-      display:block;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    .footer{
-      padding:17px 5px 0;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:15px;
-      color:#62636a;
-      font-size:9px;
-    }
-
-    .footer span:last-child{
-      color:var(--gold);
-    }
-
-    /* =========================
-       TOAST
-    ========================= */
-
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:25px;
-      transform:translate(-50%,30px);
-      z-index:20;
-      min-width:250px;
-      max-width:90vw;
-      padding:13px 15px;
-      border:1px solid var(--border2);
-      border-radius:13px;
-      background:#17181d;
-      color:#fff;
-      box-shadow:0 20px 60px rgba(0,0,0,.35);
-      opacity:0;
-      pointer-events:none;
-      transition:.25s ease;
-      text-align:center;
-      font-size:10px;
-    }
-
-    .toast.show{
-      transform:translate(-50%,0);
-      opacity:1;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media(max-width:520px){
-
-      body{
-        padding:16px;
-      }
-
-      .card-inner{
-        padding:25px 20px;
-      }
-
-      .top{
-        margin-bottom:13px;
-      }
-
-      .card{
-        border-radius:22px;
-      }
-
-      .form{
-        margin-top:24px;
-      }
-
-      .form-options{
-        align-items:flex-start;
-      }
-
-      .session-note{
-        max-width:100px;
-      }
-
-    }
-
-    @media(prefers-reduced-motion:reduce){
-
-      *,
-      *::before,
-      *::after{
-        transition:none!important;
-      }
-
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Restricted Access — Nusrat Afsana Usha</title>
+
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow,noarchive">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#08090b;
+  --panel:#101216;
+  --panel-2:#14161b;
+  --border:rgba(255,255,255,.09);
+  --border-soft:rgba(255,255,255,.055);
+  --text:#f5f2eb;
+  --muted:#8f929b;
+  --muted-2:#656872;
+  --accent:#d8b36a;
+  --accent-light:#efd49a;
+  --danger:#e47777;
+  --success:#82c99a;
+  --shadow:0 30px 90px rgba(0,0,0,.45);
+}
+
+html{
+  background:var(--bg);
+  color:var(--text);
+}
+
+body{
+  min-height:100vh;
+  font-family:"Instrument Sans",Arial,sans-serif;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(216,179,106,.07),transparent 28%),
+    radial-gradient(circle at 85% 80%,rgba(255,255,255,.035),transparent 25%),
+    var(--bg);
+  overflow-x:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.025;
+  background-image:
+    linear-gradient(rgba(255,255,255,.8) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.8) 1px,transparent 1px);
+  background-size:70px 70px;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.page{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:32px;
+  position:relative;
+}
+
+.shell{
+  width:min(1080px,100%);
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  border:1px solid var(--border);
+  background:rgba(16,18,22,.84);
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+  border-radius:30px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  position:relative;
+}
+
+.shell::after{
+  content:"";
+  position:absolute;
+  width:420px;
+  height:420px;
+  border-radius:50%;
+  background:rgba(216,179,106,.06);
+  filter:blur(80px);
+  right:-180px;
+  bottom:-200px;
+  pointer-events:none;
+}
+
+/* LEFT */
+
+.visual{
+  min-height:680px;
+  padding:54px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  position:relative;
+  border-right:1px solid var(--border-soft);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(216,179,106,.055),
+      transparent 40%
+    );
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.brand-mark{
+  width:43px;
+  height:43px;
+  border:1px solid rgba(216,179,106,.45);
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  color:var(--accent-light);
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:-.04em;
+  background:rgba(216,179,106,.055);
+}
+
+.brand-copy{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.brand-name{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:-.02em;
+}
+
+.brand-sub{
+  color:var(--muted-2);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.visual-content{
+  max-width:440px;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  color:var(--accent);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:22px;
+}
+
+.eyebrow::before{
+  content:"";
+  width:22px;
+  height:1px;
+  background:var(--accent);
+}
+
+.visual h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(42px,5vw,68px);
+  line-height:.96;
+  letter-spacing:-.065em;
+  font-weight:500;
+  max-width:470px;
+}
+
+.visual h1 span{
+  color:var(--accent-light);
+}
+
+.visual-description{
+  margin-top:25px;
+  max-width:390px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.8;
+}
+
+.visual-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  color:var(--muted-2);
+  font-size:11px;
+}
+
+.status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 12px rgba(130,201,154,.55);
+}
+
+.version{
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+/* RIGHT */
+
+.login-panel{
+  min-height:680px;
+  padding:54px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  position:relative;
+}
+
+.panel-top{
+  display:flex;
+  justify-content:flex-end;
+  position:absolute;
+  top:30px;
+  right:30px;
+}
+
+.theme-button{
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:rgba(255,255,255,.025);
+  color:var(--muted);
+  transition:.2s ease;
+}
+
+.theme-button:hover{
+  color:var(--text);
+  border-color:rgba(216,179,106,.35);
+  transform:translateY(-1px);
+}
+
+.login-head{
+  margin-bottom:34px;
+}
+
+.login-label{
+  color:var(--accent);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+.login-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:36px;
+  line-height:1;
+  letter-spacing:-.05em;
+  font-weight:600;
+}
+
+.login-description{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+  margin-top:13px;
+  max-width:360px;
+}
+
+.form{
+  display:flex;
+  flex-direction:column;
+  gap:19px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.field label{
+  font-size:11px;
+  color:#b9bbc1;
+  font-weight:600;
+  letter-spacing:.04em;
+}
+
+.input-wrap{
+  position:relative;
+}
+
+.input{
+  width:100%;
+  height:54px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.028);
+  color:var(--text);
+  outline:none;
+  padding:0 15px;
+  transition:.2s ease;
+}
+
+.input:focus{
+  border-color:rgba(216,179,106,.6);
+  box-shadow:0 0 0 4px rgba(216,179,106,.07);
+}
+
+.input::placeholder{
+  color:#555861;
+}
+
+.password-toggle{
+  position:absolute;
+  right:10px;
+  top:7px;
+  height:40px;
+  padding:0 10px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.password-toggle:hover{
+  color:var(--accent-light);
+}
+
+.form-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-top:-3px;
+}
+
+.remember{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:11px;
+  cursor:pointer;
+}
+
+.remember input{
+  accent-color:var(--accent);
+}
+
+.session-note{
+  color:var(--muted-2);
+  font-size:10px;
+  text-align:right;
+}
+
+.submit{
+  width:100%;
+  height:55px;
+  border:1px solid rgba(216,179,106,.55);
+  border-radius:14px;
+  background:linear-gradient(
+    135deg,
+    #e0bd78,
+    #c79d51
+  );
+  color:#15120c;
+  font-weight:700;
+  font-size:13px;
+  letter-spacing:.02em;
+  transition:.25s ease;
+  box-shadow:0 15px 35px rgba(216,179,106,.12);
+}
+
+.submit:hover{
+  transform:translateY(-2px);
+  box-shadow:0 18px 42px rgba(216,179,106,.2);
+}
+
+.submit:active{
+  transform:translateY(0);
+}
+
+.submit.loading{
+  pointer-events:none;
+  opacity:.7;
+}
+
+.error{
+  display:none;
+  padding:12px 13px;
+  border:1px solid rgba(228,119,119,.25);
+  background:rgba(228,119,119,.07);
+  border-radius:12px;
+  color:#eaa0a0;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.error.show{
+  display:block;
+}
+
+.security-note{
+  margin-top:28px;
+  padding-top:22px;
+  border-top:1px solid var(--border-soft);
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.lock-icon{
+  width:30px;
+  height:30px;
+  flex:0 0 30px;
+  border-radius:9px;
+  border:1px solid rgba(216,179,106,.2);
+  display:grid;
+  place-items:center;
+  color:var(--accent);
+  font-size:12px;
+}
+
+.security-text{
+  color:var(--muted-2);
+  font-size:10px;
+  line-height:1.65;
+}
+
+.security-text strong{
+  display:block;
+  color:#a9abb1;
+  margin-bottom:3px;
+}
+
+/* LIGHT */
+
+html[data-theme="light"]{
+  --bg:#f1eee7;
+  --panel:#ffffff;
+  --panel-2:#f8f6f0;
+  --border:rgba(20,20,20,.1);
+  --border-soft:rgba(20,20,20,.065);
+  --text:#171716;
+  --muted:#686963;
+  --muted-2:#8a8a83;
+  --accent:#a8792e;
+  --accent-light:#8a621f;
+  --danger:#b34d4d;
+  --success:#39875a;
+  --shadow:0 30px 80px rgba(45,40,30,.14);
+}
+
+html[data-theme="light"] body{
+  background:
+    radial-gradient(circle at 15% 20%,rgba(168,121,46,.09),transparent 28%),
+    #f1eee7;
+}
+
+html[data-theme="light"] .shell{
+  background:rgba(255,255,255,.78);
+}
+
+html[data-theme="light"] .input{
+  background:rgba(20,20,20,.025);
+}
+
+html[data-theme="light"] .brand-mark{
+  background:rgba(168,121,46,.06);
+}
+
+html[data-theme="light"] .submit{
+  color:#fff;
+  background:linear-gradient(135deg,#b88a3d,#9b6d27);
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,20px);
+  padding:12px 17px;
+  border:1px solid var(--border);
+  background:#15171b;
+  color:#e9e8e4;
+  border-radius:12px;
+  font-size:11px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+  z-index:50;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:820px){
+
+  .page{
+    padding:18px;
+  }
+
+  .shell{
+    grid-template-columns:1fr;
+    max-width:560px;
+  }
+
+  .visual{
+    min-height:auto;
+    padding:34px;
+    border-right:0;
+    border-bottom:1px solid var(--border-soft);
+    gap:70px;
+  }
+
+  .visual h1{
+    font-size:48px;
+  }
+
+  .login-panel{
+    min-height:auto;
+    padding:38px 34px 42px;
+  }
+
+  .panel-top{
+    top:20px;
+    right:20px;
+  }
+}
+
+@media(max-width:520px){
+
+  .page{
+    padding:10px;
+  }
+
+  .shell{
+    border-radius:22px;
+  }
+
+  .visual{
+    padding:27px;
+    gap:55px;
+  }
+
+  .visual h1{
+    font-size:42px;
+  }
+
+  .visual-description{
+    font-size:13px;
+  }
+
+  .login-panel{
+    padding:32px 27px 34px;
+  }
+
+  .login-title{
+    font-size:31px;
+  }
+
+  .form-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .session-note{
+    text-align:left;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <main class="page">
+<main class="page">
 
-    <!-- HEADER -->
+  <section class="shell">
 
-    <header class="top">
+    <!-- VISUAL -->
+    <aside class="visual">
 
       <div class="brand">
+        <div class="brand-mark">NU</div>
 
-        <div class="brand-mark">
-          NU
+        <div class="brand-copy">
+          <div class="brand-name">Nusrat Afsana Usha</div>
+          <div class="brand-sub">Portfolio System</div>
         </div>
-
-        <div>
-          <strong>Nusrat Afsana</strong>
-          <span>Portfolio Administration</span>
-        </div>
-
       </div>
 
-      <button
-        class="theme-button"
-        id="themeToggle"
-        aria-label="Toggle theme"
-        title="Toggle theme"
-      >
-        ◐
-      </button>
-
-    </header>
-
-    <!-- LOGIN CARD -->
-
-    <section class="card">
-
-      <div class="card-top"></div>
-
-      <div class="card-inner">
-
-        <div class="access-icon">
-          ⌑
-        </div>
+      <div class="visual-content">
 
         <div class="eyebrow">
           Restricted Access
         </div>
 
         <h1>
-          Private<br>
-          Access
+          Quiet control.<br>
+          <span>Precise execution.</span>
         </h1>
 
-        <p class="intro">
-          Sign in with an authorized account to continue
-          to the protected control workspace.
+        <p class="visual-description">
+          A protected workspace for managing the portfolio,
+          system configuration and administrative controls.
         </p>
 
-        <form class="form" id="loginForm">
+      </div>
 
-          <div class="field">
+      <div class="visual-footer">
 
-            <label for="username">
-              Account
-            </label>
+        <div class="status">
+          <span class="status-dot"></span>
+          <span>System operational</span>
+        </div>
 
-            <div class="input-wrap">
+        <div class="version">
+          Secure Area
+        </div>
 
-              <input
-                class="input"
-                id="username"
-                name="username"
-                type="text"
-                autocomplete="username"
-                placeholder="Enter account"
-                required
-              >
+      </div>
 
-            </div>
+    </aside>
 
-          </div>
 
-          <div class="field">
+    <!-- LOGIN -->
+    <section class="login-panel">
 
-            <label for="password">
-              Password
-            </label>
+      <div class="panel-top">
+        <button
+          class="theme-button"
+          id="themeButton"
+          type="button"
+          aria-label="Toggle theme">
+          ◐
+        </button>
+      </div>
 
-            <div class="input-wrap">
+      <div class="login-head">
 
-              <input
-                class="input password-input"
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="current-password"
-                placeholder="Enter password"
-                required
-              >
+        <div class="login-label">
+          Restricted Access
+        </div>
 
-              <button
-                type="button"
-                class="show-password"
-                id="showPassword"
-                aria-label="Show password"
-              >
-                ◉
-              </button>
+        <h2 class="login-title">
+          Sign in securely
+        </h2>
 
-            </div>
+        <p class="login-description">
+          Enter your authorized credentials to continue.
+        </p>
 
-          </div>
+      </div>
 
-          <div class="form-options">
 
-            <label class="remember">
+      <form class="form" id="loginForm" autocomplete="off">
 
-              <input
-                type="checkbox"
-                id="remember"
-              >
+        <div class="field">
 
-              <span>
-                Keep me signed in
-              </span>
+          <label for="username">
+            Username
+          </label>
 
-            </label>
-
-            <span class="session-note">
-              Protected session
-            </span>
-
-          </div>
-
-          <button
-            class="login-button"
-            id="loginButton"
-            type="submit"
+          <input
+            class="input"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter username"
+            autocomplete="username"
+            spellcheck="false"
+            required
           >
-            Continue Securely
-          </button>
 
-          <div
-            class="error"
-            id="errorMessage"
-          ></div>
+        </div>
 
-        </form>
 
-        <div class="security">
+        <div class="field">
 
-          <span class="security-dot"></span>
+          <label for="password">
+            Password
+          </label>
 
-          <p>
-            This area is intended for authorized administration only.
-            Session access is automatically expired for security.
-          </p>
+          <div class="input-wrap">
+
+            <input
+              class="input"
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter password"
+              autocomplete="current-password"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="passwordToggle">
+              Show
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-row">
+
+          <label class="remember">
+            <input
+              type="checkbox"
+              id="remember">
+            <span>Keep me signed in</span>
+          </label>
+
+          <span class="session-note">
+            Protected session
+          </span>
+
+        </div>
+
+
+        <div class="error" id="errorMessage">
+          Invalid credentials. Please verify your username and password.
+        </div>
+
+
+        <button
+          class="submit"
+          id="submitButton"
+          type="submit">
+          Continue
+        </button>
+
+      </form>
+
+
+      <div class="security-note">
+
+        <div class="lock-icon">
+          ⌑
+        </div>
+
+        <div class="security-text">
+
+          <strong>Protected workspace</strong>
+
+          Access is limited to authorized accounts.
+          Your session will automatically expire for security.
 
         </div>
 
@@ -723,435 +810,419 @@
 
     </section>
 
-    <footer class="footer">
+  </section>
 
-      <span>
-        © 2026 Nusrat Afsana Usha
-      </span>
+</main>
 
-      <span>
-        Secure Workspace
-      </span>
 
-    </footer>
+<div class="toast" id="toast">
+  Session created successfully.
+</div>
 
-  </main>
-
-  <div
-    class="toast"
-    id="toast"
-  >
-    Session created.
-  </div>
 
 <script>
-(() => {
+"use strict";
 
-  "use strict";
+/* =========================================================
+   MASTER ACCESS CONFIG
+   ========================================================= */
 
-  /* =====================================
-     CONFIGURATION
-  ===================================== */
+const MASTER_SESSION_KEY = "nusrat_master_session_v1";
+const MASTER_REMEMBER_KEY = "nusrat_master_remember_v1";
+const THEME_KEY = "nusrat_admin_theme";
 
-  const MASTER_SESSION_KEY =
-    "nusrat_master_session_v1";
+const DEMO_USERNAME = "master";
+const DEMO_PASSWORD = "SNK@Master2026!";
 
-  const MASTER_REMEMBER_KEY =
-    "nusrat_master_remember_v1";
+const SESSION_TIME = 60 * 60 * 1000;
+const REMEMBER_TIME = 7 * 24 * 60 * 60 * 1000;
 
-  const THEME_KEY =
-    "nusrat_admin_theme";
 
-  /*
-    Demo-only credentials.
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
 
-    Production:
-    NEVER keep authentication credentials
-    inside frontend JavaScript.
-  */
+const html = document.documentElement;
 
-  const DEMO_USERNAME =
-    "master";
+const form = document.getElementById("loginForm");
+const username = document.getElementById("username");
+const password = document.getElementById("password");
+const remember = document.getElementById("remember");
 
-  const DEMO_PASSWORD =
-    "SNK@Master2026!";
+const errorMessage = document.getElementById("errorMessage");
+const submitButton = document.getElementById("submitButton");
 
-  const SESSION_MINUTES =
-    60;
+const passwordToggle = document.getElementById("passwordToggle");
+const themeButton = document.getElementById("themeButton");
+const toast = document.getElementById("toast");
 
-  /* =====================================
-     ELEMENTS
-  ===================================== */
 
-  const form =
-    document.getElementById(
-      "loginForm"
-    );
+/* =========================================================
+   SAFE STORAGE
+   ========================================================= */
 
-  const username =
-    document.getElementById(
-      "username"
-    );
-
-  const password =
-    document.getElementById(
-      "password"
-    );
-
-  const remember =
-    document.getElementById(
-      "remember"
-    );
-
-  const loginButton =
-    document.getElementById(
-      "loginButton"
-    );
-
-  const errorMessage =
-    document.getElementById(
-      "errorMessage"
-    );
-
-  const showPassword =
-    document.getElementById(
-      "showPassword"
-    );
-
-  const themeToggle =
-    document.getElementById(
-      "themeToggle"
-    );
-
-  const toast =
-    document.getElementById(
-      "toast"
-    );
-
-  /* =====================================
-     THEME
-  ===================================== */
-
-  const savedTheme =
-    localStorage.getItem(
-      THEME_KEY
-    ) || "dark";
-
-  document.documentElement.dataset.theme =
-    savedTheme;
-
-  themeToggle.addEventListener(
-    "click",
-    () => {
-
-      const current =
-        document.documentElement
-          .dataset.theme || "dark";
-
-      const next =
-        current === "dark"
-          ? "light"
-          : "dark";
-
-      document.documentElement.dataset.theme =
-        next;
-
-      localStorage.setItem(
-        THEME_KEY,
-        next
-      );
-
-    }
-  );
-
-  /* =====================================
-     REMEMBERED ACCOUNT
-  ===================================== */
-
+function getStorage(key){
   try{
-
-    const saved =
-      localStorage.getItem(
-        MASTER_REMEMBER_KEY
-      );
-
-    if(saved){
-
-      const data =
-        JSON.parse(saved);
-
-      if(data.username){
-
-        username.value =
-          data.username;
-
-        remember.checked =
-          true;
-
-      }
-
-    }
-
-  }catch{}
-
-  /* =====================================
-     SHOW PASSWORD
-  ===================================== */
-
-  showPassword.addEventListener(
-    "click",
-    () => {
-
-      const visible =
-        password.type === "text";
-
-      password.type =
-        visible
-          ? "password"
-          : "text";
-
-      showPassword.textContent =
-        visible
-          ? "◉"
-          : "○";
-
-    }
-  );
-
-  /* =====================================
-     ERROR
-  ===================================== */
-
-  function showError(message){
-
-    errorMessage.textContent =
-      message;
-
-    errorMessage.classList.add(
-      "show"
-    );
-
+    return localStorage.getItem(key);
+  }catch(error){
+    return null;
   }
+}
 
-  function clearError(){
+function setStorage(key,value){
+  try{
+    localStorage.setItem(key,value);
+  }catch(error){}
+}
 
-    errorMessage.textContent =
-      "";
+function removeStorage(key){
+  try{
+    localStorage.removeItem(key);
+  }catch(error){}
+}
 
-    errorMessage.classList.remove(
-      "show"
-    );
 
-  }
+/* =========================================================
+   THEME
+   ========================================================= */
 
-  /* =====================================
-     TOAST
-  ===================================== */
+function applyTheme(theme){
 
-  let toastTimer;
+  const selected =
+    theme === "light" ? "light" : "dark";
 
-  function showToast(message){
+  html.dataset.theme = selected;
 
-    toast.textContent =
-      message;
+  setStorage(THEME_KEY,selected);
 
-    toast.classList.add(
-      "show"
-    );
+  themeButton.textContent =
+    selected === "dark" ? "☼" : "◐";
+}
 
-    clearTimeout(toastTimer);
+const savedTheme = getStorage(THEME_KEY) || "dark";
 
-    toastTimer =
-      setTimeout(
-        () => {
-          toast.classList.remove(
-            "show"
-          );
-        },
-        2200
-      );
+applyTheme(savedTheme);
 
-  }
+themeButton.addEventListener("click",()=>{
 
-  /* =====================================
-     CREATE SESSION
-  ===================================== */
+  const current =
+    html.dataset.theme === "dark"
+      ? "light"
+      : "dark";
 
-  function createSession(){
+  applyTheme(current);
 
-    const duration =
-      remember.checked
-        ? 7 * 24 * 60
-        : SESSION_MINUTES;
+});
 
-    const now =
-      Date.now();
 
-    const session = {
+/* =========================================================
+   SESSION HELPERS
+   ========================================================= */
 
-      loggedIn:true,
-
-      role:"master",
-
-      username:
-        username.value.trim(),
-
-      createdAt:
-        new Date(now).toISOString(),
-
-      expiresAt:
-        now +
-        duration *
-        60 *
-        1000
-
-    };
-
-    localStorage.setItem(
-      MASTER_SESSION_KEY,
-      JSON.stringify(session)
-    );
-
-    if(remember.checked){
-
-      localStorage.setItem(
-        MASTER_REMEMBER_KEY,
-        JSON.stringify({
-          username:
-            username.value.trim()
-        })
-      );
-
-    }else{
-
-      localStorage.removeItem(
-        MASTER_REMEMBER_KEY
-      );
-
-    }
-
-    return session;
-
-  }
-
-  /* =====================================
-     LOGIN
-  ===================================== */
-
-  form.addEventListener(
-    "submit",
-    event => {
-
-      event.preventDefault();
-
-      clearError();
-
-      const user =
-        username.value.trim();
-
-      const pass =
-        password.value;
-
-      if(!user || !pass){
-
-        showError(
-          "Please enter both account and password."
-        );
-
-        return;
-
-      }
-
-      loginButton.classList.add(
-        "loading"
-      );
-
-      loginButton.textContent =
-        "Verifying…";
-
-      setTimeout(
-        () => {
-
-          if(
-            user === DEMO_USERNAME &&
-            pass === DEMO_PASSWORD
-          ){
-
-            createSession();
-
-            showToast(
-              "Access verified. Opening control panel…"
-            );
-
-            setTimeout(
-              () => {
-
-                window.location.replace(
-                  "./index.html"
-                );
-
-              },
-              600
-            );
-
-            return;
-
-          }
-
-          loginButton.classList.remove(
-            "loading"
-          );
-
-          loginButton.textContent =
-            "Continue Securely";
-
-          showError(
-            "The account or password is not valid."
-          );
-
-        },
-        450
-      );
-
-    }
-  );
-
-  /* =====================================
-     IF ALREADY AUTHENTICATED
-  ===================================== */
+function readMasterSession(){
 
   try{
 
     const raw =
-      localStorage.getItem(
-        MASTER_SESSION_KEY
+      getStorage(MASTER_SESSION_KEY);
+
+    if(!raw){
+      return null;
+    }
+
+    const session =
+      JSON.parse(raw);
+
+    if(
+      !session ||
+      session.loggedIn !== true ||
+      session.role !== "master"
+    ){
+      return null;
+    }
+
+    if(
+      !session.expiresAt ||
+      Date.now() >= Number(session.expiresAt)
+    ){
+      removeStorage(MASTER_SESSION_KEY);
+      return null;
+    }
+
+    return session;
+
+  }catch(error){
+
+    removeStorage(MASTER_SESSION_KEY);
+
+    return null;
+  }
+}
+
+
+function createMasterSession(){
+
+  const duration =
+    remember.checked
+      ? REMEMBER_TIME
+      : SESSION_TIME;
+
+  const session = {
+
+    loggedIn:true,
+
+    role:"master",
+
+    username:DEMO_USERNAME,
+
+    createdAt:Date.now(),
+
+    expiresAt:
+      Date.now() + duration
+
+  };
+
+  setStorage(
+    MASTER_SESSION_KEY,
+    JSON.stringify(session)
+  );
+
+  if(remember.checked){
+
+    setStorage(
+      MASTER_REMEMBER_KEY,
+      "true"
+    );
+
+  }else{
+
+    removeStorage(MASTER_REMEMBER_KEY);
+
+  }
+
+  return session;
+}
+
+
+/* =========================================================
+   EXISTING SESSION CHECK
+   ========================================================= */
+
+(function(){
+
+  const existing =
+    readMasterSession();
+
+  if(existing){
+
+    window.location.replace("./index.html");
+
+  }
+
+})();
+
+
+/* =========================================================
+   PASSWORD VISIBILITY
+   ========================================================= */
+
+passwordToggle.addEventListener("click",()=>{
+
+  const isPassword =
+    password.type === "password";
+
+  password.type =
+    isPassword ? "text" : "password";
+
+  passwordToggle.textContent =
+    isPassword ? "Hide" : "Show";
+
+});
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function showError(message){
+
+  errorMessage.textContent =
+    message;
+
+  errorMessage.classList.add("show");
+
+}
+
+function clearError(){
+
+  errorMessage.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },2500);
+}
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+form.addEventListener("submit",(event)=>{
+
+  event.preventDefault();
+
+  clearError();
+
+  const user =
+    username.value.trim();
+
+  const pass =
+    password.value;
+
+  if(!user || !pass){
+
+    showError(
+      "Please enter your username and password."
+    );
+
+    return;
+  }
+
+
+  submitButton.classList.add("loading");
+
+  submitButton.textContent =
+    "Verifying…";
+
+
+  setTimeout(()=>{
+
+    if(
+      user === DEMO_USERNAME &&
+      pass === DEMO_PASSWORD
+    ){
+
+      createMasterSession();
+
+      showToast(
+        "Access verified. Opening workspace…"
       );
 
-    if(raw){
-
-      const session =
-        JSON.parse(raw);
-
-      if(
-        session &&
-        session.loggedIn &&
-        session.role === "master" &&
-        (!session.expiresAt ||
-          Date.now() <
-          session.expiresAt)
-      ){
+      setTimeout(()=>{
 
         window.location.replace(
           "./index.html"
         );
 
-      }
+      },450);
+
+      return;
+    }
+
+
+    submitButton.classList.remove("loading");
+
+    submitButton.textContent =
+      "Continue";
+
+    showError(
+      "Invalid credentials. Please verify your username and password."
+    );
+
+    password.value = "";
+
+    password.focus();
+
+  },500);
+
+});
+
+
+/* =========================================================
+   SESSION EXPIRY WATCHER
+   ========================================================= */
+
+setInterval(()=>{
+
+  const session =
+    readMasterSession();
+
+  if(!session){
+    return;
+  }
+
+  if(
+    Date.now() >=
+    Number(session.expiresAt)
+  ){
+
+    removeStorage(
+      MASTER_SESSION_KEY
+    );
+
+    window.location.reload();
+
+  }
+
+},30000);
+
+
+/* =========================================================
+   ESCAPE
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  (event)=>{
+
+    if(event.key === "Escape"){
+
+      password.value = "";
+
+      username.focus();
 
     }
 
-  }catch{}
+  }
+);
 
-})();
+
+/* =========================================================
+   DEVTOOLS / PRODUCTION NOTE
+   ========================================================= */
+
+/*
+  IMPORTANT:
+
+  This frontend login is suitable for demo/UI development.
+
+  For production deployment:
+
+  - Use Firebase Authentication / Supabase Auth
+    / secure backend authentication.
+  - Store the master role server-side.
+  - Never rely on localStorage credentials for real security.
+  - Protect /admin/master/ with backend role checks.
+  - Do not expose master credentials in public source code.
+*/
 </script>
 
 </body>
