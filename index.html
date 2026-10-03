@@ -1,72 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Nusrat Afsana Usha — UX/UI Designer</title>
 
   <meta
     name="description"
-    content="Nusrat Afsana Usha is a UX/UI Designer focused on thoughtful digital experiences, interface design, research, prototyping and visual clarity."
+    content="Nusrat Afsana Usha is a UX/UI Designer based in Dhaka, Bangladesh, focused on thoughtful interfaces, user experiences, research, prototyping and digital product design."
   >
+  <meta name="author" content="Nusrat Afsana Usha">
+  <meta name="theme-color" content="#101010">
 
-  <meta
-    name="author"
-    content="Nusrat Afsana Usha"
-  >
-
-  <meta
-    name="theme-color"
-    content="#11110f"
-  >
-
-  <meta
-    property="og:title"
-    content="Nusrat Afsana Usha — UX/UI Designer"
-  >
-
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nusrat Afsana Usha — UX/UI Designer">
   <meta
     property="og:description"
-    content="Designing clarity into digital experiences."
+    content="UX/UI Designer focused on clear, thoughtful and human-centered digital experiences."
   >
-
-  <meta
-    property="og:type"
-    content="website"
-  >
-
   <meta
     property="og:image"
     content="https://shahneilkhan.github.io/nusratafsanausha.github.io/nusrat-afsana-photo.jpg"
-  >
-
-  <meta
-    property="og:url"
-    content="https://shahneilkhan.github.io/nusratafsanausha.github.io/"
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@10..48,300;10..48,400;10..48,500;10..48,600;10..48,700&family=Instrument+Sans:wght@400;500;600&display=swap"
     rel="stylesheet"
   >
 
-  <link
-    rel="stylesheet"
-    href="./style.css"
-  >
-
-  <link
-    rel="icon"
-    href="./nusrat-afsana-photo.jpg"
-  >
+  <link rel="stylesheet" href="./style.css">
 
   <script type="application/ld+json">
   {
@@ -79,77 +45,50 @@
       "addressLocality": "Dhaka",
       "addressCountry": "Bangladesh"
     },
-    "email": "mailto:nusrat.afsana1992@gmail.com",
-    "url": "https://shahneilkhan.github.io/nusratafsanausha.github.io/"
+    "email": "mailto:nusrat.afsana1992@gmail.com"
   }
   </script>
 </head>
 
 <body>
 
-  <!-- =========================================
+  <!-- =========================================================
        PAGE LOADER
-  ========================================== -->
-
-  <div
-    class="page-loader"
-    id="pageLoader"
-    aria-hidden="true"
-  >
+  ========================================================== -->
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
     <div class="loader-inner">
-      <span>NU</span>
-      <div class="loader-line">
-        <i></i>
-      </div>
+      <span class="loader-mark">NU</span>
+      <span class="loader-line"></span>
     </div>
   </div>
 
 
-  <!-- =========================================
+  <!-- =========================================================
        SCROLL PROGRESS
-  ========================================== -->
-
-  <div
-    class="progress-bar"
-    id="progressBar"
-    aria-hidden="true"
-  ></div>
+  ========================================================== -->
+  <div class="progress-bar" id="progressBar"></div>
 
 
-  <!-- =========================================
+  <!-- =========================================================
        CUSTOM CURSOR
-  ========================================== -->
-
-  <div
-    class="cursor"
-    id="cursor"
-    aria-hidden="true"
-  ></div>
-
-  <div
-    class="cursor-dot"
-    id="cursorDot"
-    aria-hidden="true"
-  ></div>
+  ========================================================== -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
 
 
-  <!-- =========================================
+  <!-- =========================================================
        HEADER
-  ========================================== -->
-
-  <header
-    class="site-header"
-    id="siteHeader"
-  >
+  ========================================================== -->
+  <header class="site-header" id="siteHeader">
 
     <div class="header-inner">
 
       <a
         href="#home"
         class="brand"
-        aria-label="Nusrat Afsana Usha — Home"
+        aria-label="Nusrat Afsana Usha home"
       >
-        <span class="brand-mark">NU</span>
+        <span class="brand-monogram">NU</span>
 
         <span class="brand-copy">
           <strong>Nusrat Afsana Usha</strong>
@@ -158,16 +97,18 @@
       </a>
 
 
-      <nav
-        class="main-nav"
-        aria-label="Primary navigation"
-      >
+      <nav class="main-nav" aria-label="Primary navigation">
 
         <a href="#home" class="active">Home</a>
+
         <a href="#services">Services</a>
+
         <a href="#work">Work</a>
+
         <a href="#about">About</a>
+
         <a href="#experience">Experience</a>
+
         <a href="#contact">Contact</a>
 
       </nav>
@@ -181,12 +122,7 @@
           type="button"
           aria-label="Toggle color theme"
         >
-          <span
-            data-theme-icon
-            aria-hidden="true"
-          >
-            ◐
-          </span>
+          <span data-theme-icon>◐</span>
         </button>
 
         <a
@@ -202,6 +138,7 @@
           type="button"
           aria-label="Open navigation"
           aria-expanded="false"
+          aria-controls="mobileMenu"
         >
           <span></span>
           <span></span>
@@ -211,92 +148,65 @@
 
     </div>
 
-  </header>
 
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
 
-  <!-- =========================================
-       MOBILE MENU
-  ========================================== -->
-
-  <div
-    class="mobile-menu"
-    id="mobileMenu"
-    aria-hidden="true"
-  >
-
-    <div class="mobile-menu-inner">
-
-      <div class="mobile-menu-top">
-        <span>Navigation</span>
-        <span>NU / 01</span>
-      </div>
-
-      <nav class="mobile-nav">
+      <nav aria-label="Mobile navigation">
 
         <a href="#home">
           <span>01</span>
-          <strong>Home</strong>
+          Home
         </a>
 
         <a href="#services">
           <span>02</span>
-          <strong>Services</strong>
+          Services
         </a>
 
         <a href="#work">
           <span>03</span>
-          <strong>Selected Work</strong>
+          Selected Work
         </a>
 
         <a href="#about">
           <span>04</span>
-          <strong>About</strong>
+          About
         </a>
 
         <a href="#experience">
           <span>05</span>
-          <strong>Experience</strong>
+          Experience
+        </a>
+
+        <a href="#skills">
+          <span>06</span>
+          Skills
         </a>
 
         <a href="#contact">
-          <span>06</span>
-          <strong>Contact</strong>
+          <span>07</span>
+          Contact
         </a>
 
       </nav>
 
-      <div class="mobile-menu-footer">
-        <span>Dhaka, Bangladesh</span>
-        <a href="mailto:nusrat.afsana1992@gmail.com">
-          nusrat.afsana1992@gmail.com
-        </a>
-      </div>
-
     </div>
 
-  </div>
+  </header>
 
 
-  <!-- =========================================
+  <!-- =========================================================
        SECTION RAIL
-  ========================================== -->
+  ========================================================== -->
+  <aside class="section-rail" aria-hidden="true">
 
-  <aside
-    class="section-rail"
-    aria-hidden="true"
-  >
-
-    <div class="section-counter">
-      <span id="sectionCounter">01</span>
-      <i></i>
-      <span>10</span>
+    <div class="section-counter" id="sectionCounter">
+      01 / 10
     </div>
 
-    <div
-      class="section-label"
-      id="sectionLabel"
-    >
-      Introduction
+    <div class="section-label" id="sectionLabel">
+      Home
     </div>
 
   </aside>
@@ -305,26 +215,24 @@
   <main>
 
 
-    <!-- =========================================
+    <!-- =======================================================
          HERO
-    ========================================== -->
-
+    ======================================================== -->
     <section
-      class="hero section-dark"
+      class="hero"
       id="home"
-      data-section="Introduction"
+      data-section="Home"
     >
-
-      <div class="hero-noise"></div>
 
       <div class="hero-grid">
 
-        <!-- LEFT -->
-        <div class="hero-content">
 
-          <div class="eyebrow reveal">
+        <!-- HERO CONTENT -->
+        <div class="hero-content reveal">
 
-            <span class="eyebrow-dot"></span>
+          <div class="eyebrow">
+
+            <span class="eyebrow-line"></span>
 
             <span>
               Available for selected projects
@@ -333,52 +241,48 @@
           </div>
 
 
-          <div class="hero-kicker reveal">
-
-            <span>UX / UI DESIGNER</span>
-
-            <span class="hero-kicker-line"></span>
-
-            <span>Dhaka, Bangladesh</span>
-
-          </div>
+          <p class="hero-kicker">
+            UX / UI Designer
+            <span>·</span>
+            Dhaka, Bangladesh
+          </p>
 
 
-          <h1 class="hero-title reveal">
+          <h1 class="hero-title">
 
             Designing
-            <span class="hero-title-outline">
+            <span class="hero-title-accent">
               clarity
             </span>
 
             into digital
-            <em>experiences.</em>
+            experiences.
 
           </h1>
 
 
-          <p class="hero-description reveal">
+          <p class="hero-description">
 
-            I design thoughtful digital interfaces and user
-            experiences where structure, simplicity and visual
-            intention work together.
+            I design thoughtful interfaces and user experiences
+            that make digital products easier to understand,
+            easier to use, and more meaningful to people.
 
           </p>
 
 
-          <div class="hero-actions reveal">
+          <div class="hero-actions">
 
             <a
               href="#work"
               class="button button-primary magnetic"
             >
               <span>Explore selected work</span>
-              <i>↗</i>
+              <span class="button-arrow">↗</span>
             </a>
 
             <a
               href="#contact"
-              class="button button-text magnetic"
+              class="button button-text"
             >
               Start a conversation
               <span>→</span>
@@ -387,21 +291,39 @@
           </div>
 
 
-          <div class="hero-meta reveal">
+          <div class="hero-meta">
 
-            <div>
-              <span>Focus</span>
-              <strong>UX / UI Design</strong>
+            <div class="hero-meta-item">
+
+              <span class="meta-number">01</span>
+
+              <span>
+                UX / UI<br>
+                Design
+              </span>
+
             </div>
 
-            <div>
-              <span>Based in</span>
-              <strong>Dhaka, Bangladesh</strong>
+            <div class="hero-meta-item">
+
+              <span class="meta-number">02</span>
+
+              <span>
+                Dhaka<br>
+                Bangladesh
+              </span>
+
             </div>
 
-            <div>
-              <span>Currently</span>
-              <strong>MA UX Design · 2026–27</strong>
+            <div class="hero-meta-item">
+
+              <span class="meta-number">03</span>
+
+              <span>
+                MA UX Design<br>
+                2026 — 27
+              </span>
+
             </div>
 
           </div>
@@ -409,11 +331,16 @@
         </div>
 
 
-        <!-- RIGHT -->
-        <div class="hero-visual">
+        <!-- ===================================================
+             HERO IMAGE
+             
+             IMPORTANT:
+             There is intentionally NO TEXT,
+             BADGE, CARD, LABEL or OVERLAY
+             over Nusrat's photo.
+        ==================================================== -->
 
-          <div class="hero-orbit orbit-one"></div>
-          <div class="hero-orbit orbit-two"></div>
+        <div class="hero-visual">
 
           <div class="hero-image-wrap">
 
@@ -427,53 +354,8 @@
                 decoding="async"
               >
 
-              <div class="image-overlay"></div>
-
-              <div class="image-index">
-                <span>PORTRAIT</span>
-                <span>01 / 01</span>
-              </div>
-
             </div>
 
-
-            <div class="floating-card floating-card-top">
-
-              <span class="floating-label">
-                DESIGN APPROACH
-              </span>
-
-              <strong>
-                Clear
-                <br>
-                purposeful
-                <br>
-                human.
-              </strong>
-
-            </div>
-
-
-            <div class="floating-card floating-card-bottom">
-
-              <div class="mini-circle">
-                <span>NU</span>
-              </div>
-
-              <div>
-                <span>UX / UI</span>
-                <strong>Designer</strong>
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <div class="hero-side-note">
-            <span>01</span>
-            <i></i>
-            <span>Selected perspective</span>
           </div>
 
         </div>
@@ -484,46 +366,49 @@
       <div class="hero-bottom">
 
         <div class="hero-scroll">
+
           <span>Scroll to explore</span>
-          <i></i>
+
+          <span class="scroll-line"></span>
+
         </div>
 
-        <div class="hero-location">
-          Dhaka · Bangladesh
-        </div>
+        <span class="hero-location">
+          23°48′N / 90°24′E
+        </span>
 
       </div>
 
     </section>
 
 
-    <!-- =========================================
-         MARQUEE
-    ========================================== -->
 
-    <section
-      class="marquee-section"
-      aria-label="Design disciplines"
-    >
+    <!-- =======================================================
+         MARQUEE
+    ======================================================== -->
+    <section class="marquee-section" aria-hidden="true">
 
       <div class="marquee-track">
 
-        <span>USER EXPERIENCE</span>
+        <span>UX DESIGN</span>
         <i>✦</i>
-        <span>INTERFACE DESIGN</span>
+
+        <span>UI DESIGN</span>
         <i>✦</i>
-        <span>PROTOTYPING</span>
-        <i>✦</i>
+
         <span>USER RESEARCH</span>
         <i>✦</i>
 
-        <span>USER EXPERIENCE</span>
-        <i>✦</i>
-        <span>INTERFACE DESIGN</span>
-        <i>✦</i>
         <span>PROTOTYPING</span>
         <i>✦</i>
-        <span>USER RESEARCH</span>
+
+        <span>PRODUCT THINKING</span>
+        <i>✦</i>
+
+        <span>UX DESIGN</span>
+        <i>✦</i>
+
+        <span>UI DESIGN</span>
         <i>✦</i>
 
       </div>
@@ -531,34 +416,35 @@
     </section>
 
 
-    <!-- =========================================
-         SERVICES
-    ========================================== -->
 
+    <!-- =======================================================
+         SERVICES
+    ======================================================== -->
     <section
       class="section services-section"
       id="services"
-      data-section="Capabilities"
+      data-section="Services"
     >
 
       <div class="container">
 
-        <div class="section-intro reveal">
+        <div class="section-heading reveal">
 
-          <div class="section-number">
-            02
+          <div class="section-index">
+            01 — Services
           </div>
 
-          <div>
-            <span class="section-eyebrow">
-              What I do
-            </span>
+          <div class="section-heading-content">
 
-            <h2 class="section-title">
-              Turning complex
-              <em>ideas</em> into
-              clear experiences.
+            <p class="section-overline">
+              What I do
+            </p>
+
+            <h2>
+              Turning complex ideas
+              into <em>clear experiences.</em>
             </h2>
+
           </div>
 
         </div>
@@ -574,20 +460,24 @@
             </div>
 
             <div class="service-icon">
-              <span>⌁</span>
+              ◌
             </div>
 
-            <h3>UX Strategy</h3>
+            <h3>
+              UX Strategy
+            </h3>
 
             <p>
-              Understanding users, goals and product context
-              before moving into interface decisions.
+              Understanding users, business needs and product
+              goals before designing the experience.
             </p>
 
             <div class="service-tags">
-              <span>User flows</span>
-              <span>Research</span>
-              <span>IA</span>
+
+              <span>User Research</span>
+              <span>UX Strategy</span>
+              <span>Information Architecture</span>
+
             </div>
 
           </article>
@@ -600,20 +490,24 @@
             </div>
 
             <div class="service-icon">
-              <span>□</span>
+              □
             </div>
 
-            <h3>Interface Design</h3>
+            <h3>
+              Interface Design
+            </h3>
 
             <p>
-              Building refined interfaces with strong hierarchy,
-              visual rhythm and purposeful interaction.
+              Designing clean, intuitive and visually coherent
+              interfaces across web and digital products.
             </p>
 
             <div class="service-tags">
-              <span>UI systems</span>
-              <span>Visual design</span>
-              <span>Responsive</span>
+
+              <span>UI Design</span>
+              <span>Visual Design</span>
+              <span>Design Systems</span>
+
             </div>
 
           </article>
@@ -626,20 +520,24 @@
             </div>
 
             <div class="service-icon">
-              <span>↗</span>
+              ◇
             </div>
 
-            <h3>Prototyping</h3>
+            <h3>
+              Prototyping
+            </h3>
 
             <p>
-              Turning concepts into interactive prototypes that
-              make ideas tangible and easier to evaluate.
+              Transforming ideas into interactive prototypes
+              that make product decisions easier to evaluate.
             </p>
 
             <div class="service-tags">
+
               <span>Figma</span>
-              <span>Interaction</span>
-              <span>Testing</span>
+              <span>Wireframes</span>
+              <span>Interaction Design</span>
+
             </div>
 
           </article>
@@ -652,24 +550,27 @@
             </div>
 
             <div class="service-icon">
-              <span>◌</span>
+              ⌁
             </div>
 
-            <h3>UX Research</h3>
+            <h3>
+              UX Research
+            </h3>
 
             <p>
-              Exploring user needs, behaviours and usability
-              opportunities to inform better design decisions.
+              Exploring user needs, identifying usability issues
+              and turning observations into design direction.
             </p>
 
             <div class="service-tags">
-              <span>Interviews</span>
+
               <span>Usability</span>
-              <span>Insights</span>
+              <span>Research</span>
+              <span>Testing</span>
+
             </div>
 
           </article>
-
 
         </div>
 
@@ -678,34 +579,33 @@
     </section>
 
 
-    <!-- =========================================
-         THINKING / PROCESS
-    ========================================== -->
 
+    <!-- =======================================================
+         THINKING / PROCESS
+    ======================================================== -->
     <section
-      class="section thinking-section section-dark"
+      class="section thinking-section"
       id="thinking"
       data-section="Process"
     >
 
       <div class="container">
 
-        <div class="thinking-header reveal">
+        <div class="section-heading reveal">
 
-          <div class="section-number">
-            03
+          <div class="section-index">
+            02 — Process
           </div>
 
-          <div>
+          <div class="section-heading-content">
 
-            <span class="section-eyebrow">
+            <p class="section-overline">
               How I think
-            </span>
+            </p>
 
-            <h2 class="section-title">
-              Good design begins
-              <br>
-              <em>before</em> the pixels.
+            <h2>
+              Good design starts
+              <em>before the pixels.</em>
             </h2>
 
           </div>
@@ -718,88 +618,122 @@
 
           <div class="process-item reveal">
 
-            <span class="process-index">01</span>
+            <div class="process-number">
+              01
+            </div>
 
             <div class="process-main">
+
               <h3>Discover</h3>
+
               <p>
-                Understand the context, users, goals and
-                constraints surrounding the problem.
+                Understand the people, context, problem and
+                opportunity behind the product.
               </p>
+
             </div>
 
-            <span class="process-arrow">↗</span>
+            <div class="process-symbol">
+              +
+            </div>
 
           </div>
 
 
           <div class="process-item reveal">
 
-            <span class="process-index">02</span>
+            <div class="process-number">
+              02
+            </div>
 
             <div class="process-main">
+
               <h3>Define</h3>
+
               <p>
-                Turn observations into a focused design
-                direction and meaningful problem statement.
+                Turn observations and requirements into a
+                focused design problem.
               </p>
+
             </div>
 
-            <span class="process-arrow">↗</span>
+            <div class="process-symbol">
+              +
+            </div>
 
           </div>
 
 
           <div class="process-item reveal">
 
-            <span class="process-index">03</span>
+            <div class="process-number">
+              03
+            </div>
 
             <div class="process-main">
+
               <h3>Structure</h3>
+
               <p>
-                Organise information, flows and interactions
-                so the experience feels natural.
+                Organize information, flows and interactions
+                into a logical experience.
               </p>
+
             </div>
 
-            <span class="process-arrow">↗</span>
+            <div class="process-symbol">
+              +
+            </div>
 
           </div>
 
 
           <div class="process-item reveal">
 
-            <span class="process-index">04</span>
+            <div class="process-number">
+              04
+            </div>
 
             <div class="process-main">
+
               <h3>Design</h3>
+
               <p>
-                Translate the strategy into a visual language
-                that is clear, consistent and distinctive.
+                Create the visual language and interface
+                around the needs of the experience.
               </p>
+
             </div>
 
-            <span class="process-arrow">↗</span>
+            <div class="process-symbol">
+              +
+            </div>
 
           </div>
 
 
           <div class="process-item reveal">
 
-            <span class="process-index">05</span>
-
-            <div class="process-main">
-              <h3>Refine</h3>
-              <p>
-                Test, review and refine the details until the
-                experience communicates with confidence.
-              </p>
+            <div class="process-number">
+              05
             </div>
 
-            <span class="process-arrow">↗</span>
+            <div class="process-main">
+
+              <h3>Refine</h3>
+
+              <p>
+                Test, review and improve the experience until
+                every important detail feels intentional.
+              </p>
+
+            </div>
+
+            <div class="process-symbol">
+              +
+            </div>
 
           </div>
-
 
         </div>
 
@@ -808,10 +742,10 @@
     </section>
 
 
-    <!-- =========================================
-         SELECTED WORK
-    ========================================== -->
 
+    <!-- =======================================================
+         SELECTED WORK
+    ======================================================== -->
     <section
       class="section work-section"
       id="work"
@@ -820,57 +754,52 @@
 
       <div class="container">
 
-        <div class="work-heading reveal">
+        <div class="section-heading reveal">
 
-          <div class="section-number">
-            04
+          <div class="section-index">
+            03 — Selected Work
           </div>
 
-          <div class="work-heading-copy">
+          <div class="section-heading-content">
 
-            <span class="section-eyebrow">
-              Selected work
-            </span>
+            <p class="section-overline">
+              Selected explorations
+            </p>
 
-            <h2 class="section-title">
-              A collection of
-              <em>design explorations.</em>
+            <h2>
+              A selection of
+              <em>design thinking.</em>
             </h2>
 
           </div>
 
-          <p class="work-heading-note">
-            Selected interface, product and UX explorations
-            developed through research, structure and visual
-            design.
-          </p>
-
         </div>
 
 
-        <div class="projects-grid">
+        <div class="work-grid">
 
 
           <!-- PROJECT 01 -->
-
           <article class="project-card project-large reveal">
 
-            <div class="project-meta">
-
-              <span>01 / DIGITAL MARKETPLACE</span>
+            <div class="project-top">
 
               <span>
-                UX / UI · WEB DESIGN
+                01 / 03
+              </span>
+
+              <span>
+                UX / UI
               </span>
 
             </div>
 
 
-            <div class="project-visual">
+            <div class="project-visual project-marketplace">
 
               <div class="browser">
 
-                <div class="browser-bar">
+                <div class="browser-top">
 
                   <div class="browser-dots">
                     <i></i>
@@ -878,59 +807,59 @@
                     <i></i>
                   </div>
 
-                  <span>websitedeals.com</span>
+                  <span>
+                    website deals
+                  </span>
 
                 </div>
 
 
-                <div class="browser-body">
+                <div class="browser-content">
 
                   <div class="mock-nav">
+                    <strong>
+                      marketplace
+                    </strong>
 
-                    <strong>Website Deals</strong>
-
-                    <div>
-                      Home
-                      Work
-                      Explore
-                      Contact
-                    </div>
-
+                    <span></span>
+                    <span></span>
+                    <span></span>
                   </div>
 
 
                   <div class="mock-hero">
 
-                    <div>
+                    <div class="mock-copy">
 
-                      <span>
+                      <small>
                         DIGITAL MARKETPLACE
-                      </span>
+                      </small>
 
-                      <h4>
-                        Find the right
-                        digital solution.
-                      </h4>
+                      <strong>
+                        Find what
+                        fits your
+                        business.
+                      </strong>
 
-                      <p>
-                        A structured marketplace
-                        experience designed around
-                        clarity and discovery.
-                      </p>
-
-                      <button>
-                        Explore
-                      </button>
+                      <i></i>
 
                     </div>
 
-                    <div class="mock-orb"></div>
+
+                    <div class="mock-card-stack">
+
+                      <div></div>
+                      <div></div>
+                      <div></div>
+
+                    </div>
 
                   </div>
 
 
                   <div class="mock-grid">
 
+                    <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
@@ -948,82 +877,78 @@
 
               <div>
 
-                <h3>Website Deals</h3>
-
-                <p>
-                  Digital marketplace concept focused on
-                  discoverability, structure and responsive
-                  interface design.
+                <p class="project-category">
+                  Digital Marketplace · UX/UI
                 </p>
 
-              </div>
-
-              <div class="project-tags">
-
-                <span>UX/UI</span>
-                <span>Web Design</span>
-                <span>Responsive</span>
+                <h3>
+                  Website Deals
+                </h3>
 
               </div>
+
+              <p class="project-description">
+                A marketplace experience explored around
+                discovery, product clarity and responsive
+                digital interactions.
+              </p>
+
+            </div>
+
+
+            <div class="project-tags">
+
+              <span>UX Strategy</span>
+              <span>UI Design</span>
+              <span>Responsive</span>
 
             </div>
 
           </article>
 
 
-          <!-- PROJECT 02 -->
 
+          <!-- PROJECT 02 -->
           <article class="project-card reveal">
 
-            <div class="project-meta">
+            <div class="project-top">
 
-              <span>02 / PRODUCT INTERFACE</span>
+              <span>
+                02 / 03
+              </span>
 
-              <span>UI SYSTEM</span>
+              <span>
+                PRODUCT DESIGN
+              </span>
 
             </div>
 
 
-            <div class="project-visual project-visual-dark">
+            <div class="project-visual project-dashboard">
 
               <div class="dashboard">
 
-                <aside class="dashboard-sidebar">
+                <aside class="dashboard-side">
 
-                  <div class="dashboard-logo">
+                  <strong>
                     NU
-                  </div>
+                  </strong>
 
-                  <span class="dash-active"></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                  <i></i>
 
                 </aside>
 
 
                 <div class="dashboard-main">
 
-                  <div class="dashboard-top">
+                  <div class="dashboard-head">
 
-                    <span>
-                      Overview
-                    </span>
+                    <span></span>
 
                     <i></i>
-
-                  </div>
-
-
-                  <div class="dashboard-welcome">
-
-                    <small>
-                      GOOD MORNING
-                    </small>
-
-                    <strong>
-                      Your workspace
-                    </strong>
 
                   </div>
 
@@ -1059,78 +984,89 @@
 
               <div>
 
+                <p class="project-category">
+                  Product Design · UI System
+                </p>
+
                 <h3>
                   Marketplace Interface
                 </h3>
 
-                <p>
-                  Product interface exploration with a
-                  structured visual system and dashboard
-                  experience.
-                </p>
-
               </div>
 
-              <div class="project-tags">
+              <p class="project-description">
+                Interface explorations focused on hierarchy,
+                navigation and consistent visual language.
+              </p>
 
-                <span>Product Design</span>
-                <span>UI System</span>
+            </div>
 
-              </div>
+
+            <div class="project-tags">
+
+              <span>UI System</span>
+              <span>Figma</span>
+              <span>Interaction</span>
 
             </div>
 
           </article>
 
 
-          <!-- PROJECT 03 -->
 
+          <!-- PROJECT 03 -->
           <article class="project-card reveal">
 
-            <div class="project-meta">
+            <div class="project-top">
 
-              <span>03 / UNIVERSITY PROJECT</span>
+              <span>
+                03 / 03
+              </span>
 
-              <span>UX RESEARCH</span>
+              <span>
+                UX RESEARCH
+              </span>
 
             </div>
 
 
-            <div class="project-visual project-visual-light">
+            <div class="project-visual project-mobile">
 
               <div class="mobile-mock">
 
-                <div class="mobile-top">
+                <div class="mobile-speaker"></div>
 
-                  <span>9:41</span>
+                <div class="mobile-screen">
 
-                  <span>•••</span>
+                  <div class="mobile-status">
+                    9:41
+                  </div>
 
-                </div>
-
-
-                <div class="mobile-content">
-
-                  <small>
-                    YOUR EXPERIENCE
-                  </small>
-
-                  <h4>
-                    Everything
-                    in one place.
-                  </h4>
-
-                  <div class="mobile-image"></div>
-
-                  <div class="mobile-lines">
+                  <div class="mobile-heading">
                     <span></span>
+                    <i></i>
+                  </div>
+
+                  <div class="mobile-feature">
+                    <div></div>
+                  </div>
+
+                  <div class="mobile-row">
                     <span></span>
                     <span></span>
                   </div>
 
-                  <button>
-                    Continue
-                  </button>
+                  <div class="mobile-row">
+                    <span></span>
+                    <span></span>
+                  </div>
+
+                  <div class="mobile-nav">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                  </div>
 
                 </div>
 
@@ -1143,43 +1079,47 @@
 
               <div>
 
-                <h3>
+                <p class="project-category">
                   University UX Project
-                </h3>
-
-                <p>
-                  UX research and prototype exploration
-                  developed through user-centred design
-                  methods.
                 </p>
 
-              </div>
-
-              <div class="project-tags">
-
-                <span>Research</span>
-                <span>Figma</span>
-                <span>Prototype</span>
+                <h3>
+                  Research to Prototype
+                </h3>
 
               </div>
+
+              <p class="project-description">
+                A UX exploration connecting research,
+                information architecture and interactive
+                prototyping.
+              </p>
+
+            </div>
+
+
+            <div class="project-tags">
+
+              <span>User Research</span>
+              <span>Wireframe</span>
+              <span>Prototype</span>
 
             </div>
 
           </article>
 
-
         </div>
 
 
-        <div class="work-footnote reveal">
+        <div class="work-note reveal">
 
-          <span>
+          <span class="work-note-line"></span>
+
+          <p>
             Visual previews represent design explorations.
-          </span>
-
-          <span>
-            Detailed case studies can be presented individually.
-          </span>
+            Detailed case studies can be developed around
+            verified project information.
+          </p>
 
         </div>
 
@@ -1188,101 +1128,100 @@
     </section>
 
 
-    <!-- =========================================
-         PRINCIPLES
-    ========================================== -->
 
+    <!-- =======================================================
+         PRINCIPLES
+    ======================================================== -->
     <section
-      class="section principles-section section-dark"
+      class="section principles-section"
       id="principles"
       data-section="Principles"
     >
 
       <div class="container">
 
-        <div class="principles-layout">
+        <div class="principles-intro reveal">
 
-          <div class="principles-heading reveal">
+          <div class="section-index">
+            04 — Principles
+          </div>
 
-            <span class="section-number">
-              05
-            </span>
+          <p class="section-overline">
+            Design principles
+          </p>
 
-            <span class="section-eyebrow">
-              Design principles
-            </span>
+          <h2>
+            Less noise.
+            <br>
+            More <em>meaning.</em>
+          </h2>
 
-            <h2>
-              Less noise.
-              <br>
-              More <em>meaning.</em>
-            </h2>
+        </div>
+
+
+        <div class="principles-grid">
+
+
+          <div class="principle reveal">
+
+            <span>01</span>
+
+            <h3>
+              Clarity
+            </h3>
+
+            <p>
+              Interfaces should communicate what matters
+              without making people work unnecessarily hard.
+            </p>
 
           </div>
 
 
-          <div class="principles-list">
+          <div class="principle reveal">
+
+            <span>02</span>
+
+            <h3>
+              Consistency
+            </h3>
+
+            <p>
+              Familiar patterns create confidence and make
+              digital experiences easier to navigate.
+            </p>
+
+          </div>
 
 
-            <div class="principle reveal">
+          <div class="principle reveal">
 
-              <span>01</span>
+            <span>03</span>
 
-              <div>
-                <h3>Clarity</h3>
-                <p>
-                  Every element should help the user understand,
-                  decide or move forward.
-                </p>
-              </div>
+            <h3>
+              Purpose
+            </h3>
 
-            </div>
+            <p>
+              Every visual decision should have a reason
+              connected to the experience.
+            </p>
 
-
-            <div class="principle reveal">
-
-              <span>02</span>
-
-              <div>
-                <h3>Consistency</h3>
-                <p>
-                  Repeated patterns create familiarity and make
-                  digital experiences easier to navigate.
-                </p>
-              </div>
-
-            </div>
+          </div>
 
 
-            <div class="principle reveal">
+          <div class="principle reveal">
 
-              <span>03</span>
+            <span>04</span>
 
-              <div>
-                <h3>Purpose</h3>
-                <p>
-                  Visual decisions should support the product,
-                  not compete with its purpose.
-                </p>
-              </div>
+            <h3>
+              Empathy
+            </h3>
 
-            </div>
-
-
-            <div class="principle reveal">
-
-              <span>04</span>
-
-              <div>
-                <h3>Empathy</h3>
-                <p>
-                  Good design begins by understanding the person
-                  on the other side of the screen.
-                </p>
-              </div>
-
-            </div>
-
+            <p>
+              Good experiences begin with understanding the
+              people who actually use them.
+            </p>
 
           </div>
 
@@ -1293,10 +1232,10 @@
     </section>
 
 
-    <!-- =========================================
-         ABOUT
-    ========================================== -->
 
+    <!-- =======================================================
+         ABOUT
+    ======================================================== -->
     <section
       class="section about-section"
       id="about"
@@ -1307,98 +1246,97 @@
 
         <div class="about-grid">
 
-          <div class="about-heading reveal">
+          <div class="about-label reveal">
 
-            <div class="section-number">
-              06
+            <div class="section-index">
+              05 — About
             </div>
 
-            <span class="section-eyebrow">
-              About me
+            <span>
+              A little context
             </span>
-
-            <h2>
-              Designer by
-              <em>curiosity.</em>
-            </h2>
 
           </div>
 
 
-          <div class="about-content">
+          <div class="about-content reveal">
 
-            <p class="about-lead reveal">
-
-              I am Nusrat Afsana Usha, a UX/UI Designer based
-              in Dhaka, Bangladesh, interested in creating digital
-              experiences that feel clear, thoughtful and useful.
-
+            <p class="section-overline">
+              About Nusrat
             </p>
 
-
-            <p class="reveal">
-
-              My background in operations and administration has
-              shaped the way I approach design: with structure,
-              attention to detail, communication and an
-              understanding of how people and systems work together.
-
-            </p>
+            <h2>
+              Designing with
+              <em>curiosity, structure</em>
+              and intention.
+            </h2>
 
 
-            <p class="reveal">
+            <div class="about-copy">
 
-              Alongside professional experience, I am continuing
-              to deepen my design practice through postgraduate
-              study in UX Design.
+              <p>
+                I am Nusrat Afsana Usha, a UX/UI Designer
+                based in Dhaka, Bangladesh. I enjoy exploring
+                how people interact with digital products and
+                how thoughtful design can make those
+                interactions clearer and more useful.
+              </p>
 
-            </p>
+              <p>
+                My background combines design, administration,
+                communication and business education. This
+                gives me a practical perspective when working
+                through complex problems and collaborating
+                with different stakeholders.
+              </p>
+
+              <p>
+                I am currently studying MA UX Design at the
+                London School of Design and Marketing while
+                continuing to develop my practice in UX/UI,
+                research, prototyping and digital product design.
+              </p>
+
+            </div>
 
 
-            <div class="about-facts reveal">
+            <div class="about-facts">
 
               <div>
 
-                <span>Education</span>
-
-                <strong>
-                  MA UX Design
-                </strong>
-
-                <small>
-                  London School of Design and Marketing
-                  · 2026–2027
-                </small>
-
-              </div>
-
-
-              <div>
-
-                <span>Business</span>
-
-                <strong>
-                  Partner at Website Deals
-                </strong>
-
-                <small>
-                  Digital products & web experiences
-                </small>
-
-              </div>
-
-
-              <div>
-
-                <span>Location</span>
+                <span>
+                  Based in
+                </span>
 
                 <strong>
                   Dhaka, Bangladesh
                 </strong>
 
-                <small>
-                  Working across digital experiences
-                </small>
+              </div>
+
+
+              <div>
+
+                <span>
+                  Currently
+                </span>
+
+                <strong>
+                  MA UX Design
+                </strong>
+
+              </div>
+
+
+              <div>
+
+                <span>
+                  Design partner
+                </span>
+
+                <strong>
+                  Website Deals
+                </strong>
 
               </div>
 
@@ -1413,33 +1351,33 @@
     </section>
 
 
-    <!-- =========================================
-         EXPERIENCE
-    ========================================== -->
 
+    <!-- =======================================================
+         EXPERIENCE
+    ======================================================== -->
     <section
-      class="section experience-section section-dark"
+      class="section experience-section"
       id="experience"
       data-section="Experience"
     >
 
       <div class="container">
 
-        <div class="experience-heading reveal">
+        <div class="section-heading reveal">
 
-          <div class="section-number">
-            07
+          <div class="section-index">
+            06 — Experience
           </div>
 
-          <div>
+          <div class="section-heading-content">
 
-            <span class="section-eyebrow">
+            <p class="section-overline">
               Professional background
-            </span>
+            </p>
 
-            <h2 class="section-title">
-              Experience across
-              <em>people & systems.</em>
+            <h2>
+              Experience beyond
+              <em>the canvas.</em>
             </h2>
 
           </div>
@@ -1447,98 +1385,82 @@
         </div>
 
 
-        <div class="timeline">
+        <div class="experience-list">
 
 
-          <article class="timeline-item reveal">
+          <article class="experience-item reveal">
 
-            <div class="timeline-date">
+            <div class="experience-date">
               Sep 2019 — Present
             </div>
 
-            <div class="timeline-marker">
-              <span></span>
-            </div>
-
-            <div class="timeline-content">
-
-              <span>
-                Operations & Administration
-              </span>
+            <div class="experience-role">
 
               <h3>
-                United Marine Transport Limited
+                Operations & Administration Manager
               </h3>
 
               <p>
-                Working across operations, administration,
-                coordination and organisational processes.
+                United Marine Transport Limited
               </p>
 
             </div>
 
+            <span class="experience-arrow">
+              ↗
+            </span>
+
           </article>
 
 
-          <article class="timeline-item reveal">
+          <article class="experience-item reveal">
 
-            <div class="timeline-date">
+            <div class="experience-date">
               Jul 2017 — May 2018
             </div>
 
-            <div class="timeline-marker">
-              <span></span>
-            </div>
-
-            <div class="timeline-content">
-
-              <span>
-                Executive
-              </span>
+            <div class="experience-role">
 
               <h3>
-                Mentor's Education
+                Executive
               </h3>
 
               <p>
-                Professional experience involving coordination,
-                communication and administrative responsibilities.
+                Mentor's Education
               </p>
 
             </div>
 
+            <span class="experience-arrow">
+              ↗
+            </span>
+
           </article>
 
 
-          <article class="timeline-item reveal">
+          <article class="experience-item reveal">
 
-            <div class="timeline-date">
+            <div class="experience-date">
               Jan 2017 — Apr 2017
             </div>
 
-            <div class="timeline-marker">
-              <span></span>
-            </div>
-
-            <div class="timeline-content">
-
-              <span>
-                Internship
-              </span>
+            <div class="experience-role">
 
               <h3>
-                First Security Islami Bank Limited
+                Intern
               </h3>
 
               <p>
-                Early professional experience in a structured
-                banking environment.
+                First Security Islami Bank Limited
               </p>
 
             </div>
 
-          </article>
+            <span class="experience-arrow">
+              ↗
+            </span>
 
+          </article>
 
         </div>
 
@@ -1547,142 +1469,133 @@
     </section>
 
 
-    <!-- =========================================
-         SKILLS
-    ========================================== -->
 
+    <!-- =======================================================
+         SKILLS
+    ======================================================== -->
     <section
       class="section skills-section"
       id="skills"
-      data-section="Expertise"
+      data-section="Skills"
     >
 
       <div class="container">
 
-        <div class="skills-header reveal">
+        <div class="skills-grid">
 
-          <div class="section-number">
-            08
-          </div>
 
-          <div>
+          <div class="skills-intro reveal">
 
-            <span class="section-eyebrow">
-              Skills & tools
-            </span>
+            <div class="section-index">
+              07 — Skills
+            </div>
 
-            <h2 class="section-title">
-              A practical toolkit
-              for <em>better design.</em>
+            <p class="section-overline">
+              Toolkit
+            </p>
+
+            <h2>
+              Tools for turning
+              <em>ideas into experiences.</em>
             </h2>
 
           </div>
 
-        </div>
+
+          <div class="skills-groups">
 
 
-        <div class="skills-layout">
+            <div class="skill-group reveal">
 
-
-          <div class="skill-group reveal">
-
-            <span class="skill-group-number">
-              01
-            </span>
-
-            <h3>
-              UX / Product
-            </h3>
-
-            <div class="skill-cloud">
-
-              <span>UX/UI Design</span>
-              <span>Website Design</span>
-              <span>Wireframing</span>
-              <span>Prototyping</span>
-              <span>Interaction Design</span>
-              <span>Information Architecture</span>
-              <span>User Research</span>
-              <span>Usability Testing</span>
-
-            </div>
-
-          </div>
-
-
-          <div class="skill-group reveal">
-
-            <span class="skill-group-number">
-              02
-            </span>
-
-            <h3>
-              Visual
-            </h3>
-
-            <div class="skill-cloud">
-
-              <span>Figma</span>
-              <span>UI Systems</span>
-              <span>Visual Hierarchy</span>
-              <span>Responsive Design</span>
-              <span>Design Systems</span>
-              <span>Typography</span>
-
-            </div>
-
-          </div>
-
-
-          <div class="skill-group reveal">
-
-            <span class="skill-group-number">
-              03
-            </span>
-
-            <h3>
-              Professional
-            </h3>
-
-            <div class="skill-cloud">
-
-              <span>Project Management</span>
-              <span>Stakeholder Communication</span>
-              <span>Critical Thinking</span>
-              <span>Problem Solving</span>
-              <span>Coordination</span>
-
-            </div>
-
-          </div>
-
-
-          <div class="skill-group reveal">
-
-            <span class="skill-group-number">
-              04
-            </span>
-
-            <h3>
-              Languages
-            </h3>
-
-            <div class="language-list">
+              <span class="skill-group-number">
+                01
+              </span>
 
               <div>
-                <span>Bangla</span>
-                <strong>Native</strong>
+
+                <h3>
+                  UX / Product
+                </h3>
+
+                <p>
+                  UX/UI Design · Website Design · Wireframing
+                  · Prototyping · Interaction Design ·
+                  Information Architecture · User Research ·
+                  Usability Testing
+                </p>
+
               </div>
 
+            </div>
+
+
+            <div class="skill-group reveal">
+
+              <span class="skill-group-number">
+                02
+              </span>
+
               <div>
-                <span>English</span>
-                <strong>Upper-intermediate</strong>
+
+                <h3>
+                  Visual
+                </h3>
+
+                <p>
+                  Figma · Interface Design · Visual Hierarchy
+                  · Responsive Design · Design Systems
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="skill-group reveal">
+
+              <span class="skill-group-number">
+                03
+              </span>
+
+              <div>
+
+                <h3>
+                  Professional
+                </h3>
+
+                <p>
+                  Project Management · Stakeholder Communication
+                  · Critical Thinking · Collaboration
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="skill-group reveal">
+
+              <span class="skill-group-number">
+                04
+              </span>
+
+              <div>
+
+                <h3>
+                  Languages
+                </h3>
+
+                <p>
+                  Bangla — Native
+                  <br>
+                  English — Upper-intermediate
+                </p>
+
               </div>
 
             </div>
 
           </div>
-
 
         </div>
 
@@ -1691,32 +1604,32 @@
     </section>
 
 
-    <!-- =========================================
-         JOURNAL
-    ========================================== -->
 
+    <!-- =======================================================
+         JOURNAL
+    ======================================================== -->
     <section
-      class="section journal-section section-dark"
+      class="section journal-section"
       id="journal"
-      data-section="Notes"
+      data-section="Journal"
     >
 
       <div class="container">
 
-        <div class="journal-header reveal">
+        <div class="section-heading reveal">
 
-          <div class="section-number">
-            09
+          <div class="section-index">
+            08 — Notes
           </div>
 
-          <div>
+          <div class="section-heading-content">
 
-            <span class="section-eyebrow">
+            <p class="section-overline">
               Design notes
-            </span>
+            </p>
 
-            <h2 class="section-title">
-              Thinking through
+            <h2>
+              Thinking about
               <em>design.</em>
             </h2>
 
@@ -1734,21 +1647,22 @@
               01
             </span>
 
-            <div class="journal-date">
-              UX / NOTE
-            </div>
+            <span class="journal-category">
+              UX
+            </span>
 
             <h3>
               Why clarity matters more than decoration.
             </h3>
 
             <p>
-              Visual polish becomes meaningful when it helps
-              people understand what to do next.
+              A visual interface can be beautiful and still
+              leave users uncertain. Clarity gives aesthetics
+              a purpose.
             </p>
 
             <span class="journal-arrow">
-              ↗
+              →
             </span>
 
           </article>
@@ -1760,21 +1674,22 @@
               02
             </span>
 
-            <div class="journal-date">
-              PROCESS / NOTE
-            </div>
+            <span class="journal-category">
+              PROCESS
+            </span>
 
             <h3>
-              Designing before opening the design tool.
+              Designing before opening the UI file.
             </h3>
 
             <p>
-              Good interface decisions often begin with questions,
-              structure and observation rather than pixels.
+              The strongest design decisions often happen
+              while understanding the problem, not while
+              choosing colors.
             </p>
 
             <span class="journal-arrow">
-              ↗
+              →
             </span>
 
           </article>
@@ -1786,25 +1701,24 @@
               03
             </span>
 
-            <div class="journal-date">
-              SYSTEMS / NOTE
-            </div>
+            <span class="journal-category">
+              PRODUCT
+            </span>
 
             <h3>
-              Consistency creates confidence.
+              Small interactions, meaningful experiences.
             </h3>
 
             <p>
-              Reusable patterns make products easier to understand
-              while giving visual systems a coherent voice.
+              The details users notice least can often have
+              the greatest impact on how an interface feels.
             </p>
 
             <span class="journal-arrow">
-              ↗
+              →
             </span>
 
           </article>
-
 
         </div>
 
@@ -1813,10 +1727,10 @@
     </section>
 
 
-    <!-- =========================================
-         CONTACT
-    ========================================== -->
 
+    <!-- =======================================================
+         CONTACT
+    ======================================================== -->
     <section
       class="section contact-section"
       id="contact"
@@ -1825,55 +1739,51 @@
 
       <div class="container">
 
-        <div class="contact-layout">
+        <div class="contact-grid">
 
 
-          <div class="contact-heading reveal">
+          <div class="contact-intro reveal">
 
-            <span class="section-number">
-              10
-            </span>
+            <div class="section-index">
+              09 — Contact
+            </div>
 
-            <span class="section-eyebrow">
-              Start a conversation
-            </span>
+            <p class="section-overline">
+              Have a project in mind?
+            </p>
 
             <h2>
-              Have an idea?
-              <br>
-              Let's make it
-              <em>clear.</em>
+              Let's create something
+              <em>clear and meaningful.</em>
             </h2>
+
+            <p class="contact-description">
+              If you have a digital product, website or
+              experience that needs thoughtful UX/UI design,
+              I would be happy to hear about it.
+            </p>
 
           </div>
 
 
-          <div class="contact-main reveal">
-
-            <p>
-              If you're working on a digital product, website
-              or interface and want to explore a thoughtful
-              design direction, I'd love to hear about it.
-            </p>
-
+          <div class="contact-details reveal">
 
             <a
-              class="contact-email magnetic"
               href="mailto:nusrat.afsana1992@gmail.com"
+              class="contact-email"
             >
-              <span>
-                nusrat.afsana1992@gmail.com
-              </span>
-
-              <i>↗</i>
+              nusrat.afsana1992@gmail.com
+              <span>↗</span>
             </a>
 
 
-            <div class="contact-details">
+            <div class="contact-meta">
 
               <div>
 
-                <span>Location</span>
+                <span>
+                  Location
+                </span>
 
                 <strong>
                   Dhaka, Bangladesh
@@ -1884,10 +1794,12 @@
 
               <div>
 
-                <span>Focus</span>
+                <span>
+                  Focus
+                </span>
 
                 <strong>
-                  UX / UI · Digital Experiences
+                  UX / UI · Product Design
                 </strong>
 
               </div>
@@ -1895,31 +1807,23 @@
             </div>
 
 
-            <div class="contact-socials">
+            <div class="contact-links">
 
-              <span>
-                Connect
-              </span>
+              <a
+                href="#"
+                aria-label="LinkedIn profile"
+              >
+                LinkedIn
+                <span>↗</span>
+              </a>
 
-              <div>
-
-                <a
-                  href="#"
-                  aria-label="LinkedIn"
-                  onclick="return false;"
-                >
-                  LinkedIn
-                </a>
-
-                <a
-                  href="#"
-                  aria-label="Behance"
-                  onclick="return false;"
-                >
-                  Behance
-                </a>
-
-              </div>
+              <a
+                href="#"
+                aria-label="Behance profile"
+              >
+                Behance
+                <span>↗</span>
+              </a>
 
             </div>
 
@@ -1931,14 +1835,13 @@
 
     </section>
 
-
   </main>
 
 
-  <!-- =========================================
-       FOOTER
-  ========================================== -->
 
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
   <footer class="site-footer">
 
     <div class="container">
@@ -1951,7 +1854,7 @@
           class="footer-brand"
         >
 
-          <span class="footer-mark">
+          <span class="footer-monogram">
             NU
           </span>
 
@@ -1970,22 +1873,14 @@
         </a>
 
 
-        <div class="footer-statement">
-
-          <span>
-            Designed with intention.
-          </span>
-
-          <span>
-            Built around people.
-          </span>
-
-        </div>
+        <p class="footer-statement">
+          Designed with intention.
+        </p>
 
 
         <a
           href="#home"
-          class="back-top magnetic"
+          class="back-top"
         >
           Back to top
           <span>↑</span>
@@ -2002,7 +1897,7 @@
         </span>
 
         <span>
-          Dhaka · Bangladesh
+          Dhaka, Bangladesh
         </span>
 
         <span>
@@ -2016,11 +1911,11 @@
   </footer>
 
 
-  <!-- =========================================
-       SCRIPT
-  ========================================== -->
 
-  <script src="./script.js"></script>
+  <!-- =========================================================
+       JAVASCRIPT
+  ========================================================== -->
+  <script src="./script.js" defer></script>
 
 </body>
 </html>
