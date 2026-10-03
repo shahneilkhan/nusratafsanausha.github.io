@@ -1,19 +1,42 @@
-// Mobile menu + footer year. No external libraries.
-(function () {
-  var btn = document.querySelector('.menu-btn');
-  var nav = document.getElementById('nav');
-  if (btn && nav) {
-    btn.addEventListener('click', function () {
-      var open = nav.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+(() => {
+  "use strict";
+
+  const menuButton = document.querySelector(".menu-toggle");
+  const navigation = document.querySelector("#mainNav");
+  const year = document.querySelector("#year");
+
+  // Dynamic copyright year
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+  // Mobile navigation
+  if (menuButton && navigation) {
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navigation.classList.toggle("open");
+
+      menuButton.setAttribute("aria-expanded", String(isOpen));
     });
-    nav.addEventListener('click', function (e) {
-      if (e.target.tagName === 'A') {
-        nav.classList.remove('open');
-        btn.setAttribute('aria-expanded', 'false');
+
+    navigation.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navigation.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.addEventListener("click", event => {
+      if (
+        !navigation.contains(event.target) &&
+        !menuButton.contains(event.target)
+      ) {
+        navigation.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
       }
     });
+
   }
-  var yr = document.getElementById('yr');
-  if (yr) yr.textContent = new Date().getFullYear();
+
 })();
