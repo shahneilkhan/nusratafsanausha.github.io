@@ -1,1300 +1,1288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Admin — Nusrat Afsana Usha</title>
-
-  <meta
-    name="description"
-    content="Secure administration panel for Nusrat Afsana Usha portfolio."
-  >
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="./admin.css">
-
-  <style>
-    :root{
-      --login-bg:#09090b;
-      --login-panel:rgba(21,22,26,.88);
-      --login-border:rgba(255,255,255,.09);
-      --login-text:#f6f3ec;
-      --login-muted:#9999a1;
-      --login-accent:#d8b36a;
-      --login-accent-soft:rgba(216,179,106,.12);
-      --danger:#e87878;
-    }
-
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
-    html{
-      min-height:100%;
-    }
-
-    body{
-      min-height:100vh;
-      background:
-        radial-gradient(
-          circle at 15% 15%,
-          rgba(216,179,106,.09),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 85% 80%,
-          rgba(255,255,255,.035),
-          transparent 28%
-        ),
-        var(--login-bg);
-      color:var(--login-text);
-      font-family:"Instrument Sans",sans-serif;
-      overflow-x:hidden;
-    }
-
-    button,
-    input{
-      font:inherit;
-    }
-
-    button{
-      cursor:pointer;
-    }
-
-    .login-shell{
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:30px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .ambient{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      overflow:hidden;
-    }
-
-    .ambient::before,
-    .ambient::after{
-      content:"";
-      position:absolute;
-      border-radius:999px;
-      filter:blur(100px);
-      opacity:.18;
-    }
-
-    .ambient::before{
-      width:360px;
-      height:360px;
-      left:-150px;
-      top:-120px;
-      background:#d8b36a;
-    }
-
-    .ambient::after{
-      width:300px;
-      height:300px;
-      right:-120px;
-      bottom:-100px;
-      background:#7c6b4e;
-    }
-
-    .login-container{
-      width:min(100%,460px);
-      position:relative;
-      z-index:2;
-    }
-
-    .brand{
-      display:flex;
-      justify-content:center;
-      margin-bottom:28px;
-    }
-
-    .brand-mark{
-      width:58px;
-      height:58px;
-      border:1px solid rgba(216,179,106,.38);
-      background:
-        linear-gradient(
-          145deg,
-          rgba(216,179,106,.14),
-          rgba(255,255,255,.025)
-        );
-      border-radius:20px;
-      display:grid;
-      place-items:center;
-      box-shadow:
-        0 20px 70px rgba(0,0,0,.35),
-        inset 0 1px 0 rgba(255,255,255,.08);
-    }
-
-    .brand-mark span{
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:20px;
-      font-weight:700;
-      letter-spacing:-.06em;
-      color:var(--login-accent);
-    }
-
-    .login-card{
-      border:1px solid var(--login-border);
-      background:var(--login-panel);
-      backdrop-filter:blur(24px);
-      -webkit-backdrop-filter:blur(24px);
-      border-radius:30px;
-      padding:38px;
-      box-shadow:
-        0 35px 100px rgba(0,0,0,.48),
-        inset 0 1px 0 rgba(255,255,255,.045);
-    }
-
-    .eyebrow{
-      text-align:center;
-      color:var(--login-accent);
-      text-transform:uppercase;
-      letter-spacing:.18em;
-      font-size:10px;
-      font-weight:700;
-      margin-bottom:12px;
-    }
-
-    .title{
-      text-align:center;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:clamp(34px,7vw,48px);
-      line-height:.95;
-      letter-spacing:-.055em;
-      margin-bottom:14px;
-    }
-
-    .subtitle{
-      max-width:350px;
-      margin:0 auto 30px;
-      text-align:center;
-      color:var(--login-muted);
-      font-size:14px;
-      line-height:1.65;
-    }
-
-    .field{
-      margin-bottom:18px;
-    }
-
-    .field label{
-      display:block;
-      color:#d8d5ce;
-      font-size:12px;
-      font-weight:600;
-      margin-bottom:8px;
-    }
-
-    .input-wrap{
-      position:relative;
-    }
-
-    .input{
-      width:100%;
-      height:54px;
-      border-radius:15px;
-      border:1px solid rgba(255,255,255,.09);
-      outline:none;
-      background:rgba(255,255,255,.035);
-      color:var(--login-text);
-      padding:0 16px;
-      transition:
-        border-color .2s ease,
-        background .2s ease,
-        box-shadow .2s ease;
-    }
-
-    .input.password{
-      padding-right:52px;
-    }
-
-    .input::placeholder{
-      color:#68686f;
-    }
-
-    .input:focus{
-      border-color:rgba(216,179,106,.65);
-      background:rgba(216,179,106,.045);
-      box-shadow:
-        0 0 0 4px rgba(216,179,106,.08);
-    }
-
-    .password-toggle{
-      position:absolute;
-      right:8px;
-      top:50%;
-      transform:translateY(-50%);
-      width:38px;
-      height:38px;
-      border:0;
-      border-radius:11px;
-      color:#aaa8a2;
-      background:transparent;
-      display:grid;
-      place-items:center;
-    }
-
-    .password-toggle:hover{
-      color:#fff;
-      background:rgba(255,255,255,.06);
-    }
-
-    .login-options{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:15px;
-      margin:4px 0 22px;
-    }
-
-    .remember{
-      display:flex;
-      align-items:center;
-      gap:9px;
-      color:#a5a4a0;
-      font-size:12px;
-      cursor:pointer;
-      user-select:none;
-    }
-
-    .remember input{
-      width:15px;
-      height:15px;
-      accent-color:var(--login-accent);
-      cursor:pointer;
-    }
-
-    .secure-label{
-      color:#77777e;
-      font-size:11px;
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
-
-    .secure-dot{
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background:#7dbb91;
-      box-shadow:0 0 12px rgba(125,187,145,.5);
-    }
-
-    .login-button{
-      width:100%;
-      height:56px;
-      border:0;
-      border-radius:16px;
-      color:#16130d;
-      background:
-        linear-gradient(
-          135deg,
-          #e5c886,
-          #caa35e
-        );
-      font-weight:700;
-      letter-spacing:-.01em;
-      box-shadow:
-        0 15px 35px rgba(216,179,106,.16),
-        inset 0 1px 0 rgba(255,255,255,.35);
-      transition:
-        transform .2s ease,
-        box-shadow .2s ease,
-        filter .2s ease;
-    }
-
-    .login-button:hover{
-      transform:translateY(-2px);
-      filter:brightness(1.04);
-      box-shadow:
-        0 20px 42px rgba(216,179,106,.22),
-        inset 0 1px 0 rgba(255,255,255,.35);
-    }
-
-    .login-button:active{
-      transform:translateY(0);
-    }
-
-    .login-button.loading{
-      opacity:.72;
-      pointer-events:none;
-    }
-
-    .error-box{
-      display:none;
-      margin-top:16px;
-      padding:13px 15px;
-      border-radius:13px;
-      border:1px solid rgba(232,120,120,.2);
-      background:rgba(232,120,120,.07);
-      color:#eaa0a0;
-      font-size:12px;
-      line-height:1.5;
-    }
-
-    .error-box.show{
-      display:block;
-    }
-
-    .footer{
-      text-align:center;
-      margin-top:22px;
-      color:#68686f;
-      font-size:11px;
-      line-height:1.6;
-    }
-
-    .footer strong{
-      color:#929098;
-      font-weight:500;
-    }
-
-    .theme-button{
-      position:fixed;
-      top:24px;
-      right:24px;
-      width:42px;
-      height:42px;
-      border-radius:13px;
-      border:1px solid rgba(255,255,255,.09);
-      background:rgba(255,255,255,.04);
-      color:#b5b3ae;
-      display:grid;
-      place-items:center;
-      z-index:10;
-      transition:.2s ease;
-    }
-
-    .theme-button:hover{
-      color:#fff;
-      border-color:rgba(216,179,106,.4);
-      background:rgba(216,179,106,.08);
-    }
-
-    .theme-button svg{
-      width:17px;
-      height:17px;
-    }
-
-    body.light{
-      --login-bg:#f1eee7;
-      --login-panel:rgba(255,255,255,.88);
-      --login-border:rgba(20,20,20,.09);
-      --login-text:#181715;
-      --login-muted:#68665f;
-    }
-
-    body.light .input{
-      color:#181715;
-      background:rgba(0,0,0,.025);
-      border-color:rgba(0,0,0,.09);
-    }
-
-    body.light .input::placeholder{
-      color:#99958c;
-    }
-
-    body.light .field label{
-      color:#44413b;
-    }
-
-    body.light .secure-label,
-    body.light .footer{
-      color:#89857d;
-    }
-
-    body.light .password-toggle{
-      color:#77736b;
-    }
-
-    @media(max-width:600px){
-
-      .login-shell{
-        padding:20px;
-      }
-
-      .theme-button{
-        top:15px;
-        right:15px;
-      }
-
-      .login-card{
-        padding:28px 22px;
-        border-radius:24px;
-      }
-
-      .title{
-        font-size:39px;
-      }
-
-      .login-options{
-        align-items:flex-start;
-        flex-direction:column;
-      }
-
-      .secure-label{
-        display:none;
-      }
-    }
-
-    @media(prefers-reduced-motion:reduce){
-
-      *,
-      *::before,
-      *::after{
-        scroll-behavior:auto!important;
-        transition:none!important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Admin Login — Nusrat Afsana Usha</title>
+
+<meta
+  name="description"
+  content="Admin login for Nusrat Afsana Usha portfolio."
+>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#08090b;
+  --panel:#111318;
+  --panel2:#17191e;
+  --text:#f5f2eb;
+  --soft:#c6c5c0;
+  --muted:#8d8f97;
+  --faint:#62646b;
+  --border:rgba(255,255,255,.09);
+  --border2:rgba(255,255,255,.15);
+  --accent:#d8b36a;
+  --accent2:#f1d79c;
+  --green:#69c995;
+  --red:#e77878;
+  --shadow:0 35px 100px rgba(0,0,0,.48);
+}
+
+[data-theme="light"]{
+  --bg:#f3f1ec;
+  --panel:#ffffff;
+  --panel2:#f5f3ee;
+  --text:#171719;
+  --soft:#55555d;
+  --muted:#707078;
+  --faint:#929298;
+  --border:rgba(20,20,20,.09);
+  --border2:rgba(20,20,20,.15);
+  --accent:#a77931;
+  --accent2:#8d6429;
+  --green:#278458;
+  --red:#c64d4d;
+  --shadow:0 30px 80px rgba(35,30,20,.14);
+}
+
+html,
+body{
+  min-height:100%;
+}
+
+body{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  overflow-x:hidden;
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(216,179,106,.13),
+      transparent 38%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgba(216,179,106,.04),
+      transparent 30%
+    ),
+    var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",sans-serif;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.55;
+  background:
+    linear-gradient(
+      rgba(255,255,255,.012) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.012) 1px,
+      transparent 1px
+    );
+  background-size:55px 55px;
+  mask-image:linear-gradient(
+    to bottom,
+    black,
+    transparent 82%
+  );
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.page{
+  width:100%;
+  max-width:500px;
+  position:relative;
+  z-index:2;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.brand-mark{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:
+    linear-gradient(
+      145deg,
+      var(--accent2),
+      var(--accent)
+    );
+  color:#17120a;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:-.08em;
+  box-shadow:
+    0 12px 30px
+    rgba(216,179,106,.15);
+}
+
+.brand-copy strong{
+  display:block;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:14px;
+  line-height:1;
+  letter-spacing:-.025em;
+}
+
+.brand-copy span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:5px;
+}
+
+.theme-toggle{
+  width:40px;
+  height:40px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:var(--panel);
+  color:var(--soft);
+  transition:.2s ease;
+}
+
+.theme-toggle:hover{
+  color:var(--text);
+  border-color:var(--border2);
+}
+
+/* =========================
+   CARD
+========================= */
+
+.login-card{
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-radius:28px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.012)
+    );
+  box-shadow:var(--shadow);
+}
+
+[data-theme="light"] .login-card{
+  background:var(--panel);
+}
+
+.card-line{
+  height:7px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--accent),
+      transparent
+    );
+}
+
+.card-body{
+  padding:34px;
+}
+
+/* =========================
+   INTRO
+========================= */
+
+.login-icon{
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+  margin-bottom:22px;
+  border-radius:18px;
+  border:1px solid rgba(216,179,106,.14);
+  background:rgba(216,179,106,.07);
+  color:var(--accent);
+  font-size:22px;
+}
+
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.eyebrow::before{
+  content:"";
+  width:18px;
+  height:1px;
+  background:var(--accent);
+}
+
+h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(34px,8vw,47px);
+  line-height:.95;
+  letter-spacing:-.06em;
+}
+
+.intro{
+  max-width:390px;
+  margin-top:14px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.65;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form{
+  margin-top:29px;
+}
+
+.field{
+  margin-bottom:17px;
+}
+
+.field label{
+  display:block;
+  margin-bottom:7px;
+  color:var(--soft);
+  font-size:10px;
+  font-weight:700;
+}
+
+.input-wrap{
+  position:relative;
+}
+
+.input{
+  width:100%;
+  height:49px;
+  padding:0 13px;
+  outline:none;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:rgba(255,255,255,.025);
+  color:var(--text);
+  transition:.2s ease;
+}
+
+[data-theme="light"] .input{
+  background:#faf9f6;
+}
+
+.input::placeholder{
+  color:#66676f;
+}
+
+.input:focus{
+  border-color:rgba(216,179,106,.52);
+  box-shadow:
+    0 0 0 4px
+    rgba(216,179,106,.07);
+}
+
+.password{
+  padding-right:49px;
+}
+
+.password-toggle{
+  position:absolute;
+  right:7px;
+  top:50%;
+  width:35px;
+  height:35px;
+  transform:translateY(-50%);
+  border:0;
+  border-radius:9px;
+  background:transparent;
+  color:var(--muted);
+}
+
+.password-toggle:hover{
+  color:var(--text);
+  background:var(--panel2);
+}
+
+/* =========================
+   OPTIONS
+========================= */
+
+.options{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin:4px 0 21px;
+}
+
+.remember{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:10px;
+  cursor:pointer;
+}
+
+.remember input{
+  width:15px;
+  height:15px;
+  accent-color:var(--accent);
+}
+
+.session{
+  color:var(--faint);
+  font-size:9px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.login-button{
+  width:100%;
+  min-height:50px;
+  border:0;
+  border-radius:14px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent2),
+      var(--accent)
+    );
+  color:#17120a;
+  font-size:12px;
+  font-weight:800;
+  box-shadow:
+    0 14px 35px
+    rgba(216,179,106,.12);
+  transition:.2s ease;
+}
+
+.login-button:hover{
+  transform:translateY(-1px);
+  box-shadow:
+    0 18px 42px
+    rgba(216,179,106,.18);
+}
+
+.login-button:active{
+  transform:translateY(0);
+}
+
+.login-button.loading{
+  opacity:.62;
+  pointer-events:none;
+}
+
+/* =========================
+   ERROR
+========================= */
+
+.error{
+  display:none;
+  margin-top:14px;
+  padding:11px 13px;
+  border:1px solid rgba(231,120,120,.18);
+  border-radius:12px;
+  background:rgba(231,120,120,.05);
+  color:var(--red);
+  font-size:10px;
+  line-height:1.5;
+}
+
+.error.show{
+  display:block;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.info{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-top:19px;
+  padding:12px 13px;
+  border:1px solid rgba(105,201,149,.13);
+  border-radius:13px;
+  background:rgba(105,201,149,.035);
+}
+
+.info-dot{
+  width:7px;
+  height:7px;
+  flex:0 0 auto;
+  margin-top:4px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:
+    0 0 0 4px
+    rgba(105,201,149,.07);
+}
+
+.info p{
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.55;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:17px 5px 0;
+  color:#62636a;
+  font-size:9px;
+}
+
+.footer span:last-child{
+  color:var(--accent);
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  z-index:50;
+  min-width:250px;
+  max-width:90vw;
+  padding:13px 15px;
+  border:1px solid var(--border2);
+  border-radius:13px;
+  background:#17181d;
+  color:#fff;
+  text-align:center;
+  font-size:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  opacity:0;
+  pointer-events:none;
+  transform:translate(-50%,30px);
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:520px){
+
+  body{
+    padding:16px;
+  }
+
+  .login-card{
+    border-radius:22px;
+  }
+
+  .card-body{
+    padding:25px 20px;
+  }
+
+  .topbar{
+    margin-bottom:13px;
+  }
+
+  .form{
+    margin-top:24px;
+  }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    transition:none!important;
+  }
+
+}
+</style>
 </head>
 
 <body>
 
-  <div class="ambient"></div>
+<main class="page">
 
-  <!-- Theme -->
-  <button
-    class="theme-button"
-    id="themeButton"
-    type="button"
-    aria-label="Toggle theme"
-    title="Toggle theme"
-  >
-    <svg
-      id="themeIcon"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <circle cx="12" cy="12" r="4"></circle>
-      <path d="M12 2v2"></path>
-      <path d="M12 20v2"></path>
-      <path d="m4.93 4.93 1.42 1.42"></path>
-      <path d="m17.65 17.65 1.42 1.42"></path>
-      <path d="M2 12h2"></path>
-      <path d="M20 12h2"></path>
-      <path d="m6.35 17.65-1.42 1.42"></path>
-      <path d="m19.07 4.93-1.42 1.42"></path>
-    </svg>
-  </button>
+  <!-- HEADER -->
 
+  <header class="topbar">
 
-  <main class="login-shell">
+    <div class="brand">
 
-    <section class="login-container">
-
-      <!-- Brand -->
-      <div class="brand">
-        <div class="brand-mark">
-          <span>NU</span>
-        </div>
+      <div class="brand-mark">
+        NU
       </div>
 
+      <div class="brand-copy">
+        <strong>Nusrat Afsana</strong>
+        <span>Portfolio Administration</span>
+      </div>
 
-      <!-- Login Card -->
-      <div class="login-card">
+    </div>
 
-        <div class="eyebrow">
-          Portfolio Administration
+    <button
+      type="button"
+      class="theme-toggle"
+      id="themeToggle"
+      aria-label="Toggle theme"
+      title="Toggle theme"
+    >
+      ◐
+    </button>
+
+  </header>
+
+
+  <!-- LOGIN -->
+
+  <section class="login-card">
+
+    <div class="card-line"></div>
+
+    <div class="card-body">
+
+      <div class="login-icon">
+        ⌑
+      </div>
+
+      <div class="eyebrow">
+        Administration
+      </div>
+
+      <h1>
+        Welcome<br>
+        back.
+      </h1>
+
+      <p class="intro">
+        Sign in to manage portfolio content, projects,
+        homepage sections and publishing settings.
+      </p>
+
+
+      <form
+        class="form"
+        id="loginForm"
+        autocomplete="on"
+      >
+
+        <!-- USERNAME -->
+
+        <div class="field">
+
+          <label for="username">
+            Account
+          </label>
+
+          <div class="input-wrap">
+
+            <input
+              class="input"
+              id="username"
+              name="username"
+              type="text"
+              autocomplete="username"
+              placeholder="Enter account"
+              required
+              autofocus
+            >
+
+          </div>
+
         </div>
 
-        <h1 class="title">
-          Welcome back.
-        </h1>
 
-        <p class="subtitle">
-          Sign in to manage portfolio content,
-          projects, banners and newsletter settings.
+        <!-- PASSWORD -->
+
+        <div class="field">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="input-wrap">
+
+            <input
+              class="input password"
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="Enter password"
+              required
+            >
+
+            <button
+              type="button"
+              class="password-toggle"
+              id="passwordToggle"
+              aria-label="Show password"
+            >
+              ◉
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- OPTIONS -->
+
+        <div class="options">
+
+          <label class="remember">
+
+            <input
+              type="checkbox"
+              id="remember"
+            >
+
+            <span>
+              Keep me signed in
+            </span>
+
+          </label>
+
+          <span class="session">
+            Protected session
+          </span>
+
+        </div>
+
+
+        <!-- SUBMIT -->
+
+        <button
+          type="submit"
+          class="login-button"
+          id="loginButton"
+        >
+          Sign In
+        </button>
+
+
+        <!-- ERROR -->
+
+        <div
+          class="error"
+          id="errorMessage"
+          role="alert"
+        ></div>
+
+      </form>
+
+
+      <!-- SECURITY INFO -->
+
+      <div class="info">
+
+        <span class="info-dot"></span>
+
+        <p>
+          Your administration session is protected with
+          automatic expiry. For production deployment,
+          connect this interface to secure backend
+          authentication.
         </p>
 
-
-        <form
-          id="loginForm"
-          autocomplete="on"
-          novalidate
-        >
-
-          <!-- Email -->
-          <div class="field">
-
-            <label for="email">
-              Email Address
-            </label>
-
-            <div class="input-wrap">
-
-              <input
-                class="input"
-                id="email"
-                name="email"
-                type="email"
-                placeholder="admin@nusratafsana.com"
-                autocomplete="username"
-                autocapitalize="none"
-                spellcheck="false"
-                required
-              >
-
-            </div>
-
-          </div>
-
-
-          <!-- Password -->
-          <div class="field">
-
-            <label for="password">
-              Password
-            </label>
-
-            <div class="input-wrap">
-
-              <input
-                class="input password"
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Enter your password"
-                autocomplete="current-password"
-                required
-              >
-
-              <button
-                type="button"
-                class="password-toggle"
-                id="passwordToggle"
-                aria-label="Show password"
-              >
-                <svg
-                  id="eyeIcon"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path>
-                  <circle cx="12" cy="12" r="2.7"></circle>
-                </svg>
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <!-- Options -->
-          <div class="login-options">
-
-            <label class="remember">
-
-              <input
-                type="checkbox"
-                id="remember"
-              >
-
-              <span>
-                Remember this device
-              </span>
-
-            </label>
-
-            <span class="secure-label">
-
-              <span class="secure-dot"></span>
-
-              Secure session
-
-            </span>
-
-          </div>
-
-
-          <!-- Login -->
-          <button
-            class="login-button"
-            id="loginButton"
-            type="submit"
-          >
-            <span id="loginButtonText">
-              Continue to Admin
-            </span>
-          </button>
-
-
-          <!-- Error -->
-          <div
-            class="error-box"
-            id="errorBox"
-            role="alert"
-          ></div>
-
-        </form>
-
       </div>
 
+    </div>
 
-      <!-- Footer -->
-      <div class="footer">
+  </section>
 
-        <strong>
-          Nusrat Afsana Usha
-        </strong>
 
-        · Portfolio Administration
+  <footer class="footer">
 
-      </div>
+    <span>
+      © 2026 Nusrat Afsana Usha
+    </span>
 
-    </section>
+    <span>
+      Admin Workspace
+    </span>
 
-  </main>
+  </footer>
+
+</main>
+
+
+<div
+  class="toast"
+  id="toast"
+>
+  Signed in successfully.
+</div>
 
 
 <script>
-/* =========================================================
-   NUSRAT AFSANA USHA
-   ADMIN AUTHENTICATION
-   ========================================================= */
+(() => {
 
-const CONFIG = {
-
-  sessionKey:
-    "nusrat_admin_session_v1",
-
-  rememberKey:
-    "nusrat_admin_remember_v1",
-
-  themeKey:
-    "nusrat_admin_theme",
-
-  sessionHours: 8,
+  "use strict";
 
 
-  /*
-   * DEMO ADMIN
-   */
+  /* ==========================================
+     STORAGE KEYS
+  ========================================== */
 
-  admin: {
+  const SESSION_KEY =
+    "nusrat_admin_session_v1";
 
-    email:
-      "admin@nusratafsana.com",
+  const REMEMBER_KEY =
+    "nusrat_admin_remember_v1";
 
-    password:
-      "demo123",
-
-    role:
-      "admin",
-
-    redirect:
-      "./dashboard.html"
-
-  },
+  const THEME_KEY =
+    "nusrat_admin_theme";
 
 
-  /*
-   * PRIVATE SUPER ADMIN
-   */
+  /* ==========================================
+     DEMO AUTH
+     
+     Production:
+     Replace this with Firebase /
+     Supabase / backend authentication.
+  ========================================== */
 
-  superAdmin: {
+  const DEMO_USERNAME =
+    "client";
 
-    email:
-      "master@nusratafsana.com",
+  const DEMO_PASSWORD =
+    "demo123";
 
-    password:
-      "SNK@Master2026!",
 
-    role:
-      "super_admin",
+  const SESSION_MINUTES =
+    60;
 
-    redirect:
-      "./master/index.html"
+
+  /* ==========================================
+     ELEMENTS
+  ========================================== */
+
+  const form =
+    document.getElementById(
+      "loginForm"
+    );
+
+  const username =
+    document.getElementById(
+      "username"
+    );
+
+  const password =
+    document.getElementById(
+      "password"
+    );
+
+  const remember =
+    document.getElementById(
+      "remember"
+    );
+
+  const passwordToggle =
+    document.getElementById(
+      "passwordToggle"
+    );
+
+  const loginButton =
+    document.getElementById(
+      "loginButton"
+    );
+
+  const errorMessage =
+    document.getElementById(
+      "errorMessage"
+    );
+
+  const themeToggle =
+    document.getElementById(
+      "themeToggle"
+    );
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  /* ==========================================
+     THEME
+  ========================================== */
+
+  function loadTheme(){
+
+    const theme =
+      localStorage.getItem(
+        THEME_KEY
+      ) || "dark";
+
+    document.documentElement.dataset.theme =
+      theme;
 
   }
 
-};
+  loadTheme();
 
 
-/* =========================================================
-   ELEMENTS
-   ========================================================= */
+  themeToggle.addEventListener(
+    "click",
+    () => {
 
-const loginForm =
-  document.getElementById("loginForm");
+      const current =
+        document.documentElement
+          .dataset.theme || "dark";
 
-const emailInput =
-  document.getElementById("email");
+      const next =
+        current === "dark"
+          ? "light"
+          : "dark";
 
-const passwordInput =
-  document.getElementById("password");
+      document.documentElement.dataset.theme =
+        next;
 
-const rememberInput =
-  document.getElementById("remember");
+      localStorage.setItem(
+        THEME_KEY,
+        next
+      );
 
-const loginButton =
-  document.getElementById("loginButton");
-
-const loginButtonText =
-  document.getElementById("loginButtonText");
-
-const errorBox =
-  document.getElementById("errorBox");
-
-const passwordToggle =
-  document.getElementById("passwordToggle");
-
-const themeButton =
-  document.getElementById("themeButton");
+    }
+  );
 
 
-/* =========================================================
-   STORAGE
-   ========================================================= */
-
-function getJSON(key, fallback = null){
+  /* ==========================================
+     REMEMBERED USER
+  ========================================== */
 
   try{
 
-    const value =
-      localStorage.getItem(key);
+    const saved =
+      localStorage.getItem(
+        REMEMBER_KEY
+      );
 
-    if(!value){
-      return fallback;
+    if(saved){
+
+      const data =
+        JSON.parse(saved);
+
+      if(data && data.username){
+
+        username.value =
+          data.username;
+
+        remember.checked =
+          true;
+
+      }
+
     }
-
-    return JSON.parse(value);
 
   }catch(error){
 
-    return fallback;
-
-  }
-
-}
-
-
-function setJSON(key, value){
-
-  localStorage.setItem(
-    key,
-    JSON.stringify(value)
-  );
-
-}
-
-
-/* =========================================================
-   ERROR
-   ========================================================= */
-
-function showError(message){
-
-  errorBox.textContent =
-    message;
-
-  errorBox.classList.add(
-    "show"
-  );
-
-}
-
-
-function hideError(){
-
-  errorBox.textContent =
-    "";
-
-  errorBox.classList.remove(
-    "show"
-  );
-
-}
-
-
-/* =========================================================
-   SESSION
-   ========================================================= */
-
-function getExistingSession(){
-
-  const session =
-    getJSON(
-      CONFIG.sessionKey,
-      null
+    localStorage.removeItem(
+      REMEMBER_KEY
     );
 
-  if(!session){
-    return null;
   }
 
 
-  if(
-    session.authenticated === true &&
-    Number(session.expiresAt) > Date.now()
-  ){
+  /* ==========================================
+     PASSWORD VISIBILITY
+  ========================================== */
+
+  passwordToggle.addEventListener(
+    "click",
+    () => {
+
+      const isPassword =
+        password.type === "password";
+
+      password.type =
+        isPassword
+          ? "text"
+          : "password";
+
+      passwordToggle.textContent =
+        isPassword
+          ? "○"
+          : "◉";
+
+      passwordToggle.setAttribute(
+        "aria-label",
+        isPassword
+          ? "Hide password"
+          : "Show password"
+      );
+
+    }
+  );
+
+
+  /* ==========================================
+     ERROR
+  ========================================== */
+
+  function showError(message){
+
+    errorMessage.textContent =
+      message;
+
+    errorMessage.classList.add(
+      "show"
+    );
+
+  }
+
+
+  function clearError(){
+
+    errorMessage.textContent =
+      "";
+
+    errorMessage.classList.remove(
+      "show"
+    );
+
+  }
+
+
+  /* ==========================================
+     TOAST
+  ========================================== */
+
+  let toastTimer;
+
+  function showToast(message){
+
+    toast.textContent =
+      message;
+
+    toast.classList.add(
+      "show"
+    );
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+      setTimeout(
+        () => {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        2200
+      );
+
+  }
+
+
+  /* ==========================================
+     SESSION CREATION
+  ========================================== */
+
+  function createSession(){
+
+    const now =
+      Date.now();
+
+    const duration =
+      remember.checked
+        ? 7 * 24 * 60
+        : SESSION_MINUTES;
+
+    const session = {
+
+      loggedIn:true,
+
+      role:"admin",
+
+      username:
+        username.value.trim(),
+
+      createdAt:
+        now,
+
+      expiresAt:
+        now +
+        duration *
+        60 *
+        1000
+
+    };
+
+
+    localStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify(session)
+    );
+
+
+    if(remember.checked){
+
+      localStorage.setItem(
+        REMEMBER_KEY,
+        JSON.stringify({
+          username:
+            username.value.trim()
+        })
+      );
+
+    }else{
+
+      localStorage.removeItem(
+        REMEMBER_KEY
+      );
+
+    }
+
 
     return session;
 
   }
 
 
-  localStorage.removeItem(
-    CONFIG.sessionKey
-  );
-
-  return null;
-
-}
-
-
-function redirectExistingSession(){
-
-  const session =
-    getExistingSession();
-
-  if(!session){
-    return;
-  }
-
-
-  if(
-    session.role ===
-    "super_admin"
-  ){
-
-    window.location.replace(
-      CONFIG.superAdmin.redirect
-    );
-
-    return;
-
-  }
-
-
-  window.location.replace(
-    CONFIG.admin.redirect
-  );
-
-}
-
-
-/* =========================================================
-   REMEMBER
-   ========================================================= */
-
-function loadRemember(){
-
-  rememberInput.checked =
-    localStorage.getItem(
-      CONFIG.rememberKey
-    ) === "true";
-
-}
-
-
-function saveRemember(){
-
-  localStorage.setItem(
-    CONFIG.rememberKey,
-    rememberInput.checked
-      ? "true"
-      : "false"
-  );
-
-}
-
-
-/* =========================================================
-   THEME
-   ========================================================= */
-
-function applyTheme(theme){
-
-  const light =
-    theme === "light";
-
-  document.body.classList.toggle(
-    "light",
-    light
-  );
-
-  localStorage.setItem(
-    CONFIG.themeKey,
-    light
-      ? "light"
-      : "dark"
-  );
-
-}
-
-
-function loadTheme(){
-
-  const saved =
-    localStorage.getItem(
-      CONFIG.themeKey
-    );
-
-  applyTheme(
-    saved === "light"
-      ? "light"
-      : "dark"
-  );
-
-}
-
-
-themeButton.addEventListener(
-  "click",
-  () => {
-
-    const next =
-      document.body.classList.contains(
-        "light"
-      )
-        ? "dark"
-        : "light";
-
-    applyTheme(next);
-
-  }
-);
-
-
-/* =========================================================
-   PASSWORD SHOW / HIDE
-   ========================================================= */
-
-passwordToggle.addEventListener(
-  "click",
-  () => {
-
-    const isPassword =
-      passwordInput.type ===
-      "password";
-
-
-    passwordInput.type =
-      isPassword
-        ? "text"
-        : "password";
-
-
-    passwordToggle.setAttribute(
-      "aria-label",
-      isPassword
-        ? "Hide password"
-        : "Show password"
-    );
-
-  }
-);
-
-
-/* =========================================================
-   LOGIN
-   ========================================================= */
-
-loginForm.addEventListener(
-  "submit",
-  async event => {
-
-    event.preventDefault();
-
-    hideError();
-
-
-    const email =
-      emailInput.value
-        .trim()
-        .toLowerCase();
-
-    const password =
-      passwordInput.value;
-
-
-    /* Validation */
-
-    if(!email){
-
-      showError(
-        "Please enter your email address."
-      );
-
-      emailInput.focus();
-
-      return;
-
-    }
-
-
-    if(!password){
-
-      showError(
-        "Please enter your password."
-      );
-
-      passwordInput.focus();
-
-      return;
-
-    }
-
-
-    if(
-      !email.includes("@")
-    ){
-
-      showError(
-        "Please enter a valid email address."
-      );
-
-      emailInput.focus();
-
-      return;
-
-    }
-
-
-    /* Loading */
-
-    loginButton.classList.add(
-      "loading"
-    );
-
-    loginButtonText.textContent =
-      "Authenticating…";
-
-
-    await new Promise(
-      resolve =>
-        setTimeout(resolve, 450)
-    );
-
-
-    /* Find account */
-
-    let account = null;
-
-
-    if(
-      email ===
-        CONFIG.admin.email &&
-      password ===
-        CONFIG.admin.password
-    ){
-
-      account =
-        CONFIG.admin;
-
-    }
-
-
-    else if(
-      email ===
-        CONFIG.superAdmin.email &&
-      password ===
-        CONFIG.superAdmin.password
-    ){
-
-      account =
-        CONFIG.superAdmin;
-
-    }
-
-
-    /* Invalid */
-
-    if(!account){
-
-      loginButton.classList.remove(
-        "loading"
-      );
-
-      loginButtonText.textContent =
-        "Continue to Admin";
-
-
-      showError(
-        "The email address or password is incorrect."
-      );
-
-
-      passwordInput.select();
-
-      return;
-
-    }
-
-
-    /* Remember */
-
-    saveRemember();
-
-
-    /* Session */
-
-    const now =
-      Date.now();
-
-    const sessionDuration =
-      CONFIG.sessionHours *
-      60 *
-      60 *
-      1000;
-
-
-    const session = {
-
-      authenticated:
-        true,
-
-      role:
-        account.role,
-
-      loginAt:
-        new Date(now)
-          .toISOString(),
-
-      expiresAt:
-        now +
-        sessionDuration
-
-    };
-
-
-    setJSON(
-      CONFIG.sessionKey,
-      session
-    );
-
-
-    /* Success */
-
-    loginButtonText.textContent =
-      "Access granted";
-
-
-    await new Promise(
-      resolve =>
-        setTimeout(resolve, 350)
-    );
-
-
-    /* Redirect */
-
-    window.location.replace(
-      account.redirect
-    );
-
-  }
-);
-
-
-/* =========================================================
-   ENTER KEY
-   ========================================================= */
-
-emailInput.addEventListener(
-  "keydown",
-  event => {
-
-    if(
-      event.key ===
-      "Enter"
-    ){
+  /* ==========================================
+     LOGIN
+  ========================================== */
+
+  form.addEventListener(
+    "submit",
+    event => {
 
       event.preventDefault();
 
-      passwordInput.focus();
+      clearError();
+
+
+      const user =
+        username.value.trim();
+
+      const pass =
+        password.value;
+
+
+      if(!user || !pass){
+
+        showError(
+          "Please enter your account and password."
+        );
+
+        return;
+
+      }
+
+
+      loginButton.classList.add(
+        "loading"
+      );
+
+      loginButton.textContent =
+        "Verifying…";
+
+
+      /*
+        Small delay gives the interface
+        a polished authentication state.
+      */
+
+      setTimeout(
+        () => {
+
+          if(
+            user === DEMO_USERNAME &&
+            pass === DEMO_PASSWORD
+          ){
+
+            createSession();
+
+            showToast(
+              "Signed in successfully."
+            );
+
+
+            setTimeout(
+              () => {
+
+                window.location.replace(
+                  "./dashboard.html"
+                );
+
+              },
+              500
+            );
+
+            return;
+
+          }
+
+
+          loginButton.classList.remove(
+            "loading"
+          );
+
+          loginButton.textContent =
+            "Sign In";
+
+
+          showError(
+            "The account or password is incorrect."
+          );
+
+
+          password.select();
+
+        },
+        450
+      );
+
+    }
+  );
+
+
+  /* ==========================================
+     IF VALID SESSION ALREADY EXISTS
+  ========================================== */
+
+  function checkExistingSession(){
+
+    try{
+
+      const raw =
+        localStorage.getItem(
+          SESSION_KEY
+        );
+
+      if(!raw){
+        return;
+      }
+
+
+      const session =
+        JSON.parse(raw);
+
+
+      if(
+        session &&
+        session.loggedIn === true &&
+        session.role === "admin" &&
+        session.expiresAt &&
+        Date.now() < session.expiresAt
+      ){
+
+        window.location.replace(
+          "./dashboard.html"
+        );
+
+      }
+
+
+    }catch(error){
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
 
     }
 
   }
-);
 
 
-/* =========================================================
-   EXPIRED SESSION CLEANUP
-   ========================================================= */
-
-function cleanExpiredSession(){
-
-  const session =
-    getJSON(
-      CONFIG.sessionKey,
-      null
-    );
-
-  if(!session){
-    return;
-  }
+  checkExistingSession();
 
 
-  if(
-    Number(session.expiresAt) <=
-    Date.now()
-  ){
+  /* ==========================================
+     ENTER KEY
+  ========================================== */
 
-    localStorage.removeItem(
-      CONFIG.sessionKey
-    );
+  password.addEventListener(
+    "keydown",
+    event => {
 
-  }
+      if(event.key === "Enter"){
 
-}
+        form.requestSubmit();
 
+      }
 
-/* =========================================================
-   INITIALIZE
-   ========================================================= */
+    }
+  );
 
-(function init(){
-
-  loadTheme();
-
-  loadRemember();
-
-  cleanExpiredSession();
-
-
-  const session =
-    getExistingSession();
-
-
-  if(session){
-
-    redirectExistingSession();
-
-    return;
-
-  }
-
-
-  emailInput.focus();
 
 })();
 </script>
