@@ -1,71 +1,124 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+"use strict";
+
+/* =====================================================
+ELEMENTS
+===================================================== */
+
 const body = document.body;
-const header = document.querySelector(".site-header");
-const menuBtn = document.querySelector(".menu-btn");
-const navLinks = document.querySelector(".nav-links");
-const progress = document.querySelector(".scroll-progress span");
-const loader = document.querySelector(".page-loader");
-const year = document.getElementById("year");
 
-/* =========================
+const loader = document.getElementById("loader");
+const header = document.getElementById("siteHeader");
+const progress = document.getElementById("scrollProgress");
+
+const menuToggle = document.getElementById("menuToggle");
+const mobileMenu = document.getElementById("mobileMenu");
+
+const modal = document.getElementById("caseModal");
+const modalDialog = document.querySelector(".case-dialog");
+const modalClose = document.getElementById("caseClose");
+
+const caseImage = document.getElementById("caseImage");
+const caseCategory = document.getElementById("caseCategory");
+const caseTitle = document.getElementById("caseTitle");
+const caseRole = document.getElementById("caseRole");
+const caseTools = document.getElementById("caseTools");
+const caseStatus = document.getElementById("caseStatus");
+const caseAbout = document.getElementById("caseAbout");
+
+const caseChallenge = document.getElementById("caseChallenge");
+const caseApproach = document.getElementById("caseApproach");
+const caseOutcome = document.getElementById("caseOutcome");
+
+const caseCurrent = document.getElementById("caseCurrent");
+
+const casePrev = document.getElementById("casePrev");
+const caseNext = document.getElementById("caseNext");
+
+const projectCards = [
+...document.querySelectorAll("[data-project]")
+];
+
+/* =====================================================
 YEAR
-========================= */
+===================================================== */
 
-if (year) {
-year.textContent = new Date().getFullYear();
-}
+const currentYear = new Date().getFullYear();
 
-/* =========================
-PAGE LOADER
-========================= */
-
-window.addEventListener("load", () => {
-
-setTimeout(() => {
-  loader?.classList.add("is-hidden");
-}, 500);
-
+document.querySelectorAll(".year").forEach(el => {
+el.textContent = currentYear;
 });
 
-/* =========================
-MOBILE MENU
-========================= */
+/* =====================================================
+LOADER
+===================================================== */
 
-const closeMenu = () => {
+const hideLoader = () => {
 
-navLinks?.classList.remove("open");
+if (!loader) return;
 
-menuBtn?.setAttribute(
-  "aria-expanded",
-  "false"
-);
+loader.classList.add("loaded");
 
-menuBtn?.setAttribute(
-  "aria-label",
-  "Open menu"
-);
+setTimeout(() => {
+  loader.remove();
+}, 1000);
 
 };
 
-menuBtn?.addEventListener("click", () => {
+window.addEventListener("load", () => {
 
-const open =
-  navLinks?.classList.toggle("open");
-
-menuBtn.setAttribute(
-  "aria-expanded",
-  String(open)
-);
-
-menuBtn.setAttribute(
-  "aria-label",
-  open ? "Close menu" : "Open menu"
-);
+setTimeout(hideLoader, 500);
 
 });
 
-navLinks?.querySelectorAll("a").forEach(link => {
+/* =====================================================
+MOBILE MENU
+===================================================== */
+
+function openMenu(){
+
+if (!menuToggle || !mobileMenu) return;
+
+menuToggle.classList.add("active");
+mobileMenu.classList.add("open");
+
+menuToggle.setAttribute("aria-expanded", "true");
+
+body.classList.add("modal-open");
+
+}
+
+function closeMenu(){
+
+if (!menuToggle || !mobileMenu) return;
+
+menuToggle.classList.remove("active");
+mobileMenu.classList.remove("open");
+
+menuToggle.setAttribute("aria-expanded", "false");
+
+body.classList.remove("modal-open");
+
+}
+
+if (menuToggle){
+
+menuToggle.addEventListener("click", () => {
+
+  const isOpen = mobileMenu.classList.contains("open");
+
+  if (isOpen){
+    closeMenu();
+  }else{
+    openMenu();
+  }
+
+});
+
+}
+
+document.querySelectorAll(".mobile-menu a").forEach(link => {
 
 link.addEventListener("click", () => {
   closeMenu();
@@ -73,319 +126,206 @@ link.addEventListener("click", () => {
 
 });
 
-document.addEventListener("keydown", event => {
-
-if (event.key === "Escape") {
-  closeMenu();
-  closeModal();
-}
-
-});
-
-/* =========================
-HEADER SHOW / HIDE
-========================= */
+/* =====================================================
+HEADER HIDE / SHOW
+===================================================== */
 
 let lastScroll = window.scrollY;
+let tickingHeader = false;
 
-window.addEventListener(
-"scroll",
-() => {
+function updateHeader(){
 
-  const current = window.scrollY;
+const currentScroll = window.scrollY;
 
-  if (current > 30) {
-    header?.classList.add("scrolled");
-  } else {
-    header?.classList.remove("scrolled");
+if (!header) return;
+
+if (currentScroll > 120){
+
+  if (currentScroll > lastScroll + 8){
+    header.classList.add("header-hidden");
   }
 
-  if (current > lastScroll && current > 180) {
-    header?.classList.add("hidden");
-  } else {
-    header?.classList.remove("hidden");
+  if (currentScroll < lastScroll - 8){
+    header.classList.remove("header-hidden");
   }
 
-  lastScroll = current;
+}else{
 
-},
-{ passive:true }
+  header.classList.remove("header-hidden");
 
-);
+}
 
-/* =========================
+lastScroll = currentScroll;
+tickingHeader = false;
+
+}
+
+window.addEventListener("scroll", () => {
+
+if (!tickingHeader){
+
+  requestAnimationFrame(updateHeader);
+
+  tickingHeader = true;
+
+}
+
+}, {passive});
+
+/* =====================================================
 SCROLL PROGRESS
-========================= */
+===================================================== */
 
-const updateProgress = () => {
+function updateProgress(){
 
 if (!progress) return;
 
-const scrollTop =
-  window.scrollY;
+const scrollTop = window.scrollY;
 
-const scrollHeight =
+const height =
   document.documentElement.scrollHeight -
   window.innerHeight;
 
 const percentage =
-  scrollHeight > 0
-    ? (scrollTop / scrollHeight) * 100
+  height > 0
+    ? (scrollTop / height) * 100
     : 0;
 
-progress.style.width =
-  `${percentage}%`;
+progress.style.width = `${percentage}%`;
 
-};
+}
 
-window.addEventListener(
-"scroll",
-updateProgress,
-{ passive }
-);
+window.addEventListener("scroll", updateProgress, {
+passive
+});
 
 updateProgress();
 
-/* =========================
+/* =====================================================
 SMOOTH ANCHORS
-========================= */
+===================================================== */
 
-document
-.querySelectorAll('a[href^="#"]')
-.forEach(link => {
+document.querySelectorAll('a[href^="#"]').forEach(link => {
 
-  link.addEventListener("click", event => {
+link.addEventListener("click", event => {
 
-    const id =
-      link.getAttribute("href");
+  const targetId = link.getAttribute("href");
 
-    if (!id || id === "#") return;
+  if (
+    !targetId ||
+    targetId === "#" ||
+    targetId === "#!"
+  ){
+    return;
+  }
 
-    const target =
-      document.querySelector(id);
+  const target = document.querySelector(targetId);
 
-    if (!target) return;
+  if (!target) return;
 
-    event.preventDefault();
+  event.preventDefault();
 
-    target.scrollIntoView({
-      behavior:"smooth",
-      block:"start"
-    });
-
+  target.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
   });
 
 });
 
-/* =========================
-REVEAL
-========================= */
+});
 
-const revealItems =
+/* =====================================================
+REVEAL ANIMATION
+===================================================== */
+
+const revealElements =
 document.querySelectorAll(".reveal");
 
+if ("IntersectionObserver" in window){
+
 const revealObserver =
-new IntersectionObserver(
-entries => {
+  new IntersectionObserver(
+    entries => {
 
-    entries.forEach(entry => {
+      entries.forEach(entry => {
 
-      if (
-        entry.isIntersecting
-      ) {
+        if (entry.isIntersecting){
 
-        entry.target.classList.add(
-          "visible"
-        );
+          entry.target.classList.add("is-visible");
 
-        revealObserver.unobserve(
-          entry.target
-        );
+          revealObserver.unobserve(entry.target);
 
-      }
+        }
 
-    });
+      });
 
-  },
-  {
-    threshold:.12,
-    rootMargin:"0px 0px -50px"
-  }
-);
+    },
+    {
+      threshold:.12,
+      rootMargin:"0px 0px -50px 0px"
+    }
+  );
 
-revealItems.forEach(item => {
-revealObserver.observe(item);
+revealElements.forEach(element => {
+  revealObserver.observe(element);
 });
 
-/* =========================
+}else{
+
+revealElements.forEach(element => {
+  element.classList.add("is-visible");
+});
+
+}
+
+/* =====================================================
 HERO PARALLAX
-========================= */
+===================================================== */
 
-const heroImage =
-document.querySelector(".hero-frame img");
+const heroVisual =
+document.querySelector(".hero-visual");
 
-if (
-heroImage &&
-!window.matchMedia(
-"(prefers-reduced-motion: reduce)"
-).matches
-) {
-
-window.addEventListener(
-  "scroll",
-  () => {
-
-    const y =
-      Math.min(window.scrollY * .08, 35);
-
-    heroImage.style.transform =
-      `scale(1.02) translateY(${y}px)`;
-
-  },
-  { passive:true }
-);
-
-}
-
-/* =========================
-PROJECT TILT
-========================= */
-
-const projects =
-document.querySelectorAll(".project-image");
+const prefersReducedMotion =
+window.matchMedia &&
+window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 if (
-window.matchMedia("(pointer)").matches &&
-!window.matchMedia(
-"(prefers-reduced-motion: reduce)"
-).matches
-) {
+heroVisual &&
+!prefersReducedMotion &&
+window.innerWidth > 900
+){
 
-projects.forEach(card => {
+let raf = null;
 
-  card.addEventListener(
-    "mousemove",
-    event => {
+window.addEventListener("scroll", () => {
 
-      const rect =
-        card.getBoundingClientRect();
+  if (raf) return;
 
-      const x =
-        event.clientX - rect.left;
+  raf = requestAnimationFrame(() => {
 
-      const y =
-        event.clientY - rect.top;
+    const scroll = window.scrollY;
 
-      const rotateX =
-        ((y / rect.height) - .5) * -3;
+    if (scroll < window.innerHeight * 1.2){
 
-      const rotateY =
-        ((x / rect.width) - .5) * 3;
+      const movement =
+        Math.min(scroll * .06, 35);
 
-      card.style.transform =
-        `perspective(900px)
-         rotateX(${rotateX}deg)
-         rotateY(${rotateY}deg)
-         scale(1.005)`;
+      heroVisual.style.transform =
+        `translateY(${movement}px)`;
 
     }
-  );
 
-  card.addEventListener(
-    "mouseleave",
-    () => {
-
-      card.style.transform =
-        "";
-
-    }
-  );
-
-});
-
-}
-
-/* =========================
-CURSOR
-========================= */
-
-if (
-window.matchMedia("(pointer)").matches
-) {
-
-const cursor =
-  document.createElement("div");
-
-cursor.className =
-  "cursor-glow";
-
-document.body.appendChild(cursor);
-
-let mouseX = 0;
-let mouseY = 0;
-let currentX = 0;
-let currentY = 0;
-
-document.addEventListener(
-  "mousemove",
-  event => {
-
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-
-  }
-);
-
-const cursorLoop = () => {
-
-  currentX +=
-    (mouseX - currentX) * .16;
-
-  currentY +=
-    (mouseY - currentY) * .16;
-
-  cursor.style.left =
-    `${currentX}px`;
-
-  cursor.style.top =
-    `${currentY}px`;
-
-  requestAnimationFrame(
-    cursorLoop
-  );
-
-};
-
-cursorLoop();
-
-
-document
-  .querySelectorAll(
-    "a,button,.project-image"
-  )
-  .forEach(element => {
-
-    element.addEventListener(
-      "mouseenter",
-      () => {
-        cursor.classList.add("active");
-      }
-    );
-
-    element.addEventListener(
-      "mouseleave",
-      () => {
-        cursor.classList.remove("active");
-      }
-    );
+    raf = null;
 
   });
 
+}, {passive:true});
+
 }
 
-/* =========================
-CASE STUDY DATA
-========================= */
+/* =====================================================
+PROJECT DATA
+===================================================== */
 
 const projectsData = {
 
@@ -404,7 +344,16 @@ const projectsData = {
   status:"Client / Marketplace",
 
   about:
-    "A marketplace and website-design workflow focused on presenting services clearly, helping clients understand available options, and creating a smoother path from requirement to final website."
+    "A marketplace and website-design workflow focused on presenting services clearly, helping clients understand available options, and creating a smoother path from requirement to final website.",
+
+  challenge:
+    "Website services can quickly become difficult to understand when users are presented with too many options, technical terms and competing calls to action. The challenge was to create a clearer visual hierarchy that helped people understand what was available and what to do next.",
+
+  approach:
+    "The experience was structured around clear content grouping, stronger hierarchy and simple navigation. Figma was used to explore layouts, responsive behaviour and visual directions before development.",
+
+  outcome:
+    "The resulting direction creates a more approachable marketplace experience where services are easier to scan, compare and understand while maintaining a polished digital brand presence."
 
 },
 
@@ -424,7 +373,16 @@ const projectsData = {
   status:"Client Project",
 
   about:
-    "A client-focused website design process covering information structure, visual hierarchy, responsive layouts and interactive Figma prototypes before development."
+    "A client-focused website design process covering information structure, visual hierarchy, responsive layouts and interactive Figma prototypes before development.",
+
+  challenge:
+    "The primary challenge was translating a business's goals and content into a digital experience that felt professional without overwhelming visitors. The interface needed to communicate value quickly while remaining flexible across devices.",
+
+  approach:
+    "The design process began with information hierarchy and page structure before moving into wireframes and high-fidelity visual design. Responsive layouts and interaction states were considered throughout the process.",
+
+  outcome:
+    "The final direction delivers a cleaner and more intentional website experience with stronger hierarchy, improved readability and a visual system that can scale across future pages."
 
 },
 
@@ -444,195 +402,506 @@ const projectsData = {
   status:"Academic Project",
 
   about:
-    "UX design studies exploring research, information architecture, wireframing, prototyping and usability testing as part of postgraduate UX Design education."
+    "UX design studies exploring research, information architecture, wireframing, prototyping and usability testing as part of postgraduate UX Design education.",
+
+  challenge:
+    "Academic UX projects require moving beyond visual design and understanding the reasoning behind each interaction. The challenge was to investigate user needs, translate findings into design decisions and validate the resulting experience.",
+
+  approach:
+    "The work follows a research-led process involving user understanding, problem definition, information architecture, wireframes, interactive prototypes and iterative refinement.",
+
+  outcome:
+    "The projects provide a practical foundation in human-centered design and demonstrate how research and testing can influence stronger interface and interaction decisions."
 
 }
 
 };
 
-/* =========================
-MODAL
-========================= */
+const projectIds = Object.keys(projectsData);
 
-const modal =
-document.getElementById("caseModal");
+let currentProjectIndex = 0;
 
-const caseImage =
-document.getElementById("caseImage");
+/* =====================================================
+MODAL HELPERS
+===================================================== */
 
-const caseCategory =
-document.getElementById("caseCategory");
+function getProjectIdFromCard(card){
 
-const caseTitle =
-document.getElementById("caseTitle");
+return card.getAttribute("data-project");
 
-const caseRole =
-document.getElementById("caseRole");
+}
 
-const caseTools =
-document.getElementById("caseTools");
+function findProjectIndex(projectId){
 
-const caseStatus =
-document.getElementById("caseStatus");
+return projectIds.indexOf(projectId);
 
-const caseAbout =
-document.getElementById("caseAbout");
+}
 
-const openModal = key => {
+function renderProject(projectId){
 
-const data =
-  projectsData[key];
+const data = projectsData[projectId];
 
-if (!data || !modal) return;
+if (!data) return;
 
-if (caseImage) {
+currentProjectIndex =
+  findProjectIndex(projectId);
 
-  caseImage.src =
-    data.image;
 
-  caseImage.alt =
-    data.title;
+if (caseImage){
+
+  caseImage.style.opacity = "0";
+
+  caseImage.src = data.image;
+  caseImage.alt = `${data.title} — case study`;
+
+  caseImage.onload = () => {
+
+    caseImage.style.transition =
+      "opacity .5s ease";
+
+    caseImage.style.opacity = "1";
+
+  };
 
   caseImage.onerror = () => {
 
-    caseImage.style.display =
-      "none";
+    caseImage.removeAttribute("src");
+
+    caseImage.alt =
+      "Project preview unavailable";
+
+    caseImage.style.opacity = "1";
 
   };
 
 }
 
-if (caseCategory)
+
+if (caseCategory){
   caseCategory.textContent =
     data.category;
+}
 
-if (caseTitle)
+if (caseTitle){
   caseTitle.textContent =
     data.title;
+}
 
-if (caseRole)
+if (caseRole){
   caseRole.textContent =
     data.role;
+}
 
-if (caseTools)
+if (caseTools){
   caseTools.textContent =
     data.tools;
+}
 
-if (caseStatus)
+if (caseStatus){
   caseStatus.textContent =
     data.status;
+}
 
-if (caseAbout)
+if (caseAbout){
   caseAbout.textContent =
     data.about;
+}
+
+if (caseChallenge){
+  caseChallenge.textContent =
+    data.challenge;
+}
+
+if (caseApproach){
+  caseApproach.textContent =
+    data.approach;
+}
+
+if (caseOutcome){
+  caseOutcome.textContent =
+    data.outcome;
+}
+
+if (caseCurrent){
+
+  caseCurrent.textContent =
+    String(currentProjectIndex + 1)
+      .padStart(2,"0");
+
+}
+
+if (modalDialog){
+
+  modalDialog.scrollTo({
+    top:0,
+    behavior:"instant"
+  });
+
+}
+
+}
+
+function openCaseStudy(projectId){
+
+if (!modal) return;
+
+renderProject(projectId);
 
 modal.classList.add("open");
+modal.setAttribute("aria-hidden","false");
 
-modal.setAttribute(
-  "aria-hidden",
-  "false"
-);
+body.classList.add("modal-open");
 
-body.classList.add(
-  "modal-open"
-);
+if (modalClose){
 
-};
+  setTimeout(() => {
+    modalClose.focus();
+  }, 150);
 
-function closeModal(){
+}
+
+}
+
+function closeCaseStudy(){
 
 if (!modal) return;
 
 modal.classList.remove("open");
+modal.setAttribute("aria-hidden","true");
 
-modal.setAttribute(
-  "aria-hidden",
-  "true"
-);
+body.classList.remove("modal-open");
 
-body.classList.remove(
-  "modal-open"
+}
+
+/* =====================================================
+PROJECT CLICK
+===================================================== */
+
+projectCards.forEach(card => {
+
+const button =
+  card.querySelector(".project-open");
+
+if (!button) return;
+
+button.addEventListener("click", () => {
+
+  const projectId =
+    getProjectIdFromCard(card);
+
+  if (projectId){
+
+    openCaseStudy(projectId);
+
+  }
+
+});
+
+});
+
+/* =====================================================
+CLOSE MODAL
+===================================================== */
+
+if (modalClose){
+
+modalClose.addEventListener(
+  "click",
+  closeCaseStudy
 );
 
 }
 
-document
-.querySelectorAll("[data-project]")
-.forEach(button => {
-
-  button.addEventListener(
-    "click",
-    () => {
-
-      const key =
-        button.dataset.project;
-
-      openModal(key);
-
-    }
-  );
-
-});
-
-document
-.querySelectorAll("[data-close]")
+document.querySelectorAll("[data-close-case]")
 .forEach(element => {
 
   element.addEventListener(
     "click",
-    closeModal
+    closeCaseStudy
   );
 
 });
 
-/* =========================
+/* =====================================================
+PREVIOUS PROJECT
+===================================================== */
+
+if (casePrev){
+
+casePrev.addEventListener("click", () => {
+
+  currentProjectIndex--;
+
+  if (currentProjectIndex < 0){
+
+    currentProjectIndex =
+      projectIds.length - 1;
+
+  }
+
+  renderProject(
+    projectIds[currentProjectIndex]
+  );
+
+});
+
+}
+
+/* =====================================================
+NEXT PROJECT
+===================================================== */
+
+if (caseNext){
+
+caseNext.addEventListener("click", () => {
+
+  currentProjectIndex++;
+
+  if (
+    currentProjectIndex >=
+    projectIds.length
+  ){
+
+    currentProjectIndex = 0;
+
+  }
+
+  renderProject(
+    projectIds[currentProjectIndex]
+  );
+
+});
+
+}
+
+/* =====================================================
+KEYBOARD
+===================================================== */
+
+document.addEventListener("keydown", event => {
+
+if (event.key === "Escape"){
+
+  if (modal &&
+      modal.classList.contains("open")){
+
+    closeCaseStudy();
+
+  }else if (
+    mobileMenu &&
+    mobileMenu.classList.contains("open")
+  ){
+
+    closeMenu();
+
+  }
+
+}
+
+
+if (
+  modal &&
+  modal.classList.contains("open")
+){
+
+  if (event.key === "ArrowRight"){
+
+    caseNext?.click();
+
+  }
+
+  if (event.key === "ArrowLeft"){
+
+    casePrev?.click();
+
+  }
+
+}
+
+});
+
+/* =====================================================
+PROJECT TILT
+===================================================== */
+
+if (
+!prefersReducedMotion &&
+window.innerWidth > 900
+){
+
+document
+  .querySelectorAll(".project-image")
+  .forEach(image => {
+
+    image.addEventListener(
+      "mousemove",
+      event => {
+
+        const rect =
+          image.getBoundingClientRect();
+
+        const x =
+          (event.clientX - rect.left) /
+          rect.width;
+
+        const y =
+          (event.clientY - rect.top) /
+          rect.height;
+
+        const rotateX =
+          (0.5 - y) * 3;
+
+        const rotateY =
+          (x - 0.5) * 3;
+
+        image.style.transform =
+          `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+      }
+    );
+
+
+    image.addEventListener(
+      "mouseleave",
+      () => {
+
+        image.style.transform =
+          "perspective(900px) rotateX(0deg) rotateY(0deg)";
+
+      }
+    );
+
+  });
+
+}
+
+/* =====================================================
+CUSTOM CURSOR
+===================================================== */
+
+const cursorDot =
+document.getElementById("cursorDot");
+
+const cursorRing =
+document.getElementById("cursorRing");
+
+const finePointer =
+window.matchMedia &&
+window.matchMedia("(pointer)").matches;
+
+if (
+finePointer &&
+cursorDot &&
+cursorRing &&
+!prefersReducedMotion
+){
+
+let mouseX = 0;
+let mouseY = 0;
+
+let ringX = 0;
+let ringY = 0;
+
+
+body.classList.add("cursor-active");
+
+
+window.addEventListener(
+  "mousemove",
+  event => {
+
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+
+    cursorDot.style.left =
+      `${mouseX}px`;
+
+    cursorDot.style.top =
+      `${mouseY}px`;
+
+  },
+  {passive:true}
+);
+
+
+function animateCursor(){
+
+  ringX +=
+    (mouseX - ringX) * .16;
+
+  ringY +=
+    (mouseY - ringY) * .16;
+
+  cursorRing.style.left =
+    `${ringX}px`;
+
+  cursorRing.style.top =
+    `${ringY}px`;
+
+  requestAnimationFrame(
+    animateCursor
+  );
+
+}
+
+animateCursor();
+
+
+document
+  .querySelectorAll("a,button,.project-card")
+  .forEach(element => {
+
+    element.addEventListener(
+      "mouseenter",
+      () => {
+        body.classList.add("cursor-hover");
+      }
+    );
+
+    element.addEventListener(
+      "mouseleave",
+      () => {
+        body.classList.remove("cursor-hover");
+      }
+    );
+
+  });
+
+}
+
+/* =====================================================
 IMAGE FALLBACK
-========================= */
+===================================================== */
 
 document
 .querySelectorAll("img")
 .forEach(img => {
 
   img.addEventListener(
-    "load",
-    () => {
-
-      img.classList.add(
-        "loaded"
-      );
-
-    }
-  );
-
-  img.addEventListener(
     "error",
     () => {
 
-      img.classList.add(
-        "image-error"
-      );
+      img.classList.add("image-error");
 
     }
   );
 
 });
 
-/* =========================
-RESIZE
-========================= */
+/* =====================================================
+INITIAL STATE
+===================================================== */
 
-window.addEventListener(
-"resize",
-() => {
+requestAnimationFrame(() => {
 
-  if (
-    window.innerWidth > 900
-  ) {
-    closeMenu();
-  }
+document
+  .querySelectorAll(".hero .reveal")
+  .forEach(element => {
 
-}
+    element.classList.add("is-visible");
 
-);
+  });
+
+});
 
 });
