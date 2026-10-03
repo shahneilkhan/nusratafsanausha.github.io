@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Browser UI — Nusrat Admin</title>
+
+  <meta
+    name="description"
+    content="Manage portfolio browser mockups and project presentation."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="./admin.css">
+
+  <style>
+    /* =====================================================
+       BROWSER UI PAGE
+    ====================================================== */
+
+    .browser-stage {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background:
+        radial-gradient(
+          circle at 80% 20%,
+          rgba(216,179,106,.10),
+          transparent 35%
+        ),
+        var(--panel);
+      padding: 42px;
+    }
+
+    .browser-window {
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: #101114;
+      box-shadow:
+        0 30px 80px rgba(0,0,0,.35),
+        0 10px 25px rgba(0,0,0,.15);
+    }
+
+    .browser-toolbar {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      background: #18191d;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .browser-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.25);
+    }
+
+    .browser-address {
+      flex: 1;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 8px;
+      color: rgba(255,255,255,.48);
+      background: rgba(255,255,255,.045);
+      font-family: "Instrument Sans", sans-serif;
+      font-size: 11px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .browser-content {
+      position: relative;
+      min-height: 360px;
+      overflow: hidden;
+      background:
+        linear-gradient(
+          135deg,
+          #1d1e22,
+          #0d0e10
+        );
+    }
+
+    .browser-content img {
+      display: block;
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      opacity: .85;
+    }
+
+    .browser-content-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .mock-content {
+      width: 76%;
+      max-width: 720px;
+    }
+
+    .mock-topline {
+      width: 82px;
+      height: 7px;
+      margin-bottom: 16px;
+      border-radius: 99px;
+      background: rgba(216,179,106,.7);
+    }
+
+    .mock-title {
+      width: 76%;
+      height: 32px;
+      margin-bottom: 12px;
+      border-radius: 7px;
+      background: rgba(255,255,255,.86);
+    }
+
+    .mock-title.small {
+      width: 48%;
+      height: 22px;
+      opacity: .35;
+    }
+
+    .mock-lines {
+      display: grid;
+      gap: 8px;
+      margin-top: 22px;
+    }
+
+    .mock-line {
+      width: 62%;
+      height: 7px;
+      border-radius: 99px;
+      background: rgba(255,255,255,.16);
+    }
+
+    .mock-line:nth-child(2) {
+      width: 52%;
+    }
+
+    .mock-line:nth-child(3) {
+      width: 40%;
+    }
+
+    .project-admin-grid.browser-projects {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .browser-project-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+      transition:
+        transform .25s ease,
+        border-color .25s ease;
+    }
+
+    .browser-project-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(216,179,106,.42);
+    }
+
+    .browser-project-thumb {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      background: #101114;
+    }
+
+    .browser-project-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+
+    .browser-project-card:hover .browser-project-thumb img {
+      transform: scale(1.035);
+    }
+
+    .browser-project-info {
+      padding: 20px;
+    }
+
+    .browser-project-info strong {
+      display: block;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 17px;
+    }
+
+    .browser-project-info p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .browser-project-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .browser-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .browser-status::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #79b987;
+    }
+
+    .browser-project-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .mini-action {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--muted);
+      background: var(--white-soft);
+      cursor: pointer;
+    }
+
+    .mini-action:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .browser-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .browser-option {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .browser-option.active {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .browser-option strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .browser-option span {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .url-preview {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--white-soft);
+    }
+
+    .url-preview span {
+      color: var(--muted);
+      font-size: 11px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .order-control {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .order-control button {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: var(--white-soft);
+      cursor: pointer;
+    }
+
+    .order-control button:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    @media (max-width: 900px) {
+      .project-admin-grid.browser-projects,
+      .browser-options {
+        grid-template-columns: 1fr;
+      }
+
+      .browser-stage {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-mark">NU</div>
+
+      <div class="brand-copy">
+        <strong>Nusrat</strong>
+        <span>Portfolio Admin</span>
+      </div>
+    </div>
+
+
+    <div class="sidebar-section">
+
+      <span class="sidebar-label">
+        Workspace
+      </span>
+
+      <nav class="side-nav">
+
+        <button class="nav-item" data-page="dashboard">
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-page="homepage">
+          <span class="nav-icon">◉</span>
+          <span>Homepage</span>
+        </button>
+
+        <button class="nav-item" data-page="banner">
+          <span class="nav-icon">▧</span>
+          <span>Banner</span>
+        </button>
+
+        <button class="nav-item active" data-page="browser-ui">
+          <span class="nav-icon">▣</span>
+          <span>Browser UI</span>
+        </button>
+
+        <button class="nav-item" data-page="newsletter">
+          <span class="nav-icon">✉</span>
+          <span>Newsletter</span>
+        </button>
+
+        <button class="nav-item" data-page="admin-management">
+          <span class="nav-icon">◎</span>
+          <span>Admin Management</span>
+        </button>
+
+        <button class="nav-item" data-page="system">
+          <span class="nav-icon">⚙</span>
+          <span>System</span>
+        </button>
+
+      </nav>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+      <a
+        href="../index.html"
+        target="_blank"
+        class="preview-link"
+      >
+        <span>↗</span>
+        View Portfolio
+      </a>
+
+      <div class="account-card">
+
+        <div class="avatar">NU</div>
+
+        <div class="account-info">
+          <strong>Nusrat</strong>
+          <span>Content Admin</span>
+        </div>
+
+        <button
+          class="more-button"
+          id="accountMenu"
+          aria-label="Account menu"
+        >
+          •••
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="mobile-brand">
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+        <strong>NUS</strong>
+
+      </div>
+
+
+      <div class="breadcrumb">
+
+        <span>Portfolio</span>
+        <b>/</b>
+        <strong>Browser UI</strong>
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <button
+          class="icon-button"
+          id="themeToggle"
+          aria-label="Toggle theme"
+        >
+          ◐
+        </button>
+
+        <button
+          class="save-button"
+          id="globalSave"
+        >
+          <span>Save Changes</span>
+          <kbd>⌘ S</kbd>
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ===================================================
+         CONTENT
+    ==================================================== -->
+
+    <div class="content">
+
+      <section class="page active">
+
+        <div class="page-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              Selected work presentation
+            </span>
+
+            <h1>
+              Browser
+              <em>UI.</em>
+            </h1>
+
+            <p>
+              Create polished browser-style project previews
+              for the Selected Work section.
+            </p>
+
+          </div>
+
+
+          <button
+            class="primary-button"
+            id="addProject"
+            type="button"
+          >
+            + Add project
+          </button>
+
+        </div>
+
+
+        <!-- =================================================
+             LIVE BROWSER
+        ================================================== -->
+
+        <div class="section-head">
+
+          <div>
+
+            <span class="eyebrow">
+              Live composition
+            </span>
+
+            <h2>
+              Browser preview
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="browser-stage">
+
+          <div class="browser-window">
+
+            <div class="browser-toolbar">
+
+              <div class="browser-dots">
+
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+
+              </div>
+
+
+              <div
+                class="browser-address"
+                id="browserAddress"
+              >
+                https://example-project.com
+              </div>
+
+            </div>
+
+
+            <div class="browser-content">
+
+              <img
+                id="browserPreviewImage"
+                src="../nusrat-afsana-photo.jpg"
+                alt=""
+              >
+
+
+              <div class="browser-content-placeholder">
+
+                <div class="mock-content">
+
+                  <div class="mock-topline"></div>
+
+                  <div class="mock-title"></div>
+
+                  <div class="mock-title small"></div>
+
+                  <div class="mock-lines">
+                    <div class="mock-line"></div>
+                    <div class="mock-line"></div>
+                    <div class="mock-line"></div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PROJECT EDITOR
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              01 / Project editor
+            </span>
+
+            <h2>
+              Active project
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="editor-grid">
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="eyebrow">
+                  Identity
+                </span>
+
+                <h3>
+                  Project information
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <label class="field">
+
+              <span>
+                Project name
+              </span>
+
+              <input
+                id="projectName"
+                type="text"
+                value="Featured Project"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Category
+              </span>
+
+              <input
+                id="projectCategory"
+                type="text"
+                value="UX / UI Design"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Short description
+              </span>
+
+              <textarea
+                rows="5"
+                id="projectDescription"
+              >A thoughtful digital experience designed around clarity, structure and usability.</textarea>
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Project URL
+              </span>
+
+              <input
+                id="projectUrl"
+                type="url"
+                value="https://example-project.com"
+              >
+
+            </label>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="eyebrow">
+                  Presentation
+                </span>
+
+                <h3>
+                  Browser settings
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <label class="field">
+
+              <span>
+                Browser address
+              </span>
+
+              <input
+                id="browserUrl"
+                type="text"
+                value="https://example-project.com"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Browser label
+              </span>
+
+              <input
+                type="text"
+                value="Live project"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Project image
+              </span>
+
+              <input
+                id="projectImage"
+                type="text"
+                value="../nusrat-afsana-photo.jpg"
+              >
+
+            </label>
+
+
+            <div class="url-preview">
+
+              <span id="urlStatus">
+                ✓ Valid project URL format
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             IMAGE UPLOAD
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              02 / Media
+            </span>
+
+            <h2>
+              Project thumbnail
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="image-upload">
+
+            <div class="image-preview">
+
+              <img
+                src="../nusrat-afsana-photo.jpg"
+                alt="Project thumbnail"
+                id="projectImagePreview"
+              >
+
+            </div>
+
+
+            <div class="upload-info">
+
+              <strong>
+                Browser preview image
+              </strong>
+
+              <p>
+                Recommended format: landscape image,
+                preferably 16:9 or similar.
+              </p>
+
+
+              <label class="secondary-button upload-button">
+
+                Upload thumbnail
+
+                <input
+                  type="file"
+                  id="projectImageInput"
+                  accept="image/*"
+                  hidden
+                >
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             BROWSER STYLE
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              03 / Chrome
+            </span>
+
+            <h2>
+              Browser appearance
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="browser-options">
+
+            <button
+              class="browser-option active"
+              type="button"
+              data-browser="clean"
+            >
+
+              <strong>
+                Clean
+              </strong>
+
+              <span>
+                Minimal browser chrome with
+                subtle controls.
+              </span>
+
+            </button>
+
+
+            <button
+              class="browser-option"
+              type="button"
+              data-browser="classic"
+            >
+
+              <strong>
+                Classic
+              </strong>
+
+              <span>
+                Traditional browser toolbar,
+                address bar and controls.
+              </span>
+
+            </button>
+
+
+            <button
+              class="browser-option"
+              type="button"
+              data-browser="minimal"
+            >
+
+              <strong>
+                Minimal
+              </strong>
+
+              <span>
+                Reduced chrome for an editorial
+                portfolio presentation.
+              </span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             PROJECT LIST
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              04 / Selected work
+            </span>
+
+            <h2>
+              Browser projects
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div
+          class="project-admin-grid browser-projects"
+          id="browserProjectList"
+        >
+
+
+          <!-- PROJECT 01 -->
+
+          <article class="browser-project-card">
+
+            <div class="browser-project-thumb">
+
+              <img
+                src="../nusrat-afsana-photo.jpg"
+                alt="Project preview"
+              >
+
+            </div>
+
+
+            <div class="browser-project-info">
+
+              <strong>
+                Digital Experience
+              </strong>
+
+              <p>
+                UX/UI case study presentation.
+              </p>
+
+
+              <div class="browser-project-meta">
+
+                <span class="browser-status">
+                  Published
+                </span>
+
+
+                <div class="browser-project-actions">
+
+                  <button
+                    class="mini-action edit-project"
+                    type="button"
+                    aria-label="Edit project"
+                  >
+                    ✎
+                  </button>
+
+                  <button
+                    class="mini-action duplicate-project"
+                    type="button"
+                    aria-label="Duplicate project"
+                  >
+                    ⧉
+                  </button>
+
+                  <button
+                    class="mini-action delete-project"
+                    type="button"
+                    aria-label="Delete project"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROJECT 02 -->
+
+          <article class="browser-project-card">
+
+            <div class="browser-project-thumb">
+
+              <img
+                src="../nusrat-afsana-photo.jpg"
+                alt="Project preview"
+              >
+
+            </div>
+
+
+            <div class="browser-project-info">
+
+              <strong>
+                Website Design
+              </strong>
+
+              <p>
+                Responsive product experience.
+              </p>
+
+
+              <div class="browser-project-meta">
+
+                <span class="browser-status">
+                  Published
+                </span>
+
+
+                <div class="browser-project-actions">
+
+                  <button
+                    class="mini-action edit-project"
+                    type="button"
+                    aria-label="Edit project"
+                  >
+                    ✎
+                  </button>
+
+                  <button
+                    class="mini-action duplicate-project"
+                    type="button"
+                    aria-label="Duplicate project"
+                  >
+                    ⧉
+                  </button>
+
+                  <button
+                    class="mini-action delete-project"
+                    type="button"
+                    aria-label="Delete project"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROJECT 03 -->
+
+          <article class="browser-project-card">
+
+            <div class="browser-project-thumb">
+
+              <img
+                src="../nusrat-afsana-photo.jpg"
+                alt="Project preview"
+              >
+
+            </div>
+
+
+            <div class="browser-project-info">
+
+              <strong>
+                Interface System
+              </strong>
+
+              <p>
+                Structured interface and component system.
+              </p>
+
+
+              <div class="browser-project-meta">
+
+                <span class="browser-status">
+                  Published
+                </span>
+
+
+                <div class="browser-project-actions">
+
+                  <button
+                    class="mini-action edit-project"
+                    type="button"
+                    aria-label="Edit project"
+                  >
+                    ✎
+                  </button>
+
+                  <button
+                    class="mini-action duplicate-project"
+                    type="button"
+                    aria-label="Duplicate project"
+                  >
+                    ⧉
+                  </button>
+
+                  <button
+                    class="mini-action delete-project"
+                    type="button"
+                    aria-label="Delete project"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- PROJECT 04 -->
+
+          <article class="browser-project-card">
+
+            <div class="browser-project-thumb">
+
+              <img
+                src="../nusrat-afsana-photo.jpg"
+                alt="Project preview"
+              >
+
+            </div>
+
+
+            <div class="browser-project-info">
+
+              <strong>
+                Product Concept
+              </strong>
+
+              <p>
+                Early-stage product and interaction concept.
+              </p>
+
+
+              <div class="browser-project-meta">
+
+                <span class="browser-status">
+                  Draft
+                </span>
+
+
+                <div class="browser-project-actions">
+
+                  <button
+                    class="mini-action edit-project"
+                    type="button"
+                    aria-label="Edit project"
+                  >
+                    ✎
+                  </button>
+
+                  <button
+                    class="mini-action duplicate-project"
+                    type="button"
+                    aria-label="Duplicate project"
+                  >
+                    ⧉
+                  </button>
+
+                  <button
+                    class="mini-action delete-project"
+                    type="button"
+                    aria-label="Delete project"
+                  >
+                    ×
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             ORDER
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              05 / Ordering
+            </span>
+
+            <h2>
+              Project sequence
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="content-list" id="projectOrderList">
+
+
+          <article class="content-row">
+
+            <div class="row-number">
+              01
+            </div>
+
+            <div class="row-content">
+
+              <strong>
+                Digital Experience
+              </strong>
+
+              <span>
+                First featured project.
+              </span>
+
+            </div>
+
+            <div class="order-control">
+
+              <button
+                type="button"
+                class="order-up"
+                aria-label="Move up"
+              >
+                ↑
+              </button>
+
+              <button
+                type="button"
+                class="order-down"
+                aria-label="Move down"
+              >
+                ↓
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <article class="content-row">
+
+            <div class="row-number">
+              02
+            </div>
+
+            <div class="row-content">
+
+              <strong>
+                Website Design
+              </strong>
+
+              <span>
+                Second featured project.
+              </span>
+
+            </div>
+
+            <div class="order-control">
+
+              <button
+                type="button"
+                class="order-up"
+                aria-label="Move up"
+              >
+                ↑
+              </button>
+
+              <button
+                type="button"
+                class="order-down"
+                aria-label="Move down"
+              >
+                ↓
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <article class="content-row">
+
+            <div class="row-number">
+              03
+            </div>
+
+            <div class="row-content">
+
+              <strong>
+                Interface System
+              </strong>
+
+              <span>
+                Third featured project.
+              </span>
+
+            </div>
+
+            <div class="order-control">
+
+              <button
+                type="button"
+                class="order-up"
+                aria-label="Move up"
+              >
+                ↑
+              </button>
+
+              <button
+                type="button"
+                class="order-down"
+                aria-label="Move down"
+              >
+                ↓
+              </button>
+
+            </div>
+
+          </article>
+
+
+          <article class="content-row">
+
+            <div class="row-number">
+              04
+            </div>
+
+            <div class="row-content">
+
+              <strong>
+                Product Concept
+              </strong>
+
+              <span>
+                Fourth featured project.
+              </span>
+
+            </div>
+
+            <div class="order-control">
+
+              <button
+                type="button"
+                class="order-up"
+                aria-label="Move up"
+              >
+                ↑
+              </button>
+
+              <button
+                type="button"
+                class="order-down"
+                aria-label="Move down"
+              >
+                ↓
+              </button>
+
+            </div>
+
+          </article>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER STATUS
+        ================================================== -->
+
+        <div
+          class="status-card"
+          style="margin-top:58px;"
+        >
+
+          <div class="status-left">
+
+            <div class="status-dot"></div>
+
+            <div>
+
+              <strong>
+                Browser UI ready
+              </strong>
+
+              <span>
+                Project presentation settings are ready
+                for your connected backend.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="status-right">
+
+            <span>
+              Shortcut
+            </span>
+
+            <strong>
+              Ctrl / Cmd + S
+            </strong>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- =======================================================
+     TOAST
+======================================================== -->
+
+<div
+  class="toast"
+  id="toast"
+  role="status"
+  aria-live="polite"
+>
+  <span>✓</span>
+
+  <strong>
+    Changes saved
+  </strong>
+</div>
+
+
+<div
+  class="mobile-overlay"
+  id="mobileOverlay"
+></div>
+
+
+<script src="./admin.js"></script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const toast =
+    document.getElementById("toast");
+
+  const projectName =
+    document.getElementById("projectName");
+
+  const projectUrl =
+    document.getElementById("projectUrl");
+
+  const browserUrl =
+    document.getElementById("browserUrl");
+
+  const projectImage =
+    document.getElementById("projectImage");
+
+  const previewImage =
+    document.getElementById("browserPreviewImage");
+
+  const imagePreview =
+    document.getElementById("projectImagePreview");
+
+  const desktopImage =
+    document.getElementById("desktopDeviceImage");
+
+  const browserAddress =
+    document.getElementById("browserAddress");
+
+  const imageInput =
+    document.getElementById("projectImageInput");
+
+  const urlStatus =
+    document.getElementById("urlStatus");
+
+
+  function showToast(message){
+
+    if(!toast) return;
+
+    const label =
+      toast.querySelector("strong");
+
+    if(label){
+      label.textContent = message;
+    }
+
+    toast.classList.add("show");
+
+    clearTimeout(
+      window.__browserToast
+    );
+
+    window.__browserToast =
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+  }
+
+
+  /* =======================================================
+     URL SYNC
+  ======================================================= */
+
+  function syncUrl(){
+
+    const url =
+      projectUrl.value.trim();
+
+    if(browserAddress){
+      browserAddress.textContent =
+        url ||
+        "https://example-project.com";
+    }
+
+    if(browserUrl){
+      browserUrl.value =
+        url ||
+        "https://example-project.com";
+    }
+
+    if(urlStatus){
+
+      try {
+
+        new URL(url);
+
+        urlStatus.textContent =
+          "✓ Valid project URL format";
+
+      } catch {
+
+        urlStatus.textContent =
+          "• Enter a valid project URL";
+
+      }
+
+    }
+
+  }
+
+
+  if(projectUrl){
+
+    projectUrl.addEventListener(
+      "input",
+      syncUrl
+    );
+
+  }
+
+
+  if(browserUrl){
+
+    browserUrl.addEventListener(
+      "input",
+      () => {
+
+        projectUrl.value =
+          browserUrl.value;
+
+        syncUrl();
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     IMAGE URL
+  ======================================================= */
+
+  if(projectImage){
+
+    projectImage.addEventListener(
+      "input",
+      () => {
+
+        const source =
+          projectImage.value.trim();
+
+        if(!source) return;
+
+        if(previewImage)
+          previewImage.src = source;
+
+        if(imagePreview)
+          imagePreview.src = source;
+
+        if(desktopImage)
+          desktopImage.src = source;
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     IMAGE UPLOAD
+  ======================================================= */
+
+  if(imageInput){
+
+    imageInput.addEventListener(
+      "change",
+      event => {
+
+        const file =
+          event.target.files &&
+          event.target.files[0];
+
+        if(!file) return;
+
+        if(!file.type.startsWith("image/")){
+
+          showToast(
+            "Please select an image"
+          );
+
+          return;
+
+        }
+
+        const reader =
+          new FileReader();
+
+        reader.onload = () => {
+
+          const source =
+            reader.result;
+
+          if(previewImage)
+            previewImage.src = source;
+
+          if(imagePreview)
+            imagePreview.src = source;
+
+          if(desktopImage)
+            desktopImage.src = source;
+
+          showToast(
+            "Project thumbnail updated"
+          );
+
+        };
+
+        reader.readAsDataURL(file);
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     BROWSER OPTIONS
+  ======================================================= */
+
+  document
+    .querySelectorAll(".browser-option")
+    .forEach(option => {
+
+      option.addEventListener(
+        "click",
+        () => {
+
+          document
+            .querySelectorAll(".browser-option")
+            .forEach(item => {
+              item.classList.remove("active");
+            });
+
+          option.classList.add("active");
+
+          const type =
+            option.dataset.browser;
+
+          const toolbar =
+            document.querySelector(
+              ".browser-toolbar"
+            );
+
+          if(!toolbar) return;
+
+          if(type === "minimal"){
+
+            toolbar.style.height = "38px";
+            toolbar.style.opacity = ".65";
+
+          }
+
+          else if(type === "classic"){
+
+            toolbar.style.height = "58px";
+            toolbar.style.opacity = "1";
+
+          }
+
+          else {
+
+            toolbar.style.height = "52px";
+            toolbar.style.opacity = "1";
+
+          }
+
+          showToast(
+            `${option.querySelector("strong").textContent} browser style selected`
+          );
+
+        }
+      );
+
+    });
+
+
+  /* =======================================================
+     PROJECT ACTIONS
+  ======================================================= */
+
+  document
+    .querySelectorAll(".edit-project")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          showToast(
+            "Project loaded into editor"
+          );
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+
+        }
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(".duplicate-project")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const card =
+            button.closest(
+              ".browser-project-card"
+            );
+
+          if(!card) return;
+
+          const clone =
+            card.cloneNode(true);
+
+          const title =
+            clone.querySelector(
+              ".browser-project-info strong"
+            );
+
+          if(title){
+
+            title.textContent +=
+              " — Copy";
+
+          }
+
+          document
+            .getElementById(
+              "browserProjectList"
+            )
+            .appendChild(clone);
+
+          showToast(
+            "Project duplicated"
+          );
+
+        }
+      );
+
+    });
+
+
+  document
+    .querySelectorAll(".delete-project")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          const card =
+            button.closest(
+              ".browser-project-card"
+            );
+
+          if(!card) return;
+
+          card.remove();
+
+          showToast(
+            "Project removed from view"
+          );
+
+        }
+      );
+
+    });
+
+
+  /* =======================================================
+     ORDER CONTROLS
+  ======================================================= */
+
+  document
+    .getElementById("projectOrderList")
+    ?.addEventListener(
+      "click",
+      event => {
+
+        const button =
+          event.target.closest("button");
+
+        if(!button) return;
+
+        const row =
+          button.closest(".content-row");
+
+        if(!row) return;
+
+
+        if(button.classList.contains("order-up")){
+
+          const previous =
+            row.previousElementSibling;
+
+          if(previous){
+
+            row.parentNode.insertBefore(
+              row,
+              previous
+            );
+
+          }
+
+        }
+
+
+        if(button.classList.contains("order-down")){
+
+          const next =
+            row.nextElementSibling;
+
+          if(next){
+
+            row.parentNode.insertBefore(
+              next,
+              row
+            );
+
+          }
+
+        }
+
+
+        updateOrderNumbers();
+
+        showToast(
+          "Project order updated"
+        );
+
+      }
+    );
+
+
+  function updateOrderNumbers(){
+
+    document
+      .querySelectorAll(
+        "#projectOrderList .content-row"
+      )
+      .forEach((row, index) => {
+
+        const number =
+          row.querySelector(
+            ".row-number"
+          );
+
+        if(number){
+
+          number.textContent =
+            String(index + 1)
+              .padStart(2, "0");
+
+        }
+
+      });
+
+  }
+
+
+  /* =======================================================
+     ADD PROJECT
+  ======================================================= */
+
+  const addProject =
+    document.getElementById("addProject");
+
+  const projectList =
+    document.getElementById(
+      "browserProjectList"
+    );
+
+  if(addProject && projectList){
+
+    addProject.addEventListener(
+      "click",
+      () => {
+
+        const card =
+          document.createElement("article");
+
+        card.className =
+          "browser-project-card";
+
+        card.innerHTML = `
+          <div class="browser-project-thumb">
+            <img
+              src="../nusrat-afsana-photo.jpg"
+              alt="New project preview"
+            >
+          </div>
+
+          <div class="browser-project-info">
+
+            <strong>
+              New Project
+            </strong>
+
+            <p>
+              Add project description.
+            </p>
+
+            <div class="browser-project-meta">
+
+              <span class="browser-status">
+                Draft
+              </span>
+
+              <div class="browser-project-actions">
+
+                <button
+                  class="mini-action edit-project"
+                  type="button"
+                >
+                  ✎
+                </button>
+
+                <button
+                  class="mini-action duplicate-project"
+                  type="button"
+                >
+                  ⧉
+                </button>
+
+                <button
+                  class="mini-action delete-project"
+                  type="button"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+        `;
+
+        projectList.appendChild(card);
+
+        showToast(
+          "New project added"
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     INITIALIZE
+  ======================================================= */
+
+  syncUrl();
+
+});
+</script>
+
+</body>
+</html>
