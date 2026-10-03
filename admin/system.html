@@ -1,1797 +1,3041 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-
-  <title>System Settings — Nusrat Afsana Usha</title>
-  <meta name="description" content="System settings for Nusrat Afsana Usha portfolio administration.">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
-    :root{
-      --bg:#09090b;
-      --panel:#111216;
-      --panel-2:#15161b;
-      --panel-3:#191a20;
-      --border:rgba(255,255,255,.08);
-      --border-strong:rgba(255,255,255,.13);
-      --text:#f5f2eb;
-      --muted:#92929b;
-      --soft:#b9b9c1;
-      --accent:#d8b36a;
-      --accent-2:#f0d69a;
-      --success:#69c995;
-      --danger:#e77878;
-      --warning:#e5b866;
-      --shadow:0 24px 70px rgba(0,0,0,.32);
-      --radius:22px;
-    }
-
-    [data-theme="light"]{
-      --bg:#f5f3ee;
-      --panel:#ffffff;
-      --panel-2:#faf9f6;
-      --panel-3:#f1efe9;
-      --border:rgba(20,20,20,.08);
-      --border-strong:rgba(20,20,20,.14);
-      --text:#171719;
-      --muted:#717178;
-      --soft:#55555c;
-      --accent:#a77a31;
-      --accent-2:#8e6525;
-      --success:#278458;
-      --danger:#c74c4c;
-      --warning:#a77418;
-      --shadow:0 24px 60px rgba(30,25,15,.10);
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      min-height:100vh;
-      background:
-        radial-gradient(circle at 75% 0%,rgba(216,179,106,.07),transparent 32%),
-        var(--bg);
-      color:var(--text);
-      font-family:"Instrument Sans",sans-serif;
-      overflow-x:hidden;
-    }
-
-    button,
-    input,
-    select{
-      font:inherit;
-    }
-
-    button{
-      cursor:pointer;
-    }
-
-    a{
-      color:inherit;
-      text-decoration:none;
-    }
-
-    /* APP */
-
-    .app{
-      min-height:100vh;
-      display:flex;
-    }
-
-    /* SIDEBAR */
-
-    .sidebar{
-      position:fixed;
-      inset:0 auto 0 0;
-      width:272px;
-      background:rgba(12,12,15,.92);
-      border-right:1px solid var(--border);
-      backdrop-filter:blur(24px);
-      z-index:100;
-      display:flex;
-      flex-direction:column;
-      padding:25px 17px;
-    }
-
-    [data-theme="light"] .sidebar{
-      background:rgba(255,255,255,.93);
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:5px 10px 26px;
-    }
-
-    .brand-mark{
-      width:42px;
-      height:42px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      background:linear-gradient(145deg,#f0d69a,#b1843d);
-      color:#17120a;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-weight:800;
-      letter-spacing:-.05em;
-      box-shadow:0 10px 28px rgba(216,179,106,.15);
-    }
-
-    .brand-copy strong{
-      display:block;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:15px;
-      letter-spacing:-.02em;
-    }
-
-    .brand-copy span{
-      display:block;
-      color:var(--muted);
-      font-size:11px;
-      margin-top:2px;
-    }
-
-    .nav-label{
-      padding:12px 11px 8px;
-      color:#65656d;
-      font-size:10px;
-      font-weight:700;
-      text-transform:uppercase;
-      letter-spacing:.14em;
-    }
-
-    .side-nav{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-    }
-
-    .nav-item{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:12px 12px;
-      border-radius:13px;
-      color:var(--muted);
-      transition:.2s ease;
-      font-size:13px;
-      font-weight:600;
-    }
-
-    .nav-item:hover{
-      color:var(--text);
-      background:rgba(255,255,255,.04);
-    }
-
-    [data-theme="light"] .nav-item:hover{
-      background:rgba(20,20,20,.04);
-    }
-
-    .nav-item.active{
-      color:var(--text);
-      background:linear-gradient(90deg,rgba(216,179,106,.14),rgba(216,179,106,.04));
-      border:1px solid rgba(216,179,106,.12);
-    }
-
-    .nav-icon{
-      width:19px;
-      text-align:center;
-      opacity:.9;
-    }
-
-    .sidebar-bottom{
-      margin-top:auto;
-    }
-
-    .profile-mini{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:13px 10px;
-      margin-top:15px;
-      border-top:1px solid var(--border);
-    }
-
-    .profile-avatar{
-      width:34px;
-      height:34px;
-      border-radius:50%;
-      object-fit:cover;
-      background:var(--panel-3);
-      border:1px solid var(--border);
-    }
-
-    .profile-mini strong{
-      display:block;
-      font-size:12px;
-    }
-
-    .profile-mini span{
-      color:var(--muted);
-      font-size:10px;
-    }
-
-    /* MAIN */
-
-    .main{
-      width:calc(100% - 272px);
-      margin-left:272px;
-      min-height:100vh;
-    }
-
-    .topbar{
-      height:78px;
-      position:sticky;
-      top:0;
-      z-index:50;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:0 34px;
-      border-bottom:1px solid var(--border);
-      background:rgba(9,9,11,.74);
-      backdrop-filter:blur(22px);
-    }
-
-    [data-theme="light"] .topbar{
-      background:rgba(245,243,238,.76);
-    }
-
-    .topbar-left{
-      display:flex;
-      align-items:center;
-      gap:14px;
-    }
-
-    .mobile-menu{
-      display:none;
-      width:40px;
-      height:40px;
-      border:1px solid var(--border);
-      background:var(--panel);
-      color:var(--text);
-      border-radius:12px;
-    }
-
-    .crumb{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .crumb strong{
-      color:var(--text);
-      font-weight:600;
-    }
-
-    .top-actions{
-      display:flex;
-      align-items:center;
-      gap:9px;
-    }
-
-    .icon-btn{
-      width:40px;
-      height:40px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:var(--panel);
-      color:var(--soft);
-      display:grid;
-      place-items:center;
-      transition:.2s ease;
-    }
-
-    .icon-btn:hover{
-      color:var(--text);
-      border-color:var(--border-strong);
-      transform:translateY(-1px);
-    }
-
-    .content{
-      padding:42px 34px 70px;
-      max-width:1450px;
-      margin:auto;
-    }
-
-    .page-heading{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:25px;
-      margin-bottom:34px;
-    }
-
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:7px;
-      color:var(--accent);
-      text-transform:uppercase;
-      letter-spacing:.14em;
-      font-size:10px;
-      font-weight:700;
-      margin-bottom:10px;
-    }
-
-    .eyebrow::before{
-      content:"";
-      width:18px;
-      height:1px;
-      background:var(--accent);
-    }
-
-    h1,h2,h3{
-      font-family:"Bricolage Grotesque",sans-serif;
-      letter-spacing:-.045em;
-    }
-
-    h1{
-      font-size:clamp(32px,4vw,52px);
-      line-height:.98;
-    }
-
-    .heading-copy{
-      color:var(--muted);
-      max-width:620px;
-      margin-top:12px;
-      line-height:1.65;
-      font-size:14px;
-    }
-
-    .status-pill{
-      display:inline-flex;
-      align-items:center;
-      gap:7px;
-      border:1px solid rgba(105,201,149,.2);
-      background:rgba(105,201,149,.07);
-      color:var(--success);
-      border-radius:999px;
-      padding:9px 12px;
-      font-size:11px;
-      font-weight:700;
-      white-space:nowrap;
-    }
-
-    .status-dot{
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background:currentColor;
-      box-shadow:0 0 0 4px rgba(105,201,149,.08);
-    }
-
-    /* GRID */
-
-    .system-grid{
-      display:grid;
-      grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);
-      gap:18px;
-    }
-
-    .panel{
-      background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-
-    [data-theme="light"] .panel{
-      background:var(--panel);
-    }
-
-    .panel-head{
-      padding:23px 23px 18px;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:18px;
-    }
-
-    .panel-head h2{
-      font-size:18px;
-    }
-
-    .panel-head p{
-      color:var(--muted);
-      font-size:12px;
-      margin-top:5px;
-      line-height:1.55;
-    }
-
-    .panel-body{
-      padding:21px 23px 24px;
-    }
-
-    .setting-list{
-      display:flex;
-      flex-direction:column;
-    }
-
-    .setting{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      padding:17px 0;
-      border-bottom:1px solid var(--border);
-    }
-
-    .setting:first-child{
-      padding-top:2px;
-    }
-
-    .setting:last-child{
-      border-bottom:0;
-      padding-bottom:0;
-    }
-
-    .setting-copy{
-      min-width:0;
-    }
-
-    .setting-copy strong{
-      display:block;
-      font-size:13px;
-      font-weight:700;
-    }
-
-    .setting-copy span{
-      display:block;
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.55;
-      margin-top:4px;
-      max-width:650px;
-    }
-
-    /* TOGGLE */
-
-    .toggle{
-      flex:0 0 auto;
-      width:48px;
-      height:28px;
-      border-radius:999px;
-      border:1px solid var(--border-strong);
-      background:var(--panel-3);
-      position:relative;
-      transition:.2s ease;
-    }
-
-    .toggle::after{
-      content:"";
-      width:20px;
-      height:20px;
-      position:absolute;
-      top:3px;
-      left:4px;
-      border-radius:50%;
-      background:#777;
-      transition:.2s ease;
-    }
-
-    .toggle.on{
-      background:rgba(216,179,106,.18);
-      border-color:rgba(216,179,106,.35);
-    }
-
-    .toggle.on::after{
-      left:23px;
-      background:var(--accent);
-    }
-
-    /* FORM */
-
-    .field{
-      margin-bottom:17px;
-    }
-
-    .field:last-child{
-      margin-bottom:0;
-    }
-
-    .field label{
-      display:block;
-      color:var(--soft);
-      font-size:11px;
-      font-weight:700;
-      margin-bottom:7px;
-    }
-
-    .input,
-    .select{
-      width:100%;
-      min-height:44px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.025);
-      color:var(--text);
-      padding:10px 12px;
-      outline:none;
-      transition:.2s ease;
-    }
-
-    [data-theme="light"] .input,
-    [data-theme="light"] .select{
-      background:#faf9f6;
-    }
-
-    .input:focus,
-    .select:focus{
-      border-color:rgba(216,179,106,.5);
-      box-shadow:0 0 0 3px rgba(216,179,106,.07);
-    }
-
-    .select option{
-      background:#17171a;
-      color:#fff;
-    }
-
-    .two-col{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:13px;
-    }
-
-    .save-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:15px;
-      margin-top:21px;
-      padding-top:18px;
-      border-top:1px solid var(--border);
-    }
-
-    .save-note{
-      color:var(--muted);
-      font-size:11px;
-    }
-
-    .primary-button,
-    .secondary-button{
-      min-height:42px;
-      padding:0 16px;
-      border-radius:12px;
-      font-size:12px;
-      font-weight:700;
-      border:1px solid transparent;
-      transition:.2s ease;
-    }
-
-    .primary-button{
-      background:var(--accent);
-      color:#17120a;
-    }
-
-    .primary-button:hover{
-      background:var(--accent-2);
-      transform:translateY(-1px);
-    }
-
-    .secondary-button{
-      background:var(--panel-3);
-      border-color:var(--border);
-      color:var(--text);
-    }
-
-    .secondary-button:hover{
-      border-color:var(--border-strong);
-    }
-
-    /* INFO CARDS */
-
-    .info-stack{
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-    }
-
-    .info-card{
-      padding:21px;
-      border:1px solid var(--border);
-      border-radius:20px;
-      background:rgba(255,255,255,.018);
-    }
-
-    [data-theme="light"] .info-card{
-      background:var(--panel);
-    }
-
-    .info-icon{
-      width:42px;
-      height:42px;
-      display:grid;
-      place-items:center;
-      border-radius:13px;
-      background:rgba(216,179,106,.08);
-      color:var(--accent);
-      margin-bottom:15px;
-    }
-
-    .info-card h3{
-      font-size:16px;
-      margin-bottom:6px;
-    }
-
-    .info-card p{
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.65;
-    }
-
-    .system-meta{
-      margin-top:15px;
-      display:flex;
-      flex-direction:column;
-      gap:9px;
-    }
-
-    .meta-row{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      padding-top:9px;
-      border-top:1px solid var(--border);
-      font-size:11px;
-    }
-
-    .meta-row span:first-child{
-      color:var(--muted);
-    }
-
-    .meta-row strong{
-      color:var(--soft);
-      font-weight:600;
-      text-align:right;
-    }
-
-    /* DANGER */
-
-    .danger-panel{
-      margin-top:18px;
-      border-color:rgba(231,120,120,.18);
-      background:linear-gradient(145deg,rgba(231,120,120,.035),rgba(255,255,255,.008));
-    }
-
-    .danger-panel .panel-head{
-      border-bottom-color:rgba(231,120,120,.12);
-    }
-
-    .danger-title{
-      color:var(--danger);
-    }
-
-    .danger-actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-
-    .danger-button{
-      min-height:44px;
-      border-radius:12px;
-      border:1px solid rgba(231,120,120,.2);
-      background:rgba(231,120,120,.05);
-      color:var(--danger);
-      font-size:11px;
-      font-weight:700;
-    }
-
-    .danger-button:hover{
-      background:rgba(231,120,120,.1);
-    }
-
-    /* TOAST */
-
-    .toast{
-      position:fixed;
-      right:25px;
-      bottom:25px;
-      z-index:500;
-      min-width:280px;
-      max-width:390px;
-      padding:14px 16px;
-      border-radius:15px;
-      border:1px solid var(--border-strong);
-      background:#17181d;
-      color:#fff;
-      box-shadow:0 20px 60px rgba(0,0,0,.35);
-      display:flex;
-      align-items:center;
-      gap:10px;
-      transform:translateY(30px);
-      opacity:0;
-      pointer-events:none;
-      transition:.25s ease;
-      font-size:12px;
-    }
-
-    [data-theme="light"] .toast{
-      background:#1b1b1e;
-      color:#fff;
-    }
-
-    .toast.show{
-      transform:translateY(0);
-      opacity:1;
-    }
-
-    .toast-mark{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:var(--accent);
-      flex:0 0 auto;
-    }
-
-    /* MOBILE */
-
-    .mobile-overlay{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.55);
-      z-index:90;
-    }
-
-    @media(max-width:1100px){
-      .system-grid{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media(max-width:800px){
-      .sidebar{
-        transform:translateX(-100%);
-        transition:.25s ease;
-      }
-
-      .sidebar.open{
-        transform:translateX(0);
-      }
-
-      .mobile-overlay.show{
-        display:block;
-      }
-
-      .main{
-        width:100%;
-        margin-left:0;
-      }
-
-      .mobile-menu{
-        display:grid;
-        place-items:center;
-      }
-
-      .topbar{
-        padding:0 18px;
-      }
-
-      .content{
-        padding:30px 18px 55px;
-      }
-
-      .page-heading{
-        align-items:flex-start;
-        flex-direction:column;
-      }
-    }
-
-    @media(max-width:600px){
-      .two-col,
-      .danger-actions{
-        grid-template-columns:1fr;
-      }
-
-      .panel-head,
-      .panel-body{
-        padding-left:17px;
-        padding-right:17px;
-      }
-
-      .setting{
-        align-items:flex-start;
-      }
-
-      .save-row{
-        align-items:flex-start;
-        flex-direction:column;
-      }
-
-      .save-row button{
-        width:100%;
-      }
-
-      .toast{
-        left:16px;
-        right:16px;
-        min-width:0;
-      }
-    }
-
-    @media(prefers-reduced-motion:reduce){
-      *,
-      *::before,
-      *::after{
-        scroll-behavior:auto!important;
-        transition:none!important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>System — Nusrat Afsana Usha Admin</title>
+<meta name="description" content="System settings for Nusrat Afsana Usha portfolio admin.">
+
+<link rel="icon" type="image/jpeg" href="../nusrat-afsana-photo.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#09090b;
+  --bg-soft:#101114;
+  --panel:#15161a;
+  --panel-2:#1a1b20;
+
+  --text:#f5f2eb;
+  --muted:#92939a;
+  --muted-2:#686970;
+
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.14);
+
+  --accent:#d8b36a;
+  --accent-2:#ecd39b;
+
+  --success:#8fd6a4;
+  --danger:#e88f8f;
+  --warning:#e4c477;
+
+  --sidebar:272px;
+
+  --radius:20px;
+  --shadow:0 25px 80px rgba(0,0,0,.35);
+}
+
+html[data-theme="light"]{
+  --bg:#f4f2ed;
+  --bg-soft:#ebe8e0;
+  --panel:#fffdfa;
+  --panel-2:#f5f2eb;
+
+  --text:#161616;
+  --muted:#696760;
+  --muted-2:#89867e;
+
+  --line:rgba(20,20,20,.09);
+  --line-strong:rgba(20,20,20,.15);
+
+  --shadow:0 25px 70px rgba(30,25,15,.10);
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(
+      circle at 82% 0%,
+      rgba(216,179,106,.08),
+      transparent 28%
+    ),
+    var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",sans-serif;
+  overflow-x:hidden;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+  min-height:100vh;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+  position:fixed;
+  z-index:100;
+  left:0;
+  top:0;
+  width:var(--sidebar);
+  height:100vh;
+  padding:25px 18px;
+
+  background:rgba(12,13,16,.94);
+  border-right:1px solid var(--line);
+
+  backdrop-filter:blur(24px);
+
+  display:flex;
+  flex-direction:column;
+}
+
+[data-theme="light"] .sidebar{
+  background:rgba(255,253,248,.95);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:4px 8px 25px;
+}
+
+.brand img{
+  width:43px;
+  height:43px;
+  object-fit:cover;
+  border-radius:14px;
+  border:1px solid var(--line-strong);
+}
+
+.brand-name{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:15px;
+  font-weight:700;
+  letter-spacing:-.02em;
+}
+
+.brand-sub{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.side-label{
+  padding:8px 12px;
+  color:var(--muted-2);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.side-nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.nav-item{
+  position:relative;
+
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  padding:11px 12px;
+
+  border-radius:12px;
+
+  color:var(--muted);
+  font-size:13px;
+
+  transition:.2s;
+}
+
+.nav-item:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.045);
+}
+
+.nav-item.active{
+  color:var(--text);
+  background:rgba(216,179,106,.10);
+}
+
+.nav-item.active::before{
+  content:"";
+
+  position:absolute;
+  left:0;
+  top:50%;
+
+  width:3px;
+  height:17px;
+
+  transform:translateY(-50%);
+
+  border-radius:99px;
+
+  background:var(--accent);
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+}
+
+.sidebar-bottom{
+  margin-top:auto;
+  padding-top:18px;
+  border-top:1px solid var(--line);
+}
+
+.profile-mini{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  padding:9px;
+  margin-bottom:9px;
+
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+}
+
+.profile-mini img{
+  width:35px;
+  height:35px;
+  object-fit:cover;
+  border-radius:11px;
+}
+
+.profile-mini strong{
+  display:block;
+  font-size:12px;
+}
+
+.profile-mini span{
+  display:block;
+  margin-top:2px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.signout{
+  width:100%;
+
+  border:1px solid var(--line);
+  border-radius:12px;
+
+  padding:10px 12px;
+
+  background:transparent;
+  color:var(--muted);
+
+  text-align:left;
+  font-size:12px;
+}
+
+.signout:hover{
+  color:var(--danger);
+  border-color:rgba(232,143,143,.25);
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  margin-left:var(--sidebar);
+  min-height:100vh;
+}
+
+.topbar{
+  position:sticky;
+  z-index:80;
+  top:0;
+
+  height:78px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 34px;
+
+  background:rgba(9,9,11,.80);
+  border-bottom:1px solid var(--line);
+
+  backdrop-filter:blur(20px);
+}
+
+[data-theme="light"] .topbar{
+  background:rgba(244,242,237,.82);
+}
+
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.mobile-menu{
+  display:none;
+
+  width:40px;
+  height:40px;
+
+  border:1px solid var(--line);
+  border-radius:12px;
+
+  background:var(--panel);
+  color:var(--text);
+}
+
+.breadcrumb{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.breadcrumb strong{
+  color:var(--text);
+}
+
+.top-actions{
+  display:flex;
+  gap:8px;
+}
+
+.icon-button{
+  width:40px;
+  height:40px;
+
+  display:grid;
+  place-items:center;
+
+  border:1px solid var(--line);
+  border-radius:12px;
+
+  background:var(--panel);
+  color:var(--text);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+  max-width:1550px;
+  margin:auto;
+  padding:35px;
+}
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
+
+  margin-bottom:28px;
+}
+
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  margin-bottom:10px;
+
+  color:var(--accent);
+
+  font-size:10px;
+  font-weight:700;
+
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.eyebrow-dot{
+  width:6px;
+  height:6px;
+
+  border-radius:50%;
+
+  background:var(--accent);
+  box-shadow:0 0 14px rgba(216,179,106,.7);
+}
+
+.page-heading h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(34px,4vw,50px);
+  line-height:1;
+  letter-spacing:-.05em;
+}
+
+.page-heading p{
+  max-width:650px;
+
+  margin-top:10px;
+
+  color:var(--muted);
+
+  font-size:14px;
+  line-height:1.7;
+}
+
+.header-actions{
+  display:flex;
+  gap:8px;
+}
+
+.btn{
+  border:1px solid var(--line);
+  border-radius:11px;
+
+  padding:11px 15px;
+
+  font-size:12px;
+  font-weight:600;
+}
+
+.btn.primary{
+  color:#17130c;
+  background:var(--accent);
+  border-color:var(--accent);
+}
+
+.btn.primary:hover{
+  background:var(--accent-2);
+}
+
+.btn.secondary{
+  color:var(--text);
+  background:var(--panel);
+}
+
+.btn.danger{
+  color:var(--danger);
+  background:rgba(232,143,143,.04);
+  border-color:rgba(232,143,143,.20);
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.system-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(300px,.75fr);
+  gap:20px;
+}
+
+.left-column,
+.right-column{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+
+/* =========================================================
+   PANEL
+========================================================= */
+
+.panel{
+  overflow:hidden;
+
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.025),
+      transparent 42%
+    ),
+    var(--panel);
+
+  box-shadow:var(--shadow);
+}
+
+.panel-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+
+  padding:20px 22px;
+
+  border-bottom:1px solid var(--line);
+}
+
+.panel-header h2{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:17px;
+  letter-spacing:-.025em;
+}
+
+.panel-header p{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.panel-body{
+  padding:20px 22px;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+
+  padding:7px 9px;
+
+  border:1px solid rgba(143,214,164,.18);
+  border-radius:9px;
+
+  background:rgba(143,214,164,.06);
+
+  color:var(--success);
+
+  font-size:10px;
+  font-weight:700;
+}
+
+.status-pill i{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 10px currentColor;
+}
+
+
+/* =========================================================
+   SETTINGS ROW
+========================================================= */
+
+.setting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+
+  padding:16px 0;
+
+  border-bottom:1px solid var(--line);
+}
+
+.setting-row:last-child{
+  border-bottom:0;
+}
+
+.setting-copy{
+  min-width:0;
+}
+
+.setting-copy strong{
+  display:block;
+  font-size:12px;
+}
+
+.setting-copy span{
+  display:block;
+  margin-top:5px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.switch{
+  position:relative;
+
+  width:44px;
+  height:25px;
+
+  flex:none;
+}
+
+.switch input{
+  display:none;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+
+  border:1px solid var(--line-strong);
+  border-radius:99px;
+
+  background:#292a2f;
+
+  transition:.2s;
+}
+
+.slider::before{
+  content:"";
+
+  position:absolute;
+
+  width:19px;
+  height:19px;
+
+  top:2px;
+  left:2px;
+
+  border-radius:50%;
+
+  background:#aaa;
+
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  border-color:rgba(216,179,106,.45);
+  background:rgba(216,179,106,.22);
+}
+
+.switch input:checked + .slider::before{
+  transform:translateX(19px);
+  background:var(--accent);
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.select-control{
+  min-width:170px;
+
+  border:1px solid var(--line);
+  border-radius:10px;
+
+  padding:10px 12px;
+
+  outline:none;
+
+  background:var(--panel-2);
+  color:var(--text);
+
+  font-size:11px;
+}
+
+.select-control:focus{
+  border-color:rgba(216,179,106,.45);
+}
+
+
+/* =========================================================
+   DANGER PANEL
+========================================================= */
+
+.danger-panel{
+  border-color:rgba(232,143,143,.14);
+}
+
+.danger-panel .panel-header{
+  border-bottom-color:rgba(232,143,143,.12);
+}
+
+.danger-title{
+  color:var(--danger);
+}
+
+.danger-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+
+  padding:15px 0;
+
+  border-bottom:1px solid var(--line);
+}
+
+.danger-item:last-child{
+  border-bottom:0;
+}
+
+.danger-item strong{
+  display:block;
+  font-size:11px;
+}
+
+.danger-item span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.5;
+}
+
+
+/* =========================================================
+   INFO CARDS
+========================================================= */
+
+.info-card{
+  padding:18px;
+
+  border:1px solid var(--line);
+  border-radius:17px;
+
+  background:var(--panel);
+}
+
+.info-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.info-icon{
+  width:38px;
+  height:38px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:12px;
+
+  background:rgba(216,179,106,.08);
+  color:var(--accent);
+}
+
+.info-card h3{
+  margin-top:15px;
+
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:15px;
+}
+
+.info-card p{
+  margin-top:6px;
+
+  color:var(--muted);
+
+  font-size:10px;
+  line-height:1.6;
+}
+
+
+/* =========================================================
+   HEALTH
+========================================================= */
+
+.health-list{
+  padding:4px 22px 18px;
+}
+
+.health-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+
+  padding:13px 0;
+
+  border-bottom:1px solid var(--line);
+}
+
+.health-item:last-child{
+  border-bottom:0;
+}
+
+.health-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.health-icon{
+  width:29px;
+  height:29px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:9px;
+
+  background:rgba(255,255,255,.04);
+
+  color:var(--muted);
+}
+
+.health-left strong{
+  display:block;
+  font-size:11px;
+}
+
+.health-left span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.health-status{
+  color:var(--success);
+  font-size:10px;
+}
+
+
+/* =========================================================
+   AUDIT
+========================================================= */
+
+.audit-item{
+  display:flex;
+  gap:10px;
+
+  padding:13px 0;
+
+  border-bottom:1px solid var(--line);
+}
+
+.audit-item:last-child{
+  border-bottom:0;
+}
+
+.audit-dot{
+  width:7px;
+  height:7px;
+
+  flex:none;
+
+  margin-top:5px;
+
+  border-radius:50%;
+
+  background:var(--accent);
+}
+
+.audit-item strong{
+  display:block;
+  font-size:10px;
+}
+
+.audit-item span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal-backdrop{
+  position:fixed;
+  z-index:300;
+  inset:0;
+
+  display:none;
+  place-items:center;
+
+  padding:20px;
+
+  background:rgba(0,0,0,.68);
+  backdrop-filter:blur(8px);
+}
+
+.modal-backdrop.show{
+  display:grid;
+}
+
+.modal{
+  width:min(450px,100%);
+
+  overflow:hidden;
+
+  border:1px solid var(--line-strong);
+  border-radius:21px;
+
+  background:var(--panel);
+
+  box-shadow:0 40px 120px rgba(0,0,0,.5);
+}
+
+.modal-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:20px;
+
+  border-bottom:1px solid var(--line);
+}
+
+.modal-header h2{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:18px;
+}
+
+.modal-close{
+  width:35px;
+  height:35px;
+
+  border:1px solid var(--line);
+  border-radius:10px;
+
+  background:var(--panel-2);
+  color:var(--text);
+}
+
+.modal-body{
+  padding:20px;
+}
+
+.modal-body p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.65;
+}
+
+.modal-input{
+  width:100%;
+
+  margin-top:15px;
+
+  border:1px solid var(--line);
+  border-radius:11px;
+
+  padding:11px 12px;
+
+  outline:none;
+
+  background:var(--panel-2);
+  color:var(--text);
+
+  font-size:11px;
+}
+
+.modal-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+
+  padding:15px 20px;
+
+  border-top:1px solid var(--line);
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  z-index:500;
+
+  right:22px;
+  bottom:22px;
+
+  min-width:250px;
+
+  padding:13px 16px;
+
+  border:1px solid var(--line-strong);
+  border-radius:13px;
+
+  background:rgba(20,21,25,.96);
+  color:var(--text);
+
+  font-size:11px;
+
+  box-shadow:0 20px 70px rgba(0,0,0,.35);
+
+  opacity:0;
+  transform:translateY(15px);
+
+  pointer-events:none;
+
+  transition:.25s;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.mobile-overlay{
+  display:none;
+
+  position:fixed;
+  z-index:90;
+  inset:0;
+
+  background:rgba(0,0,0,.55);
+}
+
+@media(max-width:1100px){
+
+  .system-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:820px){
+
+  .sidebar{
+    transform:translateX(-105%);
+    transition:.25s;
+
+    box-shadow:30px 0 90px rgba(0,0,0,.4);
+  }
+
+  body.sidebar-open .sidebar{
+    transform:translateX(0);
+  }
+
+  body.sidebar-open .mobile-overlay{
+    display:block;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .mobile-menu{
+    display:grid;
+    place-items:center;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .content{
+    padding:24px 18px 70px;
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+}
+
+@media(max-width:620px){
+
+  .setting-row{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .select-control{
+    width:100%;
+  }
+
+  .danger-item{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .danger-item .btn{
+    width:100%;
+  }
+
+  .header-actions{
+    width:100%;
+  }
+
+  .header-actions .btn{
+    flex:1;
+  }
+
+}
+</style>
 </head>
 
 <body>
 
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
 <div class="app">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
+<!-- =======================================================
+     SIDEBAR
+======================================================= -->
 
-    <div class="brand">
-      <div class="brand-mark">NU</div>
-      <div class="brand-copy">
-        <strong>Nusrat Afsana</strong>
-        <span>Portfolio Admin</span>
+<aside class="sidebar" id="sidebar">
+
+  <div class="brand">
+
+    <img
+      src="../nusrat-afsana-photo.jpg"
+      alt="Nusrat Afsana Usha"
+    >
+
+    <div>
+      <div class="brand-name">
+        Nusrat Afsana Usha
+      </div>
+
+      <div class="brand-sub">
+        Portfolio Admin
       </div>
     </div>
 
-    <div class="nav-label">Workspace</div>
+  </div>
 
-    <nav class="side-nav">
 
-      <a class="nav-item" href="./dashboard.html">
-        <span class="nav-icon">⌂</span>
-        <span>Dashboard</span>
-      </a>
+  <div class="side-label">
+    Workspace
+  </div>
 
-      <a class="nav-item" href="./homepage.html">
-        <span class="nav-icon">◫</span>
-        <span>Homepage</span>
-      </a>
 
-      <a class="nav-item" href="./banner.html">
-        <span class="nav-icon">▧</span>
-        <span>Banner</span>
-      </a>
+  <nav class="side-nav">
 
-      <a class="nav-item" href="./browser-ui.html">
-        <span class="nav-icon">◌</span>
-        <span>Browser UI</span>
-      </a>
+    <a class="nav-item" href="./dashboard.html">
+      <span class="nav-icon">⌂</span>
+      Dashboard
+    </a>
 
-      <a class="nav-item" href="./newsletter.html">
-        <span class="nav-icon">✉</span>
-        <span>Newsletter</span>
-      </a>
+    <a class="nav-item" href="./homepage.html">
+      <span class="nav-icon">◫</span>
+      Homepage
+    </a>
 
-      <a class="nav-item active" href="./system.html">
-        <span class="nav-icon">⚙</span>
-        <span>System</span>
-      </a>
+    <a class="nav-item" href="./banner.html">
+      <span class="nav-icon">✦</span>
+      Banner
+    </a>
 
-    </nav>
+    <a class="nav-item" href="./browser-ui.html">
+      <span class="nav-icon">▣</span>
+      Browser UI
+    </a>
 
-    <div class="sidebar-bottom">
+    <a class="nav-item" href="./newsletter.html">
+      <span class="nav-icon">✉</span>
+      Newsletter
+    </a>
 
-      <a class="nav-item" href="../index.html" target="_blank">
-        <span class="nav-icon">↗</span>
-        <span>View Portfolio</span>
-      </a>
+    <a class="nav-item" href="./admin-management.html">
+      <span class="nav-icon">♙</span>
+      Admin Management
+    </a>
 
-      <button class="nav-item" id="logoutBtn" style="width:100%;border:0;background:transparent;text-align:left;">
-        <span class="nav-icon">↪</span>
-        <span>Sign Out</span>
+    <a class="nav-item active" href="./system.html">
+      <span class="nav-icon">⚙</span>
+      System
+    </a>
+
+    <a
+      class="nav-item"
+      href="../index.html"
+      target="_blank"
+    >
+      <span class="nav-icon">↗</span>
+      View Portfolio
+    </a>
+
+  </nav>
+
+
+  <div class="sidebar-bottom">
+
+    <div class="profile-mini">
+
+      <img
+        src="../nusrat-afsana-photo.jpg"
+        alt=""
+      >
+
+      <div>
+        <strong>Nusrat Afsana Usha</strong>
+        <span>Administrator</span>
+      </div>
+
+    </div>
+
+
+    <button
+      class="signout"
+      id="signOut"
+    >
+      ↪ &nbsp; Sign out
+    </button>
+
+  </div>
+
+</aside>
+
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
+<main class="main">
+
+<header class="topbar">
+
+  <div class="topbar-left">
+
+    <button
+      class="mobile-menu"
+      id="mobileMenu"
+      aria-label="Open menu"
+    >
+      ☰
+    </button>
+
+    <div class="breadcrumb">
+      Admin / <strong>System</strong>
+    </div>
+
+  </div>
+
+
+  <div class="top-actions">
+
+    <a
+      href="../index.html"
+      target="_blank"
+      class="icon-button"
+      title="View portfolio"
+    >
+      ↗
+    </a>
+
+    <button
+      class="icon-button"
+      id="themeToggle"
+      title="Toggle theme"
+    >
+      ◐
+    </button>
+
+  </div>
+
+</header>
+
+
+<section class="content">
+
+<!-- =======================================================
+     PAGE HEADER
+======================================================= -->
+
+<div class="page-heading">
+
+  <div>
+
+    <div class="eyebrow">
+      <span class="eyebrow-dot"></span>
+      Workspace Configuration
+    </div>
+
+    <h1>System Settings</h1>
+
+    <p>
+      Configure portfolio visibility, workspace behavior,
+      analytics, newsletter settings and session preferences.
+    </p>
+
+  </div>
+
+
+  <div class="header-actions">
+
+    <button
+      class="btn secondary"
+      id="resetBtn"
+    >
+      Reset
+    </button>
+
+    <button
+      class="btn primary"
+      id="saveBtn"
+    >
+      Save Changes
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     SYSTEM GRID
+======================================================= -->
+
+<div class="system-grid">
+
+
+<!-- =====================================================
+     LEFT COLUMN
+====================================================== -->
+
+<div class="left-column">
+
+
+<!-- PORTFOLIO -->
+
+<section class="panel">
+
+  <div class="panel-header">
+
+    <div>
+      <h2>Portfolio Status</h2>
+      <p>Control how the public website behaves.</p>
+    </div>
+
+    <span class="status-pill">
+      <i></i>
+      System Online
+    </span>
+
+  </div>
+
+
+  <div class="panel-body">
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Public Portfolio</strong>
+
+        <span>
+          Allow visitors to access the public portfolio.
+        </span>
+
+      </div>
+
+      <label class="switch">
+
+        <input
+          type="checkbox"
+          id="publicPortfolio"
+          checked
+        >
+
+        <span class="slider"></span>
+
+      </label>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Maintenance Mode</strong>
+
+        <span>
+          Temporarily replace public content with a maintenance state.
+        </span>
+
+      </div>
+
+      <label class="switch">
+
+        <input
+          type="checkbox"
+          id="maintenanceMode"
+        >
+
+        <span class="slider"></span>
+
+      </label>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Public Newsletter</strong>
+
+        <span>
+          Allow visitors to see and use newsletter signup areas.
+        </span>
+
+      </div>
+
+      <label class="switch">
+
+        <input
+          type="checkbox"
+          id="newsletterSignup"
+          checked
+        >
+
+        <span class="slider"></span>
+
+      </label>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Analytics</strong>
+
+        <span>
+          Enable analytics integration when configured.
+        </span>
+
+      </div>
+
+      <label class="switch">
+
+        <input
+          type="checkbox"
+          id="analytics"
+          checked
+        >
+
+        <span class="slider"></span>
+
+      </label>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Audit Logging</strong>
+
+        <span>
+          Record administrative activity for later review.
+        </span>
+
+      </div>
+
+      <label class="switch">
+
+        <input
+          type="checkbox"
+          id="auditLogging"
+          checked
+        >
+
+        <span class="slider"></span>
+
+      </label>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- INTERFACE -->
+
+<section class="panel">
+
+  <div class="panel-header">
+
+    <div>
+      <h2>Interface Preferences</h2>
+      <p>Configure the administration experience.</p>
+    </div>
+
+  </div>
+
+
+  <div class="panel-body">
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Default Theme</strong>
+
+        <span>
+          Theme applied when the admin workspace opens.
+        </span>
+
+      </div>
+
+      <select
+        class="select-control"
+        id="defaultTheme"
+      >
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Interface Language</strong>
+
+        <span>
+          Language used throughout the administration interface.
+        </span>
+
+      </div>
+
+      <select
+        class="select-control"
+        id="interfaceLanguage"
+      >
+        <option value="en">English</option>
+        <option value="bn">বাংলা</option>
+      </select>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Date Format</strong>
+
+        <span>
+          Format used for saved dates and activity timestamps.
+        </span>
+
+      </div>
+
+      <select
+        class="select-control"
+        id="dateFormat"
+      >
+        <option value="DD MMM YYYY">
+          03 Oct 2026
+        </option>
+
+        <option value="MMM DD, YYYY">
+          Oct 03, 2026
+        </option>
+
+        <option value="YYYY-MM-DD">
+          2026-10-03
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="setting-row">
+
+      <div class="setting-copy">
+
+        <strong>Session Timeout</strong>
+
+        <span>
+          Automatically expire the current admin session.
+        </span>
+
+      </div>
+
+      <select
+        class="select-control"
+        id="sessionTimeout"
+      >
+        <option value="30">30 minutes</option>
+        <option value="60">1 hour</option>
+        <option value="120">2 hours</option>
+        <option value="240">4 hours</option>
+      </select>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SECURITY -->
+
+<section class="panel">
+
+  <div class="panel-header">
+
+    <div>
+      <h2>Security</h2>
+      <p>Review the current browser-side workspace state.</p>
+    </div>
+
+    <span class="status-pill">
+      <i></i>
+      Protected
+    </span>
+
+  </div>
+
+
+  <div class="health-list">
+
+    <div class="health-item">
+
+      <div class="health-left">
+
+        <div class="health-icon">
+          ◇
+        </div>
+
+        <div>
+          <strong>Admin Session</strong>
+          <span>Authenticated workspace session</span>
+        </div>
+
+      </div>
+
+      <div class="health-status">
+        Active
+      </div>
+
+    </div>
+
+
+    <div class="health-item">
+
+      <div class="health-left">
+
+        <div class="health-icon">
+          ▣
+        </div>
+
+        <div>
+          <strong>Local Data</strong>
+          <span>Portfolio settings storage</span>
+        </div>
+
+      </div>
+
+      <div class="health-status">
+        Available
+      </div>
+
+    </div>
+
+
+    <div class="health-item">
+
+      <div class="health-left">
+
+        <div class="health-icon">
+          ◉
+        </div>
+
+        <div>
+          <strong>Audit Logging</strong>
+          <span>Administrative activity tracking</span>
+        </div>
+
+      </div>
+
+      <div
+        class="health-status"
+        id="auditHealth"
+      >
+        Enabled
+      </div>
+
+    </div>
+
+
+    <div class="health-item">
+
+      <div class="health-left">
+
+        <div class="health-icon">
+          ⌁
+        </div>
+
+        <div>
+          <strong>Backend Authentication</strong>
+          <span>Production integration required</span>
+        </div>
+
+      </div>
+
+      <div
+        class="health-status"
+        style="color:var(--warning)"
+      >
+        Pending
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- DANGER ZONE -->
+
+<section class="panel danger-panel">
+
+  <div class="panel-header">
+
+    <div>
+
+      <h2 class="danger-title">
+        Sensitive Operations
+      </h2>
+
+      <p>
+        Actions below can affect the current browser workspace.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="panel-body">
+
+    <div class="danger-item">
+
+      <div>
+
+        <strong>Reset Local Admin State</strong>
+
+        <span>
+          Clear locally stored portfolio administration settings.
+        </span>
+
+      </div>
+
+      <button
+        class="btn danger"
+        id="resetLocalBtn"
+      >
+        Reset State
       </button>
 
-      <div class="profile-mini">
-        <img class="profile-avatar" src="../nusrat-afsana-photo.jpg" alt="Nusrat Afsana Usha">
-        <div>
-          <strong>Nusrat Afsana Usha</strong>
-          <span>Administrator</span>
-        </div>
+    </div>
+
+
+    <div class="danger-item">
+
+      <div>
+
+        <strong>Revoke Active Session</strong>
+
+        <span>
+          Sign out the current administrator immediately.
+        </span>
+
+      </div>
+
+      <button
+        class="btn danger"
+        id="revokeBtn"
+      >
+        Revoke
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+</div>
+
+
+<!-- =====================================================
+     RIGHT COLUMN
+====================================================== -->
+
+<div class="right-column">
+
+
+<div class="info-card">
+
+  <div class="info-top">
+
+    <div class="info-icon">
+      ◇
+    </div>
+
+    <span class="status-pill">
+      <i></i>
+      Online
+    </span>
+
+  </div>
+
+  <h3>Workspace Health</h3>
+
+  <p>
+    Core browser-side administration services are available.
+    Production authentication should be connected before launch.
+  </p>
+
+</div>
+
+
+<div class="info-card">
+
+  <div class="info-top">
+
+    <div class="info-icon">
+      ◫
+    </div>
+
+    <span
+      style="
+        color:var(--accent);
+        font-size:10px;
+      "
+    >
+      STORAGE
+    </span>
+
+  </div>
+
+  <h3>Content Storage</h3>
+
+  <p>
+    Current demo configuration uses browser local storage.
+    Firebase, Supabase or another backend can replace this layer later.
+  </p>
+
+</div>
+
+
+<section class="panel">
+
+  <div class="panel-header">
+
+    <div>
+      <h2>Recent System Activity</h2>
+      <p>Latest local workspace events.</p>
+    </div>
+
+  </div>
+
+
+  <div class="panel-body">
+
+    <div class="audit-item">
+
+      <div class="audit-dot"></div>
+
+      <div>
+        <strong>System settings loaded</strong>
+        <span>Current administration session.</span>
       </div>
 
     </div>
-  </aside>
 
-  <div class="mobile-overlay" id="mobileOverlay"></div>
 
-  <!-- MAIN -->
-  <main class="main">
+    <div class="audit-item">
 
-    <header class="topbar">
+      <div class="audit-dot"></div>
 
-      <div class="topbar-left">
-
-        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">
-          ☰
-        </button>
-
-        <div class="crumb">
-          Admin / <strong>System Settings</strong>
-        </div>
-
+      <div>
+        <strong>Permission controls available</strong>
+        <span>Workspace access configuration ready.</span>
       </div>
 
-      <div class="top-actions">
+    </div>
 
-        <button class="icon-btn" id="themeToggle" title="Toggle theme">
-          ◐
-        </button>
 
-        <button class="icon-btn" id="portfolioBtn" title="Open portfolio">
-          ↗
-        </button>
+    <div class="audit-item">
 
+      <div class="audit-dot"></div>
+
+      <div>
+        <strong>Portfolio connection active</strong>
+        <span>Public index available.</span>
       </div>
 
-    </header>
+    </div>
 
-    <section class="content">
+  </div>
 
-      <div class="page-heading">
+</section>
 
-        <div>
-          <div class="eyebrow">Configuration</div>
-          <h1>System Settings</h1>
-          <p class="heading-copy">
-            Manage portfolio availability, administration behavior, security preferences
-            and local system configuration from one controlled workspace.
-          </p>
-        </div>
 
-        <div class="status-pill">
-          <span class="status-dot"></span>
-          System Online
-        </div>
+<div class="info-card">
 
-      </div>
+  <div class="info-top">
 
-      <div class="system-grid">
+    <div class="info-icon">
+      ?
+    </div>
 
-        <!-- LEFT -->
-        <div>
+  </div>
 
-          <!-- GENERAL -->
-          <section class="panel">
+  <h3>Production Security</h3>
 
-            <div class="panel-head">
-              <div>
-                <h2>General Configuration</h2>
-                <p>Core settings that affect the public portfolio.</p>
-              </div>
-            </div>
-
-            <div class="panel-body">
-
-              <div class="setting-list">
-
-                <div class="setting">
-
-                  <div class="setting-copy">
-                    <strong>Public Portfolio</strong>
-                    <span>
-                      Allow visitors to access the main portfolio website.
-                    </span>
-                  </div>
-
-                  <button class="toggle on" data-setting="publicPortfolio" aria-label="Toggle public portfolio"></button>
-
-                </div>
-
-                <div class="setting">
-
-                  <div class="setting-copy">
-                    <strong>Maintenance Mode</strong>
-                    <span>
-                      Temporarily replace the public portfolio with a maintenance screen.
-                    </span>
-                  </div>
-
-                  <button class="toggle" data-setting="maintenance" aria-label="Toggle maintenance mode"></button>
-
-                </div>
-
-                <div class="setting">
-
-                  <div class="setting-copy">
-                    <strong>Newsletter Signup</strong>
-                    <span>
-                      Allow visitors to submit their email through the newsletter form.
-                    </span>
-                  </div>
-
-                  <button class="toggle on" data-setting="newsletter" aria-label="Toggle newsletter"></button>
-
-                </div>
-
-                <div class="setting">
-
-                  <div class="setting-copy">
-                    <strong>Analytics</strong>
-                    <span>
-                      Enable analytics integration when a provider is connected.
-                    </span>
-                  </div>
-
-                  <button class="toggle" data-setting="analytics" aria-label="Toggle analytics"></button>
-
-                </div>
-
-                <div class="setting">
-
-                  <div class="setting-copy">
-                    <strong>Audit Logging</strong>
-                    <span>
-                      Record important administrative actions for review.
-                    </span>
-                  </div>
-
-                  <button class="toggle on" data-setting="audit" aria-label="Toggle audit logging"></button>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </section>
-
-          <!-- ADMIN SETTINGS -->
-          <section class="panel" style="margin-top:18px;">
-
-            <div class="panel-head">
-              <div>
-                <h2>Administration</h2>
-                <p>Session and interface behavior for the admin workspace.</p>
-              </div>
-            </div>
-
-            <div class="panel-body">
-
-              <div class="two-col">
-
-                <div class="field">
-                  <label for="sessionTimeout">Session Timeout</label>
-                  <select class="select" id="sessionTimeout">
-                    <option value="30">30 minutes</option>
-                    <option value="60">1 hour</option>
-                    <option value="120">2 hours</option>
-                    <option value="240">4 hours</option>
-                    <option value="480">8 hours</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="defaultTheme">Default Theme</label>
-                  <select class="select" id="defaultTheme">
-                    <option value="dark">Dark</option>
-                    <option value="light">Light</option>
-                    <option value="system">System</option>
-                  </select>
-                </div>
-
-              </div>
-
-              <div class="two-col">
-
-                <div class="field">
-                  <label for="language">Interface Language</label>
-                  <select class="select" id="language">
-                    <option value="en">English</option>
-                    <option value="bn">বাংলা</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label for="dateFormat">Date Format</label>
-                  <select class="select" id="dateFormat">
-                    <option value="dd-mmm-yyyy">03 Oct 2026</option>
-                    <option value="yyyy-mm-dd">2026-10-03</option>
-                    <option value="dd-mm-yyyy">03-10-2026</option>
-                  </select>
-                </div>
-
-              </div>
-
-              <div class="save-row">
-
-                <div class="save-note" id="saveStatus">
-                  No unsaved changes.
-                </div>
-
-                <button class="primary-button" id="saveSettings">
-                  Save System Settings
-                </button>
-
-              </div>
-
-            </div>
-
-          </section>
-
-          <!-- DANGER -->
-          <section class="panel danger-panel">
-
-            <div class="panel-head">
-
-              <div>
-                <h2 class="danger-title">Sensitive Operations</h2>
-                <p>
-                  These actions can affect access or local administrative state.
-                  Use them carefully.
-                </p>
-              </div>
-
-            </div>
-
-            <div class="panel-body">
-
-              <div class="danger-actions">
-
-                <button class="danger-button" id="resetLocal">
-                  Reset Local Admin State
-                </button>
-
-                <button class="danger-button" id="logoutAll">
-                  Revoke Active Sessions
-                </button>
-
-              </div>
-
-            </div>
-
-          </section>
-
-        </div>
-
-        <!-- RIGHT -->
-        <aside class="info-stack">
-
-          <div class="info-card">
-
-            <div class="info-icon">✓</div>
-
-            <h3>System Health</h3>
-
-            <p>
-              The current interface is operating normally. Local configuration
-              is available and the portfolio can be opened from this workspace.
-            </p>
-
-            <div class="system-meta">
-
-              <div class="meta-row">
-                <span>Portfolio</span>
-                <strong id="portfolioStatus">Online</strong>
-              </div>
-
-              <div class="meta-row">
-                <span>Admin Session</span>
-                <strong id="sessionStatus">Active</strong>
-              </div>
-
-              <div class="meta-row">
-                <span>Storage</span>
-                <strong>Local</strong>
-              </div>
-
-              <div class="meta-row">
-                <span>Version</span>
-                <strong>1.0.0</strong>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="info-card">
-
-            <div class="info-icon">◈</div>
-
-            <h3>Data Storage</h3>
-
-            <p>
-              This V1 interface stores configuration locally in the browser.
-              For production, connect authentication, database and storage
-              to Firebase, Supabase or another secure backend.
-            </p>
-
-            <div class="system-meta">
-
-              <div class="meta-row">
-                <span>Content</span>
-                <strong>Local Storage</strong>
-              </div>
-
-              <div class="meta-row">
-                <span>Media</span>
-                <strong>Local Preview</strong>
-              </div>
-
-              <div class="meta-row">
-                <span>Authentication</span>
-                <strong>Demo Session</strong>
-              </div>
-
-            </div>
-
-          </div>
-
-          <div class="info-card">
-
-            <div class="info-icon">⌁</div>
-
-            <h3>Security Note</h3>
-
-            <p>
-              Front-end visibility is not a security boundary. In production,
-              permissions must be enforced by authenticated backend roles,
-              database rules and server-side access control.
-            </p>
-
-          </div>
-
-        </aside>
-
-      </div>
-
-    </section>
-
-  </main>
+  <p>
+    LocalStorage settings are suitable for UI prototyping only.
+    Real authentication, roles, database rules and sensitive
+    operations should be enforced server-side.
+  </p>
 
 </div>
 
-<div class="toast" id="toast">
-  <span class="toast-mark"></span>
-  <span id="toastText">Saved successfully.</span>
+
 </div>
+
+</div>
+
+
+<!-- =======================================================
+     SAVE BAR
+======================================================= -->
+
+<div
+  style="
+    position:sticky;
+    bottom:18px;
+    z-index:40;
+    margin-top:22px;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    border-radius:16px;
+    background:rgba(18,19,23,.88);
+    backdrop-filter:blur(18px);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:14px;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+  "
+  id="saveBar"
+>
+
+  <div
+    style="
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      font-size:11px;
+    "
+  >
+
+    <span
+      id="saveDot"
+      style="
+        width:7px;
+        height:7px;
+        border-radius:50%;
+        background:var(--success);
+      "
+    ></span>
+
+    <span id="saveText">
+      All changes saved
+    </span>
+
+  </div>
+
+
+  <div
+    style="
+      display:flex;
+      gap:8px;
+    "
+  >
+
+    <button
+      class="btn secondary"
+      id="saveReset"
+    >
+      Reset
+    </button>
+
+    <button
+      class="btn primary"
+      id="saveBottom"
+    >
+      Save Changes
+    </button>
+
+  </div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- =======================================================
+     MODAL
+======================================================= -->
+
+<div
+  class="modal-backdrop"
+  id="confirmModal"
+>
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <h2 id="modalTitle">
+        Confirm Action
+      </h2>
+
+      <button
+        class="modal-close"
+        id="modalClose"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <p id="modalMessage">
+        Are you sure you want to continue?
+      </p>
+
+      <input
+        class="modal-input"
+        id="confirmInput"
+        type="text"
+        placeholder="Type RESET to confirm"
+        style="display:none"
+      >
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        class="btn secondary"
+        id="modalCancel"
+      >
+        Cancel
+      </button>
+
+      <button
+        class="btn danger"
+        id="modalConfirm"
+      >
+        Confirm
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast"
+></div>
+
 
 <script>
 (() => {
 
-  "use strict";
+"use strict";
 
-  /* =========================
-     CONFIG
-  ========================= */
 
-  const SESSION_KEY = "nusrat_admin_session_v1";
-  const THEME_KEY = "nusrat_admin_theme";
-  const SYSTEM_KEY = "nusrat_system_settings_v1";
-  const LAST_UPDATED_KEY = "nusrat_admin_last_updated";
+/* =========================================================
+   CONFIG
+========================================================= */
 
-  /* =========================
-     DEFAULTS
-  ========================= */
+const SESSION_KEY =
+  "nusrat_admin_session_v1";
 
-  const defaultSettings = {
-    publicPortfolio: true,
-    maintenance: false,
-    newsletter: true,
-    analytics: false,
-    audit: true,
+const THEME_KEY =
+  "nusrat_admin_theme";
 
-    sessionTimeout: "60",
-    defaultTheme: "dark",
-    language: "en",
-    dateFormat: "dd-mmm-yyyy"
-  };
+const SYSTEM_KEY =
+  "nusrat_system_settings_v1";
 
-  /* =========================
-     ELEMENTS
-  ========================= */
+const LAST_UPDATED_KEY =
+  "nusrat_admin_last_updated";
 
-  const sidebar = document.getElementById("sidebar");
-  const mobileMenu = document.getElementById("mobileMenu");
-  const mobileOverlay = document.getElementById("mobileOverlay");
 
-  const themeToggle = document.getElementById("themeToggle");
-  const portfolioBtn = document.getElementById("portfolioBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
+const DEFAULT_SETTINGS = {
 
-  const saveButton = document.getElementById("saveSettings");
-  const saveStatus = document.getElementById("saveStatus");
+  publicPortfolio:true,
 
-  const sessionTimeout = document.getElementById("sessionTimeout");
-  const defaultTheme = document.getElementById("defaultTheme");
-  const language = document.getElementById("language");
-  const dateFormat = document.getElementById("dateFormat");
+  maintenanceMode:false,
 
-  const toast = document.getElementById("toast");
-  const toastText = document.getElementById("toastText");
+  newsletterSignup:true,
 
-  /* =========================
-     AUTH
-  ========================= */
+  analytics:true,
 
-  function getSession() {
+  auditLogging:true,
 
-    try {
-      const raw = localStorage.getItem(SESSION_KEY);
+  sessionTimeout:"60",
 
-      if (!raw) return null;
+  defaultTheme:"dark",
 
-      const session = JSON.parse(raw);
+  interfaceLanguage:"en",
 
-      if (!session || !session.loggedIn) {
-        return null;
-      }
+  dateFormat:"DD MMM YYYY"
 
-      if (session.expiresAt && Date.now() > session.expiresAt) {
-        localStorage.removeItem(SESSION_KEY);
-        return null;
-      }
+};
 
-      return session;
 
-    } catch {
-      return null;
+let settings =
+  loadSettings();
+
+let dirty = false;
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function checkAuth(){
+
+  try{
+
+    const raw =
+      localStorage.getItem(SESSION_KEY);
+
+    if(!raw){
+
+      location.href =
+        "./index.html";
+
+      return false;
+
     }
+
+
+    const session =
+      JSON.parse(raw);
+
+
+    if(
+      !session ||
+      session.loggedIn !== true ||
+      session.role !== "admin"
+    ){
+
+      location.href =
+        "./index.html";
+
+      return false;
+
+    }
+
+
+    if(
+      session.expiresAt &&
+      Date.now() >
+      Number(session.expiresAt)
+    ){
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+      location.href =
+        "./index.html";
+
+      return false;
+
+    }
+
+
+    return true;
+
+  }catch{
+
+    localStorage.removeItem(
+      SESSION_KEY
+    );
+
+    location.href =
+      "./index.html";
+
+    return false;
+
   }
 
-  const session = getSession();
+}
 
-  if (!session) {
-    window.location.replace("./index.html");
-    return;
-  }
 
-  /* =========================
-     LOAD DATA
-  ========================= */
+if(!checkAuth()) return;
 
-  function loadSettings() {
 
-    try {
+/* =========================================================
+   LOAD
+========================================================= */
 
-      const saved = localStorage.getItem(SYSTEM_KEY);
+function loadSettings(){
 
-      if (!saved) {
-        return { ...defaultSettings };
-      }
+  try{
+
+    const saved =
+      localStorage.getItem(
+        SYSTEM_KEY
+      );
+
+    if(saved){
+
+      const parsed =
+        JSON.parse(saved);
 
       return {
-        ...defaultSettings,
-        ...JSON.parse(saved)
+        ...DEFAULT_SETTINGS,
+        ...parsed
       };
 
-    } catch {
-      return { ...defaultSettings };
-    }
-  }
-
-  let settings = loadSettings();
-
-  /* =========================
-     THEME
-  ========================= */
-
-  function applyTheme(theme) {
-
-    if (theme === "system") {
-
-      const prefersLight =
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: light)").matches;
-
-      document.documentElement.dataset.theme =
-        prefersLight ? "light" : "dark";
-
-      return;
     }
 
-    document.documentElement.dataset.theme = theme;
-  }
+  }catch{}
 
-  const savedTheme =
+  return {
+    ...DEFAULT_SETTINGS
+  };
+
+}
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const $ =
+  id => document.getElementById(id);
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+function applyTheme(){
+
+  const theme =
     localStorage.getItem(THEME_KEY) ||
     settings.defaultTheme ||
     "dark";
 
-  applyTheme(savedTheme);
+  document.documentElement.dataset.theme =
+    theme;
 
-  themeToggle.addEventListener("click", () => {
+}
+
+
+applyTheme();
+
+
+$("themeToggle")
+  .addEventListener("click",() => {
 
     const current =
-      document.documentElement.dataset.theme || "dark";
+      document.documentElement.dataset.theme ||
+      "dark";
 
-    const next = current === "dark" ? "light" : "dark";
+    const next =
+      current === "dark"
+        ? "light"
+        : "dark";
 
-    applyTheme(next);
+    document.documentElement.dataset.theme =
+      next;
 
-    localStorage.setItem(THEME_KEY, next);
-
-    showToast(
-      next === "dark"
-        ? "Dark theme enabled."
-        : "Light theme enabled."
+    localStorage.setItem(
+      THEME_KEY,
+      next
     );
-  });
 
-  /* =========================
-     LOAD FORM
-  ========================= */
-
-  function loadForm() {
-
-    document.querySelectorAll(".toggle").forEach(button => {
-
-      const key = button.dataset.setting;
-
-      button.classList.toggle(
-        "on",
-        Boolean(settings[key])
-      );
-
-    });
-
-    sessionTimeout.value = settings.sessionTimeout;
-    defaultTheme.value = settings.defaultTheme;
-    language.value = settings.language;
-    dateFormat.value = settings.dateFormat;
-
-    updateSystemStatus();
-
-    saveStatus.textContent = "No unsaved changes.";
-  }
-
-  loadForm();
-
-  /* =========================
-     TOGGLES
-  ========================= */
-
-  document.querySelectorAll(".toggle").forEach(button => {
-
-    button.addEventListener("click", () => {
-
-      const key = button.dataset.setting;
-
-      settings[key] = !settings[key];
-
-      button.classList.toggle(
-        "on",
-        settings[key]
-      );
-
-      markUnsaved();
-      updateSystemStatus();
-    });
+    setDirty(true);
 
   });
 
-  /* =========================
-     FORM CHANGES
-  ========================= */
 
-  [
-    sessionTimeout,
-    defaultTheme,
-    language,
-    dateFormat
-  ].forEach(input => {
+/* =========================================================
+   POPULATE
+========================================================= */
 
-    input.addEventListener("change", () => {
+function populate(){
 
-      settings.sessionTimeout = sessionTimeout.value;
-      settings.defaultTheme = defaultTheme.value;
-      settings.language = language.value;
-      settings.dateFormat = dateFormat.value;
+  $("publicPortfolio").checked =
+    settings.publicPortfolio !== false;
 
-      markUnsaved();
-    });
+  $("maintenanceMode").checked =
+    settings.maintenanceMode === true;
 
-  });
+  $("newsletterSignup").checked =
+    settings.newsletterSignup !== false;
 
-  /* =========================
-     SAVE
-  ========================= */
+  $("analytics").checked =
+    settings.analytics !== false;
 
-  function saveSettingsData() {
+  $("auditLogging").checked =
+    settings.auditLogging !== false;
 
-    settings.sessionTimeout = sessionTimeout.value;
-    settings.defaultTheme = defaultTheme.value;
-    settings.language = language.value;
-    settings.dateFormat = dateFormat.value;
+  $("sessionTimeout").value =
+    settings.sessionTimeout || "60";
+
+  $("defaultTheme").value =
+    settings.defaultTheme || "dark";
+
+  $("interfaceLanguage").value =
+    settings.interfaceLanguage || "en";
+
+  $("dateFormat").value =
+    settings.dateFormat || "DD MMM YYYY";
+
+
+  updateHealth();
+
+}
+
+
+populate();
+
+
+/* =========================================================
+   COLLECT
+========================================================= */
+
+function collect(){
+
+  settings.publicPortfolio =
+    $("publicPortfolio").checked;
+
+  settings.maintenanceMode =
+    $("maintenanceMode").checked;
+
+  settings.newsletterSignup =
+    $("newsletterSignup").checked;
+
+  settings.analytics =
+    $("analytics").checked;
+
+  settings.auditLogging =
+    $("auditLogging").checked;
+
+  settings.sessionTimeout =
+    $("sessionTimeout").value;
+
+  settings.defaultTheme =
+    $("defaultTheme").value;
+
+  settings.interfaceLanguage =
+    $("interfaceLanguage").value;
+
+  settings.dateFormat =
+    $("dateFormat").value;
+
+}
+
+
+/* =========================================================
+   HEALTH
+========================================================= */
+
+function updateHealth(){
+
+  $("auditHealth").textContent =
+    settings.auditLogging
+      ? "Enabled"
+      : "Disabled";
+
+  $("auditHealth").style.color =
+    settings.auditLogging
+      ? "var(--success)"
+      : "var(--muted)";
+
+}
+
+
+/* =========================================================
+   CHANGE LISTENERS
+========================================================= */
+
+[
+  "publicPortfolio",
+  "maintenanceMode",
+  "newsletterSignup",
+  "analytics",
+  "auditLogging",
+  "sessionTimeout",
+  "defaultTheme",
+  "interfaceLanguage",
+  "dateFormat"
+].forEach(id => {
+
+  $(id).addEventListener(
+    "change",
+    () => {
+
+      collect();
+
+      updateHealth();
+
+      setDirty(true);
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   DIRTY STATE
+========================================================= */
+
+function setDirty(value){
+
+  dirty = value;
+
+  $("saveText").textContent =
+    value
+      ? "Unsaved changes"
+      : "All changes saved";
+
+  $("saveDot").style.background =
+    value
+      ? "var(--accent)"
+      : "var(--success)";
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function save(){
+
+  collect();
+
+
+  try{
 
     localStorage.setItem(
       SYSTEM_KEY,
       JSON.stringify(settings)
     );
 
+
     localStorage.setItem(
       LAST_UPDATED_KEY,
       new Date().toISOString()
     );
 
-    saveStatus.textContent =
-      "Saved just now.";
 
-    showToast("System settings saved.");
+    if(
+      settings.defaultTheme === "light" ||
+      settings.defaultTheme === "dark"
+    ){
 
-    if (
-      settings.defaultTheme === "dark" ||
-      settings.defaultTheme === "light"
-    ) {
       localStorage.setItem(
         THEME_KEY,
         settings.defaultTheme
       );
 
-      applyTheme(settings.defaultTheme);
-    }
-  }
+      applyTheme();
 
-  saveButton.addEventListener(
-    "click",
-    saveSettingsData
-  );
-
-  /* =========================
-     STATUS
-  ========================= */
-
-  function updateSystemStatus() {
-
-    const portfolioStatus =
-      document.getElementById("portfolioStatus");
-
-    const sessionStatus =
-      document.getElementById("sessionStatus");
-
-    if (settings.maintenance) {
-      portfolioStatus.textContent = "Maintenance";
-      portfolioStatus.style.color = "var(--warning)";
-    } else if (settings.publicPortfolio) {
-      portfolioStatus.textContent = "Online";
-      portfolioStatus.style.color = "var(--success)";
-    } else {
-      portfolioStatus.textContent = "Private";
-      portfolioStatus.style.color = "var(--danger)";
     }
 
-    sessionStatus.textContent = "Active";
+
+    setDirty(false);
+
+
+    toast(
+      "System settings saved successfully."
+    );
+
+
+  }catch{
+
+    toast(
+      "Unable to save system settings.",
+      "error"
+    );
+
   }
 
-  /* =========================
-     UNSAVED
-  ========================= */
+}
 
-  let dirty = false;
 
-  function markUnsaved() {
-
-    dirty = true;
-
-    saveStatus.textContent =
-      "Unsaved changes.";
-
-    saveStatus.style.color =
-      "var(--warning)";
-  }
-
-  saveButton.addEventListener("click", () => {
-
-    dirty = false;
-
-    saveStatus.style.color =
-      "var(--muted)";
-  });
-
-  window.addEventListener("beforeunload", event => {
-
-    if (!dirty) return;
-
-    event.preventDefault();
-    event.returnValue = "";
-  });
-
-  /* =========================
-     MOBILE NAV
-  ========================= */
-
-  function openSidebar() {
-
-    sidebar.classList.add("open");
-    mobileOverlay.classList.add("show");
-  }
-
-  function closeSidebar() {
-
-    sidebar.classList.remove("open");
-    mobileOverlay.classList.remove("show");
-  }
-
-  mobileMenu.addEventListener(
+$("saveBtn")
+  .addEventListener(
     "click",
-    openSidebar
+    save
   );
 
-  mobileOverlay.addEventListener(
+
+$("saveBottom")
+  .addEventListener(
     "click",
-    closeSidebar
+    save
   );
 
-  document.querySelectorAll(".nav-item").forEach(item => {
 
-    item.addEventListener("click", () => {
+/* =========================================================
+   RESET DRAFT
+========================================================= */
 
-      if (window.innerWidth <= 800) {
-        closeSidebar();
+function resetDraft(){
+
+  const confirmed =
+    confirm(
+      "Reset all system settings to their default values?"
+    );
+
+  if(!confirmed) return;
+
+
+  settings = {
+    ...DEFAULT_SETTINGS
+  };
+
+
+  populate();
+
+  setDirty(true);
+
+
+  toast(
+    "Settings reset. Save to apply the reset."
+  );
+
+}
+
+
+$("resetBtn")
+  .addEventListener(
+    "click",
+    resetDraft
+  );
+
+
+$("saveReset")
+  .addEventListener(
+    "click",
+    resetDraft
+  );
+
+
+/* =========================================================
+   CONFIRM MODAL
+========================================================= */
+
+let pendingAction = null;
+
+
+function openModal(
+  title,
+  message,
+  action,
+  requireText = false
+){
+
+  $("modalTitle").textContent =
+    title;
+
+  $("modalMessage").textContent =
+    message;
+
+  $("confirmInput").style.display =
+    requireText
+      ? "block"
+      : "none";
+
+  $("confirmInput").value = "";
+
+  pendingAction = {
+    action,
+    requireText
+  };
+
+  $("confirmModal")
+    .classList.add("show");
+
+}
+
+
+function closeModal(){
+
+  $("confirmModal")
+    .classList.remove("show");
+
+  pendingAction = null;
+
+}
+
+
+$("modalClose")
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+$("modalCancel")
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+$("confirmModal")
+  .addEventListener(
+    "click",
+    event => {
+
+      if(
+        event.target ===
+        $("confirmModal")
+      ){
+
+        closeModal();
+
       }
 
-    });
-
-  });
-
-  /* =========================
-     PORTFOLIO
-  ========================= */
-
-  portfolioBtn.addEventListener("click", () => {
-    window.open("../index.html", "_blank");
-  });
-
-  /* =========================
-     LOGOUT
-  ========================= */
-
-  logoutBtn.addEventListener("click", () => {
-
-    if (
-      !confirm(
-        "Are you sure you want to sign out?"
-      )
-    ) {
-      return;
     }
+  );
 
-    localStorage.removeItem(SESSION_KEY);
 
-    window.location.replace("./index.html");
+$("modalConfirm")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(!pendingAction)
+        return;
+
+
+      if(
+        pendingAction.requireText &&
+        $("confirmInput").value
+          .trim()
+          .toUpperCase() !== "RESET"
+      ){
+
+        toast(
+          "Type RESET to confirm.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      pendingAction.action();
+
+      closeModal();
+
+    }
+  );
+
+
+/* =========================================================
+   RESET LOCAL ADMIN STATE
+========================================================= */
+
+$("resetLocalBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      openModal(
+        "Reset Local Admin State",
+        "This will remove locally stored admin content and system settings. Your current authentication session will also be removed.",
+        () => {
+
+          const keys = [
+
+            "nusrat_portfolio_admin_data",
+            "nusrat_homepage_content_v1",
+            "nusrat_banner_content_v1",
+            "nusrat_browser_ui_v1",
+            "nusrat_newsletter_v1",
+            "nusrat_admin_management_v1",
+            "nusrat_system_settings_v1",
+            "nusrat_admin_last_updated"
+
+          ];
+
+
+          keys.forEach(
+            key =>
+              localStorage.removeItem(key)
+          );
+
+
+          localStorage.removeItem(
+            SESSION_KEY
+          );
+
+
+          toast(
+            "Local admin state reset."
+          );
+
+
+          setTimeout(
+            () => {
+              location.href =
+                "./index.html";
+            },
+            900
+          );
+
+        },
+        true
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   REVOKE SESSION
+========================================================= */
+
+$("revokeBtn")
+  .addEventListener(
+    "click",
+    () => {
+
+      openModal(
+        "Revoke Current Session",
+        "The current administrator session will be deleted and you will be returned to the login screen.",
+        () => {
+
+          localStorage.removeItem(
+            SESSION_KEY
+          );
+
+
+          toast(
+            "Session revoked."
+          );
+
+
+          setTimeout(
+            () => {
+
+              location.href =
+                "./index.html";
+
+            },
+            700
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+$("mobileMenu")
+  .addEventListener(
+    "click",
+    () => {
+
+      document.body.classList.add(
+        "sidebar-open"
+      );
+
+    }
+  );
+
+
+$("mobileOverlay")
+  .addEventListener(
+    "click",
+    () => {
+
+      document.body.classList.remove(
+        "sidebar-open"
+      );
+
+    }
+  );
+
+
+document
+  .querySelectorAll(".nav-item")
+  .forEach(item => {
+
+    item.addEventListener(
+      "click",
+      () => {
+
+        document.body.classList.remove(
+          "sidebar-open"
+        );
+
+      }
+    );
+
   });
 
-  /* =========================
-     DANGER: RESET LOCAL STATE
-  ========================= */
 
-  document
-    .getElementById("resetLocal")
-    .addEventListener("click", () => {
+/* =========================================================
+   SIGN OUT
+========================================================= */
 
-      const confirmed = confirm(
-        "This will remove local portfolio administration data from this browser. Continue?"
+$("signOut")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(dirty){
+
+        const leave =
+          confirm(
+            "You have unsaved changes. Sign out anyway?"
+          );
+
+        if(!leave) return;
+
+      }
+
+
+      localStorage.removeItem(
+        SESSION_KEY
       );
 
-      if (!confirmed) return;
 
-      const keysToRemove = [
-        "nusrat_portfolio_admin_data",
-        "nusrat_homepage_content_v1",
-        "nusrat_banner_content_v1",
-        "nusrat_browser_ui_v1",
-        "nusrat_newsletter_v1",
-        "nusrat_system_settings_v1",
-        "nusrat_admin_last_updated"
-      ];
+      location.href =
+        "./index.html";
 
-      keysToRemove.forEach(key => {
-        localStorage.removeItem(key);
-      });
+    }
+  );
 
-      showToast(
-        "Local admin data has been reset."
-      );
 
-      setTimeout(() => {
-        window.location.reload();
-      }, 900);
-    });
+/* =========================================================
+   TOAST
+========================================================= */
 
-  /* =========================
-     REVOKE SESSIONS
-  ========================= */
+let toastTimer;
 
-  document
-    .getElementById("logoutAll")
-    .addEventListener("click", () => {
 
-      const confirmed = confirm(
-        "Revoke the current local admin session?"
-      );
+function toast(
+  message,
+  type = "success"
+){
 
-      if (!confirmed) return;
+  const el =
+    $("toast");
 
-      localStorage.removeItem(SESSION_KEY);
+  el.textContent =
+    message;
 
-      showToast(
-        "Session revoked."
-      );
+  el.style.borderColor =
+    type === "error"
+      ? "rgba(232,143,143,.28)"
+      : "var(--line-strong)";
 
-      setTimeout(() => {
-        window.location.replace(
-          "./index.html"
+  el.classList.add("show");
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      () => {
+
+        el.classList.remove(
+          "show"
         );
-      }, 700);
-    });
 
-  /* =========================
-     TOAST
-  ========================= */
+      },
+      3000
+    );
 
-  let toastTimer;
+}
 
-  function showToast(message) {
 
-    toastText.textContent = message;
+/* =========================================================
+   KEYBOARD SHORTCUT
+========================================================= */
 
-    toast.classList.add("show");
+document.addEventListener(
+  "keydown",
+  event => {
 
-    clearTimeout(toastTimer);
-
-    toastTimer = setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2600);
-  }
-
-  /* =========================
-     KEYBOARD SAVE
-  ========================= */
-
-  document.addEventListener("keydown", event => {
-
-    if (
+    if(
       (event.ctrlKey || event.metaKey) &&
       event.key.toLowerCase() === "s"
-    ) {
+    ){
 
       event.preventDefault();
 
-      saveSettingsData();
+      save();
 
-      dirty = false;
-
-      saveStatus.style.color =
-        "var(--muted)";
     }
 
-  });
 
-  /* =========================
-     SESSION WATCHER
-  ========================= */
+    if(
+      event.key === "Escape"
+    ){
 
-  setInterval(() => {
+      closeModal();
 
-    const current = getSession();
-
-    if (!current) {
-
-      window.location.replace(
-        "./index.html"
+      document.body.classList.remove(
+        "sidebar-open"
       );
 
     }
 
-  }, 30000);
+  }
+);
+
+
+/* =========================================================
+   UNSAVED WARNING
+========================================================= */
+
+window.addEventListener(
+  "beforeunload",
+  event => {
+
+    if(!dirty) return;
+
+    event.preventDefault();
+
+    event.returnValue = "";
+
+  }
+);
+
+
+/* =========================================================
+   SESSION WATCHER
+========================================================= */
+
+setInterval(
+  () => {
+
+    try{
+
+      const raw =
+        localStorage.getItem(
+          SESSION_KEY
+        );
+
+      if(!raw) return;
+
+
+      const session =
+        JSON.parse(raw);
+
+
+      if(
+        session.expiresAt &&
+        Date.now() >
+        Number(session.expiresAt)
+      ){
+
+        localStorage.removeItem(
+          SESSION_KEY
+        );
+
+        location.href =
+          "./index.html";
+
+      }
+
+    }catch{}
+
+  },
+  30000
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+setDirty(false);
 
 })();
 </script>
