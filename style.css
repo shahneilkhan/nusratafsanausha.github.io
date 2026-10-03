@@ -1754,3 +1754,131 @@ img {
     transition-duration: .01ms !important;
   }
 }
+
+/* =========================================================
+   PREMIUM INTERACTION LAYER
+   ========================================================= */
+
+/* Scroll reveal */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .75s ease,
+    transform .75s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger project cards */
+
+.project:nth-child(2) {
+  transition-delay: .08s;
+}
+
+.project:nth-child(3) {
+  transition-delay: .16s;
+}
+
+/* Active navigation */
+
+.nav a.active:not(.nav-contact) {
+  color: var(--purple);
+}
+
+.nav a.active:not(.nav-contact)::after {
+  content: "";
+  display: block;
+  height: 2px;
+  background: var(--purple);
+  margin-top: 5px;
+  border-radius: 2px;
+}
+
+/* Hero visual parallax */
+
+.hero-visual {
+  transition: transform .25s ease-out;
+}
+
+@media (min-width: 761px) {
+  .hero-visual {
+    transform:
+      translate(
+        var(--mouse-x, 0px),
+        calc(-48% + var(--mouse-y, 0px))
+      );
+  }
+}
+
+/* Project pointer glow */
+
+.project-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+      rgba(255,255,255,.35),
+      transparent 45%
+    );
+  transition: opacity .3s;
+}
+
+.project-cover:hover::after {
+  opacity: 1;
+}
+
+/* Mobile menu transition */
+
+@media (max-width: 760px) {
+
+  .nav {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition:
+      opacity .25s ease,
+      transform .25s ease;
+    pointer-events: none;
+  }
+
+  .nav.open {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+}
+
+/* Focus accessibility */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--purple);
+  outline-offset: 5px;
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal,
+  .reveal.revealed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero-visual {
+    transform: translateY(-48%);
+  }
+
+}
