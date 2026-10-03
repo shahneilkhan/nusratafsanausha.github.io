@@ -173,3 +173,26 @@ body{transition:background .35s,color .35s}
 .why li{padding-left:18px;border-left:3px solid var(--accent)}
 .why strong{display:block}
 @media (max-width:760px){.hero .name{max-width:none}}
+
+/* v4: editorial layout, icons, canvas dots, sticky CTA */
+body{overflow-x:clip}
+.frame{transition:transform .25s ease-out;will-change:transform}
+.hero::after{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);background-image:radial-gradient(var(--line) 1.3px,transparent 1.3px);background-size:26px 26px;-webkit-mask-image:radial-gradient(ellipse at 70% 35%,#000,transparent 72%);mask-image:radial-gradient(ellipse at 70% 35%,#000,transparent 72%)}
+.marquee:hover .track{animation-play-state:paused}
+.cursor.hot span{transform:scale(1.12);transform-origin:left top}
+.cursor span{transition:transform .2s}
+.ico{width:44px;height:44px;padding:10px;border-radius:14px;background:var(--soft);color:var(--accent);margin-bottom:18px;display:block}
+.services article:hover .ico{background:var(--accent);color:var(--accent-ink)}
+.ico{transition:background .25s,color .25s}
+.sticky-cta{display:none}
+@media (min-width:900px){
+  .sec:not(#contact){display:grid;grid-template-columns:240px minmax(0,1fr);column-gap:clamp(32px,5vw,72px);align-items:start}
+  .sec:not(#contact)>h2{grid-column:1;grid-row:1 / span 8;position:sticky;top:110px;margin:0;font-size:clamp(1.8rem,3vw,2.5rem)}
+  .sec:not(#contact)>*:not(h2){grid-column:2}
+  .about-grid{grid-template-columns:minmax(200px,250px) 1fr}
+  .timeline li{grid-template-columns:150px 1fr}
+}
+@media (max-width:760px){
+  .sticky-cta{display:block;position:fixed;left:50%;bottom:18px;z-index:40;transform:translate(-50%,24px);opacity:0;pointer-events:none;background:var(--accent);color:var(--accent-ink);font:600 1rem var(--body);text-decoration:none;padding:14px 28px;border-radius:99px;box-shadow:0 14px 30px -10px var(--accent);transition:opacity .3s,transform .3s}
+  .sticky-cta.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+}
