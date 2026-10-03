@@ -5,800 +5,735 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Banner — Nusrat Afsana Usha Admin</title>
-  <meta
-    name="description"
-    content="Manage the hero banner and first impression of Nusrat Afsana Usha portfolio."
-  >
+  <meta name="description" content="Manage the portfolio banner and hero presentation.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  >
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="./admin.css">
 
   <style>
-
     /* =========================================================
        BANNER PAGE
-       ========================================================= */
+    ========================================================= */
 
-    .banner-hero{
-      display:grid;
-      grid-template-columns:minmax(0,1fr) auto;
-      gap:24px;
-      align-items:end;
-      margin-bottom:28px;
+    .banner-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(420px, .95fr);
+      gap: 24px;
+      align-items: start;
     }
 
-    .banner-kicker{
-      display:flex;
-      align-items:center;
-      gap:9px;
-      margin-bottom:10px;
-      color:var(--muted);
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.14em;
-      text-transform:uppercase;
+    .banner-editor-stack {
+      display: grid;
+      gap: 20px;
     }
 
-    .banner-kicker span{
-      width:7px;
-      height:7px;
-      border-radius:50%;
-      background:var(--accent);
-      box-shadow:
-        0 0 0 5px
-        color-mix(
-          in srgb,
-          var(--accent) 10%,
-          transparent
-        );
+    .banner-panel {
+      padding: 24px;
     }
 
-    .banner-hero h1{
-      margin:0;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:clamp(34px,4.4vw,60px);
-      line-height:.96;
-      letter-spacing:-.05em;
+    .banner-panel-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
     }
 
-    .banner-hero p{
-      max-width:720px;
-      margin:14px 0 0;
-      color:var(--muted);
-      line-height:1.75;
+    .banner-panel-title {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -.03em;
+      margin: 0;
     }
 
-    .banner-status{
-      display:flex;
-      align-items:center;
-      gap:9px;
-      padding:12px 15px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:var(--panel);
-      color:var(--text);
-      font-size:12px;
-      font-weight:700;
-      white-space:nowrap;
+    .banner-panel-description {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+      max-width: 600px;
     }
 
-    .banner-status i{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:#63d88a;
-      box-shadow:0 0 0 5px rgba(99,216,138,.1);
+    .save-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 12px;
     }
 
-    .banner-status.off i{
-      background:#df7777;
-      box-shadow:0 0 0 5px rgba(223,119,119,.1);
+    .save-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #55c98a;
+      box-shadow: 0 0 0 4px rgba(85,201,138,.10);
     }
 
+    .save-dot.unsaved {
+      background: #d8b36a;
+      box-shadow: 0 0 0 4px rgba(216,179,106,.10);
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    .field label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .field-hint {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 400;
+    }
+
+    textarea.field-input {
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.65;
+    }
+
+    .headline-input {
+      min-height: 96px !important;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 21px !important;
+      line-height: 1.25 !important;
+    }
+
+    .url-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 160px;
+      gap: 10px;
+    }
+
+    .media-upload {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,.018);
+    }
+
+    .media-preview {
+      width: 190px;
+      aspect-ratio: 4 / 5;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #101114;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    .media-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .media-preview-empty {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .upload-content h4 {
+      margin: 0 0 7px;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 15px;
+    }
+
+    .upload-content p {
+      margin: 0 0 15px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .upload-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .range-wrap {
+      display: grid;
+      gap: 11px;
+    }
+
+    .range-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .range-value {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .choice {
+      position: relative;
+    }
+
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice label {
+      min-height: 66px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 13px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: .2s ease;
+      background: rgba(255,255,255,.015);
+    }
+
+    .choice label strong {
+      font-size: 13px;
+      color: var(--text);
+    }
+
+    .choice label span {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .choice input:checked + label {
+      border-color: rgba(216,179,106,.65);
+      background: rgba(216,179,106,.08);
+      box-shadow: inset 0 0 0 1px rgba(216,179,106,.10);
+    }
+
+    .switch-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .switch-row {
+      min-height: 65px;
+      padding: 14px 15px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: rgba(255,255,255,.015);
+    }
+
+    .switch-copy strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .switch-copy span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .switch {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-track {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .switch-track::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: #fff;
+      transition: .2s ease;
+    }
+
+    .switch input:checked + .switch-track {
+      background: rgba(216,179,106,.25);
+      border-color: rgba(216,179,106,.65);
+    }
+
+    .switch input:checked + .switch-track::after {
+      transform: translateX(20px);
+      background: var(--accent);
+    }
+
+    .editor-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding-top: 4px;
+    }
+
+    .editor-actions-left,
+    .editor-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-wrap: wrap;
+    }
 
     /* =========================================================
-       MAIN GRID
-       ========================================================= */
+       LIVE PREVIEW
+    ========================================================= */
 
-    .banner-grid{
-      display:grid;
-      grid-template-columns:minmax(0,1.05fr) minmax(380px,.95fr);
-      gap:20px;
-      align-items:start;
+    .preview-panel {
+      position: sticky;
+      top: 102px;
     }
 
-    .banner-column{
-      display:grid;
-      gap:20px;
+    .preview-switcher {
+      display: flex;
+      gap: 5px;
+      padding: 4px;
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--border);
+      border-radius: 11px;
     }
 
-    .banner-panel{
-      padding:24px;
-      border:1px solid var(--border);
-      border-radius:22px;
-      background:var(--panel);
-      box-shadow:0 18px 60px rgba(0,0,0,.07);
+    .preview-switch {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 11px;
+      border-radius: 8px;
+      font: inherit;
+      font-size: 11px;
+      cursor: pointer;
     }
 
-    .banner-panel-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:18px;
-      margin-bottom:22px;
+    .preview-switch.active {
+      color: var(--text);
+      background: rgba(255,255,255,.08);
     }
 
-    .banner-panel-title{
-      margin:0;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:20px;
-      letter-spacing:-.025em;
-    }
-
-    .banner-panel-copy{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.65;
-    }
-
-    .banner-icon{
-      width:42px;
-      height:42px;
-      flex:0 0 42px;
-      display:grid;
-      place-items:center;
-      border:1px solid var(--border);
-      border-radius:14px;
-      color:var(--accent);
-      background:rgba(255,255,255,.025);
-    }
-
-
-    /* =========================================================
-       FIELDS
-       ========================================================= */
-
-    .banner-fields{
-      display:grid;
-      gap:17px;
-    }
-
-    .banner-field{
-      display:grid;
-      gap:8px;
-    }
-
-    .banner-field label{
-      color:var(--text);
-      font-size:12px;
-      font-weight:700;
-    }
-
-    .banner-field input,
-    .banner-field textarea,
-    .banner-field select{
-      width:100%;
-      min-height:47px;
-      padding:12px 14px;
-      border:1px solid var(--border);
-      border-radius:13px;
-      outline:0;
-      background:rgba(255,255,255,.025);
-      color:var(--text);
-      font:inherit;
-      font-size:13px;
-      transition:.2s ease;
-    }
-
-    .banner-field textarea{
-      min-height:112px;
-      resize:vertical;
-      line-height:1.65;
-    }
-
-    .banner-field input:focus,
-    .banner-field textarea:focus,
-    .banner-field select:focus{
-      border-color:
-        color-mix(
-          in srgb,
-          var(--accent) 65%,
-          var(--border)
-        );
-
-      box-shadow:
-        0 0 0 4px
-        color-mix(
-          in srgb,
-          var(--accent) 8%,
-          transparent
-        );
-    }
-
-    .field-note{
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.5;
-    }
-
-    .char-row{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      color:var(--muted);
-      font-size:10px;
-    }
-
-
-    /* =========================================================
-       TWO COLUMNS
-       ========================================================= */
-
-    .two-fields{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
-
-
-    /* =========================================================
-       IMAGE UPLOAD
-       ========================================================= */
-
-    .image-upload-box{
-      position:relative;
-      overflow:hidden;
-      min-height:250px;
-      border:1px dashed
-        color-mix(
-          in srgb,
-          var(--accent) 30%,
-          var(--border)
-        );
-      border-radius:18px;
+    .preview-stage {
+      min-height: 660px;
+      padding: 28px;
+      border-radius: 22px;
+      border: 1px solid var(--border);
       background:
-        radial-gradient(
-          circle at 50% 0%,
-          rgba(216,179,106,.08),
-          transparent 45%
-        ),
-        rgba(255,255,255,.015);
+        radial-gradient(circle at 80% 10%, rgba(216,179,106,.12), transparent 32%),
+        #0d0e11;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
     }
 
-    .image-upload-content{
-      min-height:250px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      padding:25px;
-      text-align:center;
+    .preview-browser {
+      width: 100%;
+      max-width: 700px;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 28px 70px rgba(0,0,0,.42);
+      background: #090a0c;
     }
 
-    .upload-symbol{
-      width:52px;
-      height:52px;
-      display:grid;
-      place-items:center;
-      margin-bottom:14px;
-      border:1px solid var(--border);
-      border-radius:16px;
-      color:var(--accent);
-      font-size:20px;
+    .preview-browser-bar {
+      height: 34px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #15161a;
+      border-bottom: 1px solid rgba(255,255,255,.07);
     }
 
-    .upload-title{
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:17px;
-      font-weight:600;
+    .browser-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.24);
     }
 
-    .upload-copy{
-      max-width:420px;
-      margin:7px 0 17px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.6;
-    }
-
-    .hidden-file{
-      display:none;
-    }
-
-    .image-preview{
-      position:absolute;
-      inset:0;
-      display:none;
-      background:#111;
-    }
-
-    .image-preview.visible{
-      display:block;
-    }
-
-    .image-preview img{
-      width:100%;
-      height:100%;
-      display:block;
-      object-fit:cover;
-    }
-
-    .image-preview-overlay{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      padding:16px;
+    .preview-hero {
+      position: relative;
+      min-height: 500px;
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      align-items: center;
+      gap: 25px;
+      padding: 48px 38px;
+      overflow: hidden;
       background:
-        linear-gradient(
-          to top,
-          rgba(0,0,0,.7),
-          transparent 50%
-        );
+        radial-gradient(circle at 10% 90%, rgba(216,179,106,.10), transparent 35%),
+        #0a0b0d;
     }
 
-    .image-file-name{
-      color:#fff;
-      font-size:11px;
-      font-weight:700;
-      text-shadow:0 1px 8px rgba(0,0,0,.5);
+    .preview-copy {
+      position: relative;
+      z-index: 3;
     }
 
-
-    /* =========================================================
-       TOGGLES
-       ========================================================= */
-
-    .toggle-list{
-      display:grid;
-      overflow:hidden;
-      border:1px solid var(--border);
-      border-radius:17px;
+    .preview-eyebrow {
+      margin: 0 0 14px;
+      color: var(--accent);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
     }
 
-    .toggle-row{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:18px;
-      padding:17px;
-      border-bottom:1px solid var(--border);
+    .preview-headline {
+      margin: 0;
+      color: #f7f4ee;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(28px, 4vw, 50px);
+      line-height: .98;
+      letter-spacing: -.055em;
+      max-width: 430px;
     }
 
-    .toggle-row:last-child{
-      border-bottom:0;
+    .preview-description {
+      margin: 20px 0 0;
+      color: rgba(245,242,235,.62);
+      font-size: 11px;
+      line-height: 1.7;
+      max-width: 390px;
     }
 
-    .toggle-copy strong{
-      display:block;
-      font-size:13px;
+    .preview-cta-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 23px;
+      flex-wrap: wrap;
     }
 
-    .toggle-copy span{
-      display:block;
-      margin-top:5px;
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.5;
+    .preview-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 0 13px;
+      border-radius: 999px;
+      border: 1px solid rgba(216,179,106,.55);
+      color: #101010;
+      background: var(--accent);
+      font-size: 9px;
+      font-weight: 700;
     }
 
-    .toggle{
-      position:relative;
-      width:48px;
-      height:28px;
-      flex:0 0 48px;
+    .preview-cta.secondary {
+      color: rgba(245,242,235,.78);
+      background: transparent;
+      border-color: rgba(255,255,255,.16);
     }
 
-    .toggle input{
-      position:absolute;
-      opacity:0;
-      pointer-events:none;
+    .preview-media {
+      align-self: stretch;
+      min-height: 410px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .toggle-track{
-      position:absolute;
-      inset:0;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:#28292e;
-      cursor:pointer;
-      transition:.22s ease;
+    .preview-media-frame {
+      width: min(100%, 280px);
+      height: 390px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      background: #111216;
+      position: relative;
+      box-shadow: 0 24px 55px rgba(0,0,0,.35);
     }
 
-    .toggle-track::after{
-      content:"";
-      position:absolute;
-      top:3px;
-      left:3px;
-      width:20px;
-      height:20px;
-      border-radius:50%;
-      background:#aaa;
-      transition:.22s ease;
+    .preview-media-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    .toggle input:checked + .toggle-track{
-      background:var(--accent);
-      border-color:var(--accent);
+    .preview-media-frame::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        rgba(0,0,0,.02),
+        rgba(0,0,0,.05)
+      );
     }
 
-    .toggle input:checked + .toggle-track::after{
-      transform:translateX(20px);
-      background:#101010;
+    .mobile-preview {
+      width: 290px;
+      max-width: 100%;
+      border-radius: 28px;
+      padding: 8px;
+      background: #050506;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 30px 70px rgba(0,0,0,.5);
     }
 
-
-    /* =========================================================
-       PREVIEW
-       ========================================================= */
-
-    .preview-toolbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:16px;
+    .mobile-screen {
+      min-height: 570px;
+      border-radius: 21px;
+      overflow: hidden;
+      background: #0a0b0d;
+      position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
-    .preview-switch{
-      display:flex;
-      padding:4px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:rgba(255,255,255,.02);
+    .mobile-top {
+      height: 30px;
+      flex: 0 0 auto;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.025);
     }
 
-    .preview-switch button{
-      border:0;
-      padding:8px 12px;
-      border-radius:999px;
-      background:transparent;
-      color:var(--muted);
-      cursor:pointer;
-      font:inherit;
-      font-size:10px;
-      font-weight:800;
-      transition:.2s ease;
+    .mobile-hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 28px 20px 20px;
     }
 
-    .preview-switch button.active{
-      background:var(--text);
-      color:var(--bg);
+    .mobile-copy {
+      position: relative;
+      z-index: 2;
     }
 
-    .preview-label{
-      color:var(--muted);
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.1em;
-      text-transform:uppercase;
+    .mobile-headline {
+      margin: 0;
+      color: #f7f4ee;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 38px;
+      line-height: .94;
+      letter-spacing: -.06em;
     }
 
-
-    /* =========================================================
-       LIVE HERO
-       ========================================================= */
-
-    .live-preview-shell{
-      display:flex;
-      justify-content:center;
-      min-height:650px;
-      padding:18px;
-      border:1px solid var(--border);
-      border-radius:20px;
-      background:
-        radial-gradient(
-          circle at 50% 0%,
-          rgba(216,179,106,.07),
-          transparent 40%
-        ),
-        #08090b;
+    .mobile-description {
+      margin: 15px 0 0;
+      color: rgba(245,242,235,.62);
+      font-size: 10px;
+      line-height: 1.65;
     }
 
-    .preview-frame{
-      position:relative;
-      width:100%;
-      min-height:610px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:17px;
-      background:#101114;
-      transition:.3s ease;
+    .mobile-image {
+      height: 235px;
+      margin-top: 22px;
+      border-radius: 17px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.11);
     }
 
-    .preview-frame.mobile{
-      max-width:340px;
+    .mobile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    .preview-image{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      background:
-        linear-gradient(
-          135deg,
-          #202126,
-          #101114
-        );
+    .mobile-cta-row {
+      margin-top: 16px;
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
     }
 
-    .preview-overlay{
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(
-          90deg,
-          rgba(8,9,11,.94) 0%,
-          rgba(8,9,11,.74) 42%,
-          rgba(8,9,11,.15) 100%
-        );
-      transition:.2s ease;
+    .mobile-cta {
+      height: 29px;
+      padding: 0 11px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #111;
+      font-size: 8px;
+      font-weight: 700;
     }
 
-    .preview-overlay.soft{
-      background:
-        linear-gradient(
-          90deg,
-          rgba(8,9,11,.65) 0%,
-          rgba(8,9,11,.3) 55%,
-          rgba(8,9,11,.08) 100%
-        );
+    .mobile-cta.secondary {
+      color: #eee;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.13);
     }
 
-    .preview-content{
-      position:absolute;
-      left:0;
-      top:0;
-      width:72%;
-      height:100%;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      padding:42px;
+    .preview-note {
+      margin-top: 15px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+      text-align: center;
     }
-
-    .preview-frame.mobile .preview-content{
-      width:100%;
-      justify-content:flex-end;
-      padding:28px;
-      padding-bottom:42px;
-      background:
-        linear-gradient(
-          to top,
-          rgba(8,9,11,.85),
-          transparent 75%
-        );
-    }
-
-    .preview-eyebrow{
-      margin-bottom:14px;
-      color:#d8b36a;
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-    }
-
-    .preview-title{
-      max-width:600px;
-      margin:0;
-      color:#fff;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:clamp(34px,4vw,66px);
-      line-height:.95;
-      letter-spacing:-.055em;
-    }
-
-    .preview-frame.mobile .preview-title{
-      font-size:39px;
-    }
-
-    .preview-description{
-      max-width:510px;
-      margin:18px 0 0;
-      color:rgba(255,255,255,.76);
-      font-size:13px;
-      line-height:1.7;
-    }
-
-    .preview-actions{
-      display:flex;
-      gap:10px;
-      margin-top:25px;
-      flex-wrap:wrap;
-    }
-
-    .preview-button{
-      min-height:42px;
-      padding:0 16px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      border:1px solid rgba(255,255,255,.25);
-      border-radius:999px;
-      background:rgba(255,255,255,.08);
-      color:#fff;
-      font-size:11px;
-      font-weight:800;
-      backdrop-filter:blur(12px);
-    }
-
-    .preview-button.primary{
-      border-color:#d8b36a;
-      background:#d8b36a;
-      color:#101010;
-    }
-
-    .preview-note{
-      position:absolute;
-      right:22px;
-      bottom:20px;
-      color:rgba(255,255,255,.45);
-      font-size:9px;
-      letter-spacing:.1em;
-      text-transform:uppercase;
-    }
-
-
-    /* =========================================================
-       POSITION
-       ========================================================= */
-
-    .position-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-    }
-
-    .position-option{
-      position:relative;
-    }
-
-    .position-option input{
-      position:absolute;
-      opacity:0;
-    }
-
-    .position-option label{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:45px;
-      padding:10px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      color:var(--muted);
-      cursor:pointer;
-      font-size:11px;
-      font-weight:700;
-      transition:.2s ease;
-    }
-
-    .position-option input:checked + label{
-      border-color:var(--accent);
-      background:
-        color-mix(
-          in srgb,
-          var(--accent) 9%,
-          transparent
-        );
-      color:var(--text);
-    }
-
-
-    /* =========================================================
-       ACTIONS
-       ========================================================= */
-
-    .banner-actions{
-      display:flex;
-      justify-content:flex-end;
-      gap:10px;
-      margin-top:20px;
-    }
-
-    .editorial-note{
-      display:flex;
-      align-items:flex-start;
-      gap:12px;
-      padding:15px;
-      border:1px solid rgba(216,179,106,.2);
-      border-radius:16px;
-      background:rgba(216,179,106,.04);
-      color:var(--muted);
-      font-size:11px;
-      line-height:1.7;
-    }
-
-    .editorial-note strong{
-      color:var(--text);
-    }
-
 
     /* =========================================================
        RESPONSIVE
-       ========================================================= */
+    ========================================================= */
 
-    @media(max-width:1100px){
-
-      .banner-grid{
-        grid-template-columns:1fr;
+    @media (max-width: 1180px) {
+      .banner-layout {
+        grid-template-columns: 1fr;
       }
 
-      .live-preview-shell{
-        min-height:600px;
+      .preview-panel {
+        position: relative;
+        top: auto;
       }
 
+      .preview-stage {
+        min-height: auto;
+      }
     }
 
-    @media(max-width:700px){
-
-      .banner-hero{
-        grid-template-columns:1fr;
+    @media (max-width: 720px) {
+      .field-grid {
+        grid-template-columns: 1fr;
       }
 
-      .two-fields{
-        grid-template-columns:1fr;
+      .field-full {
+        grid-column: auto;
       }
 
-      .banner-panel{
-        padding:18px;
+      .url-row {
+        grid-template-columns: 1fr;
       }
 
-      .preview-content{
-        width:100%;
-        padding:28px;
-        justify-content:flex-end;
-        padding-bottom:42px;
-        background:
-          linear-gradient(
-            to top,
-            rgba(8,9,11,.85),
-            transparent 75%
-          );
+      .media-upload {
+        grid-template-columns: 1fr;
       }
 
-      .preview-title{
-        font-size:39px;
+      .media-preview {
+        width: 100%;
+        max-width: 190px;
       }
 
-      .live-preview-shell{
-        min-height:560px;
-        padding:10px;
+      .choice-grid {
+        grid-template-columns: 1fr;
       }
 
-      .preview-frame{
-        min-height:540px;
+      .banner-panel {
+        padding: 18px;
       }
 
-      .banner-actions{
-        flex-direction:column;
+      .preview-stage {
+        padding: 12px;
       }
 
-      .banner-actions button{
-        width:100%;
+      .preview-hero {
+        grid-template-columns: 1fr;
+        padding: 30px 22px;
       }
 
-      .position-grid{
-        grid-template-columns:1fr;
+      .preview-media {
+        min-height: auto;
       }
 
+      .preview-media-frame {
+        height: 300px;
+      }
+
+      .preview-browser {
+        max-width: 100%;
+      }
+
+      .editor-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .editor-actions-left,
+      .editor-actions-right {
+        width: 100%;
+      }
     }
 
+    @media (max-width: 480px) {
+      .banner-panel-header {
+        flex-direction: column;
+      }
+
+      .save-status {
+        align-self: flex-start;
+      }
+
+      .switch-row {
+        align-items: flex-start;
+      }
+
+      .preview-headline {
+        font-size: 36px;
+      }
+    }
   </style>
 </head>
-
 
 <body>
 
@@ -806,39 +741,38 @@
 
   <!-- =======================================================
        SIDEBAR
-       ======================================================= -->
-
+  ======================================================== -->
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
       <div class="brand-mark">NU</div>
-
-      <div>
-        <strong>NUS</strong>
+      <div class="brand-copy">
+        <strong>Nusrat Afsana Usha</strong>
         <span>Portfolio Admin</span>
       </div>
     </div>
 
-
     <nav class="side-nav">
 
-      <a class="nav-item" href="./index.html">
+      <div class="nav-label">Manage</div>
+
+      <a class="nav-item" href="./dashboard.html">
         <span class="nav-icon">⌂</span>
         <span>Dashboard</span>
       </a>
 
       <a class="nav-item" href="./homepage.html">
-        <span class="nav-icon">✦</span>
+        <span class="nav-icon">◈</span>
         <span>Homepage</span>
       </a>
 
       <a class="nav-item active" href="./banner.html">
-        <span class="nav-icon">▧</span>
+        <span class="nav-icon">▣</span>
         <span>Banner</span>
       </a>
 
       <a class="nav-item" href="./browser-ui.html">
-        <span class="nav-icon">▣</span>
+        <span class="nav-icon">▤</span>
         <span>Browser UI</span>
       </a>
 
@@ -847,407 +781,290 @@
         <span>Newsletter</span>
       </a>
 
-      <a class="nav-item" href="./admin-management.html">
-        <span class="nav-icon">♙</span>
-        <span>Admin Management</span>
-      </a>
+      <div class="nav-label">Portfolio</div>
 
-      <a class="nav-item" href="./system.html">
-        <span class="nav-icon">⚙</span>
-        <span>System</span>
-      </a>
-
-    </nav>
-
-
-    <div class="sidebar-bottom">
-
-      <a
-        class="nav-item"
-        href="../index.html"
-        target="_blank"
-      >
+      <a class="nav-item" href="../index.html" target="_blank">
         <span class="nav-icon">↗</span>
         <span>View Portfolio</span>
       </a>
 
-      <button
-        class="nav-item"
-        id="logoutBtn"
-        type="button"
-      >
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-status">
+        <span class="status-dot"></span>
+        <span>System ready</span>
+      </div>
+
+      <button class="nav-item logout-button" id="logoutButton" type="button">
         <span class="nav-icon">↪</span>
         <span>Sign Out</span>
       </button>
-
     </div>
 
   </aside>
 
-
-  <div
-    class="mobile-overlay"
-    id="mobileOverlay"
-  ></div>
-
+  <div class="mobile-overlay" id="mobileOverlay"></div>
 
   <!-- =======================================================
        MAIN
-       ======================================================= -->
-
+  ======================================================== -->
   <main class="main">
 
     <header class="topbar">
 
       <div class="topbar-left">
-
-        <button
-          class="mobile-menu-button"
-          id="mobileMenuButton"
-          type="button"
-          aria-label="Open menu"
-        >
+        <button class="mobile-menu-button" id="mobileMenuButton" type="button" aria-label="Open menu">
           ☰
         </button>
 
         <div>
-          <div class="topbar-eyebrow">
-            Homepage presentation
-          </div>
-
-          <div class="topbar-title">
-            Banner Editor
-          </div>
+          <div class="topbar-eyebrow">Content Management</div>
+          <div class="topbar-title">Banner</div>
         </div>
-
       </div>
-
 
       <div class="topbar-actions">
 
-        <button
-          class="secondary-button"
-          id="themeToggle"
-          type="button"
-        >
-          ◐ Theme
+        <button class="icon-button" id="themeToggle" type="button" title="Toggle theme">
+          ◐
         </button>
 
-        <button
-          class="primary-button"
-          id="saveChanges"
-          type="button"
-        >
-          Save Changes
-        </button>
+        <a class="topbar-view" href="../index.html" target="_blank">
+          View site ↗
+        </a>
+
+        <div class="account-menu">
+          <button class="account-button" id="accountButton" type="button">
+            <span class="account-avatar">NU</span>
+            <span class="account-name">Admin</span>
+            <span class="account-chevron">⌄</span>
+          </button>
+
+          <div class="account-dropdown" id="accountDropdown">
+            <div class="account-dropdown-head">
+              <strong>Nusrat Portfolio</strong>
+              <span>Administrator access</span>
+            </div>
+            <button type="button" id="dropdownSignOut">Sign out</button>
+          </div>
+        </div>
 
       </div>
 
     </header>
 
-
     <section class="content">
 
-      <!-- ===================================================
-           HERO
-           =================================================== -->
-
-      <div class="banner-hero">
-
+      <!-- PAGE HEADING -->
+      <div class="page-heading">
         <div>
-
-          <div class="banner-kicker">
-            <span></span>
-            First impression
-          </div>
-
+          <div class="eyebrow">First impression</div>
           <h1>Banner control.</h1>
-
           <p>
-            Shape the first visual and editorial impression visitors
-            receive when they enter Nusrat Afsana Usha’s portfolio.
+            Shape the first visual experience visitors see when they open the portfolio.
           </p>
-
         </div>
 
+        <div class="page-heading-actions">
+          <button class="secondary-button" id="resetButton" type="button">
+            Reset
+          </button>
 
-        <div
-          class="banner-status"
-          id="bannerStatus"
-        >
-          <i></i>
-          <span>Banner published</span>
+          <button class="primary-button" id="saveButton" type="button">
+            Save changes
+          </button>
         </div>
-
       </div>
 
+      <!-- MAIN LAYOUT -->
+      <div class="banner-layout">
 
-      <!-- ===================================================
-           GRID
-           =================================================== -->
+        <!-- ===================================================
+             EDITOR
+        ==================================================== -->
+        <div class="banner-editor-stack">
 
-      <div class="banner-grid">
+          <!-- Content -->
+          <section class="panel banner-panel">
 
-
-        <!-- ================================================
-             LEFT
-             ================================================ -->
-
-        <div class="banner-column">
-
-
-          <!-- CONTENT -->
-
-          <section class="banner-panel">
-
-            <div class="banner-panel-head">
-
+            <div class="banner-panel-header">
               <div>
-                <h2 class="banner-panel-title">
-                  Banner content
-                </h2>
-
-                <p class="banner-panel-copy">
-                  Write the core message visitors see first.
+                <h2 class="banner-panel-title">Banner content</h2>
+                <p class="banner-panel-description">
+                  Keep the headline concise and let the visual identity carry the first impression.
                 </p>
               </div>
 
-              <div class="banner-icon">
-                ✦
+              <div class="save-status">
+                <span class="save-dot" id="saveDot"></span>
+                <span id="saveStatus">Saved</span>
               </div>
-
             </div>
 
+            <div class="field-grid">
 
-            <div class="banner-fields">
-
-
-              <div class="banner-field">
-
+              <div class="field">
                 <label for="eyebrow">
                   Eyebrow
+                  <span class="field-hint">Small label</span>
                 </label>
 
                 <input
+                  class="field-input"
                   id="eyebrow"
                   type="text"
-                  value="UX/UI DESIGNER"
-                  maxlength="50"
+                  maxlength="60"
+                  placeholder="UX/UI DESIGNER"
                 >
-
-                <div class="char-row">
-                  <span>Small contextual label</span>
-                  <span id="eyebrowCount">0 / 50</span>
-                </div>
-
               </div>
 
-
-              <div class="banner-field">
-
+              <div class="field">
                 <label for="headline">
-                  Main Headline
+                  Headline
+                  <span class="field-hint">Main statement</span>
                 </label>
 
                 <textarea
+                  class="field-input headline-input"
                   id="headline"
-                  maxlength="100"
-                >Designing with clarity.</textarea>
-
-                <div class="char-row">
-                  <span>Primary visual statement</span>
-                  <span id="headlineCount">0 / 100</span>
-                </div>
-
+                  maxlength="180"
+                  placeholder="Designing with clarity."
+                ></textarea>
               </div>
 
-
-              <div class="banner-field">
-
+              <div class="field field-full">
                 <label for="description">
-                  Supporting Copy
+                  Supporting copy
+                  <span class="field-hint">Short introduction</span>
                 </label>
 
                 <textarea
+                  class="field-input"
                   id="description"
+                  maxlength="420"
+                  placeholder="I create thoughtful digital experiences..."
+                ></textarea>
+              </div>
+
+              <div class="field">
+                <label for="primaryText">
+                  Primary CTA
+                  <span class="field-hint">Button text</span>
+                </label>
+
+                <input
+                  class="field-input"
+                  id="primaryText"
+                  type="text"
+                  maxlength="50"
+                  placeholder="Explore My Work"
+                >
+              </div>
+
+              <div class="field">
+                <label for="primaryLink">
+                  Primary link
+                  <span class="field-hint">URL / anchor</span>
+                </label>
+
+                <input
+                  class="field-input"
+                  id="primaryLink"
+                  type="text"
                   maxlength="240"
-                >I create thoughtful digital experiences where structure, usability and visual clarity work together.</textarea>
-
-                <div class="char-row">
-                  <span>Keep this concise and human</span>
-                  <span id="descriptionCount">0 / 240</span>
-                </div>
-
+                  placeholder="#work"
+                >
               </div>
 
+              <div class="field">
+                <label for="secondaryText">
+                  Secondary CTA
+                  <span class="field-hint">Button text</span>
+                </label>
 
-              <div class="two-fields">
-
-
-                <div class="banner-field">
-
-                  <label for="primaryLabel">
-                    Primary CTA
-                  </label>
-
-                  <input
-                    id="primaryLabel"
-                    type="text"
-                    value="Explore My Work"
-                    maxlength="32"
-                  >
-
-                </div>
-
-
-                <div class="banner-field">
-
-                  <label for="primaryLink">
-                    Primary CTA Link
-                  </label>
-
-                  <input
-                    id="primaryLink"
-                    type="text"
-                    value="#work"
-                  >
-
-                </div>
-
-
+                <input
+                  class="field-input"
+                  id="secondaryText"
+                  type="text"
+                  maxlength="50"
+                  placeholder="About Me"
+                >
               </div>
 
+              <div class="field">
+                <label for="secondaryLink">
+                  Secondary link
+                  <span class="field-hint">URL / anchor</span>
+                </label>
 
-              <div class="two-fields">
-
-
-                <div class="banner-field">
-
-                  <label for="secondaryLabel">
-                    Secondary CTA
-                  </label>
-
-                  <input
-                    id="secondaryLabel"
-                    type="text"
-                    value="About Me"
-                    maxlength="32"
-                  >
-
-                </div>
-
-
-                <div class="banner-field">
-
-                  <label for="secondaryLink">
-                    Secondary CTA Link
-                  </label>
-
-                  <input
-                    id="secondaryLink"
-                    type="text"
-                    value="#about"
-                  >
-
-                </div>
-
-
+                <input
+                  class="field-input"
+                  id="secondaryLink"
+                  type="text"
+                  maxlength="240"
+                  placeholder="#about"
+                >
               </div>
 
             </div>
 
           </section>
 
+          <!-- Media -->
+          <section class="panel banner-panel">
 
-          <!-- IMAGE -->
-
-          <section class="banner-panel">
-
-            <div class="banner-panel-head">
-
+            <div class="banner-panel-header">
               <div>
-
-                <h2 class="banner-panel-title">
-                  Banner image
-                </h2>
-
-                <p class="banner-panel-copy">
-                  Choose the visual used behind the hero presentation.
+                <h2 class="banner-panel-title">Banner image</h2>
+                <p class="banner-panel-description">
+                  The portrait remains clean and text-free. Typography is rendered separately by the interface.
                 </p>
-
               </div>
-
-              <div class="banner-icon">
-                ▧
-              </div>
-
             </div>
 
+            <div class="media-upload">
 
-            <div class="image-upload-box">
-
-
-              <div
-                class="image-upload-content"
-                id="uploadContent"
-              >
-
-                <div class="upload-symbol">
-                  ↑
-                </div>
-
-                <div class="upload-title">
-                  Upload banner image
-                </div>
-
-                <p class="upload-copy">
-                  JPG, PNG or WebP. A large landscape image works best
-                  for the desktop hero.
-                </p>
-
-                <button
-                  class="secondary-button"
-                  id="chooseImage"
-                  type="button"
-                >
-                  Choose Image
-                </button>
-
-                <input
-                  class="hidden-file"
-                  id="imageInput"
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
+              <div class="media-preview">
+                <img
+                  id="imagePreview"
+                  src="../nusrat-afsana-photo.jpg"
+                  alt="Nusrat Afsana Usha"
                 >
 
+                <div class="media-preview-empty" id="imagePreviewEmpty" hidden>
+                  No image selected
+                </div>
               </div>
 
+              <div class="upload-content">
 
-              <div
-                class="image-preview"
-                id="imagePreview"
-              >
+                <h4>Portrait / banner media</h4>
 
-                <img
-                  id="previewUploadedImage"
-                  alt="Banner preview"
-                >
+                <p>
+                  Recommended: a high-resolution portrait with enough visual breathing room.
+                  The image itself should contain no text.
+                </p>
 
-                <div class="image-preview-overlay">
+                <div class="upload-actions">
 
-                  <span
-                    class="image-file-name"
-                    id="imageFileName"
+                  <label class="secondary-button" for="imageUpload">
+                    Upload image
+                  </label>
+
+                  <input
+                    class="file-input"
+                    id="imageUpload"
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
                   >
-                    banner-image
-                  </span>
 
                   <button
                     class="secondary-button"
-                    id="replaceImage"
+                    id="restoreImageButton"
                     type="button"
                   >
-                    Replace
+                    Restore default
                   </button>
 
                 </div>
@@ -1256,129 +1073,97 @@
 
             </div>
 
-            <p
-              class="field-note"
-              style="margin-top:10px;"
-            >
-              The current public portfolio can continue using its existing
-              hero image until a real backend media system is connected.
-            </p>
-
           </section>
 
+          <!-- Visual -->
+          <section class="panel banner-panel">
 
-          <!-- VISUAL -->
-
-          <section class="banner-panel">
-
-            <div class="banner-panel-head">
-
+            <div class="banner-panel-header">
               <div>
-
-                <h2 class="banner-panel-title">
-                  Visual treatment
-                </h2>
-
-                <p class="banner-panel-copy">
-                  Control readability and image presentation.
+                <h2 class="banner-panel-title">Visual treatment</h2>
+                <p class="banner-panel-description">
+                  Adjust how the banner balances typography, image and atmosphere.
                 </p>
-
               </div>
-
-              <div class="banner-icon">
-                ◌
-              </div>
-
             </div>
 
+            <div class="field-grid">
 
-            <div class="banner-fields">
-
-
-              <div class="banner-field">
-
-                <label for="overlayStrength">
-                  Overlay Strength
+              <div class="field field-full">
+                <label>
+                  Image overlay
+                  <span class="field-hint" id="overlayValue">Soft</span>
                 </label>
 
-                <select id="overlayStrength">
+                <div class="range-wrap">
 
-                  <option value="strong">
-                    Strong — maximum readability
-                  </option>
+                  <div class="range-meta">
+                    <span>Subtle</span>
+                    <span class="range-value" id="overlayNumber">20%</span>
+                    <span>Strong</span>
+                  </div>
 
-                  <option value="medium" selected>
-                    Medium — balanced
-                  </option>
+                  <input
+                    id="overlay"
+                    type="range"
+                    min="0"
+                    max="70"
+                    step="5"
+                    value="20"
+                  >
 
-                  <option value="soft">
-                    Soft — image forward
-                  </option>
-
-                </select>
-
+                </div>
               </div>
 
-
-              <div class="banner-field">
+              <div class="field field-full">
 
                 <label>
-                  Content Position
+                  Text position
+                  <span class="field-hint">Desktop layout</span>
                 </label>
 
+                <div class="choice-grid">
 
-                <div class="position-grid">
-
-
-                  <div class="position-option">
-
+                  <div class="choice">
                     <input
                       type="radio"
-                      name="position"
-                      id="posLeft"
+                      id="positionLeft"
+                      name="textPosition"
                       value="left"
                       checked
                     >
-
-                    <label for="posLeft">
-                      Left
+                    <label for="positionLeft">
+                      <strong>Left</strong>
+                      <span>Editorial layout</span>
                     </label>
-
                   </div>
 
-
-                  <div class="position-option">
-
+                  <div class="choice">
                     <input
                       type="radio"
-                      name="position"
-                      id="posCenter"
+                      id="positionCenter"
+                      name="textPosition"
                       value="center"
                     >
-
-                    <label for="posCenter">
-                      Center
+                    <label for="positionCenter">
+                      <strong>Center</strong>
+                      <span>Focused presentation</span>
                     </label>
-
                   </div>
 
-
-                  <div class="position-option">
-
+                  <div class="choice">
                     <input
                       type="radio"
-                      name="position"
-                      id="posRight"
+                      id="positionRight"
+                      name="textPosition"
                       value="right"
                     >
-
-                    <label for="posRight">
-                      Right
+                    <label for="positionRight">
+                      <strong>Right</strong>
+                      <span>Image-led layout</span>
                     </label>
-
                   </div>
 
-
                 </div>
 
               </div>
@@ -1387,281 +1172,164 @@
 
           </section>
 
+          <!-- Visibility -->
+          <section class="panel banner-panel">
 
-          <!-- DISPLAY -->
-
-          <section class="banner-panel">
-
-            <div class="banner-panel-head">
-
+            <div class="banner-panel-header">
               <div>
-
-                <h2 class="banner-panel-title">
-                  Display controls
-                </h2>
-
-                <p class="banner-panel-copy">
-                  Decide what appears publicly.
+                <h2 class="banner-panel-title">Display settings</h2>
+                <p class="banner-panel-description">
+                  Decide which banner elements are visible on the public portfolio.
                 </p>
-
               </div>
-
-              <div class="banner-icon">
-                ◉
-              </div>
-
             </div>
 
+            <div class="switch-list">
 
-            <div class="toggle-list">
-
-
-              <div class="toggle-row">
-
-                <div class="toggle-copy">
-
-                  <strong>
-                    Publish Banner
-                  </strong>
-
-                  <span>
-                    Make the current banner available on the public homepage.
-                  </span>
-
+              <div class="switch-row">
+                <div class="switch-copy">
+                  <strong>Publish banner</strong>
+                  <span>Show this banner on the public homepage.</span>
                 </div>
 
-                <label class="toggle">
-
-                  <input
-                    type="checkbox"
-                    id="publishBanner"
-                    checked
-                  >
-
-                  <span class="toggle-track"></span>
-
+                <label class="switch">
+                  <input id="publishBanner" type="checkbox" checked>
+                  <span class="switch-track"></span>
                 </label>
-
               </div>
 
-
-              <div class="toggle-row">
-
-                <div class="toggle-copy">
-
-                  <strong>
-                    Show Supporting Copy
-                  </strong>
-
-                  <span>
-                    Display the descriptive paragraph under the headline.
-                  </span>
-
+              <div class="switch-row">
+                <div class="switch-copy">
+                  <strong>Show supporting copy</strong>
+                  <span>Display the descriptive paragraph below the headline.</span>
                 </div>
 
-                <label class="toggle">
-
-                  <input
-                    type="checkbox"
-                    id="showDescription"
-                    checked
-                  >
-
-                  <span class="toggle-track"></span>
-
+                <label class="switch">
+                  <input id="showDescription" type="checkbox" checked>
+                  <span class="switch-track"></span>
                 </label>
-
               </div>
 
-
-              <div class="toggle-row">
-
-                <div class="toggle-copy">
-
-                  <strong>
-                    Show Primary CTA
-                  </strong>
-
-                  <span>
-                    Display the main action button.
-                  </span>
-
+              <div class="switch-row">
+                <div class="switch-copy">
+                  <strong>Show primary CTA</strong>
+                  <span>Display the main portfolio action.</span>
                 </div>
 
-                <label class="toggle">
-
-                  <input
-                    type="checkbox"
-                    id="showPrimary"
-                    checked
-                  >
-
-                  <span class="toggle-track"></span>
-
+                <label class="switch">
+                  <input id="showPrimary" type="checkbox" checked>
+                  <span class="switch-track"></span>
                 </label>
-
               </div>
 
-
-              <div class="toggle-row">
-
-                <div class="toggle-copy">
-
-                  <strong>
-                    Show Secondary CTA
-                  </strong>
-
-                  <span>
-                    Display the secondary navigation action.
-                  </span>
-
+              <div class="switch-row">
+                <div class="switch-copy">
+                  <strong>Show secondary CTA</strong>
+                  <span>Display the supporting navigation action.</span>
                 </div>
 
-                <label class="toggle">
-
-                  <input
-                    type="checkbox"
-                    id="showSecondary"
-                    checked
-                  >
-
-                  <span class="toggle-track"></span>
-
+                <label class="switch">
+                  <input id="showSecondary" type="checkbox" checked>
+                  <span class="switch-track"></span>
                 </label>
-
               </div>
-
 
             </div>
 
           </section>
 
+          <!-- Bottom actions -->
+          <div class="editor-actions">
+
+            <div class="editor-actions-left">
+              <span class="muted-text" id="lastSavedText">
+                Last saved: —
+              </span>
+            </div>
+
+            <div class="editor-actions-right">
+              <button class="secondary-button" id="previewButton" type="button">
+                Preview portfolio ↗
+              </button>
+
+              <button class="primary-button" id="saveButtonBottom" type="button">
+                Save changes
+              </button>
+            </div>
+
+          </div>
 
         </div>
 
+        <!-- ===================================================
+             LIVE PREVIEW
+        ==================================================== -->
+        <section class="panel banner-panel preview-panel">
 
-        <!-- ================================================
-             RIGHT
-             ================================================ -->
+          <div class="banner-panel-header">
 
-        <div class="banner-column">
-
-
-          <!-- LIVE PREVIEW -->
-
-          <section class="banner-panel">
-
-            <div class="banner-panel-head">
-
-              <div>
-
-                <h2 class="banner-panel-title">
-                  Live preview
-                </h2>
-
-                <p class="banner-panel-copy">
-                  Preview the first impression before publishing.
-                </p>
-
-              </div>
-
-              <div class="banner-icon">
-                ↗
-              </div>
-
+            <div>
+              <h2 class="banner-panel-title">Live preview</h2>
+              <p class="banner-panel-description">
+                Preview the composition before publishing.
+              </p>
             </div>
 
-
-            <div class="preview-toolbar">
-
-              <span class="preview-label">
-                Responsive preview
-              </span>
-
-
-              <div class="preview-switch">
-
-                <button
-                  type="button"
-                  class="active"
-                  data-preview="desktop"
-                >
-                  Desktop
-                </button>
-
-                <button
-                  type="button"
-                  data-preview="mobile"
-                >
-                  Mobile
-                </button>
-
-              </div>
-
-            </div>
-
-
-            <div class="live-preview-shell">
-
-              <div
-                class="preview-frame"
-                id="previewFrame"
+            <div class="preview-switcher">
+              <button
+                class="preview-switch active"
+                id="desktopPreviewButton"
+                type="button"
               >
+                Desktop
+              </button>
 
-                <img
-                  class="preview-image"
-                  id="previewImage"
-                  src="../nusrat-afsana-photo.jpg"
-                  alt=""
-                >
+              <button
+                class="preview-switch"
+                id="mobilePreviewButton"
+                type="button"
+              >
+                Mobile
+              </button>
+            </div>
 
-                <div
-                  class="preview-overlay"
-                  id="previewOverlay"
-                ></div>
+          </div>
 
+          <div class="preview-stage" id="previewStage">
 
-                <div
-                  class="preview-content"
-                  id="previewContent"
-                >
+            <!-- Desktop -->
+            <div class="preview-browser" id="desktopPreview">
 
-                  <div
-                    class="preview-eyebrow"
-                    id="previewEyebrow"
-                  >
+              <div class="preview-browser-bar">
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+              </div>
+
+              <div class="preview-hero" id="previewHero">
+
+                <div class="preview-copy" id="previewCopy">
+
+                  <p class="preview-eyebrow" id="previewEyebrow">
                     UX/UI DESIGNER
-                  </div>
-
-                  <h2
-                    class="preview-title"
-                    id="previewTitle"
-                  >
-                    Designing with clarity.
-                  </h2>
-
-                  <p
-                    class="preview-description"
-                    id="previewDescription"
-                  >
-                    I create thoughtful digital experiences where
-                    structure, usability and visual clarity work together.
                   </p>
 
+                  <h3 class="preview-headline" id="previewHeadline">
+                    Designing with clarity.
+                  </h3>
 
-                  <div class="preview-actions">
+                  <p class="preview-description" id="previewDescription">
+                    I create thoughtful digital experiences where structure,
+                    usability and visual clarity work together.
+                  </p>
 
-                    <span
-                      class="preview-button primary"
-                      id="previewPrimary"
-                    >
+                  <div class="preview-cta-row">
+
+                    <span class="preview-cta" id="previewPrimary">
                       Explore My Work
                     </span>
 
-                    <span
-                      class="preview-button"
-                      id="previewSecondary"
-                    >
+                    <span class="preview-cta secondary" id="previewSecondary">
                       About Me
                     </span>
 
@@ -1669,132 +1337,81 @@
 
                 </div>
 
+                <div class="preview-media">
 
-                <div class="preview-note">
-                  Preview only
+                  <div class="preview-media-frame">
+                    <img
+                      id="desktopPreviewImage"
+                      src="../nusrat-afsana-photo.jpg"
+                      alt=""
+                    >
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Mobile -->
+            <div class="mobile-preview" id="mobilePreview" hidden>
+
+              <div class="mobile-screen">
+
+                <div class="mobile-top"></div>
+
+                <div class="mobile-hero">
+
+                  <div class="mobile-copy">
+
+                    <p class="preview-eyebrow" id="mobileEyebrow">
+                      UX/UI DESIGNER
+                    </p>
+
+                    <h3 class="mobile-headline" id="mobileHeadline">
+                      Designing with clarity.
+                    </h3>
+
+                    <p class="mobile-description" id="mobileDescription">
+                      I create thoughtful digital experiences where structure,
+                      usability and visual clarity work together.
+                    </p>
+
+                    <div class="mobile-cta-row">
+
+                      <span class="mobile-cta" id="mobilePrimary">
+                        Explore My Work
+                      </span>
+
+                      <span class="mobile-cta secondary" id="mobileSecondary">
+                        About Me
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                  <div class="mobile-image">
+                    <img
+                      id="mobilePreviewImage"
+                      src="../nusrat-afsana-photo.jpg"
+                      alt=""
+                    >
+                  </div>
+
                 </div>
 
               </div>
 
             </div>
 
-          </section>
+          </div>
 
+          <p class="preview-note">
+            The portrait is intentionally kept free of typography, labels and buttons.
+          </p>
 
-          <!-- PUBLISHING -->
-
-          <section class="banner-panel">
-
-            <div class="banner-panel-head">
-
-              <div>
-
-                <h2 class="banner-panel-title">
-                  Publishing
-                </h2>
-
-                <p class="banner-panel-copy">
-                  Current publication state.
-                </p>
-
-              </div>
-
-              <div class="banner-icon">
-                ●
-              </div>
-
-            </div>
-
-
-            <div class="toggle-list">
-
-              <div class="toggle-row">
-
-                <div class="toggle-copy">
-
-                  <strong>
-                    Public visibility
-                  </strong>
-
-                  <span id="visibilityText">
-                    Banner is currently visible.
-                  </span>
-
-                </div>
-
-                <label class="toggle">
-
-                  <input
-                    type="checkbox"
-                    id="visibilityToggle"
-                    checked
-                  >
-
-                  <span class="toggle-track"></span>
-
-                </label>
-
-              </div>
-
-            </div>
-
-
-            <div class="banner-actions">
-
-              <button
-                class="secondary-button"
-                id="resetBanner"
-                type="button"
-              >
-                Reset
-              </button>
-
-              <button
-                class="primary-button"
-                id="publishButton"
-                type="button"
-              >
-                Publish Banner
-              </button>
-
-            </div>
-
-          </section>
-
-
-          <!-- EDITORIAL -->
-
-          <section class="banner-panel">
-
-            <div class="editorial-note">
-
-              <span>◆</span>
-
-              <div>
-
-                <strong>
-                  Editorial guidance
-                </strong>
-
-                <br><br>
-
-                Keep the hero message specific and truthful.
-                Avoid unsupported experience counts, fake client
-                metrics, fabricated awards or invented project results.
-
-                <br><br>
-
-                The banner should communicate who Nusrat is,
-                what she designs and where visitors should go next.
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-        </div>
+        </section>
 
       </div>
 
@@ -1804,1097 +1421,1069 @@
 
 </div>
 
-
-<!-- =========================================================
-     JAVASCRIPT
-     ========================================================= -->
+<div class="toast" id="toast"></div>
 
 <script>
+/* =========================================================
+   NUSRAT PORTFOLIO — BANNER ADMIN
+========================================================= */
 
-(function(){
-
+(() => {
   "use strict";
 
+  /* -------------------------------------------------------
+     CONFIG
+  ------------------------------------------------------- */
 
-  /* =========================================================
-     STORAGE
-     ========================================================= */
+  const SESSION_KEY = "nusrat_admin_session_v1";
+  const THEME_KEY = "nusrat_admin_theme";
+  const DATA_KEY = "nusrat_banner_content_v1";
+  const HOMEPAGE_KEY = "nusrat_homepage_content_v1";
+  const LAST_UPDATED_KEY = "nusrat_admin_last_updated";
 
-  const STORAGE_KEY =
-    "nusrat_banner_content_v1";
+  const DEFAULT_IMAGE = "../nusrat-afsana-photo.jpg";
 
-  const THEME_KEY =
-    "nusrat_admin_theme";
+  const DEFAULT_DATA = {
+    eyebrow: "UX/UI DESIGNER",
 
-
-  const defaults = {
-
-    eyebrow:"UX/UI DESIGNER",
-
-    headline:
-      "Designing with clarity.",
+    headline: "Designing with clarity.",
 
     description:
       "I create thoughtful digital experiences where structure, usability and visual clarity work together.",
 
-    primaryLabel:
-      "Explore My Work",
+    primaryText: "Explore My Work",
+    primaryLink: "#work",
 
-    primaryLink:
-      "#work",
+    secondaryText: "About Me",
+    secondaryLink: "#about",
 
-    secondaryLabel:
-      "About Me",
+    image: DEFAULT_IMAGE,
 
-    secondaryLink:
-      "#about",
+    overlay: 20,
 
-    overlayStrength:
-      "medium",
+    textPosition: "left",
 
-    position:
-      "left",
-
-    publishBanner:true,
-
-    showDescription:true,
-
-    showPrimary:true,
-
-    showSecondary:true,
-
-    image:"",
-
-    imageName:"",
-
-    lastSaved:null
-
+    publishBanner: true,
+    showDescription: true,
+    showPrimary: true,
+    showSecondary: true
   };
+
+
+  /* -------------------------------------------------------
+     DOM
+  ------------------------------------------------------- */
+
+  const $ = (selector) => document.querySelector(selector);
+
+  const eyebrow = $("#eyebrow");
+  const headline = $("#headline");
+  const description = $("#description");
+
+  const primaryText = $("#primaryText");
+  const primaryLink = $("#primaryLink");
+
+  const secondaryText = $("#secondaryText");
+  const secondaryLink = $("#secondaryLink");
+
+  const imageUpload = $("#imageUpload");
+  const imagePreview = $("#imagePreview");
+  const imagePreviewEmpty = $("#imagePreviewEmpty");
+  const restoreImageButton = $("#restoreImageButton");
+
+  const overlay = $("#overlay");
+  const overlayNumber = $("#overlayNumber");
+  const overlayValue = $("#overlayValue");
+
+  const publishBanner = $("#publishBanner");
+  const showDescription = $("#showDescription");
+  const showPrimary = $("#showPrimary");
+  const showSecondary = $("#showSecondary");
+
+  const saveButton = $("#saveButton");
+  const saveButtonBottom = $("#saveButtonBottom");
+  const resetButton = $("#resetButton");
+  const previewButton = $("#previewButton");
+
+  const saveStatus = $("#saveStatus");
+  const saveDot = $("#saveDot");
+  const lastSavedText = $("#lastSavedText");
+
+  const toast = $("#toast");
+
+  const desktopPreviewButton = $("#desktopPreviewButton");
+  const mobilePreviewButton = $("#mobilePreviewButton");
+
+  const desktopPreview = $("#desktopPreview");
+  const mobilePreview = $("#mobilePreview");
+
+  const previewHero = $("#previewHero");
+  const previewCopy = $("#previewCopy");
+
+  const previewEyebrow = $("#previewEyebrow");
+  const previewHeadline = $("#previewHeadline");
+  const previewDescription = $("#previewDescription");
+
+  const previewPrimary = $("#previewPrimary");
+  const previewSecondary = $("#previewSecondary");
+
+  const desktopPreviewImage = $("#desktopPreviewImage");
+  const mobilePreviewImage = $("#mobilePreviewImage");
+
+  const mobileEyebrow = $("#mobileEyebrow");
+  const mobileHeadline = $("#mobileHeadline");
+  const mobileDescription = $("#mobileDescription");
+
+  const mobilePrimary = $("#mobilePrimary");
+  const mobileSecondary = $("#mobileSecondary");
+
+  const themeToggle = $("#themeToggle");
+
+  const sidebar = $("#sidebar");
+  const mobileOverlay = $("#mobileOverlay");
+  const mobileMenuButton = $("#mobileMenuButton");
+
+  const accountButton = $("#accountButton");
+  const accountDropdown = $("#accountDropdown");
+  const logoutButton = $("#logoutButton");
+  const dropdownSignOut = $("#dropdownSignOut");
+
+
+  /* -------------------------------------------------------
+     SESSION
+  ------------------------------------------------------- */
+
+  function getSession() {
+    try {
+      return JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+    } catch {
+      return null;
+    }
+  }
+
+  function isSessionValid() {
+    const session = getSession();
+
+    if (!session || session.authenticated !== true) {
+      return false;
+    }
+
+    if (
+      session.expiresAt &&
+      Date.now() > Number(session.expiresAt)
+    ) {
+      localStorage.removeItem(SESSION_KEY);
+      return false;
+    }
+
+    return true;
+  }
+
+  if (!isSessionValid()) {
+    window.location.href = "./index.html";
+    return;
+  }
+
+
+  /* -------------------------------------------------------
+     STORAGE HELPERS
+  ------------------------------------------------------- */
+
+  function cloneDefault() {
+    return JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
+
+  function loadData() {
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem(DATA_KEY) || "null"
+      );
+
+      if (saved && typeof saved === "object") {
+        return {
+          ...cloneDefault(),
+          ...saved
+        };
+      }
+    } catch (error) {
+      console.warn("Could not load banner data.", error);
+    }
+
+    /*
+      If banner has never been saved, try to pull the hero
+      content from homepage data so both editors start aligned.
+    */
+    try {
+      const homepage = JSON.parse(
+        localStorage.getItem(HOMEPAGE_KEY) || "null"
+      );
+
+      if (homepage && homepage.hero) {
+        return {
+          ...cloneDefault(),
+          eyebrow:
+            homepage.hero.role ||
+            DEFAULT_DATA.eyebrow,
+
+          headline:
+            homepage.hero.headline ||
+            DEFAULT_DATA.headline,
+
+          description:
+            homepage.hero.description ||
+            DEFAULT_DATA.description,
+
+          primaryText:
+            homepage.hero.primaryText ||
+            homepage.hero.cta ||
+            DEFAULT_DATA.primaryText,
+
+          primaryLink:
+            homepage.hero.primaryLink ||
+            homepage.hero.ctaLink ||
+            DEFAULT_DATA.primaryLink,
+
+          secondaryText:
+            homepage.hero.secondaryText ||
+            DEFAULT_DATA.secondaryText,
+
+          secondaryLink:
+            homepage.hero.secondaryLink ||
+            DEFAULT_DATA.secondaryLink
+        };
+      }
+    } catch (error) {
+      console.warn("Could not sync homepage defaults.", error);
+    }
+
+    return cloneDefault();
+  }
 
 
   let data = loadData();
 
+  let savedSnapshot = JSON.stringify(data);
 
-  function loadData(){
+  let currentPreview = "desktop";
 
-    try{
 
-      const saved =
-        localStorage.getItem(STORAGE_KEY);
+  /* -------------------------------------------------------
+     TOAST
+  ------------------------------------------------------- */
 
-      if(saved){
+  let toastTimer = null;
 
-        return {
-          ...defaults,
-          ...JSON.parse(saved)
-        };
+  function showToast(message) {
+    if (!toast) return;
 
-      }
+    toast.textContent = message;
+    toast.classList.add("show");
 
-    }catch(error){
+    clearTimeout(toastTimer);
 
-      console.warn(
-        "Could not load banner data.",
-        error
-      );
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2600);
+  }
 
+
+  /* -------------------------------------------------------
+     THEME
+  ------------------------------------------------------- */
+
+  function applyTheme(theme) {
+    const safeTheme = theme === "light" ? "light" : "dark";
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      safeTheme
+    );
+
+    localStorage.setItem(THEME_KEY, safeTheme);
+
+    if (themeToggle) {
+      themeToggle.textContent =
+        safeTheme === "light" ? "☀" : "◐";
     }
+  }
+
+  const storedTheme =
+    localStorage.getItem(THEME_KEY) || "dark";
+
+  applyTheme(storedTheme);
+
+  themeToggle?.addEventListener("click", () => {
+    const current =
+      document.documentElement.getAttribute("data-theme") ||
+      "dark";
+
+    applyTheme(
+      current === "dark" ? "light" : "dark"
+    );
+  });
+
+
+  /* -------------------------------------------------------
+     MOBILE SIDEBAR
+  ------------------------------------------------------- */
+
+  function openSidebar() {
+    sidebar?.classList.add("open");
+    mobileOverlay?.classList.add("show");
+    document.body.classList.add("menu-open");
+  }
+
+  function closeSidebar() {
+    sidebar?.classList.remove("open");
+    mobileOverlay?.classList.remove("show");
+    document.body.classList.remove("menu-open");
+  }
+
+  mobileMenuButton?.addEventListener(
+    "click",
+    openSidebar
+  );
+
+  mobileOverlay?.addEventListener(
+    "click",
+    closeSidebar
+  );
+
+
+  /* -------------------------------------------------------
+     ACCOUNT MENU
+  ------------------------------------------------------- */
+
+  accountButton?.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    accountDropdown?.classList.toggle("show");
+  });
+
+  document.addEventListener("click", () => {
+    accountDropdown?.classList.remove("show");
+  });
+
+
+  /* -------------------------------------------------------
+     LOGOUT
+  ------------------------------------------------------- */
+
+  function logout() {
+    localStorage.removeItem(SESSION_KEY);
+    window.location.href = "./index.html";
+  }
+
+  logoutButton?.addEventListener("click", logout);
+  dropdownSignOut?.addEventListener("click", logout);
+
+
+  /* -------------------------------------------------------
+     FORM → DATA
+  ------------------------------------------------------- */
+
+  function readForm() {
+
+    const selectedPosition =
+      document.querySelector(
+        'input[name="textPosition"]:checked'
+      );
 
     return {
-      ...defaults
+      eyebrow: eyebrow.value.trim(),
+
+      headline: headline.value.trim(),
+
+      description: description.value.trim(),
+
+      primaryText: primaryText.value.trim(),
+
+      primaryLink: primaryLink.value.trim(),
+
+      secondaryText: secondaryText.value.trim(),
+
+      secondaryLink: secondaryLink.value.trim(),
+
+      image:
+        imagePreview?.dataset.imagePath ||
+        data.image ||
+        DEFAULT_IMAGE,
+
+      overlay: Number(overlay.value),
+
+      textPosition:
+        selectedPosition?.value || "left",
+
+      publishBanner:
+        publishBanner.checked,
+
+      showDescription:
+        showDescription.checked,
+
+      showPrimary:
+        showPrimary.checked,
+
+      showSecondary:
+        showSecondary.checked
+    };
+  }
+
+
+  /* -------------------------------------------------------
+     DATA → FORM
+  ------------------------------------------------------- */
+
+  function populateForm(source) {
+
+    const item = {
+      ...cloneDefault(),
+      ...(source || {})
     };
 
-  }
+    eyebrow.value = item.eyebrow;
+    headline.value = item.headline;
+    description.value = item.description;
 
+    primaryText.value = item.primaryText;
+    primaryLink.value = item.primaryLink;
 
-  function saveData(){
+    secondaryText.value = item.secondaryText;
+    secondaryLink.value = item.secondaryLink;
 
-    data.lastSaved =
-      new Date().toISOString();
+    overlay.value = Number(item.overlay ?? 20);
 
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(data)
-    );
+    publishBanner.checked =
+      item.publishBanner !== false;
 
-    localStorage.setItem(
-      "nusrat_admin_last_updated",
-      data.lastSaved
-    );
+    showDescription.checked =
+      item.showDescription !== false;
 
-    showToast(
-      "Banner changes saved."
-    );
+    showPrimary.checked =
+      item.showPrimary !== false;
 
-    updateStatus();
+    showSecondary.checked =
+      item.showSecondary !== false;
 
-  }
-
-
-  /* =========================================================
-     HELPERS
-     ========================================================= */
-
-  function $(id){
-    return document.getElementById(id);
-  }
-
-
-  function showToast(message){
-
-    if(
-      typeof window.showToast ===
-      "function"
-    ){
-
-      window.showToast(message);
-
-      return;
-
-    }
-
-
-    const toast =
-      document.createElement("div");
-
-    toast.textContent =
-      message;
-
-    Object.assign(
-      toast.style,
-      {
-        position:"fixed",
-        right:"22px",
-        bottom:"22px",
-        zIndex:"99999",
-        padding:"13px 17px",
-        border:"1px solid rgba(216,179,106,.3)",
-        borderRadius:"12px",
-        background:"#17181c",
-        color:"#f5f2eb",
-        fontSize:"12px",
-        boxShadow:
-          "0 15px 40px rgba(0,0,0,.3)"
-      }
-    );
-
-    document.body.appendChild(toast);
-
-    setTimeout(
-      ()=>toast.remove(),
-      2400
-    );
-
-  }
-
-
-  /* =========================================================
-     LOAD FORM
-     ========================================================= */
-
-  function loadForm(){
-
-    $("eyebrow").value =
-      data.eyebrow;
-
-    $("headline").value =
-      data.headline;
-
-    $("description").value =
-      data.description;
-
-    $("primaryLabel").value =
-      data.primaryLabel;
-
-    $("primaryLink").value =
-      data.primaryLink;
-
-    $("secondaryLabel").value =
-      data.secondaryLabel;
-
-    $("secondaryLink").value =
-      data.secondaryLink;
-
-    $("overlayStrength").value =
-      data.overlayStrength;
-
-
-    $("publishBanner").checked =
-      data.publishBanner;
-
-    $("showDescription").checked =
-      data.showDescription;
-
-    $("showPrimary").checked =
-      data.showPrimary;
-
-    $("showSecondary").checked =
-      data.showSecondary;
-
-
-    $("visibilityToggle").checked =
-      data.publishBanner;
-
-
-    const radio =
+    const position =
       document.querySelector(
-        `input[name="position"][value="${data.position}"]`
+        `input[name="textPosition"][value="${item.textPosition || "left"}"]`
       );
 
-    if(radio){
-
-      radio.checked = true;
-
+    if (position) {
+      position.checked = true;
     }
 
+    const image =
+      item.image || DEFAULT_IMAGE;
 
-    if(data.image){
+    imagePreview.src = image;
+    imagePreview.dataset.imagePath = image;
 
-      setPreviewImage(
-        data.image,
-        data.imageName || "banner-image"
-      );
+    desktopPreviewImage.src = image;
+    mobilePreviewImage.src = image;
 
-    }
-
-
-    updateCounters();
+    updateOverlayLabel(
+      Number(item.overlay ?? 20)
+    );
 
     updatePreview();
-
-    updateStatus();
-
   }
 
 
-  /* =========================================================
-     COLLECT
-     ========================================================= */
+  /* -------------------------------------------------------
+     OVERLAY LABEL
+  ------------------------------------------------------- */
 
-  function collectForm(){
+  function updateOverlayLabel(value) {
 
-    data.eyebrow =
-      $("eyebrow").value.trim();
+    overlayNumber.textContent = `${value}%`;
 
-    data.headline =
-      $("headline").value.trim();
+    let label = "Subtle";
 
-    data.description =
-      $("description").value.trim();
-
-    data.primaryLabel =
-      $("primaryLabel").value.trim();
-
-    data.primaryLink =
-      $("primaryLink").value.trim();
-
-    data.secondaryLabel =
-      $("secondaryLabel").value.trim();
-
-    data.secondaryLink =
-      $("secondaryLink").value.trim();
-
-    data.overlayStrength =
-      $("overlayStrength").value;
-
-    data.publishBanner =
-      $("publishBanner").checked;
-
-    data.showDescription =
-      $("showDescription").checked;
-
-    data.showPrimary =
-      $("showPrimary").checked;
-
-    data.showSecondary =
-      $("showSecondary").checked;
-
-
-    const selected =
-      document.querySelector(
-        'input[name="position"]:checked'
-      );
-
-    data.position =
-      selected
-        ? selected.value
-        : "left";
-
-
-    data.publishBanner =
-      $("visibilityToggle").checked;
-
-  }
-
-
-  /* =========================================================
-     COUNTERS
-     ========================================================= */
-
-  function updateCounters(){
-
-    $("eyebrowCount").textContent =
-      `${$("eyebrow").value.length} / 50`;
-
-    $("headlineCount").textContent =
-      `${$("headline").value.length} / 100`;
-
-    $("descriptionCount").textContent =
-      `${$("description").value.length} / 240`;
-
-  }
-
-
-  /* =========================================================
-     PREVIEW IMAGE
-     ========================================================= */
-
-  function setPreviewImage(
-    src,
-    filename
-  ){
-
-    if(!src) return;
-
-
-    $("previewImage").src =
-      src;
-
-    $("previewUploadedImage").src =
-      src;
-
-    $("imageFileName").textContent =
-      filename || "banner-image";
-
-
-    $("uploadContent")
-      .style.display =
-      "none";
-
-    $("imagePreview")
-      .classList.add("visible");
-
-  }
-
-
-  /* =========================================================
-     FILE INPUT
-     ========================================================= */
-
-  $("chooseImage")
-    ?.addEventListener(
-      "click",
-      function(){
-
-        $("imageInput").click();
-
-      }
-    );
-
-
-  $("replaceImage")
-    ?.addEventListener(
-      "click",
-      function(){
-
-        $("imageInput").click();
-
-      }
-    );
-
-
-  $("imageInput")
-    ?.addEventListener(
-      "change",
-      function(event){
-
-        const file =
-          event.target.files?.[0];
-
-        if(!file) return;
-
-
-        if(!file.type.startsWith("image/")){
-
-          showToast(
-            "Please choose an image file."
-          );
-
-          return;
-
-        }
-
-
-        const reader =
-          new FileReader();
-
-
-        reader.onload =
-          function(e){
-
-            data.image =
-              e.target.result;
-
-            data.imageName =
-              file.name;
-
-            setPreviewImage(
-              data.image,
-              data.imageName
-            );
-
-            updatePreview();
-
-            showToast(
-              "Banner image loaded."
-            );
-
-          };
-
-
-        reader.readAsDataURL(file);
-
-      }
-    );
-
-
-  /* =========================================================
-     PREVIEW
-     ========================================================= */
-
-  function updatePreview(){
-
-    const eyebrow =
-      $("eyebrow").value.trim();
-
-    const headline =
-      $("headline").value.trim();
-
-    const description =
-      $("description").value.trim();
-
-    const primary =
-      $("primaryLabel").value.trim();
-
-    const secondary =
-      $("secondaryLabel").value.trim();
-
-
-    $("previewEyebrow")
-      .textContent =
-      eyebrow || "UX/UI DESIGNER";
-
-
-    $("previewTitle")
-      .textContent =
-      headline || "Designing with clarity.";
-
-
-    $("previewDescription")
-      .textContent =
-      description;
-
-
-    $("previewPrimary")
-      .textContent =
-      primary || "Explore My Work";
-
-
-    $("previewSecondary")
-      .textContent =
-      secondary || "About Me";
-
-
-    $("previewDescription")
-      .style.display =
-      $("showDescription").checked
-        ? ""
-        : "none";
-
-
-    $("previewPrimary")
-      .style.display =
-      $("showPrimary").checked
-        ? ""
-        : "none";
-
-
-    $("previewSecondary")
-      .style.display =
-      $("showSecondary").checked
-        ? ""
-        : "none";
-
-
-    const overlay =
-      $("previewOverlay");
-
-    overlay.classList.remove(
-      "soft"
-    );
-
-
-    if(
-      $("overlayStrength").value ===
-      "soft"
-    ){
-
-      overlay.classList.add(
-        "soft"
-      );
-
+    if (value >= 50) {
+      label = "Strong";
+    } else if (value >= 30) {
+      label = "Medium";
     }
 
+    overlayValue.textContent = label;
+  }
 
-    if(
-      $("overlayStrength").value ===
-      "strong"
-    ){
 
-      overlay.style.background =
-        "linear-gradient(90deg,rgba(8,9,11,.98) 0%,rgba(8,9,11,.82) 46%,rgba(8,9,11,.22) 100%)";
+  overlay?.addEventListener("input", () => {
+    updateOverlayLabel(Number(overlay.value));
+    markUnsaved();
+    updatePreview();
+  });
 
-    }else if(
-      $("overlayStrength").value ===
-      "medium"
-    ){
 
-      overlay.style.background =
-        "linear-gradient(90deg,rgba(8,9,11,.86) 0%,rgba(8,9,11,.58) 46%,rgba(8,9,11,.12) 100%)";
+  /* -------------------------------------------------------
+     IMAGE UPLOAD
+  ------------------------------------------------------- */
 
-    }else{
+  imageUpload?.addEventListener("change", () => {
 
-      overlay.style.background =
-        "linear-gradient(90deg,rgba(8,9,11,.58) 0%,rgba(8,9,11,.25) 55%,rgba(8,9,11,.05) 100%)";
+    const file = imageUpload.files?.[0];
 
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      showToast("Please select an image file.");
+      return;
     }
 
+    const reader = new FileReader();
 
-    updatePosition();
+    reader.onload = () => {
 
-    updateVisibility();
+      const result = reader.result;
 
-  }
+      imagePreview.src = result;
+      imagePreview.dataset.imagePath = result;
 
+      desktopPreviewImage.src = result;
+      mobilePreviewImage.src = result;
 
-  /* =========================================================
-     POSITION
-     ========================================================= */
+      imagePreviewEmpty.hidden = true;
 
-  function updatePosition(){
+      markUnsaved();
+      updatePreview();
 
-    const selected =
-      document.querySelector(
-        'input[name="position"]:checked'
-      );
+      showToast("Image preview updated.");
+    };
 
-    if(!selected) return;
-
-
-    const content =
-      $("previewContent");
-
-    content.style.left = "";
-    content.style.right = "";
-    content.style.transform = "";
-    content.style.width = "";
+    reader.readAsDataURL(file);
+  });
 
 
-    if(
-      selected.value ===
-      "center"
-    ){
+  /* -------------------------------------------------------
+     RESTORE IMAGE
+  ------------------------------------------------------- */
 
-      content.style.left =
-        "50%";
+  restoreImageButton?.addEventListener("click", () => {
 
-      content.style.transform =
-        "translateX(-50%)";
+    imagePreview.src = DEFAULT_IMAGE;
+    imagePreview.dataset.imagePath = DEFAULT_IMAGE;
 
-      content.style.width =
-        "82%";
+    desktopPreviewImage.src = DEFAULT_IMAGE;
+    mobilePreviewImage.src = DEFAULT_IMAGE;
 
-      content.style.textAlign =
-        "center";
+    imageUpload.value = "";
 
-      $("previewDescription")
-        .style.marginLeft =
-        "auto";
+    imagePreviewEmpty.hidden = true;
 
-      $("previewDescription")
-        .style.marginRight =
-        "auto";
+    markUnsaved();
+    updatePreview();
 
-      $("previewActions")
-        ?.style;
-
-    }else if(
-      selected.value ===
-      "right"
-    ){
-
-      content.style.left =
-        "auto";
-
-      content.style.right =
-        "0";
-
-      content.style.width =
-        "72%";
-
-      content.style.textAlign =
-        "left";
-
-    }else{
-
-      content.style.left =
-        "0";
-
-      content.style.right =
-        "auto";
-
-      content.style.width =
-        "72%";
-
-      content.style.textAlign =
-        "left";
-
-    }
-
-  }
+    showToast("Default portrait restored.");
+  });
 
 
-  /* =========================================================
-     VISIBILITY
-     ========================================================= */
-
-  function updateVisibility(){
-
-    const enabled =
-      $("visibilityToggle").checked;
-
-    $("visibilityText").textContent =
-      enabled
-        ? "Banner is currently visible."
-        : "Banner is currently hidden.";
-
-    const status =
-      $("bannerStatus");
-
-    status.classList.toggle(
-      "off",
-      !enabled
-    );
-
-    status.querySelector("span")
-      .textContent =
-      enabled
-        ? "Banner published"
-        : "Banner hidden";
-
-
-    $("publishButton")
-      .textContent =
-      enabled
-        ? "Publish Banner"
-        : "Keep Banner Hidden";
-
-  }
-
-
-  /* =========================================================
-     LIVE INPUTS
-     ========================================================= */
+  /* -------------------------------------------------------
+     LIVE INPUT
+  ------------------------------------------------------- */
 
   [
-    "eyebrow",
-    "headline",
-    "description",
-    "primaryLabel",
-    "primaryLink",
-    "secondaryLabel",
-    "secondaryLink",
-    "overlayStrength",
-    "showDescription",
-    "showPrimary",
-    "showSecondary"
+    eyebrow,
+    headline,
+    description,
+    primaryText,
+    primaryLink,
+    secondaryText,
+    secondaryLink,
+    publishBanner,
+    showDescription,
+    showPrimary,
+    showSecondary
+  ].forEach((element) => {
 
-  ].forEach(id=>{
+    element?.addEventListener("input", () => {
+      markUnsaved();
+      updatePreview();
+    });
 
-    $(id)?.addEventListener(
-      "input",
-      function(){
-
-        updateCounters();
-        updatePreview();
-
-      }
-    );
-
-
-    $(id)?.addEventListener(
-      "change",
-      function(){
-
-        updateCounters();
-        updatePreview();
-
-      }
-    );
-
+    element?.addEventListener("change", () => {
+      markUnsaved();
+      updatePreview();
+    });
   });
 
 
   document
-    .querySelectorAll(
-      'input[name="position"]'
-    )
-    .forEach(input=>{
+    .querySelectorAll('input[name="textPosition"]')
+    .forEach((radio) => {
 
-      input.addEventListener(
-        "change",
-        updatePreview
-      );
+      radio.addEventListener("change", () => {
+        markUnsaved();
+        updatePreview();
+      });
 
     });
 
 
-  $("visibilityToggle")
-    ?.addEventListener(
-      "change",
-      function(){
+  /* -------------------------------------------------------
+     PREVIEW
+  ------------------------------------------------------- */
 
-        $("publishBanner").checked =
-          this.checked;
+  function updatePreview() {
 
-        updateVisibility();
+    const live = readForm();
 
-      }
+    previewEyebrow.textContent =
+      live.eyebrow || "UX/UI DESIGNER";
+
+    previewHeadline.textContent =
+      live.headline || "Designing with clarity.";
+
+    previewDescription.textContent =
+      live.description ||
+      "I create thoughtful digital experiences where structure, usability and visual clarity work together.";
+
+    previewPrimary.textContent =
+      live.primaryText || "Explore My Work";
+
+    previewSecondary.textContent =
+      live.secondaryText || "About Me";
+
+    mobileEyebrow.textContent =
+      live.eyebrow || "UX/UI DESIGNER";
+
+    mobileHeadline.textContent =
+      live.headline || "Designing with clarity.";
+
+    mobileDescription.textContent =
+      live.description ||
+      "I create thoughtful digital experiences where structure, usability and visual clarity work together.";
+
+    mobilePrimary.textContent =
+      live.primaryText || "Explore My Work";
+
+    mobileSecondary.textContent =
+      live.secondaryText || "About Me";
+
+    previewDescription.style.display =
+      live.showDescription &&
+      live.description
+        ? ""
+        : "none";
+
+    mobileDescription.style.display =
+      live.showDescription &&
+      live.description
+        ? ""
+        : "none";
+
+    previewPrimary.style.display =
+      live.showPrimary &&
+      live.primaryText
+        ? ""
+        : "none";
+
+    mobilePrimary.style.display =
+      live.showPrimary &&
+      live.primaryText
+        ? ""
+        : "none";
+
+    previewSecondary.style.display =
+      live.showSecondary &&
+      live.secondaryText
+        ? ""
+        : "none";
+
+    mobileSecondary.style.display =
+      live.showSecondary &&
+      live.secondaryText
+        ? ""
+        : "none";
+
+    previewEyebrow.style.display =
+      live.eyebrow ? "" : "none";
+
+    mobileEyebrow.style.display =
+      live.eyebrow ? "" : "none";
+
+    const image =
+      live.image || DEFAULT_IMAGE;
+
+    desktopPreviewImage.src = image;
+    mobilePreviewImage.src = image;
+
+    const overlayOpacity =
+      Math.max(0, Math.min(70, live.overlay)) / 100;
+
+    previewHero.style.setProperty(
+      "--banner-overlay",
+      overlayOpacity
     );
 
+    previewHero.style.background = `
+      linear-gradient(
+        rgba(0,0,0,${overlayOpacity}),
+        rgba(0,0,0,${overlayOpacity})
+      ),
+      radial-gradient(
+        circle at 10% 90%,
+        rgba(216,179,106,.10),
+        transparent 35%
+      ),
+      #0a0b0d
+    `;
 
-  $("publishBanner")
-    ?.addEventListener(
-      "change",
-      function(){
-
-        $("visibilityToggle").checked =
-          this.checked;
-
-        updateVisibility();
-
-      }
-    );
-
-
-  /* =========================================================
-     PREVIEW MODE
-     ========================================================= */
-
-  document
-    .querySelectorAll(
-      "[data-preview]"
-    )
-    .forEach(button=>{
-
-      button.addEventListener(
-        "click",
-        function(){
-
-          document
-            .querySelectorAll(
-              "[data-preview]"
-            )
-            .forEach(btn=>{
-              btn.classList.remove(
-                "active"
-              );
-            });
-
-
-          this.classList.add(
-            "active"
-          );
-
-
-          const mode =
-            this.dataset.preview;
-
-
-          $("previewFrame")
-            .classList.toggle(
-              "mobile",
-              mode === "mobile"
-            );
-
-        }
-      );
-
-    });
-
-
-  /* =========================================================
-     SAVE
-     ========================================================= */
-
-  $("saveChanges")
-    ?.addEventListener(
-      "click",
-      function(){
-
-        collectForm();
-
-        saveData();
-
-      }
-    );
-
-
-  $("publishButton")
-    ?.addEventListener(
-      "click",
-      function(){
-
-        collectForm();
-
-        data.publishBanner = true;
-
-        $("visibilityToggle")
-          .checked = true;
-
-        $("publishBanner")
-          .checked = true;
-
-        saveData();
-
-        updateVisibility();
-
-        showToast(
-          "Banner published."
-        );
-
-      }
-    );
-
-
-  /* =========================================================
-     RESET
-     ========================================================= */
-
-  $("resetBanner")
-    ?.addEventListener(
-      "click",
-      function(){
-
-        const confirmed =
-          confirm(
-            "Reset banner content to the default version?"
-          );
-
-        if(!confirmed) return;
-
-
-        data = {
-          ...defaults
-        };
-
-
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(data)
-        );
-
-
-        $("uploadContent")
-          .style.display =
-          "flex";
-
-
-        $("imagePreview")
-          .classList.remove(
-            "visible"
-          );
-
-
-        $("imageInput").value =
-          "";
-
-
-        loadForm();
-
-        showToast(
-          "Banner reset."
-        );
-
-      }
-    );
-
-
-  /* =========================================================
-     THEME
-     ========================================================= */
-
-  function loadTheme(){
-
-    const theme =
-      localStorage.getItem(
-        THEME_KEY
-      );
-
-    if(theme){
-
-      document.documentElement
-        .setAttribute(
-          "data-theme",
-          theme
-        );
-
-    }
-
+    applyTextPosition(live.textPosition);
   }
 
 
-  $("themeToggle")
-    ?.addEventListener(
-      "click",
-      function(){
+  function applyTextPosition(position) {
 
-        const root =
-          document.documentElement;
+    if (!previewCopy || !previewHero) return;
 
-        const current =
-          root.getAttribute(
-            "data-theme"
-          ) || "dark";
+    if (position === "center") {
 
-        const next =
-          current === "dark"
-            ? "light"
-            : "dark";
+      previewHero.style.gridTemplateColumns =
+        "1fr";
 
+      previewCopy.style.textAlign =
+        "center";
 
-        root.setAttribute(
-          "data-theme",
-          next
-        );
+      previewCopy.style.margin =
+        "0 auto";
 
+      previewCopy.style.maxWidth =
+        "500px";
 
-        localStorage.setItem(
-          THEME_KEY,
-          next
-        );
+      previewCopy.style.display =
+        "flex";
 
-      }
-    );
+      previewCopy.style.flexDirection =
+        "column";
 
+      previewCopy.style.alignItems =
+        "center";
 
-  /* =========================================================
-     MOBILE SIDEBAR
-     ========================================================= */
+      document.querySelector(".preview-media").style.display =
+        "none";
 
-  const sidebar =
-    $("sidebar");
+    } else if (position === "right") {
 
-  const overlay =
-    $("mobileOverlay");
+      previewHero.style.gridTemplateColumns =
+        ".92fr 1.08fr";
 
+      previewCopy.style.textAlign =
+        "right";
 
-  $("mobileMenuButton")
-    ?.addEventListener(
-      "click",
-      function(){
+      previewCopy.style.order =
+        "2";
 
-        sidebar?.classList.add(
-          "mobile-open"
-        );
+      previewCopy.style.marginLeft =
+        "auto";
 
-        overlay?.classList.add(
-          "active"
-        );
+      previewCopy.style.maxWidth =
+        "450px";
 
-      }
-    );
+      previewCopy.style.display =
+        "block";
 
+      document.querySelector(".preview-media").style.display =
+        "flex";
 
-  overlay?.addEventListener(
-    "click",
-    function(){
+      document.querySelector(".preview-media").style.order =
+        "1";
 
-      sidebar?.classList.remove(
-        "mobile-open"
-      );
+    } else {
 
-      overlay.classList.remove(
-        "active"
-      );
+      previewHero.style.gridTemplateColumns =
+        "1.08fr .92fr";
 
+      previewCopy.style.textAlign =
+        "left";
+
+      previewCopy.style.order =
+        "1";
+
+      previewCopy.style.marginLeft =
+        "";
+
+      previewCopy.style.maxWidth =
+        "";
+
+      previewCopy.style.display =
+        "block";
+
+      document.querySelector(".preview-media").style.display =
+        "flex";
+
+      document.querySelector(".preview-media").style.order =
+        "2";
     }
+  }
+
+
+  /* -------------------------------------------------------
+     PREVIEW SWITCHER
+  ------------------------------------------------------- */
+
+  function showDesktopPreview() {
+
+    currentPreview = "desktop";
+
+    desktopPreview.hidden = false;
+    mobilePreview.hidden = true;
+
+    desktopPreviewButton.classList.add("active");
+    mobilePreviewButton.classList.remove("active");
+  }
+
+  function showMobilePreview() {
+
+    currentPreview = "mobile";
+
+    desktopPreview.hidden = true;
+    mobilePreview.hidden = false;
+
+    desktopPreviewButton.classList.remove("active");
+    mobilePreviewButton.classList.add("active");
+  }
+
+  desktopPreviewButton?.addEventListener(
+    "click",
+    showDesktopPreview
+  );
+
+  mobilePreviewButton?.addEventListener(
+    "click",
+    showMobilePreview
   );
 
 
-  /* =========================================================
-     LOGOUT
-     ========================================================= */
+  /* -------------------------------------------------------
+     SAVE STATUS
+  ------------------------------------------------------- */
 
-  $("logoutBtn")
-    ?.addEventListener(
-      "click",
-      function(){
+  function setSavedState(saved = true) {
 
-        const confirmed =
-          confirm(
-            "Sign out from the admin panel?"
-          );
+    if (saved) {
 
-        if(!confirmed) return;
+      saveStatus.textContent = "Saved";
 
-        localStorage.removeItem(
-          "nusrat_admin_session_v1"
-        );
+      saveDot.classList.remove("unsaved");
 
-        window.location.href =
-          "./index.html";
+    } else {
 
+      saveStatus.textContent = "Unsaved changes";
+
+      saveDot.classList.add("unsaved");
+    }
+  }
+
+
+  function markUnsaved() {
+    setSavedState(false);
+  }
+
+
+  /* -------------------------------------------------------
+     LAST SAVED
+  ------------------------------------------------------- */
+
+  function formatDate(value) {
+
+    if (!value) return "—";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "—";
+    }
+
+    return date.toLocaleString(
+      undefined,
+      {
+        dateStyle: "medium",
+        timeStyle: "short"
       }
     );
+  }
 
 
-  /* =========================================================
+  function updateLastSavedText() {
+
+    const timestamp =
+      localStorage.getItem(
+        LAST_UPDATED_KEY
+      );
+
+    lastSavedText.textContent =
+      `Last saved: ${formatDate(timestamp)}`;
+  }
+
+
+  /* -------------------------------------------------------
+     SAVE
+  ------------------------------------------------------- */
+
+  function saveData(showNotification = true) {
+
+    const nextData = readForm();
+
+    data = nextData;
+
+    localStorage.setItem(
+      DATA_KEY,
+      JSON.stringify(data)
+    );
+
+    const timestamp =
+      new Date().toISOString();
+
+    localStorage.setItem(
+      LAST_UPDATED_KEY,
+      timestamp
+    );
+
+    savedSnapshot =
+      JSON.stringify(data);
+
+    setSavedState(true);
+    updateLastSavedText();
+
+    if (showNotification) {
+      showToast("Banner changes saved.");
+    }
+  }
+
+
+  saveButton?.addEventListener(
+    "click",
+    () => saveData(true)
+  );
+
+  saveButtonBottom?.addEventListener(
+    "click",
+    () => saveData(true)
+  );
+
+
+  /* -------------------------------------------------------
+     RESET
+  ------------------------------------------------------- */
+
+  resetButton?.addEventListener("click", () => {
+
+    const confirmed =
+      window.confirm(
+        "Reset banner settings to the default content?"
+      );
+
+    if (!confirmed) return;
+
+    data = cloneDefault();
+
+    populateForm(data);
+
+    markUnsaved();
+
+    showToast(
+      "Default banner settings restored. Save to apply."
+    );
+  });
+
+
+  /* -------------------------------------------------------
+     PREVIEW SITE
+  ------------------------------------------------------- */
+
+  previewButton?.addEventListener("click", () => {
+
+    /*
+      Save first so the portfolio preview can read
+      the current localStorage state.
+    */
+
+    saveData(false);
+
+    window.open(
+      "../index.html",
+      "_blank",
+      "noopener,noreferrer"
+    );
+  });
+
+
+  /* -------------------------------------------------------
      KEYBOARD SAVE
-     ========================================================= */
+  ------------------------------------------------------- */
 
-  document.addEventListener(
-    "keydown",
-    function(event){
+  document.addEventListener("keydown", (event) => {
 
-      if(
-        (event.ctrlKey ||
-         event.metaKey) &&
-        event.key.toLowerCase() === "s"
-      ){
+    if (
+      (event.ctrlKey || event.metaKey) &&
+      event.key.toLowerCase() === "s"
+    ) {
+      event.preventDefault();
+      saveData(true);
+    }
+
+    if (event.key === "Escape") {
+      accountDropdown?.classList.remove("show");
+    }
+  });
+
+
+  /* -------------------------------------------------------
+     UNSAVED CHANGES WARNING
+  ------------------------------------------------------- */
+
+  window.addEventListener(
+    "beforeunload",
+    (event) => {
+
+      const current =
+        JSON.stringify(readForm());
+
+      if (current !== savedSnapshot) {
 
         event.preventDefault();
 
-        collectForm();
+        event.returnValue = "";
+      }
+    }
+  );
 
-        saveData();
 
+  /* -------------------------------------------------------
+     INITIALIZE
+  ------------------------------------------------------- */
+
+  populateForm(data);
+  updateLastSavedText();
+  setSavedState(
+    JSON.stringify(data) === savedSnapshot
+  );
+
+
+  /* -------------------------------------------------------
+     RESIZE
+  ------------------------------------------------------- */
+
+  window.addEventListener(
+    "resize",
+    () => {
+
+      /*
+        Keep the live preview stable when the browser
+        is resized. The actual public portfolio remains
+        responsible for final responsive rendering.
+      */
+
+      if (currentPreview === "desktop") {
+        showDesktopPreview();
       }
 
     }
   );
 
-
-  /* =========================================================
-     INITIALIZE
-     ========================================================= */
-
-  loadTheme();
-
-  loadForm();
-
 })();
-
 </script>
 
 </body>
