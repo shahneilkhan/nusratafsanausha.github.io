@@ -1,1 +1,2340 @@
-#
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Private Master — SNK Portfolio Control</title>
+
+  <meta
+    name="description"
+    content="Private master administration panel for portfolio infrastructure and privileged controls."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../admin.css">
+
+  <style>
+    /* =========================================================
+       PRIVATE MASTER ADMIN
+    ========================================================= */
+
+    :root{
+      --master-danger:#df7777;
+      --master-success:#75d49a;
+      --master-blue:#8cb8ff;
+    }
+
+    .master-shell{
+      max-width:1500px;
+      margin:0 auto;
+    }
+
+    .master-header{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:24px;
+      margin-bottom:28px;
+    }
+
+    .master-kicker{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin-bottom:11px;
+      color:var(--accent);
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+
+    .master-kicker::before{
+      content:"";
+      width:28px;
+      height:1px;
+      background:var(--accent);
+    }
+
+    .master-header h1{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:clamp(36px,4.5vw,64px);
+      line-height:.95;
+      letter-spacing:-.055em;
+      font-weight:600;
+    }
+
+    .master-header p{
+      max-width:650px;
+      margin:15px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.75;
+    }
+
+    .master-status{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 15px;
+      border:1px solid rgba(117,212,154,.18);
+      border-radius:999px;
+      color:var(--master-success);
+      background:rgba(117,212,154,.045);
+      font-size:11px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .master-status-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--master-success);
+      box-shadow:0 0 0 4px rgba(117,212,154,.09);
+    }
+
+    /* TOP WARNING */
+
+    .master-warning{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      margin-bottom:22px;
+      padding:16px 18px;
+      border:1px solid rgba(223,119,119,.2);
+      border-radius:16px;
+      background:rgba(223,119,119,.035);
+    }
+
+    .warning-icon{
+      display:grid;
+      place-items:center;
+      width:34px;
+      height:34px;
+      flex:0 0 34px;
+      border-radius:10px;
+      color:var(--master-danger);
+      background:rgba(223,119,119,.08);
+    }
+
+    .warning-icon svg{
+      width:16px;
+      height:16px;
+    }
+
+    .master-warning strong{
+      display:block;
+      margin-bottom:4px;
+      font-size:12px;
+    }
+
+    .master-warning p{
+      margin:0;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.65;
+    }
+
+    /* STATS */
+
+    .master-stats{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:12px;
+      margin-bottom:20px;
+    }
+
+    .master-stat{
+      min-height:116px;
+      padding:18px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:
+        radial-gradient(
+          circle at 100% 0,
+          rgba(216,179,106,.07),
+          transparent 45%
+        ),
+        var(--panel);
+    }
+
+    .master-stat-label{
+      color:var(--muted);
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+    }
+
+    .master-stat-value{
+      margin-top:13px;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:29px;
+      line-height:1;
+      letter-spacing:-.04em;
+    }
+
+    .master-stat-meta{
+      margin-top:8px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    /* GRID */
+
+    .master-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
+      gap:18px;
+    }
+
+    .master-column{
+      display:grid;
+      gap:18px;
+      align-content:start;
+    }
+
+    .master-panel{
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:var(--panel);
+    }
+
+    .master-panel-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:15px;
+      padding:19px 20px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .master-panel-head h2{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:18px;
+      letter-spacing:-.025em;
+    }
+
+    .master-panel-head p{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.5;
+    }
+
+    .panel-label{
+      padding:6px 9px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.07em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+
+    .panel-label.secure{
+      color:var(--master-success);
+      border-color:rgba(117,212,154,.17);
+      background:rgba(117,212,154,.04);
+    }
+
+    /* QUICK CONTROL */
+
+    .master-controls{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      padding:18px;
+    }
+
+    .master-control{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      min-height:70px;
+      padding:13px 14px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:rgba(255,255,255,.012);
+    }
+
+    .master-control-info strong{
+      display:block;
+      font-size:11px;
+      font-weight:600;
+    }
+
+    .master-control-info span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.4;
+    }
+
+    .master-toggle{
+      position:relative;
+      width:38px;
+      height:21px;
+      flex:0 0 38px;
+    }
+
+    .master-toggle input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .master-toggle-track{
+      position:absolute;
+      inset:0;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.045);
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .master-toggle-track::after{
+      content:"";
+      position:absolute;
+      top:2px;
+      left:2px;
+      width:15px;
+      height:15px;
+      border-radius:50%;
+      background:var(--muted);
+      transition:.2s ease;
+    }
+
+    .master-toggle input:checked + .master-toggle-track{
+      border-color:rgba(216,179,106,.38);
+      background:rgba(216,179,106,.14);
+    }
+
+    .master-toggle input:checked + .master-toggle-track::after{
+      left:19px;
+      background:var(--accent);
+    }
+
+    /* SYSTEM SERVICES */
+
+    .service-list{
+      padding:7px 18px 18px;
+    }
+
+    .service-row{
+      display:grid;
+      grid-template-columns:1fr auto auto;
+      align-items:center;
+      gap:16px;
+      padding:14px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .service-row:last-child{
+      border-bottom:0;
+    }
+
+    .service-name{
+      font-size:11px;
+      font-weight:600;
+    }
+
+    .service-meta{
+      margin-top:3px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .service-status{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      color:var(--master-success);
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .service-status::before{
+      content:"";
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:currentColor;
+    }
+
+    .service-status.warning{
+      color:#dfbf70;
+    }
+
+    .service-time{
+      color:var(--muted);
+      font-size:9px;
+      white-space:nowrap;
+    }
+
+    /* ADMIN ACCOUNTS */
+
+    .account-list{
+      padding:7px 18px 18px;
+    }
+
+    .account-row{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      padding:13px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .account-row:last-child{
+      border-bottom:0;
+    }
+
+    .account-avatar{
+      display:grid;
+      place-items:center;
+      width:36px;
+      height:36px;
+      flex:0 0 36px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      color:var(--accent);
+      background:rgba(216,179,106,.06);
+      font-size:10px;
+      font-weight:700;
+    }
+
+    .account-info{
+      flex:1;
+      min-width:0;
+    }
+
+    .account-info strong{
+      display:block;
+      font-size:11px;
+    }
+
+    .account-info span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:9px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+
+    .account-role{
+      color:var(--muted);
+      font-size:9px;
+      white-space:nowrap;
+    }
+
+    .account-role.master{
+      color:var(--accent);
+    }
+
+    /* AUDIT LOG */
+
+    .audit-list{
+      padding:7px 18px 18px;
+    }
+
+    .audit-item{
+      position:relative;
+      display:grid;
+      grid-template-columns:8px 1fr auto;
+      gap:11px;
+      align-items:start;
+      padding:13px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .audit-item:last-child{
+      border-bottom:0;
+    }
+
+    .audit-dot{
+      width:7px;
+      height:7px;
+      margin-top:5px;
+      border-radius:50%;
+      background:var(--accent);
+    }
+
+    .audit-item strong{
+      display:block;
+      font-size:10px;
+      line-height:1.4;
+    }
+
+    .audit-item span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .audit-time{
+      color:var(--muted);
+      font-size:8px;
+      white-space:nowrap;
+    }
+
+    /* BACKUP */
+
+    .backup-body{
+      padding:18px;
+    }
+
+    .backup-status{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:13px;
+      border:1px solid rgba(117,212,154,.16);
+      border-radius:12px;
+      background:rgba(117,212,154,.035);
+    }
+
+    .backup-icon{
+      display:grid;
+      place-items:center;
+      width:35px;
+      height:35px;
+      border-radius:10px;
+      background:rgba(117,212,154,.08);
+      color:var(--master-success);
+    }
+
+    .backup-icon svg{
+      width:16px;
+      height:16px;
+    }
+
+    .backup-status strong{
+      display:block;
+      font-size:10px;
+    }
+
+    .backup-status span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .backup-actions{
+      display:flex;
+      gap:8px;
+      margin-top:11px;
+    }
+
+    .backup-actions button{
+      flex:1;
+    }
+
+    /* DANGER */
+
+    .danger-panel{
+      border-color:rgba(223,119,119,.18);
+    }
+
+    .danger-actions{
+      display:grid;
+      gap:8px;
+      padding:18px;
+    }
+
+    .danger-button{
+      width:100%;
+      min-height:45px;
+      padding:0 13px;
+      border:1px solid rgba(223,119,119,.2);
+      border-radius:10px;
+      background:rgba(223,119,119,.035);
+      color:#df9a9a;
+      font:600 10px "Instrument Sans",sans-serif;
+      text-align:left;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .danger-button:hover{
+      border-color:rgba(223,119,119,.4);
+      background:rgba(223,119,119,.07);
+    }
+
+    .danger-button strong{
+      display:block;
+      font-size:10px;
+    }
+
+    .danger-button span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:8px;
+    }
+
+    /* FOOTER */
+
+    .master-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      margin-top:18px;
+      padding:16px 18px;
+      border:1px solid var(--border);
+      border-radius:15px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .master-footer strong{
+      color:var(--text);
+    }
+
+    /* LIGHT */
+
+    [data-theme="light"] .master-stat,
+    [data-theme="light"] .master-panel{
+      background:#fff;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:1200px){
+      .master-stats{
+        grid-template-columns:repeat(3,1fr);
+      }
+    }
+
+    @media(max-width:1000px){
+      .master-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:760px){
+      .master-header{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .master-stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .master-controls{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:500px){
+      .master-stats{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+      }
+
+      .master-stat{
+        min-height:105px;
+        padding:14px;
+      }
+
+      .master-stat-value{
+        font-size:25px;
+      }
+
+      .service-row{
+        grid-template-columns:1fr auto;
+      }
+
+      .service-time{
+        display:none;
+      }
+
+      .master-footer{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- =======================================================
+       SIDEBAR
+  ======================================================== -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        NU
+      </div>
+
+      <div class="brand-copy">
+        <strong>Private Master</strong>
+        <span>Protected Control</span>
+      </div>
+
+    </div>
+
+
+    <nav class="side-nav">
+
+      <div class="nav-label">
+        Master
+      </div>
+
+      <a class="nav-item active" href="./index.html">
+
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </span>
+
+        <span>Overview</span>
+
+      </a>
+
+
+      <a class="nav-item" href="../admin-management.html">
+
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M16 21v-1.8a4.2 4.2 0 0 0-4.2-4.2H6.2A4.2 4.2 0 0 0 2 19.2V21"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M17 11a4 4 0 1 0-1.5-7.7"/>
+            <path d="M22 21v-1.8a4.2 4.2 0 0 0-3.2-4.1"/>
+          </svg>
+        </span>
+
+        <span>Administrators</span>
+
+      </a>
+
+
+      <a class="nav-item" href="../system.html">
+
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V22h-2.6v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.6h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.4V14h-.4a1.7 1.7 0 0 0-1.6 1Z"/>
+          </svg>
+        </span>
+
+        <span>System</span>
+
+      </a>
+
+
+      <div class="nav-label">
+        Security
+      </div>
+
+
+      <a class="nav-item" href="#audit">
+
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M4 5h16v14H4z"/>
+            <path d="M8 9h8M8 13h5M8 17h3"/>
+          </svg>
+        </span>
+
+        <span>Audit Log</span>
+
+      </a>
+
+
+      <a class="nav-item" href="#backup">
+
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M12 3v12"/>
+            <path d="m7 10 5 5 5-5"/>
+            <path d="M4 20h16"/>
+          </svg>
+        </span>
+
+        <span>Backup</span>
+
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+      <a class="nav-item" href="../../index.html" target="_blank">
+
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M14 3h7v7"/>
+            <path d="M10 14 21 3"/>
+            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+          </svg>
+        </span>
+
+        <span>View Portfolio</span>
+
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =======================================================
+       MAIN
+  ======================================================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <button
+        class="mobile-menu-button"
+        id="menuToggle"
+        aria-label="Open menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+
+      <div class="topbar-title">
+        <span>Restricted Area</span>
+        <strong>Private Master Control</strong>
+      </div>
+
+
+      <div class="topbar-actions">
+
+        <button
+          class="secondary-button"
+          id="themeToggle"
+          type="button"
+        >
+          <span>◐</span>
+          <span>Theme</span>
+        </button>
+
+
+        <button
+          class="primary-button"
+          id="lockMaster"
+          type="button"
+        >
+          Lock Panel
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <section class="content">
+
+      <div class="master-shell">
+
+
+        <!-- HEADER -->
+
+        <div class="master-header">
+
+          <div>
+
+            <div class="master-kicker">
+              Private Infrastructure
+            </div>
+
+            <h1>
+              Master Control.
+            </h1>
+
+            <p>
+              A privileged control layer for administrator access,
+              infrastructure status, backups, audit activity and
+              protected portfolio operations.
+            </p>
+
+          </div>
+
+
+          <div class="master-status">
+
+            <span class="master-status-dot"></span>
+
+            Master session active
+
+          </div>
+
+        </div>
+
+
+        <!-- WARNING -->
+
+        <div class="master-warning">
+
+          <div class="warning-icon">
+
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.7">
+              <path d="M12 3 2.8 19h18.4L12 3Z"/>
+              <path d="M12 9v4"/>
+              <circle cx="12" cy="16.5" r=".7"
+                      fill="currentColor"/>
+            </svg>
+
+          </div>
+
+          <div>
+
+            <strong>
+              Privileged area — production protection required
+            </strong>
+
+            <p>
+              This interface is only the administrative UI.
+              Real authorization must be enforced by the backend.
+              Never rely on a hidden URL, HTML condition, or JavaScript
+              check as the security boundary.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="master-stats">
+
+          <div class="master-stat">
+            <div class="master-stat-label">
+              Admins
+            </div>
+
+            <div class="master-stat-value">
+              03
+            </div>
+
+            <div class="master-stat-meta">
+              registered accounts
+            </div>
+          </div>
+
+
+          <div class="master-stat">
+            <div class="master-stat-label">
+              Services
+            </div>
+
+            <div class="master-stat-value">
+              05
+            </div>
+
+            <div class="master-stat-meta">
+              connected systems
+            </div>
+          </div>
+
+
+          <div class="master-stat">
+            <div class="master-stat-label">
+              Backup
+            </div>
+
+            <div class="master-stat-value">
+              OK
+            </div>
+
+            <div class="master-stat-meta">
+              latest snapshot verified
+            </div>
+          </div>
+
+
+          <div class="master-stat">
+            <div class="master-stat-label">
+              Audit
+            </div>
+
+            <div class="master-stat-value">
+              24
+            </div>
+
+            <div class="master-stat-meta">
+              recent events
+            </div>
+          </div>
+
+
+          <div class="master-stat">
+            <div class="master-stat-label">
+              Security
+            </div>
+
+            <div class="master-stat-value">
+              ON
+            </div>
+
+            <div class="master-stat-meta">
+              privileged controls active
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- MAIN GRID -->
+
+        <div class="master-grid">
+
+
+          <!-- LEFT -->
+
+          <div class="master-column">
+
+
+            <!-- QUICK CONTROLS -->
+
+            <section class="master-panel">
+
+              <div class="master-panel-head">
+
+                <div>
+
+                  <h2>
+                    Master Controls
+                  </h2>
+
+                  <p>
+                    High-level operational switches.
+                  </p>
+
+                </div>
+
+                <span class="panel-label secure">
+                  Protected
+                </span>
+
+              </div>
+
+
+              <div class="master-controls">
+
+                <div class="master-control">
+
+                  <div class="master-control-info">
+                    <strong>Maintenance Mode</strong>
+                    <span>Temporarily restrict public access.</span>
+                  </div>
+
+                  <label class="master-toggle">
+                    <input
+                      type="checkbox"
+                      id="maintenanceMode"
+                    >
+                    <span class="master-toggle-track"></span>
+                  </label>
+
+                </div>
+
+
+                <div class="master-control">
+
+                  <div class="master-control-info">
+                    <strong>Public Portfolio</strong>
+                    <span>Allow visitors to view the site.</span>
+                  </div>
+
+                  <label class="master-toggle">
+                    <input
+                      type="checkbox"
+                      id="publicPortfolio"
+                      checked
+                    >
+                    <span class="master-toggle-track"></span>
+                  </label>
+
+                </div>
+
+
+                <div class="master-control">
+
+                  <div class="master-control-info">
+                    <strong>Admin Login</strong>
+                    <span>Allow authenticated admin sessions.</span>
+                  </div>
+
+                  <label class="master-toggle">
+                    <input
+                      type="checkbox"
+                      id="adminLogin"
+                      checked
+                    >
+                    <span class="master-toggle-track"></span>
+                  </label>
+
+                </div>
+
+
+                <div class="master-control">
+
+                  <div class="master-control-info">
+                    <strong>Audit Logging</strong>
+                    <span>Record privileged administrative events.</span>
+                  </div>
+
+                  <label class="master-toggle">
+                    <input
+                      type="checkbox"
+                      id="auditLogging"
+                      checked
+                    >
+                    <span class="master-toggle-track"></span>
+                  </label>
+
+                </div>
+
+
+                <div class="master-control">
+
+                  <div class="master-control-info">
+                    <strong>Public Newsletter</strong>
+                    <span>Allow newsletter subscriptions.</span>
+                  </div>
+
+                  <label class="master-toggle">
+                    <input
+                      type="checkbox"
+                      id="newsletterPublic"
+                      checked
+                    >
+                    <span class="master-toggle-track"></span>
+                  </label>
+
+                </div>
+
+
+                <div class="master-control">
+
+                  <div class="master-control-info">
+                    <strong>Debug Mode</strong>
+                    <span>Development diagnostics only.</span>
+                  </div>
+
+                  <label class="master-toggle">
+                    <input
+                      type="checkbox"
+                      id="debugMode"
+                    >
+                    <span class="master-toggle-track"></span>
+                  </label>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- SYSTEM SERVICES -->
+
+            <section class="master-panel">
+
+              <div class="master-panel-head">
+
+                <div>
+
+                  <h2>
+                    Connected Services
+                  </h2>
+
+                  <p>
+                    High-level status overview.
+                  </p>
+
+                </div>
+
+                <span class="panel-label">
+                  Live Status
+                </span>
+
+              </div>
+
+
+              <div class="service-list">
+
+                <div class="service-row">
+
+                  <div>
+                    <div class="service-name">
+                      Authentication
+                    </div>
+
+                    <div class="service-meta">
+                      Admin identity provider
+                    </div>
+                  </div>
+
+                  <span class="service-status">
+                    Operational
+                  </span>
+
+                  <span class="service-time">
+                    checked now
+                  </span>
+
+                </div>
+
+
+                <div class="service-row">
+
+                  <div>
+                    <div class="service-name">
+                      Database
+                    </div>
+
+                    <div class="service-meta">
+                      Portfolio content storage
+                    </div>
+                  </div>
+
+                  <span class="service-status">
+                    Operational
+                  </span>
+
+                  <span class="service-time">
+                    checked now
+                  </span>
+
+                </div>
+
+
+                <div class="service-row">
+
+                  <div>
+                    <div class="service-name">
+                      Storage
+                    </div>
+
+                    <div class="service-meta">
+                      Image and media assets
+                    </div>
+                  </div>
+
+                  <span class="service-status">
+                    Operational
+                  </span>
+
+                  <span class="service-time">
+                    checked now
+                  </span>
+
+                </div>
+
+
+                <div class="service-row">
+
+                  <div>
+                    <div class="service-name">
+                      Newsletter Provider
+                    </div>
+
+                    <div class="service-meta">
+                      Subscriber delivery service
+                    </div>
+                  </div>
+
+                  <span class="service-status warning">
+                    Not Connected
+                  </span>
+
+                  <span class="service-time">
+                    — 
+                  </span>
+
+                </div>
+
+
+                <div class="service-row">
+
+                  <div>
+                    <div class="service-name">
+                      Analytics
+                    </div>
+
+                    <div class="service-meta">
+                      Traffic and performance data
+                    </div>
+                  </div>
+
+                  <span class="service-status warning">
+                    Pending
+                  </span>
+
+                  <span class="service-time">
+                    —
+                  </span>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- AUDIT -->
+
+            <section class="master-panel" id="audit">
+
+              <div class="master-panel-head">
+
+                <div>
+
+                  <h2>
+                    Recent Audit Activity
+                  </h2>
+
+                  <p>
+                    Privileged actions recorded by the system.
+                  </p>
+
+                </div>
+
+                <span class="panel-label">
+                  24 Events
+                </span>
+
+              </div>
+
+
+              <div class="audit-list">
+
+                <div class="audit-item">
+
+                  <span class="audit-dot"></span>
+
+                  <div>
+                    <strong>
+                      Master session authenticated
+                    </strong>
+
+                    <span>
+                      Private master account
+                    </span>
+                  </div>
+
+                  <span class="audit-time">
+                    Just now
+                  </span>
+
+                </div>
+
+
+                <div class="audit-item">
+
+                  <span class="audit-dot"></span>
+
+                  <div>
+                    <strong>
+                      Admin permissions reviewed
+                    </strong>
+
+                    <span>
+                      Administrator management
+                    </span>
+                  </div>
+
+                  <span class="audit-time">
+                    18m
+                  </span>
+
+                </div>
+
+
+                <div class="audit-item">
+
+                  <span class="audit-dot"></span>
+
+                  <div>
+                    <strong>
+                      Homepage content updated
+                    </strong>
+
+                    <span>
+                      Client Admin
+                    </span>
+                  </div>
+
+                  <span class="audit-time">
+                    1h
+                  </span>
+
+                </div>
+
+
+                <div class="audit-item">
+
+                  <span class="audit-dot"></span>
+
+                  <div>
+                    <strong>
+                      Backup verification completed
+                    </strong>
+
+                    <span>
+                      Automated system task
+                    </span>
+                  </div>
+
+                  <span class="audit-time">
+                    3h
+                  </span>
+
+                </div>
+
+
+                <div class="audit-item">
+
+                  <span class="audit-dot"></span>
+
+                  <div>
+                    <strong>
+                      Newsletter settings viewed
+                    </strong>
+
+                    <span>
+                      Client Admin
+                    </span>
+                  </div>
+
+                  <span class="audit-time">
+                    6h
+                  </span>
+
+                </div>
+
+              </div>
+
+            </section>
+
+          </div>
+
+
+          <!-- RIGHT -->
+
+          <div class="master-column">
+
+
+            <!-- ADMIN ACCOUNTS -->
+
+            <section class="master-panel">
+
+              <div class="master-panel-head">
+
+                <div>
+
+                  <h2>
+                    Admin Accounts
+                  </h2>
+
+                  <p>
+                    Current access holders.
+                  </p>
+
+                </div>
+
+                <span class="panel-label">
+                  03
+                </span>
+
+              </div>
+
+
+              <div class="account-list">
+
+                <div class="account-row">
+
+                  <div class="account-avatar">
+                    NU
+                  </div>
+
+                  <div class="account-info">
+                    <strong>
+                      Nusrat Afsana Usha
+                    </strong>
+
+                    <span>
+                      Client administrator
+                    </span>
+                  </div>
+
+                  <div class="account-role">
+                    Client
+                  </div>
+
+                </div>
+
+
+                <div class="account-row">
+
+                  <div class="account-avatar">
+                    DE
+                  </div>
+
+                  <div class="account-info">
+                    <strong>
+                      Design Editor
+                    </strong>
+
+                    <span>
+                      Content editor
+                    </span>
+                  </div>
+
+                  <div class="account-role">
+                    Editor
+                  </div>
+
+                </div>
+
+
+                <div class="account-row">
+
+                  <div class="account-avatar">
+                    M
+                  </div>
+
+                  <div class="account-info">
+                    <strong>
+                      Private Master
+                    </strong>
+
+                    <span>
+                      Restricted infrastructure account
+                    </span>
+                  </div>
+
+                  <div class="account-role master">
+                    Master
+                  </div>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- BACKUP -->
+
+            <section class="master-panel" id="backup">
+
+              <div class="master-panel-head">
+
+                <div>
+
+                  <h2>
+                    Backup & Recovery
+                  </h2>
+
+                  <p>
+                    Site recovery controls.
+                  </p>
+
+                </div>
+
+                <span class="panel-label secure">
+                  Verified
+                </span>
+
+              </div>
+
+
+              <div class="backup-body">
+
+                <div class="backup-status">
+
+                  <div class="backup-icon">
+
+                    <svg viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.7">
+                      <path d="M12 3v12"/>
+                      <path d="m7 10 5 5 5-5"/>
+                      <path d="M4 20h16"/>
+                    </svg>
+
+                  </div>
+
+                  <div>
+
+                    <strong>
+                      Latest backup verified
+                    </strong>
+
+                    <span>
+                      Last snapshot: Today, 04:10 AM
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="backup-actions">
+
+                  <button
+                    class="secondary-button"
+                    id="verifyBackup"
+                    type="button"
+                  >
+                    Verify
+                  </button>
+
+                  <button
+                    class="primary-button"
+                    id="createBackup"
+                    type="button"
+                  >
+                    Create Backup
+                  </button>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- SECURITY -->
+
+            <section class="master-panel">
+
+              <div class="master-panel-head">
+
+                <div>
+
+                  <h2>
+                    Security
+                  </h2>
+
+                  <p>
+                    Master session protection.
+                  </p>
+
+                </div>
+
+                <span class="panel-label secure">
+                  Active
+                </span>
+
+              </div>
+
+
+              <div class="master-controls">
+
+                <div class="master-control">
+
+                  <div class="master-control-info">
+                    <strong>Session Timeout</strong>
+                    <span>Automatic privileged logout.</span>
+                  </div>
+
+                  <select
+                    id="sessionTimeout"
+                    style="
+                      width:90px;
+                      height:34px;
+                      padding:0 8px;
+                      border:1px solid var(--border);
+                      border-radius:8px;
+                      background:var(--panel);
+                      color:var(--text);
+                      font:500 10px 'Instrument Sans',sans-serif;
+                    "
+                  >
+                    <option>15 min</option>
+                    <option selected>30 min</option>
+                    <option>60 min</option>
+                    <option>120 min</option>
+                  </select>
+
+                </div>
+
+
+                <div class="master-control">
+
+                  <div class="master-control-info">
+                    <strong>Two-Step Verification</strong>
+                    <span>Required for master access.</span>
+                  </div>
+
+                  <label class="master-toggle">
+
+                    <input
+                      type="checkbox"
+                      checked
+                    >
+
+                    <span class="master-toggle-track"></span>
+
+                  </label>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- DANGER -->
+
+            <section class="master-panel danger-panel">
+
+              <div class="master-panel-head">
+
+                <div>
+
+                  <h2>
+                    Sensitive Operations
+                  </h2>
+
+                  <p>
+                    Use carefully. These actions affect production.
+                  </p>
+
+                </div>
+
+                <span class="panel-label">
+                  Restricted
+                </span>
+
+              </div>
+
+
+              <div class="danger-actions">
+
+                <button
+                  class="danger-button"
+                  data-danger="revoke"
+                  type="button"
+                >
+                  <strong>
+                    Revoke all active admin sessions
+                  </strong>
+
+                  <span>
+                    Forces every administrator to authenticate again.
+                  </span>
+
+                </button>
+
+
+                <button
+                  class="danger-button"
+                  data-danger="maintenance"
+                  type="button"
+                >
+                  <strong>
+                    Enable emergency maintenance
+                  </strong>
+
+                  <span>
+                    Temporarily restrict public portfolio access.
+                  </span>
+
+                </button>
+
+
+                <button
+                  class="danger-button"
+                  data-danger="reset"
+                  type="button"
+                >
+                  <strong>
+                    Reset local admin state
+                  </strong>
+
+                  <span>
+                    Clears this browser's temporary admin UI state only.
+                  </span>
+
+                </button>
+
+              </div>
+
+            </section>
+
+          </div>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="master-footer">
+
+          <div>
+            <strong>Private Master Control</strong>
+            · UI layer only
+          </div>
+
+          <div>
+            Authentication and authorization must be enforced server-side.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+
+<script src="../admin.js"></script>
+
+<script>
+(function(){
+
+  "use strict";
+
+
+  /* =======================================================
+     MASTER STATE
+  ======================================================== */
+
+  const MASTER_KEY =
+    "nusrat_private_master_v1";
+
+  const state = {
+
+    maintenance:
+      false,
+
+    publicPortfolio:
+      true,
+
+    adminLogin:
+      true,
+
+    auditLogging:
+      true,
+
+    newsletterPublic:
+      true,
+
+    debugMode:
+      false,
+
+    sessionTimeout:
+      "30 min"
+
+  };
+
+
+  function loadState(){
+
+    try{
+
+      const saved =
+        localStorage.getItem(MASTER_KEY);
+
+      if(!saved) return;
+
+      const parsed =
+        JSON.parse(saved);
+
+      Object.assign(
+        state,
+        parsed
+      );
+
+    }catch(error){
+
+      /* Ignore invalid local state */
+
+    }
+
+  }
+
+
+  function saveState(){
+
+    try{
+
+      localStorage.setItem(
+        MASTER_KEY,
+        JSON.stringify(state)
+      );
+
+    }catch(error){
+
+      /* Ignore unavailable storage */
+
+    }
+
+  }
+
+
+  loadState();
+
+
+  /* =======================================================
+     CONTROL BINDINGS
+  ======================================================== */
+
+  const controls = {
+
+    maintenanceMode:
+      "maintenance",
+
+    publicPortfolio:
+      "publicPortfolio",
+
+    adminLogin:
+      "adminLogin",
+
+    auditLogging:
+      "auditLogging",
+
+    newsletterPublic:
+      "newsletterPublic",
+
+    debugMode:
+      "debugMode"
+
+  };
+
+
+  Object.keys(controls).forEach(function(id){
+
+    const input =
+      document.getElementById(id);
+
+    if(!input) return;
+
+    const key =
+      controls[id];
+
+    input.checked =
+      Boolean(state[key]);
+
+    input.addEventListener(
+      "change",
+      function(){
+
+        state[key] =
+          input.checked;
+
+        saveState();
+
+        if(window.showToast){
+
+          window.showToast(
+            input.checked
+              ? "Control enabled."
+              : "Control disabled."
+          );
+
+        }
+
+      }
+    );
+
+  });
+
+
+  /* =======================================================
+     SESSION TIMEOUT
+  ======================================================== */
+
+  const timeout =
+    document.getElementById(
+      "sessionTimeout"
+    );
+
+  if(timeout){
+
+    timeout.value =
+      state.sessionTimeout;
+
+    timeout.addEventListener(
+      "change",
+      function(){
+
+        state.sessionTimeout =
+          timeout.value;
+
+        saveState();
+
+        if(window.showToast){
+
+          window.showToast(
+            "Session timeout updated."
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     BACKUP
+  ======================================================== */
+
+  const createBackup =
+    document.getElementById(
+      "createBackup"
+    );
+
+  const verifyBackup =
+    document.getElementById(
+      "verifyBackup"
+    );
+
+
+  if(createBackup){
+
+    createBackup.addEventListener(
+      "click",
+      function(){
+
+        if(window.showToast){
+
+          window.showToast(
+            "Backup request prepared. Connect your backend storage before production use."
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  if(verifyBackup){
+
+    verifyBackup.addEventListener(
+      "click",
+      function(){
+
+        if(window.showToast){
+
+          window.showToast(
+            "Backup verification requested."
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     DANGER OPERATIONS
+  ======================================================== */
+
+  document
+    .querySelectorAll(
+      "[data-danger]"
+    )
+    .forEach(function(button){
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          const type =
+            button.dataset.danger;
+
+          let message =
+            "This is a protected operation.";
+
+          if(type === "revoke"){
+            message =
+              "Production session revocation must be connected to your authentication provider.";
+          }
+
+          if(type === "maintenance"){
+            message =
+              "Emergency maintenance should be enforced by the production backend.";
+          }
+
+          if(type === "reset"){
+            message =
+              "Local admin state will be cleared from this browser.";
+          }
+
+          if(type === "reset"){
+
+            const confirmed =
+              window.confirm(
+                "Clear local admin state from this browser?"
+              );
+
+            if(confirmed){
+
+              try{
+                localStorage.removeItem(
+                  MASTER_KEY
+                );
+              }catch(error){}
+
+              if(window.showToast){
+                window.showToast(
+                  "Local master state cleared."
+                );
+              }
+
+            }
+
+            return;
+          }
+
+          if(window.showToast){
+            window.showToast(message);
+          }
+
+        }
+      );
+
+    });
+
+
+  /* =======================================================
+     LOCK PANEL
+  ======================================================== */
+
+  const lockButton =
+    document.getElementById(
+      "lockMaster"
+    );
+
+  if(lockButton){
+
+    lockButton.addEventListener(
+      "click",
+      function(){
+
+        const confirmed =
+          window.confirm(
+            "Lock this master session?"
+          );
+
+        if(!confirmed) return;
+
+        if(window.showToast){
+
+          window.showToast(
+            "Master session locked. Connect this action to your authentication provider."
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     MOBILE MENU
+  ======================================================== */
+
+  const menuToggle =
+    document.getElementById(
+      "menuToggle"
+    );
+
+  const sidebar =
+    document.getElementById(
+      "sidebar"
+    );
+
+  const overlay =
+    document.getElementById(
+      "mobileOverlay"
+    );
+
+
+  function closeMenu(){
+
+    if(sidebar){
+      sidebar.classList.remove(
+        "open"
+      );
+    }
+
+    if(overlay){
+      overlay.classList.remove(
+        "show"
+      );
+    }
+
+  }
+
+
+  if(menuToggle){
+
+    menuToggle.addEventListener(
+      "click",
+      function(){
+
+        if(sidebar){
+          sidebar.classList.toggle(
+            "open"
+          );
+        }
+
+        if(overlay){
+          overlay.classList.toggle(
+            "show"
+          );
+        }
+
+      }
+    );
+
+  }
+
+
+  if(overlay){
+
+    overlay.addEventListener(
+      "click",
+      closeMenu
+    );
+
+  }
+
+
+  /* =======================================================
+     SMOOTH INTERNAL LINKS
+  ======================================================== */
+
+  document
+    .querySelectorAll(
+      'a[href^="#"]'
+    )
+    .forEach(function(link){
+
+      link.addEventListener(
+        "click",
+        function(event){
+
+          const targetId =
+            link.getAttribute(
+              "href"
+            );
+
+          const target =
+            document.querySelector(
+              targetId
+            );
+
+          if(!target) return;
+
+          event.preventDefault();
+
+          target.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+          });
+
+          closeMenu();
+
+        }
+      );
+
+    });
+
+
+  /* =======================================================
+     KEYBOARD SHORTCUT
+  ======================================================== */
+
+  document.addEventListener(
+    "keydown",
+    function(event){
+
+      if(
+        (event.ctrlKey ||
+         event.metaKey) &&
+        event.key.toLowerCase() === "s"
+      ){
+
+        event.preventDefault();
+
+        saveState();
+
+        if(window.showToast){
+
+          window.showToast(
+            "Master settings saved locally."
+          );
+
+        }
+
+      }
+
+    }
+  );
+
+
+})();
+</script>
+
+</body>
+</html>
