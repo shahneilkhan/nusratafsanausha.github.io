@@ -1,1007 +1,1331 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Admin Management — Nusrat Afsana Usha</title>
-  <meta
-    name="description"
-    content="Administrator and permission management for Nusrat Afsana Usha portfolio."
-  >
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="./admin.css">
-
-  <style>
-    /* =========================================================
-       ADMIN MANAGEMENT — PAGE ONLY
-    ========================================================= */
-
-    .management-hero{
-      display:grid;
-      grid-template-columns:minmax(0,1fr) auto;
-      gap:24px;
-      align-items:end;
-      margin-bottom:28px;
-    }
-
-    .eyebrow{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:10px;
-      color:var(--accent);
-      font-size:11px;
-      font-weight:700;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-    }
-
-    .eyebrow::before{
-      content:"";
-      width:26px;
-      height:1px;
-      background:var(--accent);
-    }
-
-    .management-hero h1{
-      margin:0;
-      max-width:780px;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:clamp(34px,4vw,58px);
-      line-height:.98;
-      letter-spacing:-.045em;
-      font-weight:600;
-    }
-
-    .management-hero p{
-      max-width:700px;
-      margin:15px 0 0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.75;
-    }
-
-    .security-badge{
-      display:flex;
-      align-items:center;
-      gap:11px;
-      padding:12px 15px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:var(--panel);
-      color:var(--text);
-      font-size:12px;
-      font-weight:600;
-      white-space:nowrap;
-    }
-
-    .security-dot{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:#6fd39a;
-      box-shadow:0 0 0 4px rgba(111,211,154,.10);
-    }
-
-    /* STATS */
-
-    .management-stats{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
-      margin-bottom:24px;
-    }
-
-    .management-stat{
-      position:relative;
-      overflow:hidden;
-      min-height:128px;
-      padding:20px;
-      border:1px solid var(--border);
-      border-radius:18px;
-      background:
-        radial-gradient(
-          circle at 100% 0%,
-          rgba(216,179,106,.08),
-          transparent 38%
-        ),
-        var(--panel);
-    }
-
-    .management-stat-label{
-      color:var(--muted);
-      font-size:11px;
-      font-weight:600;
-      letter-spacing:.1em;
-      text-transform:uppercase;
-    }
-
-    .management-stat-value{
-      margin-top:13px;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:34px;
-      line-height:1;
-      letter-spacing:-.04em;
-    }
-
-    .management-stat-meta{
-      margin-top:9px;
-      color:var(--muted);
-      font-size:11px;
-    }
-
-    /* TOOLBAR */
-
-    .management-toolbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:18px;
-    }
-
-    .management-tabs{
-      display:flex;
-      gap:5px;
-      padding:4px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:var(--panel);
-    }
-
-    .management-tab{
-      border:0;
-      background:transparent;
-      color:var(--muted);
-      border-radius:8px;
-      padding:9px 13px;
-      font:600 12px "Instrument Sans",sans-serif;
-      cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .management-tab:hover{
-      color:var(--text);
-    }
-
-    .management-tab.active{
-      background:var(--accent);
-      color:#111;
-    }
-
-    .management-actions{
-      display:flex;
-      gap:9px;
-      align-items:center;
-    }
-
-    .search-box{
-      position:relative;
-    }
-
-    .search-box input{
-      width:210px;
-      height:40px;
-      padding:0 13px 0 38px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      outline:0;
-      background:var(--panel);
-      color:var(--text);
-      font:500 12px "Instrument Sans",sans-serif;
-    }
-
-    .search-box svg{
-      position:absolute;
-      left:13px;
-      top:50%;
-      width:15px;
-      height:15px;
-      transform:translateY(-50%);
-      color:var(--muted);
-      pointer-events:none;
-    }
-
-    /* TABLE */
-
-    .admin-table-panel{
-      overflow:hidden;
-      border:1px solid var(--border);
-      border-radius:18px;
-      background:var(--panel);
-    }
-
-    .panel-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:15px;
-      padding:18px 20px;
-      border-bottom:1px solid var(--border);
-    }
-
-    .panel-header h2{
-      margin:0;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:19px;
-      letter-spacing:-.025em;
-    }
-
-    .panel-header p{
-      margin:4px 0 0;
-      color:var(--muted);
-      font-size:11px;
-    }
-
-    .table-wrap{
-      width:100%;
-      overflow-x:auto;
-    }
-
-    .admin-table{
-      width:100%;
-      border-collapse:collapse;
-      min-width:780px;
-    }
-
-    .admin-table th{
-      padding:13px 18px;
-      border-bottom:1px solid var(--border);
-      color:var(--muted);
-      text-align:left;
-      font-size:10px;
-      font-weight:700;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .admin-table td{
-      padding:16px 18px;
-      border-bottom:1px solid var(--border);
-      vertical-align:middle;
-      font-size:12px;
-    }
-
-    .admin-table tbody tr:last-child td{
-      border-bottom:0;
-    }
-
-    .admin-table tbody tr{
-      transition:.2s ease;
-    }
-
-    .admin-table tbody tr:hover{
-      background:rgba(255,255,255,.018);
-    }
-
-    .admin-user{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:220px;
-    }
-
-    .admin-avatar{
-      display:grid;
-      place-items:center;
-      width:39px;
-      height:39px;
-      flex:0 0 39px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:linear-gradient(
-        145deg,
-        rgba(216,179,106,.2),
-        rgba(255,255,255,.03)
-      );
-      color:var(--accent);
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:13px;
-      font-weight:700;
-    }
-
-    .admin-user-name{
-      color:var(--text);
-      font-weight:600;
-    }
-
-    .admin-user-email{
-      margin-top:3px;
-      color:var(--muted);
-      font-size:10px;
-    }
-
-    .role-badge,
-    .status-badge{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 9px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      font-size:10px;
-      font-weight:700;
-      white-space:nowrap;
-    }
-
-    .role-badge.client{
-      color:var(--accent);
-      background:rgba(216,179,106,.07);
-      border-color:rgba(216,179,106,.2);
-    }
-
-    .role-badge.editor{
-      color:#a9c9ff;
-      background:rgba(95,145,255,.07);
-      border-color:rgba(95,145,255,.2);
-    }
-
-    .role-badge.super{
-      color:#f0b0b0;
-      background:rgba(220,80,80,.07);
-      border-color:rgba(220,80,80,.2);
-    }
-
-    .status-badge.active{
-      color:#83dba5;
-      background:rgba(83,219,132,.06);
-      border-color:rgba(83,219,132,.16);
-    }
-
-    .status-badge.pending{
-      color:#e7c878;
-      background:rgba(216,179,106,.06);
-      border-color:rgba(216,179,106,.16);
-    }
-
-    .status-badge .status-dot{
-      width:5px;
-      height:5px;
-      border-radius:50%;
-      background:currentColor;
-    }
-
-    .permission-list{
-      display:flex;
-      flex-wrap:wrap;
-      gap:5px;
-      max-width:330px;
-    }
-
-    .permission-chip{
-      padding:5px 7px;
-      border:1px solid var(--border);
-      border-radius:6px;
-      color:var(--muted);
-      background:rgba(255,255,255,.015);
-      font-size:9px;
-      white-space:nowrap;
-    }
-
-    .last-active{
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.5;
-    }
-
-    .row-actions{
-      display:flex;
-      justify-content:flex-end;
-      gap:6px;
-    }
-
-    .icon-button{
-      display:grid;
-      place-items:center;
-      width:34px;
-      height:34px;
-      border:1px solid var(--border);
-      border-radius:9px;
-      background:transparent;
-      color:var(--muted);
-      cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .icon-button:hover{
-      color:var(--text);
-      border-color:rgba(216,179,106,.35);
-      background:rgba(216,179,106,.05);
-    }
-
-    .icon-button svg{
-      width:14px;
-      height:14px;
-    }
-
-    /* PERMISSIONS */
-
-    .permission-section{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-      margin-top:18px;
-    }
-
-    .permission-card{
-      padding:21px;
-      border:1px solid var(--border);
-      border-radius:18px;
-      background:var(--panel);
-    }
-
-    .permission-card.locked{
-      border-color:rgba(220,80,80,.18);
-      background:
-        radial-gradient(
-          circle at 100% 0%,
-          rgba(220,80,80,.055),
-          transparent 38%
-        ),
-        var(--panel);
-    }
-
-    .permission-card-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:15px;
-      margin-bottom:20px;
-    }
-
-    .permission-title{
-      display:flex;
-      align-items:center;
-      gap:11px;
-    }
-
-    .permission-icon{
-      display:grid;
-      place-items:center;
-      width:39px;
-      height:39px;
-      border:1px solid var(--border);
-      border-radius:11px;
-      background:rgba(255,255,255,.025);
-      color:var(--accent);
-    }
-
-    .permission-icon svg{
-      width:17px;
-      height:17px;
-    }
-
-    .permission-card h3{
-      margin:0;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:17px;
-    }
-
-    .permission-card-head p{
-      margin:4px 0 0;
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.5;
-    }
-
-    .locked-label{
-      padding:6px 9px;
-      border:1px solid rgba(220,80,80,.2);
-      border-radius:999px;
-      color:#e7a0a0;
-      background:rgba(220,80,80,.06);
-      font-size:9px;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      white-space:nowrap;
-    }
-
-    .permission-items{
-      display:grid;
-      gap:8px;
-    }
-
-    .permission-item{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      min-height:50px;
-      padding:10px 12px;
-      border:1px solid var(--border);
-      border-radius:11px;
-      background:rgba(255,255,255,.012);
-    }
-
-    .permission-item strong{
-      display:block;
-      font-size:11px;
-      font-weight:600;
-    }
-
-    .permission-item span{
-      display:block;
-      margin-top:3px;
-      color:var(--muted);
-      font-size:9px;
-    }
-
-    .permission-toggle{
-      position:relative;
-      width:36px;
-      height:20px;
-      flex:0 0 36px;
-    }
-
-    .permission-toggle input{
-      opacity:0;
-      width:0;
-      height:0;
-    }
-
-    .toggle-track{
-      position:absolute;
-      inset:0;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:rgba(255,255,255,.05);
-      cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .toggle-track::after{
-      content:"";
-      position:absolute;
-      width:14px;
-      height:14px;
-      top:2px;
-      left:2px;
-      border-radius:50%;
-      background:var(--muted);
-      transition:.2s ease;
-    }
-
-    .permission-toggle input:checked + .toggle-track{
-      background:rgba(216,179,106,.18);
-      border-color:rgba(216,179,106,.4);
-    }
-
-    .permission-toggle input:checked + .toggle-track::after{
-      left:18px;
-      background:var(--accent);
-    }
-
-    .permission-toggle input:disabled + .toggle-track{
-      opacity:.42;
-      cursor:not-allowed;
-    }
-
-    /* SECURITY NOTE */
-
-    .security-note{
-      display:flex;
-      gap:13px;
-      margin-top:18px;
-      padding:17px 19px;
-      border:1px solid var(--border);
-      border-radius:16px;
-      background:rgba(216,179,106,.035);
-    }
-
-    .security-note-icon{
-      display:grid;
-      place-items:center;
-      width:34px;
-      height:34px;
-      flex:0 0 34px;
-      border-radius:10px;
-      background:rgba(216,179,106,.09);
-      color:var(--accent);
-    }
-
-    .security-note-icon svg{
-      width:15px;
-      height:15px;
-    }
-
-    .security-note strong{
-      display:block;
-      margin-bottom:4px;
-      font-size:12px;
-    }
-
-    .security-note p{
-      margin:0;
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.65;
-    }
-
-    /* MODAL */
-
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      z-index:1000;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      background:rgba(0,0,0,.68);
-      backdrop-filter:blur(10px);
-    }
-
-    .modal-backdrop.show{
-      display:flex;
-    }
-
-    .management-modal{
-      width:min(560px,100%);
-      max-height:90vh;
-      overflow:auto;
-      border:1px solid var(--border);
-      border-radius:22px;
-      background:var(--panel);
-      box-shadow:0 30px 90px rgba(0,0,0,.45);
-    }
-
-    .modal-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:15px;
-      padding:21px 22px;
-      border-bottom:1px solid var(--border);
-    }
-
-    .modal-head h2{
-      margin:0;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:21px;
-    }
-
-    .modal-head p{
-      margin:5px 0 0;
-      color:var(--muted);
-      font-size:10px;
-    }
-
-    .modal-close{
-      display:grid;
-      place-items:center;
-      width:34px;
-      height:34px;
-      border:1px solid var(--border);
-      border-radius:9px;
-      background:transparent;
-      color:var(--muted);
-      cursor:pointer;
-    }
-
-    .modal-body{
-      padding:22px;
-    }
-
-    .modal-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
-
-    .modal-field{
-      display:grid;
-      gap:7px;
-    }
-
-    .modal-field.full{
-      grid-column:1/-1;
-    }
-
-    .modal-field label{
-      color:var(--muted);
-      font-size:10px;
-      font-weight:700;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-    }
-
-    .modal-field input,
-    .modal-field select{
-      width:100%;
-      height:43px;
-      padding:0 12px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      outline:0;
-      background:rgba(255,255,255,.02);
-      color:var(--text);
-      font:500 12px "Instrument Sans",sans-serif;
-    }
-
-    .modal-footer{
-      display:flex;
-      justify-content:flex-end;
-      gap:9px;
-      padding:17px 22px;
-      border-top:1px solid var(--border);
-    }
-
-    /* LIGHT THEME */
-
-    [data-theme="light"] .management-stat,
-    [data-theme="light"] .admin-table-panel,
-    [data-theme="light"] .permission-card,
-    [data-theme="light"] .management-tabs,
-    [data-theme="light"] .search-box input,
-    [data-theme="light"] .security-badge,
-    [data-theme="light"] .management-modal{
-      background:#fff;
-    }
-
-    [data-theme="light"] .admin-table tbody tr:hover{
-      background:rgba(0,0,0,.018);
-    }
-
-    /* RESPONSIVE */
-
-    @media (max-width:1100px){
-      .management-stats{
-        grid-template-columns:repeat(2,1fr);
-      }
-
-      .permission-section{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media (max-width:800px){
-      .management-hero{
-        grid-template-columns:1fr;
-        align-items:start;
-      }
-
-      .security-badge{
-        width:max-content;
-      }
-
-      .management-toolbar{
-        flex-direction:column;
-        align-items:stretch;
-      }
-
-      .management-actions{
-        justify-content:space-between;
-      }
-
-      .search-box{
-        flex:1;
-      }
-
-      .search-box input{
-        width:100%;
-      }
-    }
-
-    @media (max-width:560px){
-      .management-stats{
-        grid-template-columns:1fr 1fr;
-        gap:9px;
-      }
-
-      .management-stat{
-        min-height:112px;
-        padding:15px;
-      }
-
-      .management-stat-value{
-        font-size:28px;
-      }
-
-      .management-tabs{
-        width:100%;
-        overflow:auto;
-      }
-
-      .management-tab{
-        flex:1;
-        min-width:max-content;
-      }
-
-      .management-actions{
-        flex-wrap:wrap;
-      }
-
-      .modal-grid{
-        grid-template-columns:1fr;
-      }
-
-      .modal-field.full{
-        grid-column:auto;
-      }
-    }
-
-    @media (max-width:420px){
-      .management-stats{
-        grid-template-columns:1fr;
-      }
-
-      .management-stat{
-        min-height:96px;
-      }
-
-      .permission-card{
-        padding:16px;
-      }
-
-      .permission-card-head{
-        flex-direction:column;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Banner — Nusrat Afsana Usha Admin</title>
+
+<meta name="description" content="Banner editor for Nusrat Afsana Usha portfolio.">
+<link rel="icon" type="image/jpeg" href="../nusrat-afsana-photo.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --bg:#09090b;
+  --bg-soft:#0f1013;
+  --panel:#15161a;
+  --panel-2:#191a1f;
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.13);
+
+  --text:#f5f2eb;
+  --muted:#96969d;
+  --muted-2:#6f7077;
+
+  --accent:#d8b36a;
+  --accent-2:#ecd39b;
+
+  --success:#8fd6a4;
+  --danger:#e88f8f;
+
+  --shadow:0 25px 80px rgba(0,0,0,.35);
+
+  --radius:22px;
+  --radius-sm:14px;
+
+  --sidebar:272px;
+}
+
+html[data-theme="light"]{
+  --bg:#f4f2ed;
+  --bg-soft:#ebe8e0;
+  --panel:#fffdfa;
+  --panel-2:#f7f4ed;
+  --line:rgba(20,20,20,.09);
+  --line-strong:rgba(20,20,20,.14);
+
+  --text:#161616;
+  --muted:#66645f;
+  --muted-2:#8a877f;
+
+  --shadow:0 25px 70px rgba(30,25,15,.10);
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(216,179,106,.08),transparent 28%),
+    var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",sans-serif;
+  overflow-x:hidden;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+  position:fixed;
+  z-index:100;
+  left:0;
+  top:0;
+  width:var(--sidebar);
+  height:100vh;
+  padding:25px 18px;
+  background:rgba(12,13,16,.92);
+  border-right:1px solid var(--line);
+  backdrop-filter:blur(24px);
+  display:flex;
+  flex-direction:column;
+}
+
+[data-theme="light"] .sidebar{
+  background:rgba(255,253,248,.94);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:4px 8px 25px;
+}
+
+.brand-mark{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  object-fit:cover;
+  border:1px solid var(--line-strong);
+}
+
+.brand-copy{
+  min-width:0;
+}
+
+.brand-name{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:700;
+  font-size:15px;
+  letter-spacing:-.02em;
+  white-space:nowrap;
+}
+
+.brand-sub{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:3px;
+}
+
+.side-label{
+  padding:8px 12px;
+  color:var(--muted-2);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.14em;
+  font-weight:700;
+}
+
+.side-nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.nav-item{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:11px 12px;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:13px;
+  transition:.2s ease;
+}
+
+.nav-item:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.045);
+}
+
+.nav-item.active{
+  color:var(--text);
+  background:rgba(216,179,106,.10);
+}
+
+.nav-item.active::before{
+  content:"";
+  width:3px;
+  height:17px;
+  position:absolute;
+  left:0;
+  top:50%;
+  transform:translateY(-50%);
+  border-radius:99px;
+  background:var(--accent);
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+  font-size:14px;
+}
+
+.sidebar-bottom{
+  margin-top:auto;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+
+.profile-mini{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:9px;
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  margin-bottom:9px;
+}
+
+.profile-mini img{
+  width:35px;
+  height:35px;
+  border-radius:11px;
+  object-fit:cover;
+}
+
+.profile-mini strong{
+  display:block;
+  font-size:12px;
+}
+
+.profile-mini span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+.signout{
+  width:100%;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--muted);
+  border-radius:12px;
+  padding:10px 12px;
+  font-size:12px;
+  text-align:left;
+  transition:.2s;
+}
+
+.signout:hover{
+  color:var(--danger);
+  border-color:rgba(232,143,143,.25);
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  margin-left:var(--sidebar);
+  min-height:100vh;
+}
+
+.topbar{
+  position:sticky;
+  z-index:70;
+  top:0;
+  height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 34px;
+  background:rgba(9,9,11,.78);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(20px);
+}
+
+[data-theme="light"] .topbar{
+  background:rgba(244,242,237,.80);
+}
+
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.mobile-menu{
+  display:none;
+  width:40px;
+  height:40px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--text);
+  border-radius:12px;
+}
+
+.breadcrumb{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.breadcrumb strong{
+  color:var(--text);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-button{
+  width:40px;
+  height:40px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--text);
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  transition:.2s;
+}
+
+.icon-button:hover{
+  border-color:var(--line-strong);
+  transform:translateY(-1px);
+}
+
+.content{
+  padding:35px;
+  max-width:1700px;
+  margin:auto;
+}
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:20px;
+  margin-bottom:28px;
+}
+
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--accent);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-weight:700;
+  margin-bottom:10px;
+}
+
+.eyebrow-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 16px rgba(216,179,106,.7);
+}
+
+.page-heading h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(32px,4vw,48px);
+  letter-spacing:-.045em;
+  line-height:1;
+}
+
+.page-heading p{
+  max-width:620px;
+  color:var(--muted);
+  margin-top:10px;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.header-actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.primary-button,
+.secondary-button{
+  border-radius:12px;
+  padding:11px 16px;
+  border:1px solid var(--line);
+  font-size:12px;
+  font-weight:600;
+  transition:.2s;
+}
+
+.primary-button{
+  background:var(--accent);
+  color:#17130c;
+  border-color:var(--accent);
+}
+
+.primary-button:hover{
+  background:var(--accent-2);
+  transform:translateY(-1px);
+}
+
+.secondary-button{
+  background:var(--panel);
+  color:var(--text);
+}
+
+.secondary-button:hover{
+  border-color:var(--line-strong);
+  transform:translateY(-1px);
+}
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+
+.editor-layout{
+  display:grid;
+  grid-template-columns:minmax(360px,.86fr) minmax(500px,1.45fr);
+  gap:22px;
+  align-items:start;
+}
+
+.panel{
+  background:
+    linear-gradient(145deg,rgba(255,255,255,.025),transparent 40%),
+    var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.panel-header{
+  padding:21px 22px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.panel-header h2{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:17px;
+  letter-spacing:-.025em;
+}
+
+.panel-header p{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+}
+
+.panel-body{
+  padding:22px;
+}
+
+/* =========================================================
+   FIELDS
+========================================================= */
+
+.field{
+  margin-bottom:18px;
+}
+
+.field:last-child{
+  margin-bottom:0;
+}
+
+.field label{
+  display:block;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:8px;
+  color:var(--text);
+}
+
+.field-hint{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:6px;
+  line-height:1.5;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.035);
+  color:var(--text);
+  border-radius:12px;
+  outline:none;
+  padding:12px 13px;
+  font-size:12px;
+  transition:.2s;
+}
+
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select{
+  background:rgba(0,0,0,.025);
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:rgba(216,179,106,.55);
+  box-shadow:0 0 0 3px rgba(216,179,106,.08);
+}
+
+textarea{
+  min-height:110px;
+  resize:vertical;
+  line-height:1.65;
+}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+/* =========================================================
+   TOGGLE
+========================================================= */
+
+.switch-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:13px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.switch-row:last-child{
+  border-bottom:0;
+}
+
+.switch-copy strong{
+  display:block;
+  font-size:12px;
+}
+
+.switch-copy span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+}
+
+.switch{
+  position:relative;
+  width:43px;
+  height:24px;
+  flex:none;
+}
+
+.switch input{
+  display:none;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  background:#292a2f;
+  border:1px solid var(--line);
+  border-radius:99px;
+  transition:.2s;
+}
+
+.slider::before{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:18px;
+  left:2px;
+  top:2px;
+  border-radius:50%;
+  background:#aaa;
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:rgba(216,179,106,.22);
+  border-color:rgba(216,179,106,.45);
+}
+
+.switch input:checked + .slider::before{
+  transform:translateX(19px);
+  background:var(--accent);
+}
+
+/* =========================================================
+   IMAGE UPLOAD
+========================================================= */
+
+.upload-box{
+  border:1px dashed rgba(216,179,106,.28);
+  background:rgba(216,179,106,.035);
+  border-radius:16px;
+  padding:17px;
+}
+
+.upload-top{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.upload-icon{
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:rgba(216,179,106,.10);
+  color:var(--accent);
+  font-size:18px;
+}
+
+.upload-copy strong{
+  display:block;
+  font-size:12px;
+}
+
+.upload-copy span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+}
+
+.file-button{
+  display:inline-flex;
+  margin-top:14px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--text);
+  border-radius:10px;
+  padding:9px 12px;
+  font-size:11px;
+  font-weight:600;
+}
+
+.file-button input{
+  display:none;
+}
+
+.file-name{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:9px;
+  word-break:break-all;
+}
+
+/* =========================================================
+   RANGE
+========================================================= */
+
+.range-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.range-row input[type="range"]{
+  padding:0;
+  border:0;
+  box-shadow:none;
+  accent-color:var(--accent);
+}
+
+.range-value{
+  min-width:46px;
+  text-align:center;
+  border:1px solid var(--line);
+  background:var(--panel-2);
+  border-radius:9px;
+  padding:7px 6px;
+  font-size:11px;
+}
+
+/* =========================================================
+   POSITION
+========================================================= */
+
+.position-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+
+.position-button{
+  border:1px solid var(--line);
+  background:var(--panel-2);
+  color:var(--muted);
+  padding:9px 7px;
+  border-radius:10px;
+  font-size:10px;
+  transition:.2s;
+}
+
+.position-button:hover{
+  color:var(--text);
+}
+
+.position-button.active{
+  color:var(--text);
+  border-color:rgba(216,179,106,.55);
+  background:rgba(216,179,106,.09);
+}
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+.preview-panel{
+  position:sticky;
+  top:100px;
+  overflow:hidden;
+}
+
+.preview-toolbar{
+  padding:14px 18px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.preview-modes{
+  display:flex;
+  gap:4px;
+  background:var(--panel-2);
+  padding:4px;
+  border-radius:10px;
+}
+
+.mode-button{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:7px 11px;
+  border-radius:8px;
+  font-size:10px;
+}
+
+.mode-button.active{
+  background:var(--panel);
+  color:var(--text);
+  box-shadow:0 3px 12px rgba(0,0,0,.16);
+}
+
+.preview-label{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.preview-stage{
+  padding:25px;
+  background:
+    radial-gradient(circle at 50% 20%,rgba(216,179,106,.06),transparent 35%),
+    var(--bg-soft);
+}
+
+.preview-frame{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  background:#0c0c0e;
+  box-shadow:0 30px 90px rgba(0,0,0,.32);
+  transition:.25s;
+}
+
+.preview-frame.mobile{
+  max-width:390px;
+  margin:auto;
+}
+
+.preview-browser{
+  height:35px;
+  background:#17181c;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:0 12px;
+}
+
+.browser-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#555;
+}
+
+.browser-url{
+  margin-left:8px;
+  height:20px;
+  flex:1;
+  border-radius:7px;
+  background:rgba(255,255,255,.045);
+}
+
+.hero-preview{
+  position:relative;
+  min-height:500px;
+  overflow:hidden;
+  isolation:isolate;
+  background:#111;
+}
+
+.preview-frame.mobile .hero-preview{
+  min-height:620px;
+}
+
+.hero-image{
+  position:absolute;
+  inset:0;
+  z-index:-3;
+  background-size:cover;
+  background-position:center;
+  background-image:url("../nusrat-afsana-photo.jpg");
+  transform:scale(1.015);
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.82),
+      rgba(0,0,0,.50) 48%,
+      rgba(0,0,0,.20)
+    );
+}
+
+.hero-content{
+  min-height:500px;
+  padding:60px 54px;
+  max-width:720px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.preview-frame.mobile .hero-content{
+  min-height:620px;
+  padding:38px 27px;
+}
+
+.hero-eyebrow{
+  color:#e1c37d;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.19em;
+  font-weight:700;
+  margin-bottom:16px;
+}
+
+.hero-title{
+  color:#fff;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(37px,5vw,69px);
+  line-height:.96;
+  letter-spacing:-.055em;
+  max-width:650px;
+}
+
+.preview-frame.mobile .hero-title{
+  font-size:43px;
+}
+
+.hero-description{
+  color:rgba(255,255,255,.72);
+  font-size:13px;
+  line-height:1.7;
+  max-width:500px;
+  margin-top:20px;
+}
+
+.preview-frame.mobile .hero-description{
+  font-size:12px;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:27px;
+}
+
+.hero-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:11px 15px;
+  border-radius:9px;
+  font-size:10px;
+  font-weight:700;
+}
+
+.hero-btn.primary{
+  background:#e0bf79;
+  color:#17120b;
+}
+
+.hero-btn.secondary{
+  color:#fff;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(255,255,255,.06);
+}
+
+.preview-status{
+  padding:13px 18px;
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.status-live{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.status-live i{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 10px rgba(143,214,164,.6);
+}
+
+/* =========================================================
+   SAVE BAR
+========================================================= */
+
+.save-bar{
+  position:sticky;
+  bottom:18px;
+  z-index:50;
+  margin-top:22px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:rgba(18,19,23,.88);
+  backdrop-filter:blur(18px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+[data-theme="light"] .save-bar{
+  background:rgba(255,253,248,.90);
+}
+
+.save-state{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.save-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--success);
+}
+
+.save-dot.unsaved{
+  background:var(--accent);
+  box-shadow:0 0 12px rgba(216,179,106,.5);
+}
+
+.save-actions{
+  display:flex;
+  gap:8px;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+  position:fixed;
+  z-index:500;
+  right:24px;
+  bottom:24px;
+  min-width:260px;
+  max-width:380px;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  background:rgba(22,23,27,.95);
+  color:var(--text);
+  border-radius:14px;
+  box-shadow:0 20px 70px rgba(0,0,0,.35);
+  transform:translateY(20px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  font-size:12px;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.toast.success{
+  border-color:rgba(143,214,164,.25);
+}
+
+.toast.error{
+  border-color:rgba(232,143,143,.25);
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+.mobile-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:90;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(3px);
+}
+
+@media(max-width:1100px){
+
+  .editor-layout{
+    grid-template-columns:1fr;
+  }
+
+  .preview-panel{
+    position:relative;
+    top:auto;
+  }
+
+}
+
+@media(max-width:820px){
+
+  :root{
+    --sidebar:0px;
+  }
+
+  .sidebar{
+    width:280px;
+    transform:translateX(-105%);
+    transition:.25s ease;
+    box-shadow:30px 0 80px rgba(0,0,0,.3);
+  }
+
+  body.sidebar-open .sidebar{
+    transform:translateX(0);
+  }
+
+  body.sidebar-open .mobile-overlay{
+    display:block;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .mobile-menu{
+    display:grid;
+    place-items:center;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .content{
+    padding:24px 18px 100px;
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .header-actions{
+    width:100%;
+  }
+
+  .header-actions > *{
+    flex:1;
+  }
+
+}
+
+@media(max-width:560px){
+
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+
+  .page-heading h1{
+    font-size:34px;
+  }
+
+  .panel-body{
+    padding:17px;
+  }
+
+  .panel-header{
+    padding:18px;
+  }
+
+  .preview-stage{
+    padding:12px;
+  }
+
+  .preview-frame{
+    border-radius:15px;
+  }
+
+  .hero-content{
+    padding:34px 25px;
+  }
+
+  .hero-title{
+    font-size:39px;
+  }
+
+  .save-bar{
+    bottom:10px;
+    margin-left:-5px;
+    margin-right:-5px;
+  }
+
+  .save-state{
+    display:none;
+  }
+
+  .save-actions{
+    width:100%;
+  }
+
+  .save-actions button{
+    flex:1;
+  }
+
+  .top-actions .view-button{
+    display:none;
+  }
+
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
+
+}
+</style>
 </head>
 
 <body>
 
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
 <div class="app">
 
-  <!-- =======================================================
+  <!-- =====================================================
        SIDEBAR
-  ======================================================== -->
+  ====================================================== -->
 
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
-      <div class="brand-mark">NU</div>
+      <img
+        class="brand-mark"
+        src="../nusrat-afsana-photo.jpg"
+        alt="Nusrat Afsana Usha"
+      >
 
       <div class="brand-copy">
-        <strong>Nusrat Afsana Usha</strong>
-        <span>Portfolio Admin</span>
+        <div class="brand-name">Nusrat Afsana Usha</div>
+        <div class="brand-sub">Portfolio Admin</div>
       </div>
     </div>
 
-    <nav class="side-nav" aria-label="Admin navigation">
+    <div class="side-label">Workspace</div>
 
-      <div class="nav-label">Overview</div>
+    <nav class="side-nav">
 
-      <a class="nav-item" href="./dashboard.html" data-page="dashboard">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
-        </span>
+      <a class="nav-item" href="./dashboard.html">
+        <span class="nav-icon">⌂</span>
         <span>Dashboard</span>
       </a>
 
-      <div class="nav-label">Content</div>
-
-      <a class="nav-item" href="./homepage.html" data-page="homepage">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M3 11.5 12 4l9 7.5"/>
-            <path d="M5.5 10.5V20h13v-9.5"/>
-            <path d="M9.5 20v-5h5v5"/>
-          </svg>
-        </span>
+      <a class="nav-item" href="./homepage.html">
+        <span class="nav-icon">◫</span>
         <span>Homepage</span>
       </a>
 
-      <a class="nav-item" href="./banner.html" data-page="banner">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="5" width="18" height="14" rx="2"/>
-            <circle cx="8" cy="10" r="1.5"/>
-            <path d="m21 15-4.5-4.5L9 18"/>
-          </svg>
-        </span>
+      <a class="nav-item active" href="./banner.html">
+        <span class="nav-icon">✦</span>
         <span>Banner</span>
       </a>
 
-      <a class="nav-item" href="./browser-ui.html" data-page="browser-ui">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="4" width="18" height="16" rx="2"/>
-            <path d="M3 8h18"/>
-            <circle cx="6.5" cy="6" r=".6" fill="currentColor"/>
-            <circle cx="9" cy="6" r=".6" fill="currentColor"/>
-            <circle cx="11.5" cy="6" r=".6" fill="currentColor"/>
-          </svg>
-        </span>
+      <a class="nav-item" href="./browser-ui.html">
+        <span class="nav-icon">▣</span>
         <span>Browser UI</span>
       </a>
 
-      <a class="nav-item" href="./newsletter.html" data-page="newsletter">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="5" width="18" height="14" rx="2"/>
-            <path d="m4 7 8 6 8-6"/>
-          </svg>
-        </span>
+      <a class="nav-item" href="./newsletter.html">
+        <span class="nav-icon">✉</span>
         <span>Newsletter</span>
       </a>
 
-      <div class="nav-label">Administration</div>
-
-      <a class="nav-item active" href="./admin-management.html" data-page="admin-management">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M16 21v-1.8a4.2 4.2 0 0 0-4.2-4.2H6.2A4.2 4.2 0 0 0 2 19.2V21"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M17 11a4 4 0 1 0-1.5-7.7"/>
-            <path d="M22 21v-1.8a4.2 4.2 0 0 0-3.2-4.1"/>
-          </svg>
-        </span>
-        <span>Admin Management</span>
+      <a class="nav-item" href="./system.html">
+        <span class="nav-icon">⚙</span>
+        <span>System</span>
       </a>
 
-      <a class="nav-item" href="./system.html" data-page="system">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V22h-2.6v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.6h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.4V14h-.4a1.7 1.7 0 0 0-1.6 1Z"/>
-          </svg>
-        </span>
-        <span>System</span>
+      <a class="nav-item" href="../index.html" target="_blank">
+        <span class="nav-icon">↗</span>
+        <span>View Portfolio</span>
       </a>
 
     </nav>
 
-    <div class="sidebar-footer">
-      <a class="nav-item" href="../index.html" target="_blank">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M14 3h7v7"/>
-            <path d="M10 14 21 3"/>
-            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
-          </svg>
-        </span>
-        <span>View Portfolio</span>
-      </a>
+    <div class="sidebar-bottom">
+
+      <div class="profile-mini">
+        <img
+          src="../nusrat-afsana-photo.jpg"
+          alt=""
+        >
+
+        <div>
+          <strong>Nusrat Afsana Usha</strong>
+          <span>Administrator</span>
+        </div>
+      </div>
+
+      <button class="signout" id="signOutBtn">
+        ↪ &nbsp; Sign out
+      </button>
+
     </div>
 
   </aside>
 
 
-  <!-- =======================================================
+  <!-- =====================================================
        MAIN
-  ======================================================== -->
+  ====================================================== -->
 
   <main class="main">
 
     <header class="topbar">
 
-      <button class="mobile-menu-button" id="menuToggle" aria-label="Open menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="topbar-left">
 
-      <div class="topbar-title">
-        <span>Administration</span>
-        <strong>Admin Management</strong>
-      </div>
-
-      <div class="topbar-actions">
-
-        <button class="secondary-button" id="themeToggle" type="button">
-          <span class="theme-icon">◐</span>
-          <span>Theme</span>
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Open menu"
+        >
+          ☰
         </button>
 
-        <button class="primary-button" id="saveButton" type="button">
-          Save Changes
+        <div class="breadcrumb">
+          Admin / <strong>Banner</strong>
+        </div>
+
+      </div>
+
+      <div class="top-actions">
+
+        <a
+          href="../index.html"
+          target="_blank"
+          class="icon-button view-button"
+          title="View portfolio"
+        >
+          ↗
+        </a>
+
+        <button
+          class="icon-button"
+          id="themeToggle"
+          title="Toggle theme"
+        >
+          ◐
         </button>
 
       </div>
@@ -1011,116 +1335,40 @@
 
     <section class="content">
 
-      <!-- HERO -->
+      <!-- PAGE HEADER -->
 
-      <div class="management-hero">
+      <div class="page-heading">
 
         <div>
-          <div class="eyebrow">Access Control</div>
 
-          <h1>Who can manage the portfolio?</h1>
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            Visual Editor
+          </div>
+
+          <h1>Hero Banner</h1>
 
           <p>
-            Control administrator accounts, roles and content permissions
-            from one secure management layer.
+            Control the first visual experience visitors see on the portfolio.
+            Edit the headline, supporting copy, image, positioning and calls to action.
           </p>
+
         </div>
 
-        <div class="security-badge">
-          <span class="security-dot"></span>
-          Access control active
-        </div>
-
-      </div>
-
-
-      <!-- STATS -->
-
-      <div class="management-stats">
-
-        <div class="management-stat">
-          <div class="management-stat-label">Total Admins</div>
-          <div class="management-stat-value" id="totalAdmins">03</div>
-          <div class="management-stat-meta">Registered administrator accounts</div>
-        </div>
-
-        <div class="management-stat">
-          <div class="management-stat-label">Active</div>
-          <div class="management-stat-value" id="activeAdmins">02</div>
-          <div class="management-stat-meta">Currently enabled accounts</div>
-        </div>
-
-        <div class="management-stat">
-          <div class="management-stat-label">Pending</div>
-          <div class="management-stat-value" id="pendingAdmins">01</div>
-          <div class="management-stat-meta">Waiting for activation</div>
-        </div>
-
-        <div class="management-stat">
-          <div class="management-stat-label">Protected</div>
-          <div class="management-stat-value">01</div>
-          <div class="management-stat-meta">Private master account</div>
-        </div>
-
-      </div>
-
-
-      <!-- TOOLBAR -->
-
-      <div class="management-toolbar">
-
-        <div class="management-tabs">
+        <div class="header-actions">
 
           <button
-            class="management-tab active"
-            data-filter="all"
-            type="button"
+            class="secondary-button"
+            id="resetBtn"
           >
-            All Admins
+            Reset Draft
           </button>
-
-          <button
-            class="management-tab"
-            data-filter="client"
-            type="button"
-          >
-            Client Admin
-          </button>
-
-          <button
-            class="management-tab"
-            data-filter="editor"
-            type="button"
-          >
-            Editors
-          </button>
-
-        </div>
-
-        <div class="management-actions">
-
-          <div class="search-box">
-
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <circle cx="11" cy="11" r="7"/>
-              <path d="m20 20-4-4"/>
-            </svg>
-
-            <input
-              type="search"
-              id="adminSearch"
-              placeholder="Search administrators..."
-              autocomplete="off"
-            >
-
-          </div>
 
           <button
             class="primary-button"
-            id="addAdminButton"
-            type="button"
+            id="saveTopBtn"
           >
-            + Add Admin
+            Save Changes
           </button>
 
         </div>
@@ -1128,501 +1376,546 @@
       </div>
 
 
-      <!-- ADMIN TABLE -->
+      <!-- EDITOR -->
 
-      <section class="admin-table-panel">
+      <div class="editor-layout">
 
-        <div class="panel-header">
+        <!-- =================================================
+             LEFT EDITOR
+        ================================================== -->
 
-          <div>
-            <h2>Administrator Accounts</h2>
-            <p>
-              Manage approved portfolio administrators and content editors.
-            </p>
-          </div>
+        <div class="editor-column">
+
+          <!-- CONTENT -->
+
+          <section class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <h2>Banner Content</h2>
+                <p>Write the content displayed inside the hero.</p>
+              </div>
+
+              <span
+                style="
+                  font-size:10px;
+                  color:var(--accent);
+                  border:1px solid rgba(216,179,106,.22);
+                  padding:6px 8px;
+                  border-radius:8px;
+                "
+              >
+                LIVE EDITOR
+              </span>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="field">
+
+                <label for="eyebrow">
+                  Eyebrow
+                </label>
+
+                <input
+                  id="eyebrow"
+                  type="text"
+                  placeholder="UX/UI DESIGNER"
+                >
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="headline">
+                  Main Headline
+                </label>
+
+                <textarea
+                  id="headline"
+                  rows="3"
+                  placeholder="Designing with clarity."
+                ></textarea>
+
+                <div class="field-hint">
+                  Keep the headline short enough to remain visually strong.
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <label for="description">
+                  Supporting Description
+                </label>
+
+                <textarea
+                  id="description"
+                  placeholder="Describe the designer and the value of the work."
+                ></textarea>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- IMAGE -->
+
+          <section class="panel" style="margin-top:18px;">
+
+            <div class="panel-header">
+
+              <div>
+                <h2>Hero Image</h2>
+                <p>Choose the visual used behind the banner.</p>
+              </div>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="upload-box">
+
+                <div class="upload-top">
+
+                  <div class="upload-icon">
+                    ◩
+                  </div>
+
+                  <div class="upload-copy">
+                    <strong>Banner Image</strong>
+                    <span>
+                      JPG, PNG or WEBP recommended.
+                    </span>
+                  </div>
+
+                </div>
+
+                <label class="file-button">
+
+                  Choose Image
+
+                  <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/png,image/jpeg,image/webp"
+                  >
+
+                </label>
+
+                <div
+                  class="file-name"
+                  id="fileName"
+                >
+                  Using default portfolio image
+                </div>
+
+              </div>
+
+
+              <div
+                class="field"
+                style="margin-top:18px;"
+              >
+
+                <label>
+                  Image Position
+                </label>
+
+                <div class="position-grid">
+
+                  <button
+                    class="position-button"
+                    data-position="left"
+                  >
+                    Left
+                  </button>
+
+                  <button
+                    class="position-button active"
+                    data-position="center"
+                  >
+                    Center
+                  </button>
+
+                  <button
+                    class="position-button"
+                    data-position="right"
+                  >
+                    Right
+                  </button>
+
+                </div>
+
+              </div>
+
+
+              <div class="field">
+
+                <label>
+                  Dark Overlay
+                </label>
+
+                <div class="range-row">
+
+                  <input
+                    type="range"
+                    id="overlay"
+                    min="20"
+                    max="90"
+                    value="68"
+                  >
+
+                  <div
+                    class="range-value"
+                    id="overlayValue"
+                  >
+                    68%
+                  </div>
+
+                </div>
+
+                <div class="field-hint">
+                  Higher values improve text readability over bright images.
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- CTA -->
+
+          <section class="panel" style="margin-top:18px;">
+
+            <div class="panel-header">
+
+              <div>
+                <h2>Call To Action</h2>
+                <p>Control the buttons shown inside the hero.</p>
+              </div>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="grid-2">
+
+                <div class="field">
+
+                  <label for="primaryText">
+                    Primary Button
+                  </label>
+
+                  <input
+                    id="primaryText"
+                    type="text"
+                    placeholder="Explore My Work"
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="primaryLink">
+                    Primary Link
+                  </label>
+
+                  <input
+                    id="primaryLink"
+                    type="text"
+                    placeholder="#work"
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="grid-2">
+
+                <div class="field">
+
+                  <label for="secondaryText">
+                    Secondary Button
+                  </label>
+
+                  <input
+                    id="secondaryText"
+                    type="text"
+                    placeholder="About Me"
+                  >
+
+                </div>
+
+                <div class="field">
+
+                  <label for="secondaryLink">
+                    Secondary Link
+                  </label>
+
+                  <input
+                    id="secondaryLink"
+                    type="text"
+                    placeholder="#about"
+                  >
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- VISIBILITY -->
+
+          <section class="panel" style="margin-top:18px;">
+
+            <div class="panel-header">
+
+              <div>
+                <h2>Visibility</h2>
+                <p>Choose which elements are published.</p>
+              </div>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="switch-row">
+
+                <div class="switch-copy">
+                  <strong>Publish Banner</strong>
+                  <span>
+                    Display this banner on the public portfolio.
+                  </span>
+                </div>
+
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    id="publish"
+                    checked
+                  >
+                  <span class="slider"></span>
+                </label>
+
+              </div>
+
+
+              <div class="switch-row">
+
+                <div class="switch-copy">
+                  <strong>Supporting Description</strong>
+                  <span>
+                    Show the paragraph below the headline.
+                  </span>
+                </div>
+
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    id="showDescription"
+                    checked
+                  >
+                  <span class="slider"></span>
+                </label>
+
+              </div>
+
+
+              <div class="switch-row">
+
+                <div class="switch-copy">
+                  <strong>Primary CTA</strong>
+                  <span>
+                    Show the main action button.
+                  </span>
+                </div>
+
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    id="showPrimary"
+                    checked
+                  >
+                  <span class="slider"></span>
+                </label>
+
+              </div>
+
+
+              <div class="switch-row">
+
+                <div class="switch-copy">
+                  <strong>Secondary CTA</strong>
+                  <span>
+                    Show the secondary action button.
+                  </span>
+                </div>
+
+                <label class="switch">
+                  <input
+                    type="checkbox"
+                    id="showSecondary"
+                    checked
+                  >
+                  <span class="slider"></span>
+                </label>
+
+              </div>
+
+            </div>
+
+          </section>
 
         </div>
 
-        <div class="table-wrap">
 
-          <table class="admin-table">
+        <!-- =================================================
+             RIGHT PREVIEW
+        ================================================== -->
 
-            <thead>
-              <tr>
-                <th>Administrator</th>
-                <th>Role</th>
-                <th>Permissions</th>
-                <th>Status</th>
-                <th>Last Active</th>
-                <th></th>
-              </tr>
-            </thead>
+        <section class="panel preview-panel">
 
-            <tbody id="adminTableBody">
+          <div class="preview-toolbar">
 
-              <!-- CLIENT ADMIN -->
+            <div class="preview-modes">
 
-              <tr
-                data-role="client"
-                data-name="Nusrat Afsana Usha"
-                data-email="client@example.com"
+              <button
+                class="mode-button active"
+                data-mode="desktop"
               >
+                Desktop
+              </button>
 
-                <td>
-
-                  <div class="admin-user">
-
-                    <div class="admin-avatar">
-                      NU
-                    </div>
-
-                    <div>
-                      <div class="admin-user-name">
-                        Nusrat Afsana Usha
-                      </div>
-
-                      <div class="admin-user-email">
-                        client@example.com
-                      </div>
-                    </div>
-
-                  </div>
-
-                </td>
-
-                <td>
-                  <span class="role-badge client">
-                    Client Admin
-                  </span>
-                </td>
-
-                <td>
-
-                  <div class="permission-list">
-                    <span class="permission-chip">Homepage</span>
-                    <span class="permission-chip">Banner</span>
-                    <span class="permission-chip">Work</span>
-                    <span class="permission-chip">Newsletter</span>
-                  </div>
-
-                </td>
-
-                <td>
-                  <span class="status-badge active">
-                    <span class="status-dot"></span>
-                    Active
-                  </span>
-                </td>
-
-                <td>
-                  <div class="last-active">
-                    Today<br>
-                    11:42 AM
-                  </div>
-                </td>
-
-                <td>
-
-                  <div class="row-actions">
-
-                    <button
-                      class="icon-button edit-admin"
-                      type="button"
-                      title="Edit administrator"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                        <path d="M12 20h9"/>
-                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
-                      </svg>
-                    </button>
-
-                  </div>
-
-                </td>
-
-              </tr>
-
-
-              <!-- EDITOR -->
-
-              <tr
-                data-role="editor"
-                data-name="Design Editor"
-                data-email="editor@example.com"
+              <button
+                class="mode-button"
+                data-mode="mobile"
               >
-
-                <td>
-
-                  <div class="admin-user">
-
-                    <div class="admin-avatar">
-                      DE
-                    </div>
-
-                    <div>
-                      <div class="admin-user-name">
-                        Design Editor
-                      </div>
-
-                      <div class="admin-user-email">
-                        editor@example.com
-                      </div>
-                    </div>
-
-                  </div>
-
-                </td>
-
-                <td>
-                  <span class="role-badge editor">
-                    Editor
-                  </span>
-                </td>
-
-                <td>
-
-                  <div class="permission-list">
-                    <span class="permission-chip">Work</span>
-                    <span class="permission-chip">Homepage</span>
-                    <span class="permission-chip">Banner</span>
-                  </div>
-
-                </td>
-
-                <td>
-                  <span class="status-badge active">
-                    <span class="status-dot"></span>
-                    Active
-                  </span>
-                </td>
-
-                <td>
-                  <div class="last-active">
-                    Yesterday<br>
-                    7:18 PM
-                  </div>
-                </td>
-
-                <td>
-
-                  <div class="row-actions">
-
-                    <button
-                      class="icon-button edit-admin"
-                      type="button"
-                      title="Edit administrator"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                        <path d="M12 20h9"/>
-                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
-                      </svg>
-                    </button>
-
-                  </div>
-
-                </td>
-
-              </tr>
-
-
-              <!-- PENDING -->
-
-              <tr
-                data-role="client"
-                data-name="Content Assistant"
-                data-email="assistant@example.com"
-              >
-
-                <td>
-
-                  <div class="admin-user">
-
-                    <div class="admin-avatar">
-                      CA
-                    </div>
-
-                    <div>
-                      <div class="admin-user-name">
-                        Content Assistant
-                      </div>
-
-                      <div class="admin-user-email">
-                        assistant@example.com
-                      </div>
-                    </div>
-
-                  </div>
-
-                </td>
-
-                <td>
-                  <span class="role-badge client">
-                    Client Admin
-                  </span>
-                </td>
-
-                <td>
-
-                  <div class="permission-list">
-                    <span class="permission-chip">Journal</span>
-                    <span class="permission-chip">Newsletter</span>
-                  </div>
-
-                </td>
-
-                <td>
-                  <span class="status-badge pending">
-                    <span class="status-dot"></span>
-                    Pending
-                  </span>
-                </td>
-
-                <td>
-                  <div class="last-active">
-                    Invitation sent<br>
-                    2 days ago
-                  </div>
-                </td>
-
-                <td>
-
-                  <div class="row-actions">
-
-                    <button
-                      class="icon-button edit-admin"
-                      type="button"
-                      title="Edit administrator"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                        <path d="M12 20h9"/>
-                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
-                      </svg>
-                    </button>
-
-                  </div>
-
-                </td>
-
-              </tr>
-
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </section>
-
-
-      <!-- PERMISSION MATRIX -->
-
-      <div class="permission-section">
-
-        <!-- CLIENT ADMIN -->
-
-        <section class="permission-card">
-
-          <div class="permission-card-head">
-
-            <div class="permission-title">
-
-              <div class="permission-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
-                </svg>
-              </div>
-
-              <div>
-                <h3>Client Admin</h3>
-                <p>Normal portfolio management access.</p>
-              </div>
+                Mobile
+              </button>
 
             </div>
 
-          </div>
-
-          <div class="permission-items">
-
-            <div class="permission-item">
-              <div>
-                <strong>Homepage Content</strong>
-                <span>Edit profile and homepage sections</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" checked>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-
-            <div class="permission-item">
-              <div>
-                <strong>Banner Management</strong>
-                <span>Update hero banner and imagery</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" checked>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-
-            <div class="permission-item">
-              <div>
-                <strong>Selected Work</strong>
-                <span>Add and edit portfolio projects</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" checked>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-
-            <div class="permission-item">
-              <div>
-                <strong>Newsletter</strong>
-                <span>Manage subscriber settings</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" checked>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-
-            <div class="permission-item">
-              <div>
-                <strong>System Settings</strong>
-                <span>Technical configuration</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" disabled>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-
-            <div class="permission-item">
-              <div>
-                <strong>Admin Management</strong>
-                <span>Create or modify administrators</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" disabled>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- PRIVATE MASTER -->
-
-        <section class="permission-card locked">
-
-          <div class="permission-card-head">
-
-            <div class="permission-title">
-
-              <div class="permission-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                  <rect x="3" y="11" width="18" height="10" rx="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                  <circle cx="12" cy="16" r="1"/>
-                </svg>
-              </div>
-
-              <div>
-                <h3>Private Master</h3>
-                <p>Restricted system-level authority.</p>
-              </div>
-
-            </div>
-
-            <span class="locked-label">
-              Restricted
+            <span class="preview-label">
+              Live Preview
             </span>
 
           </div>
 
-          <div class="permission-items">
 
-            <div class="permission-item">
-              <div>
-                <strong>Admin Management</strong>
-                <span>Manage all administrator accounts</span>
+          <div class="preview-stage">
+
+            <div
+              class="preview-frame"
+              id="previewFrame"
+            >
+
+              <div class="preview-browser">
+
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+                <span class="browser-dot"></span>
+
+                <div class="browser-url"></div>
+
               </div>
 
-              <label class="permission-toggle">
-                <input type="checkbox" checked disabled>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
 
-            <div class="permission-item">
-              <div>
-                <strong>System Configuration</strong>
-                <span>Access technical system settings</span>
+              <div class="hero-preview">
+
+                <div
+                  class="hero-image"
+                  id="heroImage"
+                ></div>
+
+                <div
+                  class="hero-overlay"
+                  id="heroOverlay"
+                ></div>
+
+                <div class="hero-content">
+
+                  <div
+                    class="hero-eyebrow"
+                    id="previewEyebrow"
+                  >
+                    UX/UI DESIGNER
+                  </div>
+
+                  <div
+                    class="hero-title"
+                    id="previewHeadline"
+                  >
+                    Designing with clarity.
+                  </div>
+
+                  <div
+                    class="hero-description"
+                    id="previewDescription"
+                  >
+                    I create thoughtful digital experiences where structure,
+                    usability and visual clarity work together.
+                  </div>
+
+                  <div
+                    class="hero-actions"
+                    id="previewActions"
+                  >
+
+                    <a
+                      class="hero-btn primary"
+                      id="previewPrimary"
+                      href="#"
+                    >
+                      Explore My Work
+                    </a>
+
+                    <a
+                      class="hero-btn secondary"
+                      id="previewSecondary"
+                      href="#"
+                    >
+                      About Me
+                    </a>
+
+                  </div>
+
+                </div>
+
               </div>
 
-              <label class="permission-toggle">
-                <input type="checkbox" checked disabled>
-                <span class="toggle-track"></span>
-              </label>
             </div>
 
-            <div class="permission-item">
-              <div>
-                <strong>Database Controls</strong>
-                <span>Protected backend operations</span>
-              </div>
+          </div>
 
-              <label class="permission-toggle">
-                <input type="checkbox" checked disabled>
-                <span class="toggle-track"></span>
-              </label>
+
+          <div class="preview-status">
+
+            <div class="status-live">
+
+              <i></i>
+
+              <span id="previewStatus">
+                Banner is published
+              </span>
+
             </div>
 
-            <div class="permission-item">
-              <div>
-                <strong>Backup & Restore</strong>
-                <span>Manage site recovery operations</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" checked disabled>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-
-            <div class="permission-item">
-              <div>
-                <strong>Security Logs</strong>
-                <span>View privileged activity history</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" checked disabled>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
-
-            <div class="permission-item">
-              <div>
-                <strong>Private Master Area</strong>
-                <span>Hidden administrator workspace</span>
-              </div>
-
-              <label class="permission-toggle">
-                <input type="checkbox" checked disabled>
-                <span class="toggle-track"></span>
-              </label>
-            </div>
+            <span>
+              Auto preview enabled
+            </span>
 
           </div>
 
@@ -1631,28 +1924,38 @@
       </div>
 
 
-      <!-- SECURITY NOTE -->
+      <!-- SAVE BAR -->
 
-      <div class="security-note">
+      <div class="save-bar">
 
-        <div class="security-note-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M12 3 4 6v5c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10V6l-8-3Z"/>
-            <path d="m9 12 2 2 4-4"/>
-          </svg>
+        <div class="save-state">
+
+          <span
+            class="save-dot"
+            id="saveDot"
+          ></span>
+
+          <span id="saveText">
+            All changes saved
+          </span>
+
         </div>
 
-        <div>
+        <div class="save-actions">
 
-          <strong>Security architecture</strong>
+          <button
+            class="secondary-button"
+            id="resetBottomBtn"
+          >
+            Reset
+          </button>
 
-          <p>
-            The private master area should be protected by real authentication
-            and server-side role checks. Hiding a URL alone is not a security
-            boundary. For production, connect these permissions to Firebase
-            Authentication + custom claims or another trusted backend
-            authorization layer.
-          </p>
+          <button
+            class="primary-button"
+            id="saveBottomBtn"
+          >
+            Save Changes
+          </button>
 
         </div>
 
@@ -1665,374 +1968,845 @@
 </div>
 
 
-<!-- =========================================================
-     MOBILE OVERLAY
-========================================================= -->
+<div
+  class="toast"
+  id="toast"
+></div>
 
-<div class="mobile-overlay" id="mobileOverlay"></div>
-
-
-<!-- =========================================================
-     ADD / EDIT ADMIN MODAL
-========================================================= -->
-
-<div class="modal-backdrop" id="adminModal">
-
-  <div
-    class="management-modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="adminModalTitle"
-  >
-
-    <div class="modal-head">
-
-      <div>
-        <h2 id="adminModalTitle">Add Administrator</h2>
-        <p>Create a portfolio administrator account.</p>
-      </div>
-
-      <button
-        class="modal-close"
-        id="closeAdminModal"
-        type="button"
-        aria-label="Close"
-      >
-        ×
-      </button>
-
-    </div>
-
-
-    <div class="modal-body">
-
-      <div class="modal-grid">
-
-        <div class="modal-field">
-          <label for="adminName">Full Name</label>
-          <input
-            id="adminName"
-            type="text"
-            placeholder="Administrator name"
-          >
-        </div>
-
-        <div class="modal-field">
-          <label for="adminEmail">Email</label>
-          <input
-            id="adminEmail"
-            type="email"
-            placeholder="admin@example.com"
-          >
-        </div>
-
-        <div class="modal-field">
-          <label for="adminRole">Role</label>
-
-          <select id="adminRole">
-            <option value="client">Client Admin</option>
-            <option value="editor">Editor</option>
-          </select>
-        </div>
-
-        <div class="modal-field">
-          <label for="adminStatus">Status</label>
-
-          <select id="adminStatus">
-            <option value="active">Active</option>
-            <option value="pending">Pending</option>
-          </select>
-        </div>
-
-        <div class="modal-field full">
-
-          <label>Initial Access</label>
-
-          <div class="permission-list" style="max-width:none">
-
-            <span class="permission-chip">
-              Homepage
-            </span>
-
-            <span class="permission-chip">
-              Banner
-            </span>
-
-            <span class="permission-chip">
-              Selected Work
-            </span>
-
-            <span class="permission-chip">
-              Newsletter
-            </span>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="modal-footer">
-
-      <button
-        class="secondary-button"
-        id="cancelAdminModal"
-        type="button"
-      >
-        Cancel
-      </button>
-
-      <button
-        class="primary-button"
-        id="saveAdminModal"
-        type="button"
-      >
-        Save Administrator
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================================================
-     PAGE SCRIPT
-========================================================= -->
-
-<script src="./admin.js"></script>
 
 <script>
-(function(){
+/* =========================================================
+   NUSRAT AFSANA USHA — BANNER ADMIN
+========================================================= */
 
-  const modal = document.getElementById("adminModal");
-  const addButton = document.getElementById("addAdminButton");
-  const closeButton = document.getElementById("closeAdminModal");
-  const cancelButton = document.getElementById("cancelAdminModal");
-  const saveButton = document.getElementById("saveAdminModal");
+(() => {
 
-  const searchInput = document.getElementById("adminSearch");
-  const tableBody = document.getElementById("adminTableBody");
-  const tabs = document.querySelectorAll(".management-tab");
+  "use strict";
 
-  let currentFilter = "all";
 
-  function openModal(){
-    modal.classList.add("show");
+  /* =======================================================
+     CONFIG
+  ======================================================= */
 
-    setTimeout(function(){
-      document.getElementById("adminName").focus();
-    },50);
-  }
+  const SESSION_KEY = "nusrat_admin_session_v1";
+  const THEME_KEY = "nusrat_admin_theme";
+  const BANNER_KEY = "nusrat_banner_content_v1";
+  const LAST_UPDATED_KEY = "nusrat_admin_last_updated";
 
-  function closeModal(){
-    modal.classList.remove("show");
-  }
 
-  addButton.addEventListener("click", function(){
-    document.getElementById("adminModalTitle").textContent =
-      "Add Administrator";
+  const DEFAULT_IMAGE = "../nusrat-afsana-photo.jpg";
 
-    document.querySelector("#adminModal .modal-head p").textContent =
-      "Create a portfolio administrator account.";
 
-    document.getElementById("adminName").value = "";
-    document.getElementById("adminEmail").value = "";
+  const DEFAULT_DATA = {
 
-    openModal();
-  });
+    eyebrow: "UX/UI DESIGNER",
 
-  closeButton.addEventListener("click", closeModal);
-  cancelButton.addEventListener("click", closeModal);
+    headline: "Designing with clarity.",
 
-  modal.addEventListener("click", function(event){
+    description:
+      "I create thoughtful digital experiences where structure, usability and visual clarity work together.",
 
-    if(event.target === modal){
-      closeModal();
+    primaryText: "Explore My Work",
+
+    primaryLink: "#work",
+
+    secondaryText: "About Me",
+
+    secondaryLink: "#about",
+
+    image: DEFAULT_IMAGE,
+
+    imageName: "",
+
+    position: "center",
+
+    overlay: 68,
+
+    publish: true,
+
+    showDescription: true,
+
+    showPrimary: true,
+
+    showSecondary: true
+
+  };
+
+
+  let state = loadData();
+
+  let dirty = false;
+
+
+  /* =======================================================
+     AUTH
+  ======================================================= */
+
+  function checkAuth(){
+
+    try{
+
+      const raw = localStorage.getItem(SESSION_KEY);
+
+      if(!raw){
+
+        window.location.href = "./index.html";
+        return false;
+
+      }
+
+      const session = JSON.parse(raw);
+
+      if(
+        !session ||
+        session.loggedIn !== true ||
+        session.role !== "admin"
+      ){
+
+        window.location.href = "./index.html";
+        return false;
+
+      }
+
+      if(
+        session.expiresAt &&
+        Date.now() > Number(session.expiresAt)
+      ){
+
+        localStorage.removeItem(SESSION_KEY);
+
+        window.location.href = "./index.html";
+        return false;
+
+      }
+
+      return true;
+
+    }catch(error){
+
+      localStorage.removeItem(SESSION_KEY);
+      window.location.href = "./index.html";
+      return false;
+
     }
 
-  });
+  }
 
-  document.addEventListener("keydown", function(event){
 
-    if(event.key === "Escape"){
-      closeModal();
+  if(!checkAuth()) return;
+
+
+  /* =======================================================
+     ELEMENTS
+  ======================================================= */
+
+  const $ = id => document.getElementById(id);
+
+
+  const fields = {
+
+    eyebrow: $("eyebrow"),
+    headline: $("headline"),
+    description: $("description"),
+
+    primaryText: $("primaryText"),
+    primaryLink: $("primaryLink"),
+
+    secondaryText: $("secondaryText"),
+    secondaryLink: $("secondaryLink"),
+
+    overlay: $("overlay"),
+
+    publish: $("publish"),
+    showDescription: $("showDescription"),
+    showPrimary: $("showPrimary"),
+    showSecondary: $("showSecondary")
+
+  };
+
+
+  const preview = {
+
+    eyebrow: $("previewEyebrow"),
+    headline: $("previewHeadline"),
+    description: $("previewDescription"),
+
+    primary: $("previewPrimary"),
+    secondary: $("previewSecondary"),
+
+    image: $("heroImage"),
+    overlay: $("heroOverlay"),
+
+    frame: $("previewFrame"),
+    actions: $("previewActions"),
+
+    status: $("previewStatus")
+
+  };
+
+
+  /* =======================================================
+     LOAD DATA
+  ======================================================= */
+
+  function loadData(){
+
+    try{
+
+      const saved = localStorage.getItem(BANNER_KEY);
+
+      if(!saved){
+        return {...DEFAULT_DATA};
+      }
+
+      const parsed = JSON.parse(saved);
+
+      return {
+        ...DEFAULT_DATA,
+        ...parsed
+      };
+
+    }catch(error){
+
+      return {...DEFAULT_DATA};
+
     }
+
+  }
+
+
+  /* =======================================================
+     THEME
+  ======================================================= */
+
+  function applyTheme(){
+
+    const theme =
+      localStorage.getItem(THEME_KEY) || "dark";
+
+    document.documentElement.dataset.theme = theme;
+
+  }
+
+
+  applyTheme();
+
+
+  $("themeToggle").addEventListener("click", () => {
+
+    const current =
+      document.documentElement.dataset.theme || "dark";
+
+    const next =
+      current === "dark" ? "light" : "dark";
+
+    document.documentElement.dataset.theme = next;
+
+    localStorage.setItem(THEME_KEY, next);
 
   });
 
 
   /* =======================================================
-     FILTER
-  ======================================================== */
+     POPULATE FORM
+  ======================================================= */
 
-  function filterRows(){
+  function populate(){
 
-    const query =
-      (searchInput.value || "")
-        .trim()
-        .toLowerCase();
+    fields.eyebrow.value = state.eyebrow || "";
 
-    const rows =
-      tableBody.querySelectorAll("tr");
+    fields.headline.value = state.headline || "";
 
-    rows.forEach(function(row){
+    fields.description.value =
+      state.description || "";
 
-      const role =
-        row.dataset.role || "";
+    fields.primaryText.value =
+      state.primaryText || "";
 
-      const name =
-        row.dataset.name || "";
+    fields.primaryLink.value =
+      state.primaryLink || "";
 
-      const email =
-        row.dataset.email || "";
+    fields.secondaryText.value =
+      state.secondaryText || "";
 
-      const matchesFilter =
-        currentFilter === "all" ||
-        role === currentFilter;
+    fields.secondaryLink.value =
+      state.secondaryLink || "";
 
-      const matchesSearch =
-        !query ||
-        name.toLowerCase().includes(query) ||
-        email.toLowerCase().includes(query);
+    fields.overlay.value =
+      Number(state.overlay || 68);
 
-      row.style.display =
-        matchesFilter && matchesSearch
-          ? ""
-          : "none";
+    fields.publish.checked =
+      state.publish !== false;
 
-    });
+    fields.showDescription.checked =
+      state.showDescription !== false;
+
+    fields.showPrimary.checked =
+      state.showPrimary !== false;
+
+    fields.showSecondary.checked =
+      state.showSecondary !== false;
+
+
+    $("overlayValue").textContent =
+      `${fields.overlay.value}%`;
+
+
+    $("fileName").textContent =
+      state.imageName
+        ? state.imageName
+        : "Using default portfolio image";
+
+
+    document
+      .querySelectorAll(".position-button")
+      .forEach(button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.position === state.position
+        );
+
+      });
+
+
+    updatePreview();
 
   }
 
-  searchInput.addEventListener(
-    "input",
-    filterRows
+
+  /* =======================================================
+     UPDATE STATE FROM FORM
+  ======================================================= */
+
+  function collect(){
+
+    state.eyebrow =
+      fields.eyebrow.value.trim();
+
+    state.headline =
+      fields.headline.value.trim();
+
+    state.description =
+      fields.description.value.trim();
+
+    state.primaryText =
+      fields.primaryText.value.trim();
+
+    state.primaryLink =
+      fields.primaryLink.value.trim();
+
+    state.secondaryText =
+      fields.secondaryText.value.trim();
+
+    state.secondaryLink =
+      fields.secondaryLink.value.trim();
+
+    state.overlay =
+      Number(fields.overlay.value);
+
+    state.publish =
+      fields.publish.checked;
+
+    state.showDescription =
+      fields.showDescription.checked;
+
+    state.showPrimary =
+      fields.showPrimary.checked;
+
+    state.showSecondary =
+      fields.showSecondary.checked;
+
+  }
+
+
+  /* =======================================================
+     PREVIEW
+  ======================================================= */
+
+  function updatePreview(){
+
+    collect();
+
+
+    preview.eyebrow.textContent =
+      state.eyebrow || "UX/UI DESIGNER";
+
+
+    preview.headline.textContent =
+      state.headline || "Designing with clarity.";
+
+
+    preview.description.textContent =
+      state.description || "";
+
+
+    preview.description.style.display =
+      state.showDescription
+        ? ""
+        : "none";
+
+
+    preview.primary.textContent =
+      state.primaryText || "Explore My Work";
+
+
+    preview.primary.href =
+      state.primaryLink || "#";
+
+
+    preview.secondary.textContent =
+      state.secondaryText || "About Me";
+
+
+    preview.secondary.href =
+      state.secondaryLink || "#";
+
+
+    preview.primary.style.display =
+      state.showPrimary
+        ? "inline-flex"
+        : "none";
+
+
+    preview.secondary.style.display =
+      state.showSecondary
+        ? "inline-flex"
+        : "none";
+
+
+    preview.actions.style.display =
+      (
+        state.showPrimary ||
+        state.showSecondary
+      )
+      ? "flex"
+      : "none";
+
+
+    preview.image.style.backgroundImage =
+      `url("${state.image || DEFAULT_IMAGE}")`;
+
+
+    preview.image.style.backgroundPosition =
+      state.position || "center";
+
+
+    const opacity =
+      Math.min(
+        Math.max(Number(state.overlay) / 100, .2),
+        .9
+      );
+
+
+    preview.overlay.style.background = `
+      linear-gradient(
+        90deg,
+        rgba(0,0,0,${opacity}),
+        rgba(0,0,0,${opacity * .62}) 48%,
+        rgba(0,0,0,${opacity * .22})
+      )
+    `;
+
+
+    preview.status.textContent =
+      state.publish
+        ? "Banner is published"
+        : "Banner is currently hidden";
+
+
+    preview.status.parentElement
+      .querySelector(".status-live i")
+      .style.background =
+        state.publish
+          ? "var(--success)"
+          : "var(--muted-2)";
+
+  }
+
+
+  /* =======================================================
+     LIVE FIELD LISTENERS
+  ======================================================= */
+
+  Object.values(fields).forEach(field => {
+
+    if(!field) return;
+
+    field.addEventListener("input", () => {
+
+      updatePreview();
+
+      setDirty(true);
+
+    });
+
+    field.addEventListener("change", () => {
+
+      updatePreview();
+
+      setDirty(true);
+
+    });
+
+  });
+
+
+  /* =======================================================
+     OVERLAY RANGE
+  ======================================================= */
+
+  fields.overlay.addEventListener("input", () => {
+
+    $("overlayValue").textContent =
+      `${fields.overlay.value}%`;
+
+  });
+
+
+  /* =======================================================
+     POSITION
+  ======================================================= */
+
+  document
+    .querySelectorAll(".position-button")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        document
+          .querySelectorAll(".position-button")
+          .forEach(item => {
+            item.classList.remove("active");
+          });
+
+        button.classList.add("active");
+
+        state.position =
+          button.dataset.position;
+
+        preview.image.style.backgroundPosition =
+          state.position;
+
+        setDirty(true);
+
+      });
+
+    });
+
+
+  /* =======================================================
+     IMAGE UPLOAD
+  ======================================================= */
+
+  $("imageInput").addEventListener("change", event => {
+
+    const file = event.target.files?.[0];
+
+    if(!file) return;
+
+
+    if(file.size > 8 * 1024 * 1024){
+
+      showToast(
+        "Please choose an image smaller than 8MB.",
+        "error"
+      );
+
+      event.target.value = "";
+
+      return;
+
+    }
+
+
+    if(!file.type.startsWith("image/")){
+
+      showToast(
+        "Please choose a valid image file.",
+        "error"
+      );
+
+      event.target.value = "";
+
+      return;
+
+    }
+
+
+    const reader = new FileReader();
+
+
+    reader.onload = e => {
+
+      state.image =
+        e.target.result;
+
+      state.imageName =
+        file.name;
+
+
+      $("fileName").textContent =
+        file.name;
+
+
+      preview.image.style.backgroundImage =
+        `url("${state.image}")`;
+
+
+      setDirty(true);
+
+
+      showToast(
+        "Image loaded into the preview.",
+        "success"
+      );
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+  });
+
+
+  /* =======================================================
+     PREVIEW MODE
+  ======================================================= */
+
+  document
+    .querySelectorAll(".mode-button")
+    .forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        document
+          .querySelectorAll(".mode-button")
+          .forEach(item => {
+            item.classList.remove("active");
+          });
+
+        button.classList.add("active");
+
+
+        const mode =
+          button.dataset.mode;
+
+
+        preview.frame.classList.toggle(
+          "mobile",
+          mode === "mobile"
+        );
+
+      });
+
+    });
+
+
+  /* =======================================================
+     DIRTY STATE
+  ======================================================= */
+
+  function setDirty(value){
+
+    dirty = value;
+
+    $("saveText").textContent =
+      value
+        ? "Unsaved changes"
+        : "All changes saved";
+
+
+    $("saveDot").classList.toggle(
+      "unsaved",
+      value
+    );
+
+  }
+
+
+  /* =======================================================
+     SAVE
+  ======================================================= */
+
+  function save(){
+
+    collect();
+
+
+    if(!state.headline){
+
+      showToast(
+        "Please add a headline before saving.",
+        "error"
+      );
+
+      fields.headline.focus();
+
+      return;
+
+    }
+
+
+    try{
+
+      localStorage.setItem(
+        BANNER_KEY,
+        JSON.stringify(state)
+      );
+
+
+      localStorage.setItem(
+        LAST_UPDATED_KEY,
+        new Date().toISOString()
+      );
+
+
+      setDirty(false);
+
+
+      showToast(
+        "Banner changes saved successfully.",
+        "success"
+      );
+
+    }catch(error){
+
+      showToast(
+        "Unable to save. Browser storage may be full.",
+        "error"
+      );
+
+    }
+
+  }
+
+
+  $("saveTopBtn").addEventListener(
+    "click",
+    save
   );
 
 
-  tabs.forEach(function(tab){
-
-    tab.addEventListener("click", function(){
-
-      tabs.forEach(function(item){
-        item.classList.remove("active");
-      });
-
-      tab.classList.add("active");
-
-      currentFilter =
-        tab.dataset.filter || "all";
-
-      filterRows();
-
-    });
-
-  });
+  $("saveBottomBtn").addEventListener(
+    "click",
+    save
+  );
 
 
   /* =======================================================
-     EDIT BUTTONS
-  ======================================================== */
+     RESET
+  ======================================================= */
 
-  document.querySelectorAll(".edit-admin").forEach(function(button){
+  function reset(){
 
-    button.addEventListener("click", function(){
-
-      const row = button.closest("tr");
-
-      if(!row) return;
-
-      const name =
-        row.dataset.name || "";
-
-      const email =
-        row.dataset.email || "";
-
-      const role =
-        row.dataset.role || "client";
-
-      document.getElementById("adminModalTitle").textContent =
-        "Edit Administrator";
-
-      document.querySelector("#adminModal .modal-head p").textContent =
-        "Update administrator access and account details.";
-
-      document.getElementById("adminName").value = name;
-      document.getElementById("adminEmail").value = email;
-      document.getElementById("adminRole").value = role;
-
-      openModal();
-
-    });
-
-  });
-
-
-  /* =======================================================
-     SAVE MODAL
-  ======================================================== */
-
-  saveButton.addEventListener("click", function(){
-
-    const name =
-      document.getElementById("adminName").value.trim();
-
-    const email =
-      document.getElementById("adminEmail").value.trim();
-
-    if(!name || !email){
-
-      if(window.showToast){
-        window.showToast(
-          "Please enter administrator name and email."
-        );
-      }else{
-        alert(
-          "Please enter administrator name and email."
-        );
-      }
-
-      return;
-    }
-
-    closeModal();
-
-    if(window.showToast){
-      window.showToast(
-        "Administrator saved. Backend authentication should handle the real account."
+    const confirmed =
+      window.confirm(
+        "Reset the banner editor to its default content?"
       );
-    }
 
-  });
+
+    if(!confirmed) return;
+
+
+    state = {...DEFAULT_DATA};
+
+    populate();
+
+    $("imageInput").value = "";
+
+    setDirty(true);
+
+
+    showToast(
+      "Draft reset. Save to publish the reset.",
+      "success"
+    );
+
+  }
+
+
+  $("resetBtn").addEventListener(
+    "click",
+    reset
+  );
+
+
+  $("resetBottomBtn").addEventListener(
+    "click",
+    reset
+  );
 
 
   /* =======================================================
-     PERMISSION TOGGLES
-  ======================================================== */
+     SIGN OUT
+  ======================================================= */
 
-  document
-    .querySelectorAll(".permission-toggle input:not(:disabled)")
-    .forEach(function(input){
+  $("signOutBtn").addEventListener(
+    "click",
+    () => {
 
-      input.addEventListener("change", function(){
+      if(dirty){
 
-        if(window.showToast){
-
-          const state =
-            input.checked
-              ? "enabled"
-              : "disabled";
-
-          window.showToast(
-            "Permission " + state + ". Save changes to apply."
+        const leave =
+          window.confirm(
+            "You have unsaved changes. Sign out anyway?"
           );
 
-        }
+        if(!leave) return;
+
+      }
+
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+
+      window.location.href =
+        "./index.html";
+
+    }
+  );
+
+
+  /* =======================================================
+     MOBILE MENU
+  ======================================================= */
+
+  $("mobileMenu").addEventListener(
+    "click",
+    () => {
+
+      document.body.classList.add(
+        "sidebar-open"
+      );
+
+    }
+  );
+
+
+  $("mobileOverlay").addEventListener(
+    "click",
+    () => {
+
+      document.body.classList.remove(
+        "sidebar-open"
+      );
+
+    }
+  );
+
+
+  document
+    .querySelectorAll(".nav-item")
+    .forEach(item => {
+
+      item.addEventListener("click", () => {
+
+        document.body.classList.remove(
+          "sidebar-open"
+        );
 
       });
 
@@ -2040,145 +2814,141 @@
 
 
   /* =======================================================
-     LOCAL MANAGEMENT STATE
-  ======================================================== */
+     KEYBOARD SHORTCUT
+  ======================================================= */
 
-  const STORAGE_KEY =
-    "nusrat_admin_management_v1";
+  document.addEventListener(
+    "keydown",
+    event => {
 
-  function saveManagementState(){
+      if(
+        (event.ctrlKey || event.metaKey) &&
+        event.key.toLowerCase() === "s"
+      ){
 
-    const state = {
-      savedAt: new Date().toISOString(),
-      permissions:
-        Array.from(
-          document.querySelectorAll(
-            ".permission-toggle input:not(:disabled)"
-          )
-        ).map(function(input){
-          return input.checked;
-        })
-    };
+        event.preventDefault();
 
-    try{
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(state)
-      );
-    }catch(error){
-      /* localStorage may be unavailable */
-    }
-
-  }
-
-  document
-    .querySelectorAll(
-      ".permission-toggle input:not(:disabled)"
-    )
-    .forEach(function(input){
-
-      input.addEventListener(
-        "change",
-        saveManagementState
-      );
-
-    });
-
-
-  /* =======================================================
-     UPDATE COUNTS
-  ======================================================== */
-
-  function updateCounts(){
-
-    const rows =
-      Array.from(
-        tableBody.querySelectorAll("tr")
-      );
-
-    const active =
-      rows.filter(function(row){
-        return row.querySelector(
-          ".status-badge.active"
-        );
-      }).length;
-
-    const pending =
-      rows.filter(function(row){
-        return row.querySelector(
-          ".status-badge.pending"
-        );
-      }).length;
-
-    document.getElementById("totalAdmins")
-      .textContent =
-      String(rows.length).padStart(2,"0");
-
-    document.getElementById("activeAdmins")
-      .textContent =
-      String(active).padStart(2,"0");
-
-    document.getElementById("pendingAdmins")
-      .textContent =
-      String(pending).padStart(2,"0");
-
-  }
-
-  updateCounts();
-
-
-  /* =======================================================
-     MOBILE SIDEBAR FALLBACK
-  ======================================================== */
-
-  const menuToggle =
-    document.getElementById("menuToggle");
-
-  const sidebar =
-    document.getElementById("sidebar");
-
-  const overlay =
-    document.getElementById("mobileOverlay");
-
-  function closeMobileMenu(){
-
-    if(sidebar){
-      sidebar.classList.remove("open");
-    }
-
-    if(overlay){
-      overlay.classList.remove("show");
-    }
-
-  }
-
-  if(menuToggle){
-
-    menuToggle.addEventListener(
-      "click",
-      function(){
-
-        if(sidebar){
-          sidebar.classList.toggle("open");
-        }
-
-        if(overlay){
-          overlay.classList.toggle("show");
-        }
+        save();
 
       }
-    );
+
+
+      if(
+        event.key === "Escape" &&
+        document.body.classList.contains(
+          "sidebar-open"
+        )
+      ){
+
+        document.body.classList.remove(
+          "sidebar-open"
+        );
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     UNSAVED WARNING
+  ======================================================= */
+
+  window.addEventListener(
+    "beforeunload",
+    event => {
+
+      if(!dirty) return;
+
+      event.preventDefault();
+
+      event.returnValue = "";
+
+    }
+  );
+
+
+  /* =======================================================
+     TOAST
+  ======================================================= */
+
+  let toastTimer;
+
+
+  function showToast(
+    message,
+    type = "success"
+  ){
+
+    const toast = $("toast");
+
+    toast.textContent =
+      message;
+
+    toast.className =
+      `toast ${type} show`;
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+      setTimeout(() => {
+
+        toast.classList.remove("show");
+
+      }, 3000);
 
   }
 
-  if(overlay){
 
-    overlay.addEventListener(
-      "click",
-      closeMobileMenu
-    );
+  /* =======================================================
+     SESSION EXPIRY CHECK
+  ======================================================= */
 
-  }
+  setInterval(() => {
+
+    try{
+
+      const raw =
+        localStorage.getItem(SESSION_KEY);
+
+      if(!raw) return;
+
+      const session =
+        JSON.parse(raw);
+
+      if(
+        session.expiresAt &&
+        Date.now() > Number(session.expiresAt)
+      ){
+
+        localStorage.removeItem(
+          SESSION_KEY
+        );
+
+        window.location.href =
+          "./index.html";
+
+      }
+
+    }catch(error){
+
+      /* ignore */
+
+    }
+
+  }, 30000);
+
+
+  /* =======================================================
+     INITIALIZE
+  ======================================================= */
+
+  populate();
+
+  setDirty(false);
+
 
 })();
 </script>
