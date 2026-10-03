@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Newsletter — Nusrat Admin</title>
+
+  <meta
+    name="description"
+    content="Manage newsletter subscribers and newsletter settings."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="./admin.css">
+
+  <style>
+    /* =====================================================
+       NEWSLETTER PAGE
+    ====================================================== */
+
+    .newsletter-hero {
+      display: grid;
+      grid-template-columns: 1.3fr .7fr;
+      gap: 18px;
+    }
+
+    .newsletter-intro {
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+      padding: 34px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        radial-gradient(
+          circle at 80% 10%,
+          rgba(216,179,106,.12),
+          transparent 38%
+        ),
+        var(--panel);
+    }
+
+    .newsletter-intro::after {
+      content: "✉";
+      position: absolute;
+      right: 30px;
+      bottom: -30px;
+      color: rgba(216,179,106,.06);
+      font-family: Georgia, serif;
+      font-size: 180px;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .newsletter-intro h2 {
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      margin: 12px 0 0;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: .98;
+      letter-spacing: -.045em;
+    }
+
+    .newsletter-intro p {
+      position: relative;
+      z-index: 1;
+      max-width: 540px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 13px;
+    }
+
+    .subscriber-stat {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 250px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+    }
+
+    .subscriber-stat-label {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .subscriber-stat-number {
+      margin-top: 20px;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 64px;
+      line-height: .9;
+      letter-spacing: -.06em;
+    }
+
+    .subscriber-stat-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .growth {
+      color: #83b88b;
+    }
+
+    .newsletter-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+    }
+
+    .search-box {
+      position: relative;
+      flex: 1;
+      min-width: 230px;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px 0 42px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      outline: none;
+      color: var(--text);
+      background: var(--white-soft);
+      font-family: inherit;
+      font-size: 12px;
+    }
+
+    .search-box span {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .filter-select {
+      height: 44px;
+      min-width: 140px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      outline: none;
+      color: var(--text);
+      background: var(--white-soft);
+      font-family: inherit;
+      font-size: 12px;
+    }
+
+    .table-shell {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+    }
+
+    .subscriber-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .subscriber-table th {
+      padding: 15px 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-align: left;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .subscriber-table td {
+      padding: 17px 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      vertical-align: middle;
+    }
+
+    .subscriber-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .subscriber-table tbody tr {
+      transition: background .2s ease;
+    }
+
+    .subscriber-table tbody tr:hover {
+      background: var(--white-soft);
+    }
+
+    .subscriber-email {
+      font-weight: 600;
+    }
+
+    .subscriber-name {
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: 11px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: var(--white-soft);
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .status-badge.active {
+      color: #83b88b;
+      border-color: rgba(131,184,139,.22);
+    }
+
+    .status-badge.unsubscribed {
+      color: #c98585;
+      border-color: rgba(201,133,133,.22);
+    }
+
+    .subscriber-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .table-action {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: var(--muted);
+      background: var(--white-soft);
+      cursor: pointer;
+    }
+
+    .table-action:hover {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .bulk-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 15px;
+      border: 1px solid var(--accent);
+      border-radius: 14px;
+      background: var(--accent-soft);
+    }
+
+    .bulk-bar.show {
+      display: flex;
+    }
+
+    .bulk-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .bulk-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .small-button {
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      color: var(--text);
+      background: var(--panel);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .small-button:hover {
+      border-color: var(--accent);
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .toggle-row:last-child {
+      border-bottom: 0;
+    }
+
+    .toggle-copy strong {
+      display: block;
+      font-size: 13px;
+    }
+
+    .toggle-copy span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .switch {
+      position: relative;
+      flex: 0 0 auto;
+      width: 44px;
+      height: 24px;
+    }
+
+    .switch input {
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+
+    .switch-track {
+      position: absolute;
+      inset: 0;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--white-soft);
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .switch-track::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: .2s ease;
+    }
+
+    .switch input:checked + .switch-track {
+      border-color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .switch input:checked + .switch-track::after {
+      left: 23px;
+      background: var(--accent);
+    }
+
+    .empty-results {
+      display: none;
+      padding: 50px 20px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 1000px) {
+      .newsletter-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .table-shell {
+        overflow-x: auto;
+      }
+
+      .subscriber-table {
+        min-width: 760px;
+      }
+
+      .newsletter-toolbar {
+        align-items: stretch;
+      }
+
+      .search-box {
+        width: 100%;
+        flex-basis: 100%;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .newsletter-intro,
+      .subscriber-stat {
+        padding: 24px;
+      }
+
+      .bulk-bar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <!-- =====================================================
+       SIDEBAR
+  ====================================================== -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        NU
+      </div>
+
+      <div class="brand-copy">
+        <strong>Nusrat</strong>
+        <span>Portfolio Admin</span>
+      </div>
+
+    </div>
+
+
+    <div class="sidebar-section">
+
+      <span class="sidebar-label">
+        Workspace
+      </span>
+
+
+      <nav class="side-nav">
+
+        <button class="nav-item" data-page="dashboard">
+          <span class="nav-icon">⌂</span>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-page="homepage">
+          <span class="nav-icon">◉</span>
+          <span>Homepage</span>
+        </button>
+
+        <button class="nav-item" data-page="banner">
+          <span class="nav-icon">▧</span>
+          <span>Banner</span>
+        </button>
+
+        <button class="nav-item" data-page="browser-ui">
+          <span class="nav-icon">▣</span>
+          <span>Browser UI</span>
+        </button>
+
+        <button class="nav-item active" data-page="newsletter">
+          <span class="nav-icon">✉</span>
+          <span>Newsletter</span>
+        </button>
+
+        <button class="nav-item" data-page="admin-management">
+          <span class="nav-icon">◎</span>
+          <span>Admin Management</span>
+        </button>
+
+        <button class="nav-item" data-page="system">
+          <span class="nav-icon">⚙</span>
+          <span>System</span>
+        </button>
+
+      </nav>
+
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+      <a
+        href="../index.html"
+        target="_blank"
+        class="preview-link"
+      >
+        <span>↗</span>
+        View Portfolio
+      </a>
+
+
+      <div class="account-card">
+
+        <div class="avatar">
+          NU
+        </div>
+
+        <div class="account-info">
+          <strong>Nusrat</strong>
+          <span>Content Admin</span>
+        </div>
+
+        <button
+          class="more-button"
+          id="accountMenu"
+          aria-label="Account menu"
+        >
+          •••
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="mobile-brand">
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu"
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+
+        <strong>NUS</strong>
+
+      </div>
+
+
+      <div class="breadcrumb">
+
+        <span>Portfolio</span>
+        <b>/</b>
+        <strong>Newsletter</strong>
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <button
+          class="icon-button"
+          id="themeToggle"
+          aria-label="Toggle theme"
+        >
+          ◐
+        </button>
+
+        <button
+          class="save-button"
+          id="globalSave"
+        >
+          <span>Save Changes</span>
+          <kbd>⌘ S</kbd>
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- ===================================================
+         CONTENT
+    ==================================================== -->
+
+    <div class="content">
+
+      <section class="page active">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <div class="page-heading">
+
+          <div>
+
+            <span class="eyebrow">
+              Audience management
+            </span>
+
+            <h1>
+              Newsletter
+              <em>studio.</em>
+            </h1>
+
+            <p>
+              Manage subscribers and prepare the newsletter
+              system for a connected email provider.
+            </p>
+
+          </div>
+
+
+          <button
+            class="primary-button"
+            id="exportButton"
+            type="button"
+          >
+            Export subscribers
+            <span>↓</span>
+          </button>
+
+        </div>
+
+
+        <!-- =================================================
+             HERO STATS
+        ================================================== -->
+
+        <div class="newsletter-hero">
+
+
+          <div class="newsletter-intro">
+
+            <span class="eyebrow">
+              Audience
+            </span>
+
+            <h2>
+              Keep people close to the work.
+            </h2>
+
+            <p>
+              Build a permission-based audience for design
+              notes, portfolio updates and future publications.
+            </p>
+
+          </div>
+
+
+          <div class="subscriber-stat">
+
+            <div>
+
+              <span class="subscriber-stat-label">
+                Total subscribers
+              </span>
+
+              <div
+                class="subscriber-stat-number"
+                id="subscriberCount"
+              >
+                128
+              </div>
+
+            </div>
+
+
+            <div class="subscriber-stat-footer">
+
+              <span>
+                Active audience
+              </span>
+
+              <strong class="growth">
+                +8 this month
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             QUICK STATS
+        ================================================== -->
+
+        <div class="stats-grid" style="margin-top:18px;">
+
+          <div class="stat-card">
+
+            <span class="stat-label">
+              Active
+            </span>
+
+            <strong>
+              118
+            </strong>
+
+            <small>
+              92.2% of subscribers
+            </small>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span class="stat-label">
+              Unsubscribed
+            </span>
+
+            <strong>
+              7
+            </strong>
+
+            <small>
+              Audience opt-outs
+            </small>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span class="stat-label">
+              Pending
+            </span>
+
+            <strong>
+              3
+            </strong>
+
+            <small>
+              Confirmation required
+            </small>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <span class="stat-label">
+              This month
+            </span>
+
+            <strong>
+              +8
+            </strong>
+
+            <small>
+              New subscribers
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             SUBSCRIBERS
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              01 / Audience
+            </span>
+
+            <h2>
+              Subscribers
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="newsletter-toolbar">
+
+          <div class="search-box">
+
+            <span>⌕</span>
+
+            <input
+              id="subscriberSearch"
+              type="search"
+              placeholder="Search by name or email..."
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <select
+            class="filter-select"
+            id="statusFilter"
+          >
+
+            <option value="all">
+              All status
+            </option>
+
+            <option value="active">
+              Active
+            </option>
+
+            <option value="pending">
+              Pending
+            </option>
+
+            <option value="unsubscribed">
+              Unsubscribed
+            </option>
+
+          </select>
+
+
+          <button
+            class="secondary-button"
+            id="selectAllButton"
+            type="button"
+          >
+            Select all
+          </button>
+
+        </div>
+
+
+        <!-- =================================================
+             BULK BAR
+        ================================================== -->
+
+        <div
+          class="bulk-bar"
+          id="bulkBar"
+          style="margin-top:12px;"
+        >
+
+          <div class="bulk-left">
+
+            <span id="selectedCount">
+              0 selected
+            </span>
+
+          </div>
+
+
+          <div class="bulk-actions">
+
+            <button
+              class="small-button"
+              id="bulkActive"
+              type="button"
+            >
+              Mark active
+            </button>
+
+            <button
+              class="small-button"
+              id="bulkUnsubscribe"
+              type="button"
+            >
+              Unsubscribe
+            </button>
+
+            <button
+              class="small-button"
+              id="bulkExport"
+              type="button"
+            >
+              Export selected
+            </button>
+
+            <button
+              class="small-button"
+              id="clearSelection"
+              type="button"
+            >
+              Clear
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             TABLE
+        ================================================== -->
+
+        <div
+          class="table-shell"
+          style="margin-top:12px;"
+        >
+
+          <table class="subscriber-table">
+
+            <thead>
+
+              <tr>
+
+                <th style="width:40px;">
+                  <input
+                    type="checkbox"
+                    id="masterCheckbox"
+                    aria-label="Select all subscribers"
+                  >
+                </th>
+
+                <th>
+                  Subscriber
+                </th>
+
+                <th>
+                  Status
+                </th>
+
+                <th>
+                  Joined
+                </th>
+
+                <th>
+                  Source
+                </th>
+
+                <th style="text-align:right;">
+                  Actions
+                </th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody id="subscriberTableBody">
+
+
+              <tr
+                data-status="active"
+                data-search="sadia rahman sadia@example.com"
+              >
+
+                <td>
+                  <input
+                    type="checkbox"
+                    class="subscriber-check"
+                  >
+                </td>
+
+                <td>
+
+                  <div class="subscriber-email">
+                    sadia@example.com
+                  </div>
+
+                  <div class="subscriber-name">
+                    Sadia Rahman
+                  </div>
+
+                </td>
+
+                <td>
+                  <span class="status-badge active">
+                    Active
+                  </span>
+                </td>
+
+                <td>
+                  02 Oct 2026
+                </td>
+
+                <td>
+                  Website
+                </td>
+
+                <td>
+
+                  <div class="subscriber-actions">
+
+                    <button
+                      class="table-action"
+                      type="button"
+                      title="View"
+                    >
+                      ↗
+                    </button>
+
+                    <button
+                      class="table-action unsubscribe-action"
+                      type="button"
+                      title="Unsubscribe"
+                    >
+                      ×
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+
+              <tr
+                data-status="active"
+                data-search="arif hossain arif@example.com"
+              >
+
+                <td>
+                  <input
+                    type="checkbox"
+                    class="subscriber-check"
+                  >
+                </td>
+
+                <td>
+
+                  <div class="subscriber-email">
+                    arif@example.com
+                  </div>
+
+                  <div class="subscriber-name">
+                    Arif Hossain
+                  </div>
+
+                </td>
+
+                <td>
+                  <span class="status-badge active">
+                    Active
+                  </span>
+                </td>
+
+                <td>
+                  28 Sep 2026
+                </td>
+
+                <td>
+                  Contact
+                </td>
+
+                <td>
+
+                  <div class="subscriber-actions">
+
+                    <button
+                      class="table-action"
+                      type="button"
+                      title="View"
+                    >
+                      ↗
+                    </button>
+
+                    <button
+                      class="table-action unsubscribe-action"
+                      type="button"
+                      title="Unsubscribe"
+                    >
+                      ×
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+
+              <tr
+                data-status="pending"
+                data-search="mehedi hasan mehedi@example.com"
+              >
+
+                <td>
+                  <input
+                    type="checkbox"
+                    class="subscriber-check"
+                  >
+                </td>
+
+                <td>
+
+                  <div class="subscriber-email">
+                    mehedi@example.com
+                  </div>
+
+                  <div class="subscriber-name">
+                    Mehedi Hasan
+                  </div>
+
+                </td>
+
+                <td>
+                  <span class="status-badge">
+                    Pending
+                  </span>
+                </td>
+
+                <td>
+                  25 Sep 2026
+                </td>
+
+                <td>
+                  Website
+                </td>
+
+                <td>
+
+                  <div class="subscriber-actions">
+
+                    <button
+                      class="table-action"
+                      type="button"
+                      title="View"
+                    >
+                      ↗
+                    </button>
+
+                    <button
+                      class="table-action unsubscribe-action"
+                      type="button"
+                      title="Unsubscribe"
+                    >
+                      ×
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+
+              <tr
+                data-status="active"
+                data-search="farhana islam farhana@example.com"
+              >
+
+                <td>
+                  <input
+                    type="checkbox"
+                    class="subscriber-check"
+                  >
+                </td>
+
+                <td>
+
+                  <div class="subscriber-email">
+                    farhana@example.com
+                  </div>
+
+                  <div class="subscriber-name">
+                    Farhana Islam
+                  </div>
+
+                </td>
+
+                <td>
+                  <span class="status-badge active">
+                    Active
+                  </span>
+                </td>
+
+                <td>
+                  19 Sep 2026
+                </td>
+
+                <td>
+                  Portfolio
+                </td>
+
+                <td>
+
+                  <div class="subscriber-actions">
+
+                    <button
+                      class="table-action"
+                      type="button"
+                      title="View"
+                    >
+                      ↗
+                    </button>
+
+                    <button
+                      class="table-action unsubscribe-action"
+                      type="button"
+                      title="Unsubscribe"
+                    >
+                      ×
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+
+              <tr
+                data-status="unsubscribed"
+                data-search="tanvir ahmed tanvir@example.com"
+              >
+
+                <td>
+                  <input
+                    type="checkbox"
+                    class="subscriber-check"
+                  >
+                </td>
+
+                <td>
+
+                  <div class="subscriber-email">
+                    tanvir@example.com
+                  </div>
+
+                  <div class="subscriber-name">
+                    Tanvir Ahmed
+                  </div>
+
+                </td>
+
+                <td>
+                  <span class="status-badge unsubscribed">
+                    Unsubscribed
+                  </span>
+                </td>
+
+                <td>
+                  11 Sep 2026
+                </td>
+
+                <td>
+                  Website
+                </td>
+
+                <td>
+
+                  <div class="subscriber-actions">
+
+                    <button
+                      class="table-action"
+                      type="button"
+                      title="View"
+                    >
+                      ↗
+                    </button>
+
+                    <button
+                      class="table-action"
+                      type="button"
+                      title="Restore"
+                    >
+                      ↻
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+
+            </tbody>
+
+          </table>
+
+
+          <div
+            class="empty-results"
+            id="emptyResults"
+          >
+            No subscribers match your search.
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             NEWSLETTER SETTINGS
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              02 / Configuration
+            </span>
+
+            <h2>
+              Newsletter settings
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="settings-grid">
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="eyebrow">
+                  Signup
+                </span>
+
+                <h3>
+                  Subscription controls
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <div class="toggle-row">
+
+              <div class="toggle-copy">
+
+                <strong>
+                  Enable newsletter signup
+                </strong>
+
+                <span>
+                  Show the newsletter subscription form
+                  on the public website.
+                </span>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="switch-track"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="toggle-row">
+
+              <div class="toggle-copy">
+
+                <strong>
+                  Double opt-in
+                </strong>
+
+                <span>
+                  Require email confirmation before activation.
+                </span>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="switch-track"></span>
+
+              </label>
+
+            </div>
+
+
+            <div class="toggle-row">
+
+              <div class="toggle-copy">
+
+                <strong>
+                  Consent logging
+                </strong>
+
+                <span>
+                  Store signup timestamp and source.
+                </span>
+
+              </div>
+
+
+              <label class="switch">
+
+                <input
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="switch-track"></span>
+
+              </label>
+
+            </div>
+
+          </div>
+
+
+          <div class="panel">
+
+            <div class="panel-head">
+
+              <div>
+
+                <span class="eyebrow">
+                  Presentation
+                </span>
+
+                <h3>
+                  Signup copy
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <label class="field">
+
+              <span>
+                Form heading
+              </span>
+
+              <input
+                type="text"
+                value="Stay close to the work."
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Form description
+              </span>
+
+              <textarea rows="4">Occasional notes on design, digital experiences and things worth noticing.</textarea>
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Button text
+              </span>
+
+              <input
+                type="text"
+                value="Subscribe"
+              >
+
+            </label>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             EMAIL SETTINGS
+        ================================================== -->
+
+        <div class="section-head" style="margin-top:58px;">
+
+          <div>
+
+            <span class="eyebrow">
+              03 / Email
+            </span>
+
+            <h2>
+              Sender settings
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="editor-grid">
+
+
+            <label class="field">
+
+              <span>
+                Sender name
+              </span>
+
+              <input
+                type="text"
+                value="Nusrat Afsana Usha"
+              >
+
+            </label>
+
+
+            <label class="field">
+
+              <span>
+                Reply-to email
+              </span>
+
+              <input
+                type="email"
+                value="nusrat.afsana1992@gmail.com"
+              >
+
+            </label>
+
+
+          </div>
+
+
+          <div class="status-card" style="margin-top:20px;">
+
+            <div class="status-left">
+
+              <div class="status-dot"></div>
+
+              <div>
+
+                <strong>
+                  Email provider not connected
+                </strong>
+
+                <span>
+                  Connect an approved email service before
+                  sending real campaigns.
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <button
+              class="secondary-button"
+              id="providerButton"
+              type="button"
+            >
+              Configure provider
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================== -->
+
+        <div
+          class="status-card"
+          style="margin-top:58px;"
+        >
+
+          <div class="status-left">
+
+            <div class="status-dot"></div>
+
+            <div>
+
+              <strong>
+                Newsletter manager ready
+              </strong>
+
+              <span>
+                Subscriber data can later be connected
+                to Firebase, Supabase or an email provider.
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="status-right">
+
+            <span>
+              Shortcut
+            </span>
+
+            <strong>
+              Ctrl / Cmd + S
+            </strong>
+
+          </div>
+
+        </div>
+
+
+      </section>
+
+    </div>
+
+  </main>
+
+</div>
+
+
+<!-- =======================================================
+     TOAST
+======================================================== -->
+
+<div
+  class="toast"
+  id="toast"
+  role="status"
+  aria-live="polite"
+>
+  <span>✓</span>
+
+  <strong>
+    Changes saved
+  </strong>
+</div>
+
+
+<div
+  class="mobile-overlay"
+  id="mobileOverlay"
+></div>
+
+
+<script src="./admin.js"></script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  const toast =
+    document.getElementById("toast");
+
+  const search =
+    document.getElementById("subscriberSearch");
+
+  const filter =
+    document.getElementById("statusFilter");
+
+  const tableBody =
+    document.getElementById("subscriberTableBody");
+
+  const emptyResults =
+    document.getElementById("emptyResults");
+
+  const masterCheckbox =
+    document.getElementById("masterCheckbox");
+
+  const selectAllButton =
+    document.getElementById("selectAllButton");
+
+  const bulkBar =
+    document.getElementById("bulkBar");
+
+  const selectedCount =
+    document.getElementById("selectedCount");
+
+
+  function showToast(message){
+
+    if(!toast) return;
+
+    const label =
+      toast.querySelector("strong");
+
+    if(label){
+      label.textContent = message;
+    }
+
+    toast.classList.add("show");
+
+    clearTimeout(
+      window.__newsletterToast
+    );
+
+    window.__newsletterToast =
+      setTimeout(() => {
+        toast.classList.remove("show");
+      }, 2200);
+  }
+
+
+  /* =======================================================
+     FILTER
+  ======================================================= */
+
+  function filterSubscribers(){
+
+    const query =
+      search.value
+        .trim()
+        .toLowerCase();
+
+    const status =
+      filter.value;
+
+    const rows =
+      tableBody.querySelectorAll("tr");
+
+    let visible =
+      0;
+
+
+    rows.forEach(row => {
+
+      const rowSearch =
+        row.dataset.search || "";
+
+      const rowStatus =
+        row.dataset.status || "";
+
+      const matchesSearch =
+        !query ||
+        rowSearch.includes(query);
+
+      const matchesStatus =
+        status === "all" ||
+        rowStatus === status;
+
+      const show =
+        matchesSearch &&
+        matchesStatus;
+
+      row.style.display =
+        show ? "" : "none";
+
+      if(show){
+        visible++;
+      }
+
+    });
+
+
+    emptyResults.style.display =
+      visible
+        ? "none"
+        : "block";
+
+
+    updateSelection();
+
+  }
+
+
+  search.addEventListener(
+    "input",
+    filterSubscribers
+  );
+
+  filter.addEventListener(
+    "change",
+    filterSubscribers
+  );
+
+
+  /* =======================================================
+     CHECKBOXES
+  ======================================================= */
+
+  function getVisibleChecks(){
+
+    return [
+      ...tableBody.querySelectorAll(
+        "tr:not([style*='display: none']) .subscriber-check"
+      )
+    ];
+
+  }
+
+
+  function updateSelection(){
+
+    const checks =
+      [
+        ...tableBody.querySelectorAll(
+          ".subscriber-check"
+        )
+      ];
+
+    const selected =
+      checks.filter(
+        checkbox => checkbox.checked
+      );
+
+    selectedCount.textContent =
+      `${selected.length} selected`;
+
+    bulkBar.classList.toggle(
+      "show",
+      selected.length > 0
+    );
+
+    const visible =
+      getVisibleChecks();
+
+    const visibleSelected =
+      visible.filter(
+        checkbox => checkbox.checked
+      );
+
+    masterCheckbox.checked =
+      visible.length > 0 &&
+      visibleSelected.length === visible.length;
+
+  }
+
+
+  tableBody.addEventListener(
+    "change",
+    event => {
+
+      if(
+        event.target.classList.contains(
+          "subscriber-check"
+        )
+      ){
+
+        updateSelection();
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     MASTER CHECKBOX
+  ======================================================= */
+
+  masterCheckbox.addEventListener(
+    "change",
+    () => {
+
+      const visible =
+        getVisibleChecks();
+
+      visible.forEach(
+        checkbox => {
+          checkbox.checked =
+            masterCheckbox.checked;
+        }
+      );
+
+      updateSelection();
+
+    }
+  );
+
+
+  /* =======================================================
+     SELECT ALL
+  ======================================================= */
+
+  selectAllButton.addEventListener(
+    "click",
+    () => {
+
+      const visible =
+        getVisibleChecks();
+
+      const shouldSelect =
+        visible.some(
+          checkbox => !checkbox.checked
+        );
+
+      visible.forEach(
+        checkbox => {
+          checkbox.checked =
+            shouldSelect;
+        }
+      );
+
+      updateSelection();
+
+    }
+  );
+
+
+  /* =======================================================
+     CLEAR
+  ======================================================= */
+
+  document
+    .getElementById("clearSelection")
+    ?.addEventListener(
+      "click",
+      () => {
+
+        tableBody
+          .querySelectorAll(
+            ".subscriber-check"
+          )
+          .forEach(
+            checkbox => {
+              checkbox.checked = false;
+            }
+          );
+
+        updateSelection();
+
+      }
+    );
+
+
+  /* =======================================================
+     BULK ACTIVE
+  ======================================================= */
+
+  document
+    .getElementById("bulkActive")
+    ?.addEventListener(
+      "click",
+      () => {
+
+        const selected =
+          tableBody.querySelectorAll(
+            ".subscriber-check:checked"
+          );
+
+        selected.forEach(
+          checkbox => {
+
+            const row =
+              checkbox.closest("tr");
+
+            row.dataset.status =
+              "active";
+
+            const badge =
+              row.querySelector(
+                ".status-badge"
+              );
+
+            if(badge){
+
+              badge.textContent =
+                "Active";
+
+              badge.className =
+                "status-badge active";
+
+            }
+
+          }
+        );
+
+        showToast(
+          `${selected.length} subscriber(s) marked active`
+        );
+
+        updateSelection();
+
+      }
+    );
+
+
+  /* =======================================================
+     BULK UNSUBSCRIBE
+  ======================================================= */
+
+  document
+    .getElementById("bulkUnsubscribe")
+    ?.addEventListener(
+      "click",
+      () => {
+
+        const selected =
+          tableBody.querySelectorAll(
+            ".subscriber-check:checked"
+          );
+
+        selected.forEach(
+          checkbox => {
+
+            const row =
+              checkbox.closest("tr");
+
+            row.dataset.status =
+              "unsubscribed";
+
+            const badge =
+              row.querySelector(
+                ".status-badge"
+              );
+
+            if(badge){
+
+              badge.textContent =
+                "Unsubscribed";
+
+              badge.className =
+                "status-badge unsubscribed";
+
+            }
+
+          }
+        );
+
+        showToast(
+          `${selected.length} subscriber(s) unsubscribed`
+        );
+
+        updateSelection();
+
+      }
+    );
+
+
+  /* =======================================================
+     EXPORT
+  ======================================================= */
+
+  function downloadCSV(rows){
+
+    if(!rows.length){
+
+      showToast(
+        "No subscribers selected"
+      );
+
+      return;
+
+    }
+
+
+    const data = [
+      [
+        "Name",
+        "Email",
+        "Status",
+        "Joined",
+        "Source"
+      ]
+    ];
+
+
+    rows.forEach(row => {
+
+      const cells =
+        row.querySelectorAll("td");
+
+      const name =
+        row.querySelector(
+          ".subscriber-name"
+        )?.textContent.trim() || "";
+
+      const email =
+        row.querySelector(
+          ".subscriber-email"
+        )?.textContent.trim() || "";
+
+      const status =
+        row.querySelector(
+          ".status-badge"
+        )?.textContent.trim() || "";
+
+      const joined =
+        cells[3]?.textContent.trim() || "";
+
+      const source =
+        cells[4]?.textContent.trim() || "";
+
+
+      data.push([
+        name,
+        email,
+        status,
+        joined,
+        source
+      ]);
+
+    });
+
+
+    const csv =
+      data
+        .map(row =>
+          row
+            .map(value =>
+              `"${String(value)
+                .replace(/"/g, '""')}"`
+            )
+            .join(",")
+        )
+        .join("\n");
+
+
+    const blob =
+      new Blob(
+        [csv],
+        {
+          type: "text/csv;charset=utf-8;"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      "nusrat-newsletter-subscribers.csv";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+
+    showToast(
+      "Subscriber CSV exported"
+    );
+
+  }
+
+
+  document
+    .getElementById("exportButton")
+    ?.addEventListener(
+      "click",
+      () => {
+
+        const rows =
+          [
+            ...tableBody.querySelectorAll(
+              "tr"
+            )
+          ];
+
+        downloadCSV(rows);
+
+      }
+    );
+
+
+  document
+    .getElementById("bulkExport")
+    ?.addEventListener(
+      "click",
+      () => {
+
+        const rows =
+          [
+            ...tableBody.querySelectorAll(
+              "tr"
+            )
+          ].filter(row => {
+
+            return row.querySelector(
+              ".subscriber-check"
+            )?.checked;
+
+          });
+
+        downloadCSV(rows);
+
+      }
+    );
+
+
+  /* =======================================================
+     INDIVIDUAL UNSUBSCRIBE
+  ======================================================= */
+
+  tableBody.addEventListener(
+    "click",
+    event => {
+
+      const button =
+        event.target.closest(
+          ".unsubscribe-action"
+        );
+
+      if(!button) return;
+
+      const row =
+        button.closest("tr");
+
+      if(!row) return;
+
+      row.dataset.status =
+        "unsubscribed";
+
+      const badge =
+        row.querySelector(
+          ".status-badge"
+        );
+
+      if(badge){
+
+        badge.textContent =
+          "Unsubscribed";
+
+        badge.className =
+          "status-badge unsubscribed";
+
+      }
+
+      showToast(
+        "Subscriber unsubscribed"
+      );
+
+    }
+  );
+
+
+  /* =======================================================
+     PROVIDER
+  ======================================================= */
+
+  document
+    .getElementById("providerButton")
+    ?.addEventListener(
+      "click",
+      () => {
+
+        showToast(
+          "Connect an email provider in the backend"
+        );
+
+      }
+    );
+
+
+  /* =======================================================
+     INITIAL STATE
+  ======================================================= */
+
+  updateSelection();
+
+});
+</script>
+
+</body>
+</html>
