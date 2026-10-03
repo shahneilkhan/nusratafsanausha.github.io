@@ -1,1020 +1,919 @@
 /* =========================================================
-NUSRAT AFSANA USHA
-ULTRA PREMIUM PORTFOLIO — FINAL INTERACTION
+   NUSrat Afsana Usha — Premium Portfolio
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
+(() => {
 
-"use strict";
+  "use strict";
 
-/* =======================================================
-ELEMENTS
-======================================================= */
 
-const body = document.body;
-const nav = document.getElementById("site-nav");
-const menuBtn = document.querySelector(".menu-btn");
-const links = document.getElementById("links");
-const year = document.getElementById("year");
+  /* =======================================================
+     HELPERS
+  ======================================================= */
 
-/* =======================================================
-YEAR
-======================================================= */
+  const $ = (selector, scope = document) =>
+    scope.querySelector(selector);
 
-if (year) {
-year.textContent = new Date().getFullYear();
-}
+  const $$ = (selector, scope = document) =>
+    [...scope.querySelectorAll(selector)];
 
-/* =======================================================
-PAGE LOADER
-======================================================= */
 
-const loader = document.createElement("div");
+  /* =======================================================
+     PROJECT DATA
+  ======================================================= */
 
-loader.className = "page-loader";
+  const projects = {
 
-loader.innerHTML =     <div class="loader-inner">
-      <span class="loader-mark">N</span>
-      <div class="loader-line">
-        <span></span>
-      </div>
-      <small>UX / UI DESIGNER</small>
-    </div>
- ;
+    "website-deals": {
+      title: "Website Deals",
+      category: "Marketplace · UX/UI Design",
+      short:
+        "A marketplace experience designed to make discovering and comparing digital products feel simple and intuitive.",
+      role:
+        "UX/UI Designer",
+      tools:
+        "Figma · FigJam · Adobe",
+      timeline:
+        "Selected project",
 
-body.prepend(loader);
+      image:
+        "assets/project-01.jpg",
 
-window.addEventListener("load", () => {
+      galleryOne:
+        "assets/project-01.jpg",
 
-setTimeout(() => {
-  loader.classList.add("loaded");
-  body.classList.add("page-ready");
-}, 250);
+      galleryTwo:
+        "assets/project-01-detail.jpg",
 
-});
+      challenge:
+        "The experience needed to communicate a large amount of information without making users feel overwhelmed. The design challenge was to create a clear hierarchy between products, categories, pricing and supporting information.",
 
-/* =======================================================
-MOBILE MENU
-======================================================= */
+      solution:
+        "I focused on strong information architecture, clear visual hierarchy and reusable interface patterns. Product cards, filters, navigation and supporting sections were designed to guide users naturally through the experience.",
 
-if (menuBtn && links) {
-
-const closeMenu = () => {
-
-  links.classList.remove("open");
-
-  menuBtn.setAttribute(
-    "aria-expanded",
-    "false"
-  );
-
-  menuBtn.setAttribute(
-    "aria-label",
-    "Open navigation"
-  );
-
-  body.classList.remove("menu-open");
-
-};
-
-
-menuBtn.addEventListener("click", () => {
-
-  const open =
-    links.classList.toggle("open");
-
-  menuBtn.setAttribute(
-    "aria-expanded",
-    String(open)
-  );
-
-  menuBtn.setAttribute(
-    "aria-label",
-    open
-      ? "Close navigation"
-      : "Open navigation"
-  );
-
-  body.classList.toggle(
-    "menu-open",
-    open
-  );
-
-});
-
-
-links.querySelectorAll("a").forEach(link => {
-
-  link.addEventListener("click", closeMenu);
-
-});
-
-
-document.addEventListener("keydown", event => {
-
-  if (event.key === "Escape") {
-    closeMenu();
-  }
-
-});
-
-}
-
-/* =======================================================
-NAVBAR SCROLL
-======================================================= */
-
-let lastScroll = 0;
-let ticking = false;
-
-const updateNav = () => {
-
-const currentScroll =
-  window.scrollY;
-
-
-if (nav) {
-
-  nav.classList.toggle(
-    "scrolled",
-    currentScroll > 40
-  );
-
-
-  if (
-    currentScroll > lastScroll &&
-    currentScroll > 300
-  ) {
-
-    nav.classList.add("nav-hidden");
-
-  } else {
-
-    nav.classList.remove("nav-hidden");
-
-  }
-
-}
-
-
-lastScroll = currentScroll;
-ticking = false;
-
-};
-
-window.addEventListener(
-"scroll",
-() => {
-
-  if (!ticking) {
-
-    window.requestAnimationFrame(
-      updateNav
-    );
-
-    ticking = true;
-
-  }
-
-},
-{ passive: true }
-
-);
-
-/* =======================================================
-SCROLL PROGRESS BAR
-======================================================= */
-
-const progress =
-document.createElement("div");
-
-progress.className =
-"scroll-progress";
-
-document.body.appendChild(progress);
-
-const updateProgress = () => {
-
-const scrollTop =
-  window.scrollY;
-
-const documentHeight =
-  document.documentElement.scrollHeight -
-  window.innerHeight;
-
-const percentage =
-  documentHeight > 0
-    ? (scrollTop / documentHeight) * 100
-    : 0;
-
-progress.style.width =
-  `${percentage}%`;
-
-};
-
-window.addEventListener(
-"scroll",
-updateProgress,
-{ passive: true }
-);
-
-updateProgress();
-
-/* =======================================================
-SMOOTH ANCHOR NAVIGATION
-======================================================= */
-
-document.querySelectorAll(
-'a[href^="#"]'
-).forEach(anchor => {
-
-anchor.addEventListener(
-  "click",
-  event => {
-
-    const targetId =
-      anchor.getAttribute("href");
-
-
-    if (
-      !targetId ||
-      targetId === "#"
-    ) {
-      return;
-    }
-
-
-    const target =
-      document.querySelector(
-        targetId
-      );
-
-
-    if (!target) {
-      return;
-    }
-
-
-    event.preventDefault();
-
-
-    const offset =
-      nav
-        ? nav.offsetHeight + 12
-        : 12;
-
-
-    const targetPosition =
-      target.getBoundingClientRect().top +
-      window.scrollY -
-      offset;
-
-
-    window.scrollTo({
-      top: targetPosition,
-      behavior: "smooth"
-    });
-
-  }
-);
-
-});
-
-/* =======================================================
-SCROLL REVEAL
-======================================================= */
-
-const revealSelector = [
-".section",
-".project",
-".expertise-card",
-".timeline-item",
-".education-content",
-".contact-inner",
-".footer"
-].join(",");
-
-const revealElements =
-document.querySelectorAll(
-revealSelector
-);
-
-revealElements.forEach(
-(element, index) => {
-
-  element.classList.add("reveal");
-
-  const delay =
-    (index % 5) * 80;
-
-  element.style.setProperty(
-    "--reveal-delay",
-    `${delay}ms`
-  );
-
-}
-
-);
-
-if (
-"IntersectionObserver"
-in window
-) {
-
-const revealObserver =
-  new IntersectionObserver(
-    entries => {
-
-      entries.forEach(entry => {
-
-        if (
-          entry.isIntersecting
-        ) {
-
-          entry.target.classList.add(
-            "visible"
-          );
-
-          revealObserver.unobserve(
-            entry.target
-          );
-
-        }
-
-      });
-
+      outcome:
+        "The resulting direction creates a cleaner marketplace experience where users can scan information quickly, understand product differences and move through the interface with less friction."
     },
-    {
-      threshold:.12,
-      rootMargin:
-        "0px 0px -50px 0px"
-    }
-  );
 
 
-revealElements.forEach(
-  element =>
-    revealObserver.observe(element)
-);
+    "client-redesign": {
+      title: "Client Website Redesign",
+      category: "Web Design · Interface",
+      short:
+        "A refined website direction focused on stronger hierarchy, clearer messaging and a more polished digital presence.",
+      role:
+        "UX/UI Designer",
+      tools:
+        "Figma · Prototyping",
+      timeline:
+        "Client project",
 
-} else {
+      image:
+        "assets/project-02.jpg",
 
-revealElements.forEach(
-  element =>
-    element.classList.add("visible")
-);
+      galleryOne:
+        "assets/project-02.jpg",
 
-}
+      galleryTwo:
+        "assets/project-02-detail.jpg",
 
-/* =======================================================
-ACTIVE NAVIGATION
-======================================================= */
+      challenge:
+        "The existing digital experience needed a stronger visual structure and a clearer way to communicate its key information. Content, navigation and page hierarchy all needed to work together more naturally.",
 
-const sections =
-document.querySelectorAll(
-"main section[id]"
-);
+      solution:
+        "The redesign introduced a more intentional layout system, stronger typography, clearer calls to action and a visual language designed around simplicity and confidence.",
 
-const navLinks =
-document.querySelectorAll(
-'.links a[href^="#"]'
-);
-
-if (
-"IntersectionObserver"
-in window
-) {
-
-const activeObserver =
-  new IntersectionObserver(
-    entries => {
-
-      entries.forEach(entry => {
-
-        if (
-          !entry.isIntersecting
-        ) {
-          return;
-        }
-
-
-        const id =
-          entry.target.id;
-
-
-        navLinks.forEach(link => {
-
-          const matches =
-            link.getAttribute(
-              "href"
-            ) === `#${id}`;
-
-
-          link.classList.toggle(
-            "active",
-            matches
-          );
-
-        });
-
-      });
-
+      outcome:
+        "The new direction provides a more coherent experience across the main sections while creating a stronger visual foundation for future content and product growth."
     },
-    {
-      rootMargin:
-        "-35% 0px -55% 0px"
-    }
-  );
 
 
-sections.forEach(section => {
+    "masters-project": {
+      title: "UX Design Master's Project",
+      category: "UX Research · Product Design",
+      short:
+        "A research-led UX project exploring user needs, behaviours and opportunities through structured design thinking.",
+      role:
+        "UX Researcher & Designer",
+      tools:
+        "Figma · FigJam · Research",
+      timeline:
+        "Academic project",
 
-  activeObserver.observe(
-    section
-  );
+      image:
+        "assets/project-03.jpg",
 
-});
+      galleryOne:
+        "assets/project-03.jpg",
 
-}
+      galleryTwo:
+        "assets/project-03-detail.jpg",
 
-/* =======================================================
-HERO IMAGE PARALLAX
-======================================================= */
+      challenge:
+        "The project began with an open-ended problem space that required understanding users before jumping into interface decisions. The key challenge was translating research insights into a practical product direction.",
 
-const heroImage =
-document.querySelector(
-".portrait-frame img"
-);
+      solution:
+        "The process combined research, synthesis, user flows, wireframes and high-fidelity interface exploration. Each design decision was connected back to a specific user need or observed behaviour.",
 
-const desktop =
-window.matchMedia(
-"(min-width: 901px)"
-);
-
-if (
-heroImage &&
-desktop.matches
-) {
-
-window.addEventListener(
-  "scroll",
-  () => {
-
-    const scroll =
-      window.scrollY;
-
-
-    if (
-      scroll <
-      window.innerHeight * 1.15
-    ) {
-
-      const movement =
-        scroll * .025;
-
-
-      heroImage.style.transform =
-        `translateY(${movement}px) scale(1.025)`;
-
+      outcome:
+        "The final concept demonstrates how research can guide interface decisions and create a product experience that is both visually refined and grounded in user needs."
     }
 
-  },
-  { passive:true }
-);
-
-}
-
-/* =======================================================
-PROJECT TILT EFFECT
-======================================================= */
-
-document.querySelectorAll(
-".project-image"
-).forEach(project => {
-
-project.addEventListener(
-  "mousemove",
-  event => {
-
-    if (
-      window.innerWidth < 900
-    ) {
-      return;
-    }
+  };
 
 
-    const rect =
-      project.getBoundingClientRect();
+  /* =======================================================
+     PAGE LOADER
+  ======================================================= */
 
+  const finishLoading = () => {
+    document.body.classList.add("page-ready");
+  };
 
-    const x =
-      event.clientX -
-      rect.left;
-
-
-    const y =
-      event.clientY -
-      rect.top;
-
-
-    const rotateX =
-      ((y / rect.height) - .5) * -3;
-
-
-    const rotateY =
-      ((x / rect.width) - .5) * 3;
-
-
-    project.style.transform =
-      `perspective(1000px)
-       rotateX(${rotateX}deg)
-       rotateY(${rotateY}deg)
-       translateY(-5px)`;
-
-  }
-);
-
-
-project.addEventListener(
-  "mouseleave",
-  () => {
-
-    project.style.transform =
-      "";
-
-  }
-);
-
-});
-
-/* =======================================================
-MAGNETIC BUTTONS
-======================================================= */
-
-document.querySelectorAll(
-".primary-btn, .nav-contact, .contact-email"
-).forEach(element => {
-
-element.addEventListener(
-  "mousemove",
-  event => {
-
-    if (
-      window.innerWidth < 900
-    ) {
-      return;
-    }
-
-
-    const rect =
-      element.getBoundingClientRect();
-
-
-    const x =
-      event.clientX -
-      rect.left -
-      rect.width / 2;
-
-
-    const y =
-      event.clientY -
-      rect.top -
-      rect.height / 2;
-
-
-    element.style.transform =
-      `translate(
-        ${x * .055}px,
-        ${y * .055}px
-      )`;
-
-  }
-);
-
-
-element.addEventListener(
-  "mouseleave",
-  () => {
-
-    element.style.transform =
-      "";
-
-  }
-);
-
-});
-
-/* =======================================================
-IMAGE LOAD
-======================================================= */
-
-document.querySelectorAll("img")
-.forEach(image => {
-
-  if (image.complete) {
-
-    image.classList.add(
-      "loaded"
-    );
-
+  if (document.readyState === "complete") {
+    setTimeout(finishLoading, 250);
   } else {
-
-    image.addEventListener(
-      "load",
-      () => {
-        image.classList.add(
-          "loaded"
-        );
-      },
-      { once:true }
-    );
-
-  }
-
-});
-
-/* =======================================================
-CURSOR GLOW
-======================================================= */
-
-const cursorGlow =
-document.createElement("div");
-
-cursorGlow.className =
-"cursor-glow";
-
-document.body.appendChild(
-cursorGlow
-);
-
-if (
-window.matchMedia(
-"(pointer)"
-).matches
-) {
-
-let mouseX = 0;
-let mouseY = 0;
-
-let glowX = 0;
-let glowY = 0;
-
-
-window.addEventListener(
-  "mousemove",
-  event => {
-
-    mouseX =
-      event.clientX;
-
-    mouseY =
-      event.clientY;
-
-  },
-  { passive:true }
-);
-
-
-const animateGlow = () => {
-
-  glowX +=
-    (mouseX - glowX) * .12;
-
-  glowY +=
-    (mouseY - glowY) * .12;
-
-
-  cursorGlow.style.transform =
-    `translate3d(
-      ${glowX}px,
-      ${glowY}px,
-      0
-    )`;
-
-
-  requestAnimationFrame(
-    animateGlow
-  );
-
-};
-
-
-animateGlow();
-
-} else {
-
-cursorGlow.remove();
-
-}
-
-/* =======================================================
-HOVER CURSOR STATE
-======================================================= */
-
-const interactiveElements =
-document.querySelectorAll(
-"a, button, .project-image"
-);
-
-interactiveElements.forEach(
-element => {
-
-  element.addEventListener(
-    "mouseenter",
-    () => {
-      body.classList.add(
-        "cursor-active"
-      );
-    }
-  );
-
-
-  element.addEventListener(
-    "mouseleave",
-    () => {
-      body.classList.remove(
-        "cursor-active"
-      );
-    }
-  );
-
-}
-
-);
-
-/* =======================================================
-PROJECT MODAL SYSTEM
-
- Future-ready:
- Add data-project to any
- .project element and the
- modal will automatically work.
-
-======================================================= */
-
-const projectData = {
-
-"website-deals": {
-  number:"01",
-  category:"Marketplace",
-  title:"Website Deals",
-  description:
-    "A marketplace and website delivery experience focused on clear communication, practical interfaces and client-friendly project flow."
-},
-
-"client-redesign": {
-  number:"02",
-  category:"Web Design",
-  title:"Client Website Redesign",
-  description:
-    "A structured website redesign developed from client requirements, layout exploration and interactive Figma prototyping."
-},
-
-"masters-project": {
-  number:"03",
-  category:"UX Research",
-  title:"UX Design Master's Project",
-  description:
-    "A UX project involving research, wireframing and usability testing as part of postgraduate design study."
-}
-
-};
-
-const modal =
-document.createElement("div");
-
-modal.className =
-"project-modal";
-
-modal.innerHTML = `
-<div class="modal-backdrop"></div>
-
-<div
-  class="modal-window"
-  role="dialog"
-  aria-modal="true"
-  aria-labelledby="modal-title">
-
-  <button
-    class="modal-close"
-    aria-label="Close project">
-    ×
-  </button>
-
-  <div class="modal-number"></div>
-
-  <div class="modal-category"></div>
-
-  <h2 id="modal-title"></h2>
-
-  <p class="modal-description"></p>
-
-  <div class="modal-footer">
-    <span>Case study</span>
-    <span>Coming soon</span>
-  </div>
-
-</div>
-
-`;
-
-document.body.appendChild(
-modal
-);
-
-const modalWindow =
-modal.querySelector(
-".modal-window"
-);
-
-const modalClose =
-modal.querySelector(
-".modal-close"
-);
-
-const modalBackdrop =
-modal.querySelector(
-".modal-backdrop"
-);
-
-const closeModal = () => {
-
-modal.classList.remove(
-  "open"
-);
-
-body.classList.remove(
-  "modal-open"
-);
-
-};
-
-const openModal = project => {
-
-const data =
-  projectData[project];
-
-
-if (!data) {
-  return;
-}
-
-
-modal.querySelector(
-  ".modal-number"
-).textContent =
-  data.number;
-
-
-modal.querySelector(
-  ".modal-category"
-).textContent =
-  data.category;
-
-
-modal.querySelector(
-  "#modal-title"
-).textContent =
-  data.title;
-
-
-modal.querySelector(
-  ".modal-description"
-).textContent =
-  data.description;
-
-
-modal.classList.add(
-  "open"
-);
-
-body.classList.add(
-  "modal-open"
-);
-
-};
-
-document.querySelectorAll(
-"[data-project]"
-).forEach(project => {
-
-project.addEventListener(
-  "click",
-  event => {
-
-    event.preventDefault();
-
-    openModal(
-      project.dataset.project
-    );
-
-  }
-);
-
-});
-
-modalClose.addEventListener(
-"click",
-closeModal
-);
-
-modalBackdrop.addEventListener(
-"click",
-closeModal
-);
-
-document.addEventListener(
-"keydown",
-event => {
-
-  if (
-    event.key === "Escape" &&
-    modal.classList.contains("open")
-  ) {
-
-    closeModal();
-
-  }
-
-}
-
-);
-
-/* =======================================================
-DOUBLE CLICK / BACK TO TOP
-======================================================= */
-
-document.querySelectorAll(
-'.footer-bottom a[href="#top"]'
-).forEach(link => {
-
-link.addEventListener(
-  "click",
-  event => {
-
-    event.preventDefault();
-
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
+    window.addEventListener("load", () => {
+      setTimeout(finishLoading, 250);
     });
-
   }
-);
 
-});
 
-/* =======================================================
-REDUCED MOTION
-======================================================= */
+  /* =======================================================
+     YEAR
+  ======================================================= */
 
-const reducedMotion =
-window.matchMedia(
-"(prefers-reduced-motion: reduce)"
-);
+  const year = $("#year");
 
-if (reducedMotion.matches) {
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
 
-document.documentElement.classList.add(
-  "reduced-motion"
-);
 
-}
+  /* =======================================================
+     MOBILE MENU
+  ======================================================= */
 
-/* =======================================================
-RESIZE CLEANUP
-======================================================= */
+  const menuBtn = $(".menu-btn");
+  const navLinks = $("#navLinks");
 
-window.addEventListener(
-"resize",
-() => {
+  const closeMenu = () => {
 
-  if (
-    window.innerWidth > 860 &&
-    links
-  ) {
+    if (!menuBtn || !navLinks) return;
 
-    links.classList.remove(
-      "open"
-    );
+    menuBtn.classList.remove("open");
+    navLinks.classList.remove("open");
 
-    body.classList.remove(
-      "menu-open"
-    );
+    menuBtn.setAttribute("aria-expanded", "false");
+    menuBtn.setAttribute("aria-label", "Open menu");
+  };
 
-    if (menuBtn) {
+
+  if (menuBtn && navLinks) {
+
+    menuBtn.addEventListener("click", () => {
+
+      const open = !navLinks.classList.contains("open");
+
+      menuBtn.classList.toggle("open", open);
+      navLinks.classList.toggle("open", open);
 
       menuBtn.setAttribute(
         "aria-expanded",
-        "false"
+        String(open)
+      );
+
+      menuBtn.setAttribute(
+        "aria-label",
+        open ? "Close menu" : "Open menu"
+      );
+
+    });
+
+
+    $$(".nav-links a").forEach(link => {
+
+      link.addEventListener("click", () => {
+        closeMenu();
+      });
+
+    });
+
+
+    document.addEventListener("keydown", event => {
+
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+
+    });
+
+  }
+
+
+  /* =======================================================
+     HEADER SCROLL
+  ======================================================= */
+
+  const header = $(".site-header");
+
+  let lastScroll = window.scrollY;
+
+  const handleScroll = () => {
+
+    const current = window.scrollY;
+
+    if (header) {
+
+      header.classList.toggle(
+        "scrolled",
+        current > 30
+      );
+
+      if (
+        current > 180 &&
+        current > lastScroll &&
+        !navLinks?.classList.contains("open")
+      ) {
+
+        header.classList.add("nav-hidden");
+
+      } else {
+
+        header.classList.remove("nav-hidden");
+
+      }
+
+    }
+
+    lastScroll = current;
+
+  };
+
+
+  window.addEventListener(
+    "scroll",
+    handleScroll,
+    { passive:true }
+  );
+
+
+  handleScroll();
+
+
+  /* =======================================================
+     SCROLL PROGRESS
+  ======================================================= */
+
+  const progress = $(".scroll-progress span");
+
+  const updateProgress = () => {
+
+    if (!progress) return;
+
+    const scrollTop = window.scrollY;
+
+    const height =
+      document.documentElement.scrollHeight -
+      window.innerHeight;
+
+    const percentage =
+      height > 0
+        ? (scrollTop / height) * 100
+        : 0;
+
+    progress.style.width =
+      `${Math.min(100, Math.max(0, percentage))}%`;
+
+  };
+
+
+  window.addEventListener(
+    "scroll",
+    updateProgress,
+    { passive:true }
+  );
+
+
+  updateProgress();
+
+
+  /* =======================================================
+     SMOOTH ANCHORS
+  ======================================================= */
+
+  $$('a[href^="#"]').forEach(link => {
+
+    link.addEventListener("click", event => {
+
+      const targetId =
+        link.getAttribute("href");
+
+      if (
+        !targetId ||
+        targetId === "#"
+      ) {
+        return;
+      }
+
+      const target =
+        document.querySelector(targetId);
+
+      if (!target) return;
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior:
+          window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+          ).matches
+            ? "auto"
+            : "smooth"
+      });
+
+    });
+
+  });
+
+
+  /* =======================================================
+     REVEAL
+  ======================================================= */
+
+  const revealItems = $$(".reveal");
+
+  if (
+    "IntersectionObserver" in window &&
+    revealItems.length
+  ) {
+
+    const revealObserver =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(entry => {
+
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            entry.target.classList.add("visible");
+
+            revealObserver.unobserve(
+              entry.target
+            );
+
+          });
+
+        },
+        {
+          threshold:.12,
+          rootMargin:"0px 0px -40px 0px"
+        }
+      );
+
+
+    revealItems.forEach(item => {
+      revealObserver.observe(item);
+    });
+
+  } else {
+
+    revealItems.forEach(item => {
+      item.classList.add("visible");
+    });
+
+  }
+
+
+  /* =======================================================
+     ACTIVE NAV
+  ======================================================= */
+
+  const navAnchors =
+    $$(".nav-links a[href^='#']");
+
+  const sections =
+    $$("main section[id]");
+
+
+  if (
+    "IntersectionObserver" in window &&
+    sections.length
+  ) {
+
+    const sectionObserver =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(entry => {
+
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            const id =
+              `#${entry.target.id}`;
+
+            navAnchors.forEach(link => {
+
+              link.classList.toggle(
+                "active",
+                link.getAttribute("href") === id
+              );
+
+            });
+
+          });
+
+        },
+        {
+          threshold:.25,
+          rootMargin:"-25% 0px -55% 0px"
+        }
+      );
+
+
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+
+  }
+
+
+  /* =======================================================
+     MAGNETIC BUTTONS
+  ======================================================= */
+
+  const supportsHover =
+    window.matchMedia(
+      "(hover:hover) and (pointer:fine)"
+    ).matches;
+
+
+  if (supportsHover) {
+
+    $$(".magnetic").forEach(element => {
+
+      element.addEventListener("mousemove", event => {
+
+        const rect =
+          element.getBoundingClientRect();
+
+        const x =
+          event.clientX -
+          rect.left -
+          rect.width / 2;
+
+        const y =
+          event.clientY -
+          rect.top -
+          rect.height / 2;
+
+        element.style.transform =
+          `translate(${x * .13}px, ${y * .13}px)`;
+
+      });
+
+
+      element.addEventListener("mouseleave", () => {
+
+        element.style.transform = "";
+
+      });
+
+    });
+
+  }
+
+
+  /* =======================================================
+     HERO PARALLAX
+  ======================================================= */
+
+  const heroImage =
+    $(".hero-frame img");
+
+
+  if (
+    supportsHover &&
+    heroImage
+  ) {
+
+    const heroVisual =
+      $(".hero-visual");
+
+
+    heroVisual?.addEventListener(
+      "mousemove",
+      event => {
+
+        const rect =
+          heroVisual.getBoundingClientRect();
+
+        const x =
+          (event.clientX - rect.left) /
+          rect.width - .5;
+
+        const y =
+          (event.clientY - rect.top) /
+          rect.height - .5;
+
+        heroImage.style.transform =
+          `scale(1.035) translate(${x * 7}px, ${y * 7}px)`;
+
+      }
+    );
+
+
+    heroVisual?.addEventListener(
+      "mouseleave",
+      () => {
+
+        heroImage.style.transform =
+          "";
+
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     PROJECT IMAGE INTERACTION
+  ======================================================= */
+
+  if (supportsHover) {
+
+    $$(".project-image").forEach(card => {
+
+      card.addEventListener(
+        "mousemove",
+        event => {
+
+          const rect =
+            card.getBoundingClientRect();
+
+          const x =
+            event.clientX - rect.left;
+
+          const y =
+            event.clientY - rect.top;
+
+          const rotateY =
+            ((x / rect.width) - .5) * 2;
+
+          const rotateX =
+            ((y / rect.height) - .5) * -2;
+
+          card.style.transform =
+            `perspective(900px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)`;
+
+        }
+      );
+
+
+      card.addEventListener(
+        "mouseleave",
+        () => {
+
+          card.style.transform = "";
+
+        }
+      );
+
+    });
+
+  }
+
+
+  /* =======================================================
+     CURSOR GLOW
+  ======================================================= */
+
+  const cursor =
+    $(".cursor-glow");
+
+
+  if (
+    supportsHover &&
+    cursor
+  ) {
+
+    let cursorX = 0;
+    let cursorY = 0;
+
+    let targetX = 0;
+    let targetY = 0;
+
+
+    document.addEventListener(
+      "mousemove",
+      event => {
+
+        targetX = event.clientX;
+        targetY = event.clientY;
+
+        document.body.classList.add(
+          "cursor-active"
+        );
+
+      }
+    );
+
+
+    const animateCursor = () => {
+
+      cursorX +=
+        (targetX - cursorX) * .12;
+
+      cursorY +=
+        (targetY - cursorY) * .12;
+
+      cursor.style.left =
+        `${cursorX}px`;
+
+      cursor.style.top =
+        `${cursorY}px`;
+
+      requestAnimationFrame(
+        animateCursor
+      );
+
+    };
+
+
+    animateCursor();
+
+
+    document.addEventListener(
+      "mouseleave",
+      () => {
+        document.body.classList.remove(
+          "cursor-active"
+        );
+      }
+    );
+
+  }
+
+
+  /* =======================================================
+     IMAGE LOADING
+  ======================================================= */
+
+  $$("img").forEach(image => {
+
+    if (image.complete) {
+
+      image.classList.add("loaded");
+
+    } else {
+
+      image.addEventListener(
+        "load",
+        () => {
+          image.classList.add("loaded");
+        },
+        { once:true }
       );
 
     }
 
-  }
+  });
 
-}
 
-);
+  /* =======================================================
+     CASE STUDY MODAL
+  ======================================================= */
 
-});
+  const modal =
+    $("#caseModal");
+
+  const caseImage =
+    $("#caseImage");
+
+  const caseTitle =
+    $("#caseTitle");
+
+  const caseCategory =
+    $("#caseCategory");
+
+  const caseShort =
+    $("#caseShort");
+
+  const caseRole =
+    $("#caseRole");
+
+  const caseTools =
+    $("#caseTools");
+
+  const caseTimeline =
+    $("#caseTimeline");
+
+  const caseChallenge =
+    $("#caseChallenge");
+
+  const caseSolution =
+    $("#caseSolution");
+
+  const caseOutcome =
+    $("#caseOutcome");
+
+  const caseGalleryOne =
+    $("#caseGalleryOne");
+
+  const caseGalleryTwo =
+    $("#caseGalleryTwo");
+
+
+  const closeModal = () => {
+
+    if (!modal) return;
+
+    modal.classList.remove("open");
+    modal.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+    document.body.classList.remove(
+      "modal-open"
+    );
+
+  };
+
+
+  const openModal = key => {
+
+    const data = projects[key];
+
+    if (!data || !modal) return;
+
+
+    caseImage.src = data.image;
+    caseImage.alt = data.title;
+
+    caseGalleryOne.src =
+      data.galleryOne;
+
+    caseGalleryTwo.src =
+      data.galleryTwo;
+
+    caseGalleryOne.alt =
+      `${data.title} project detail`;
+
+    caseGalleryTwo.alt =
+      `${data.title} interface detail`;
+
+    caseTitle.textContent =
+      data.title;
+
+    caseCategory.textContent =
+      data.category;
+
+    caseShort.textContent =
+      data.short;
+
+    caseRole.textContent =
+      data.role;
+
+    caseTools.textContent =
+      data.tools;
+
+    caseTimeline.textContent =
+      data.timeline;
+
+    caseChallenge.textContent =
+      data.challenge;
+
+    caseSolution.textContent =
+      data.solution;
+
+    caseOutcome.textContent =
+      data.outcome;
+
+
+    modal.classList.add("open");
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.classList.add(
+      "modal-open"
+    );
+
+
+    const dialog =
+      $(".case-dialog", modal);
+
+    if (dialog) {
+      dialog.scrollTop = 0;
+    }
+
+
+    const closeButton =
+      $(".case-close", modal);
+
+    setTimeout(() => {
+      closeButton?.focus();
+    }, 300);
+
+  };
+
+
+  $$("[data-project]").forEach(trigger => {
+
+    trigger.addEventListener(
+      "click",
+      () => {
+
+        const key =
+          trigger.dataset.project;
+
+        openModal(key);
+
+      }
+    );
+
+  });
+
+
+  $$("[data-close-modal]").forEach(element => {
+
+    element.addEventListener(
+      "click",
+      closeModal
+    );
+
+  });
+
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Escape" &&
+        modal?.classList.contains("open")
+      ) {
+
+        closeModal();
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     PREVENT EMPTY SOCIAL LINKS
+  ======================================================= */
+
+  $$(
+    '.contact-links a[href="#"]'
+  ).forEach(link => {
+
+    link.addEventListener(
+      "click",
+      event => {
+        event.preventDefault();
+      }
+    );
+
+  });
+
+
+  /* =======================================================
+     RESIZE
+  ======================================================= */
+
+  let resizeTimer;
+
+  window.addEventListener(
+    "resize",
+    () => {
+
+      clearTimeout(resizeTimer);
+
+      resizeTimer =
+        setTimeout(() => {
+
+          if (
+            window.innerWidth > 800
+          ) {
+            closeMenu();
+          }
+
+        }, 150);
+
+    }
+  );
+
+
+})();
