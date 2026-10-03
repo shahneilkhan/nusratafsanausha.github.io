@@ -1,106 +1,638 @@
-(() => {
-  'use strict';
-  const $ = (s, c = document) => c.querySelector(s);
-  const $$ = (s, c = document) => [...c.querySelectorAll(s)];
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.addEventListener("DOMContentLoaded", () => {
 
-  const projects = {
-    'website-deals': {
-      title: 'Website Deals', category: 'Marketplace and client websites',
-      role: 'UI Designer & Partner', tools: 'Figma', status: 'Full case study coming soon',
-      image: 'assets/project-01.jpg',
-      about: 'As a partner at Website Deals, I design website layouts, UI screens and interactive prototypes in Figma for clients. I also co-manage the marketplace, project delivery and client communication.'
-    },
-    'client-website': {
-      title: 'Client website design', category: 'Web design and prototyping',
-      role: 'UI Designer', tools: 'Figma', status: 'Full case study coming soon',
-      image: 'assets/project-02.jpg',
-      about: 'I work directly with clients to understand what they need, then turn it into clear, user-friendly layouts and clickable prototypes they can review before development.'
-    },
-    'masters': {
-      title: 'MA UX Design projects', category: 'User research and usability testing',
-      role: 'Student', tools: 'Figma', status: 'Projects added as the course progresses',
-      image: 'assets/project-03.jpg',
-      about: 'I am studying for a Master\'s degree in UX Design at the London School of Design and Marketing (2026 to 2027). Research, wireframing and usability testing projects will appear here.'
-    }
-  };
+const body = document.body;
+const header = document.querySelector(".site-header");
+const menuBtn = document.querySelector(".menu-btn");
+const navLinks = document.querySelector(".nav-links");
+const progress = document.querySelector(".scroll-progress span");
+const loader = document.querySelector(".page-loader");
+const year = document.getElementById("year");
 
-  /* Loader */
-  const ready = () => setTimeout(() => document.body.classList.add('page-ready'), 250);
-  document.readyState === 'complete' ? ready() : addEventListener('load', ready);
+/* =========================
+YEAR
+========================= */
 
-  $('#year').textContent = new Date().getFullYear();
+if (year) {
+year.textContent = new Date().getFullYear();
+}
 
-  /* Missing images: keep the soft colour block instead of a broken icon */
-  $$('img').forEach(img => {
-    const hide = () => { img.style.display = 'none'; };
-    if (img.complete && img.naturalWidth === 0 && img.getAttribute('src')) hide();
-    img.addEventListener('error', hide);
-  });
+/* =========================
+PAGE LOADER
+========================= */
 
-  /* Mobile menu */
-  const btn = $('.menu-btn'), nav = $('#navLinks');
-  const setMenu = open => {
-    btn.classList.toggle('open', open); nav.classList.toggle('open', open);
-    btn.setAttribute('aria-expanded', String(open));
-    btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  };
-  btn.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
-  $$('.nav-links a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+window.addEventListener("load", () => {
 
-  /* Header and progress */
-  const header = $('.site-header'), bar = $('.scroll-progress span');
-  let last = scrollY;
-  const onScroll = () => {
-    const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
-    header.classList.toggle('scrolled', y > 30);
-    header.classList.toggle('nav-hidden', y > 180 && y > last && !nav.classList.contains('open'));
-    bar.style.width = (max > 0 ? Math.min(100, y / max * 100) : 0) + '%';
-    last = y;
-  };
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+setTimeout(() => {
+  loader?.classList.add("is-hidden");
+}, 500);
 
-  /* Reveal */
-  const items = $$('.reveal');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
-    }), { threshold: .12, rootMargin: '0px 0px -40px 0px' });
-    items.forEach(i => io.observe(i));
-  } else items.forEach(i => i.classList.add('visible'));
+});
 
-  /* Active nav link */
-  const links = $$('.nav-links a[href^="#"]');
-  if ('IntersectionObserver' in window) {
-    const so = new IntersectionObserver(es => es.forEach(e => {
-      if (e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
-    }), { rootMargin: '-25% 0px -55% 0px' });
-    $$('main section[id]').forEach(s => so.observe(s));
+/* =========================
+MOBILE MENU
+========================= */
+
+const closeMenu = () => {
+
+navLinks?.classList.remove("open");
+
+menuBtn?.setAttribute(
+  "aria-expanded",
+  "false"
+);
+
+menuBtn?.setAttribute(
+  "aria-label",
+  "Open menu"
+);
+
+};
+
+menuBtn?.addEventListener("click", () => {
+
+const open =
+  navLinks?.classList.toggle("open");
+
+menuBtn.setAttribute(
+  "aria-expanded",
+  String(open)
+);
+
+menuBtn.setAttribute(
+  "aria-label",
+  open ? "Close menu" : "Open menu"
+);
+
+});
+
+navLinks?.querySelectorAll("a").forEach(link => {
+
+link.addEventListener("click", () => {
+  closeMenu();
+});
+
+});
+
+document.addEventListener("keydown", event => {
+
+if (event.key === "Escape") {
+  closeMenu();
+  closeModal();
+}
+
+});
+
+/* =========================
+HEADER SHOW / HIDE
+========================= */
+
+let lastScroll = window.scrollY;
+
+window.addEventListener(
+"scroll",
+() => {
+
+  const current = window.scrollY;
+
+  if (current > 30) {
+    header?.classList.add("scrolled");
+  } else {
+    header?.classList.remove("scrolled");
   }
 
-  /* Case modal */
-  const modal = $('#caseModal'), dialog = $('.case-dialog'), img = $('#caseImage');
-  let opener = null;
-  const open = (key, trigger) => {
-    const d = projects[key]; if (!d) return;
-    opener = trigger;
-    img.style.display = ''; img.src = d.image; img.alt = '';
-    $('#caseTitle').textContent = d.title; $('#caseCategory').textContent = d.category;
-    $('#caseRole').textContent = d.role; $('#caseTools').textContent = d.tools;
-    $('#caseStatus').textContent = d.status; $('#caseAbout').textContent = d.about;
-    modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('modal-open'); dialog.scrollTop = 0;
-    setTimeout(() => $('.case-close').focus(), 300);
-  };
-  const close = () => {
-    modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('modal-open'); opener && opener.focus();
-  };
-  $$('[data-project]').forEach(t => t.addEventListener('click', () => open(t.dataset.project, t)));
-  $$('[data-close]').forEach(t => t.addEventListener('click', close));
-  addEventListener('keydown', e => {
-    if (e.key !== 'Escape') return;
-    if (modal.classList.contains('open')) close(); else setMenu(false);
+  if (current > lastScroll && current > 180) {
+    header?.classList.add("hidden");
+  } else {
+    header?.classList.remove("hidden");
+  }
+
+  lastScroll = current;
+
+},
+{ passive:true }
+
+);
+
+/* =========================
+SCROLL PROGRESS
+========================= */
+
+const updateProgress = () => {
+
+if (!progress) return;
+
+const scrollTop =
+  window.scrollY;
+
+const scrollHeight =
+  document.documentElement.scrollHeight -
+  window.innerHeight;
+
+const percentage =
+  scrollHeight > 0
+    ? (scrollTop / scrollHeight) * 100
+    : 0;
+
+progress.style.width =
+  `${percentage}%`;
+
+};
+
+window.addEventListener(
+"scroll",
+updateProgress,
+{ passive }
+);
+
+updateProgress();
+
+/* =========================
+SMOOTH ANCHORS
+========================= */
+
+document
+.querySelectorAll('a[href^="#"]')
+.forEach(link => {
+
+  link.addEventListener("click", event => {
+
+    const id =
+      link.getAttribute("href");
+
+    if (!id || id === "#") return;
+
+    const target =
+      document.querySelector(id);
+
+    if (!target) return;
+
+    event.preventDefault();
+
+    target.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+
   });
-  addEventListener('resize', () => { if (innerWidth > 800) setMenu(false); });
-})();
+
+});
+
+/* =========================
+REVEAL
+========================= */
+
+const revealItems =
+document.querySelectorAll(".reveal");
+
+const revealObserver =
+new IntersectionObserver(
+entries => {
+
+    entries.forEach(entry => {
+
+      if (
+        entry.isIntersecting
+      ) {
+
+        entry.target.classList.add(
+          "visible"
+        );
+
+        revealObserver.unobserve(
+          entry.target
+        );
+
+      }
+
+    });
+
+  },
+  {
+    threshold:.12,
+    rootMargin:"0px 0px -50px"
+  }
+);
+
+revealItems.forEach(item => {
+revealObserver.observe(item);
+});
+
+/* =========================
+HERO PARALLAX
+========================= */
+
+const heroImage =
+document.querySelector(".hero-frame img");
+
+if (
+heroImage &&
+!window.matchMedia(
+"(prefers-reduced-motion: reduce)"
+).matches
+) {
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    const y =
+      Math.min(window.scrollY * .08, 35);
+
+    heroImage.style.transform =
+      `scale(1.02) translateY(${y}px)`;
+
+  },
+  { passive:true }
+);
+
+}
+
+/* =========================
+PROJECT TILT
+========================= */
+
+const projects =
+document.querySelectorAll(".project-image");
+
+if (
+window.matchMedia("(pointer)").matches &&
+!window.matchMedia(
+"(prefers-reduced-motion: reduce)"
+).matches
+) {
+
+projects.forEach(card => {
+
+  card.addEventListener(
+    "mousemove",
+    event => {
+
+      const rect =
+        card.getBoundingClientRect();
+
+      const x =
+        event.clientX - rect.left;
+
+      const y =
+        event.clientY - rect.top;
+
+      const rotateX =
+        ((y / rect.height) - .5) * -3;
+
+      const rotateY =
+        ((x / rect.width) - .5) * 3;
+
+      card.style.transform =
+        `perspective(900px)
+         rotateX(${rotateX}deg)
+         rotateY(${rotateY}deg)
+         scale(1.005)`;
+
+    }
+  );
+
+  card.addEventListener(
+    "mouseleave",
+    () => {
+
+      card.style.transform =
+        "";
+
+    }
+  );
+
+});
+
+}
+
+/* =========================
+CURSOR
+========================= */
+
+if (
+window.matchMedia("(pointer)").matches
+) {
+
+const cursor =
+  document.createElement("div");
+
+cursor.className =
+  "cursor-glow";
+
+document.body.appendChild(cursor);
+
+let mouseX = 0;
+let mouseY = 0;
+let currentX = 0;
+let currentY = 0;
+
+document.addEventListener(
+  "mousemove",
+  event => {
+
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+
+  }
+);
+
+const cursorLoop = () => {
+
+  currentX +=
+    (mouseX - currentX) * .16;
+
+  currentY +=
+    (mouseY - currentY) * .16;
+
+  cursor.style.left =
+    `${currentX}px`;
+
+  cursor.style.top =
+    `${currentY}px`;
+
+  requestAnimationFrame(
+    cursorLoop
+  );
+
+};
+
+cursorLoop();
+
+
+document
+  .querySelectorAll(
+    "a,button,.project-image"
+  )
+  .forEach(element => {
+
+    element.addEventListener(
+      "mouseenter",
+      () => {
+        cursor.classList.add("active");
+      }
+    );
+
+    element.addEventListener(
+      "mouseleave",
+      () => {
+        cursor.classList.remove("active");
+      }
+    );
+
+  });
+
+}
+
+/* =========================
+CASE STUDY DATA
+========================= */
+
+const projectsData = {
+
+"website-deals": {
+
+  title:"Website Deals",
+
+  category:"Marketplace / UX/UI",
+
+  image:"project-01.jpg",
+
+  role:"UI Designer & Partner",
+
+  tools:"Figma",
+
+  status:"Client / Marketplace",
+
+  about:
+    "A marketplace and website-design workflow focused on presenting services clearly, helping clients understand available options, and creating a smoother path from requirement to final website."
+
+},
+
+
+"client-website": {
+
+  title:"Client Website Design",
+
+  category:"Web Design / UI",
+
+  image:"project-02.jpg",
+
+  role:"UX/UI Designer",
+
+  tools:"Figma",
+
+  status:"Client Project",
+
+  about:
+    "A client-focused website design process covering information structure, visual hierarchy, responsive layouts and interactive Figma prototypes before development."
+
+},
+
+
+"masters": {
+
+  title:"MA UX Design Projects",
+
+  category:"UX Research / Academic",
+
+  image:"project-03.jpg",
+
+  role:"UX Design Student",
+
+  tools:"Figma / Research",
+
+  status:"Academic Project",
+
+  about:
+    "UX design studies exploring research, information architecture, wireframing, prototyping and usability testing as part of postgraduate UX Design education."
+
+}
+
+};
+
+/* =========================
+MODAL
+========================= */
+
+const modal =
+document.getElementById("caseModal");
+
+const caseImage =
+document.getElementById("caseImage");
+
+const caseCategory =
+document.getElementById("caseCategory");
+
+const caseTitle =
+document.getElementById("caseTitle");
+
+const caseRole =
+document.getElementById("caseRole");
+
+const caseTools =
+document.getElementById("caseTools");
+
+const caseStatus =
+document.getElementById("caseStatus");
+
+const caseAbout =
+document.getElementById("caseAbout");
+
+const openModal = key => {
+
+const data =
+  projectsData[key];
+
+if (!data || !modal) return;
+
+if (caseImage) {
+
+  caseImage.src =
+    data.image;
+
+  caseImage.alt =
+    data.title;
+
+  caseImage.onerror = () => {
+
+    caseImage.style.display =
+      "none";
+
+  };
+
+}
+
+if (caseCategory)
+  caseCategory.textContent =
+    data.category;
+
+if (caseTitle)
+  caseTitle.textContent =
+    data.title;
+
+if (caseRole)
+  caseRole.textContent =
+    data.role;
+
+if (caseTools)
+  caseTools.textContent =
+    data.tools;
+
+if (caseStatus)
+  caseStatus.textContent =
+    data.status;
+
+if (caseAbout)
+  caseAbout.textContent =
+    data.about;
+
+modal.classList.add("open");
+
+modal.setAttribute(
+  "aria-hidden",
+  "false"
+);
+
+body.classList.add(
+  "modal-open"
+);
+
+};
+
+function closeModal(){
+
+if (!modal) return;
+
+modal.classList.remove("open");
+
+modal.setAttribute(
+  "aria-hidden",
+  "true"
+);
+
+body.classList.remove(
+  "modal-open"
+);
+
+}
+
+document
+.querySelectorAll("[data-project]")
+.forEach(button => {
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      const key =
+        button.dataset.project;
+
+      openModal(key);
+
+    }
+  );
+
+});
+
+document
+.querySelectorAll("[data-close]")
+.forEach(element => {
+
+  element.addEventListener(
+    "click",
+    closeModal
+  );
+
+});
+
+/* =========================
+IMAGE FALLBACK
+========================= */
+
+document
+.querySelectorAll("img")
+.forEach(img => {
+
+  img.addEventListener(
+    "load",
+    () => {
+
+      img.classList.add(
+        "loaded"
+      );
+
+    }
+  );
+
+  img.addEventListener(
+    "error",
+    () => {
+
+      img.classList.add(
+        "image-error"
+      );
+
+    }
+  );
+
+});
+
+/* =========================
+RESIZE
+========================= */
+
+window.addEventListener(
+"resize",
+() => {
+
+  if (
+    window.innerWidth > 900
+  ) {
+    closeMenu();
+  }
+
+}
+
+);
+
+});
