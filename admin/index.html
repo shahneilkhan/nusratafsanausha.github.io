@@ -78,6 +78,7 @@
 
     body{
       min-height:100vh;
+
       background:
         radial-gradient(
           circle at 15% 15%,
@@ -93,6 +94,7 @@
 
       color:var(--text);
       font-family:"Instrument Sans",sans-serif;
+
       overflow-x:hidden;
     }
 
@@ -147,8 +149,10 @@
 
     .orb{
       position:absolute;
+
       width:420px;
       height:420px;
+
       border-radius:50%;
 
       background:
@@ -159,7 +163,9 @@
         );
 
       filter:blur(10px);
-      animation:floatOrb 14s ease-in-out infinite alternate;
+
+      animation:
+        floatOrb 14s ease-in-out infinite alternate;
     }
 
     .orb.one{
@@ -189,10 +195,12 @@
 
     .page{
       min-height:100vh;
+
       position:relative;
       z-index:1;
 
       display:grid;
+
       grid-template-columns:
         minmax(0,1.05fr)
         minmax(420px,.95fr);
@@ -218,6 +226,7 @@
       display:flex;
       align-items:center;
       gap:14px;
+
       margin-bottom:70px;
     }
 
@@ -267,8 +276,10 @@
       gap:10px;
 
       color:var(--accent);
+
       font-size:11px;
       font-weight:600;
+
       letter-spacing:.18em;
       text-transform:uppercase;
 
@@ -278,6 +289,7 @@
     .eyebrow-line{
       width:32px;
       height:1px;
+
       background:var(--accent);
       opacity:.7;
     }
@@ -286,11 +298,13 @@
       max-width:670px;
 
       font-family:"Bricolage Grotesque",sans-serif;
+
       font-size:
         clamp(52px,6.5vw,94px);
 
       line-height:.93;
       letter-spacing:-.065em;
+
       font-weight:600;
     }
 
@@ -302,6 +316,7 @@
       max-width:540px;
 
       color:var(--muted);
+
       font-size:16px;
       line-height:1.75;
 
@@ -316,13 +331,16 @@
       margin-top:42px;
 
       color:var(--muted-2);
+
       font-size:12px;
     }
 
     .status-dot{
       width:7px;
       height:7px;
+
       border-radius:50%;
+
       background:var(--success);
 
       box-shadow:
@@ -331,12 +349,13 @@
     }
 
     /* =========================
-       LOGIN SIDE
+       LOGIN
     ========================== */
 
     .login-side{
       width:100%;
       max-width:510px;
+
       margin:auto;
     }
 
@@ -368,6 +387,7 @@
 
     .card-glow{
       position:absolute;
+
       top:0;
       left:12%;
       right:12%;
@@ -405,6 +425,7 @@
 
       font-size:10px;
       font-weight:600;
+
       letter-spacing:.13em;
       text-transform:uppercase;
 
@@ -419,14 +440,18 @@
 
     .login-header h2{
       font-family:"Bricolage Grotesque",sans-serif;
+
       font-size:36px;
       line-height:1;
+
       letter-spacing:-.045em;
+
       margin-bottom:12px;
     }
 
     .login-header p{
       color:var(--muted);
+
       font-size:13px;
       line-height:1.65;
     }
@@ -447,12 +472,14 @@
       margin-bottom:9px;
 
       color:var(--text);
+
       font-size:12px;
       font-weight:600;
     }
 
     .field-hint{
       color:var(--muted-2);
+
       font-size:10px;
       font-weight:400;
     }
@@ -463,14 +490,17 @@
 
     .input-icon{
       position:absolute;
+
       left:15px;
       top:50%;
+
       transform:translateY(-50%);
 
       width:17px;
       height:17px;
 
       color:var(--muted-2);
+
       pointer-events:none;
     }
 
@@ -478,12 +508,9 @@
       width:100%;
       height:54px;
 
-      padding:
-        0 48px;
+      padding:0 48px;
 
-      border:
-        1px solid var(--border);
-
+      border:1px solid var(--border);
       border-radius:15px;
 
       background:var(--panel-2);
@@ -559,6 +586,7 @@
       gap:9px;
 
       color:var(--muted);
+
       font-size:12px;
 
       cursor:pointer;
@@ -568,7 +596,9 @@
     .remember input{
       width:15px;
       height:15px;
+
       accent-color:var(--accent);
+
       cursor:pointer;
     }
 
@@ -588,12 +618,15 @@
       text-decoration:underline;
     }
 
+    /* =========================
+       LOGIN BUTTON
+    ========================== */
+
     .login-button{
       width:100%;
       min-height:56px;
 
       border:1px solid var(--accent);
-
       border-radius:15px;
 
       background:
@@ -606,6 +639,7 @@
       color:#17130b;
 
       font-family:"Bricolage Grotesque",sans-serif;
+
       font-size:14px;
       font-weight:700;
 
@@ -697,7 +731,7 @@
     }
 
     /* =========================
-       CARD FOOTER
+       FOOTER
     ========================== */
 
     .login-footer{
@@ -719,6 +753,7 @@
       gap:8px;
 
       color:var(--muted-2);
+
       font-size:10px;
     }
 
@@ -731,6 +766,7 @@
 
     .back-link{
       color:var(--muted);
+
       font-size:11px;
       text-decoration:none;
 
@@ -742,7 +778,7 @@
     }
 
     /* =========================
-       THEME BUTTON
+       THEME
     ========================== */
 
     .theme-button{
@@ -760,14 +796,13 @@
       place-items:center;
 
       border:1px solid var(--border);
-
       border-radius:50%;
 
       background:var(--panel);
-
       color:var(--muted);
 
-      box-shadow:0 10px 30px rgba(0,0,0,.15);
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.15);
 
       transition:
         color .2s ease,
@@ -778,6 +813,7 @@
     .theme-button:hover{
       color:var(--accent);
       border-color:var(--accent-border);
+
       transform:rotate(8deg);
     }
 
@@ -787,10 +823,10 @@
     }
 
     /* =========================
-       MASTER ACCESS
+       FOOTNOTE
     ========================== */
 
-    .master-access{
+    .system-label{
       position:fixed;
 
       bottom:20px;
@@ -803,6 +839,7 @@
       color:var(--muted-2);
 
       font-size:9px;
+
       letter-spacing:.12em;
       text-transform:uppercase;
 
@@ -819,9 +856,13 @@
 
       .page{
         grid-template-columns:1fr;
+
         max-width:720px;
+
         margin:auto;
-        padding:90px 25px 60px;
+
+        padding:
+          90px 25px 60px;
       }
 
       .brand-side{
@@ -912,10 +953,6 @@
       }
     }
 
-    /* =========================
-       REDUCED MOTION
-    ========================== */
-
     @media(prefers-reduced-motion:reduce){
 
       *,
@@ -935,6 +972,7 @@
     <div class="orb one"></div>
     <div class="orb two"></div>
   </div>
+
 
   <!-- THEME -->
   <button
@@ -968,9 +1006,7 @@
 
   <main class="page">
 
-    <!-- =========================
-         BRAND
-    ========================== -->
+    <!-- BRAND -->
 
     <section class="brand-side">
 
@@ -981,6 +1017,7 @@
         </div>
 
         <div>
+
           <div class="brand-name">
             Nusrat Afsana Usha
           </div>
@@ -988,14 +1025,18 @@
           <div class="brand-sub">
             Portfolio Administration
           </div>
+
         </div>
 
       </div>
 
 
       <div class="eyebrow">
+
         <span class="eyebrow-line"></span>
+
         Private workspace
+
       </div>
 
 
@@ -1013,16 +1054,17 @@
 
 
       <div class="system-note">
+
         <span class="status-dot"></span>
+
         Administration system online
+
       </div>
 
     </section>
 
 
-    <!-- =========================
-         LOGIN
-    ========================== -->
+    <!-- LOGIN -->
 
     <section class="login-side">
 
@@ -1073,7 +1115,10 @@
         </div>
 
 
-        <form id="loginForm" autocomplete="on">
+        <form
+          id="loginForm"
+          autocomplete="on"
+        >
 
           <div
             class="error-message"
@@ -1082,7 +1127,7 @@
           ></div>
 
 
-          <!-- EMAIL -->
+          <!-- USERNAME -->
 
           <div class="field">
 
@@ -1090,10 +1135,13 @@
               class="field-label"
               for="email"
             >
+
               Email / Username
+
               <span class="field-hint">
                 Required
               </span>
+
             </label>
 
 
@@ -1135,10 +1183,13 @@
               class="field-label"
               for="password"
             >
+
               Password
+
               <span class="field-hint">
                 Required
               </span>
+
             </label>
 
 
@@ -1191,8 +1242,11 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 >
+
                   <path
-                    d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"
+                    d="M2.5 12s3.5-6 9.5-6
+                    9.5 6 9.5 6-3.5 6-9.5 6
+                    -9.5-6-9.5-6Z"
                   ></path>
 
                   <circle
@@ -1200,6 +1254,7 @@
                     cy="12"
                     r="2.5"
                   ></circle>
+
                 </svg>
 
               </button>
@@ -1283,11 +1338,13 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             >
+
               <path
                 d="M12 3 20 6v5c0 5.5-3.4 8.8-8 10-4.6-1.2-8-4.5-8-10V6l8-3Z"
               ></path>
 
               <path d="m8.5 12 2.2 2.2 4.8-5"></path>
+
             </svg>
 
             Protected administration area
@@ -1311,7 +1368,10 @@
   </main>
 
 
-  <div class="master-access" aria-hidden="true">
+  <div
+    class="system-label"
+    aria-hidden="true"
+  >
     Portfolio Control System
   </div>
 
@@ -1319,28 +1379,38 @@
   <script>
 
     /* =========================================================
-       CONFIG
+       CONFIGURATION
        ========================================================= */
 
     const CONFIG = {
 
       /*
-        DEMO CLIENT LOGIN
+        DEMO AUTHENTICATION
 
-        Replace this section with Firebase/Supabase Auth
-        before production deployment.
+        Current demo credentials:
 
-        Demo credentials:
-          Username: client
-          Password: demo123
+        Username: client
+        Password: demo123
+
+        IMPORTANT:
+        This is only for the current static prototype.
+
+        For production:
+        Firebase Authentication / Supabase Auth
+        should replace this local credential check.
       */
 
       demoUsername: "client",
       demoPassword: "demo123",
 
-      sessionKey: "nusrat_admin_session_v1",
-      rememberKey: "nusrat_admin_remember_v1",
-      themeKey: "nusrat_admin_theme"
+      sessionKey:
+        "nusrat_admin_session_v1",
+
+      rememberKey:
+        "nusrat_admin_remember_v1",
+
+      themeKey:
+        "nusrat_admin_theme"
 
     };
 
@@ -1395,27 +1465,33 @@
 
     function getStoredTheme(){
 
-      return localStorage.getItem(
-        CONFIG.themeKey
-      ) || "dark";
+      return (
+        localStorage.getItem(
+          CONFIG.themeKey
+        ) || "dark"
+      );
 
     }
 
 
     function setTheme(theme){
 
-      html.dataset.theme = theme;
+      html.dataset.theme =
+        theme;
 
       localStorage.setItem(
         CONFIG.themeKey,
         theme
       );
 
+
       if(theme === "light"){
 
         themeIcon.innerHTML = `
-          <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3
-          6.7 6.7 0 0 0 21 12.8Z"></path>
+          <path
+            d="M21 12.8A8.5 8.5 0 1 1 11.2 3
+            6.7 6.7 0 0 0 21 12.8Z">
+          </path>
         `;
 
       }else{
@@ -1437,7 +1513,9 @@
     }
 
 
-    setTheme(getStoredTheme());
+    setTheme(
+      getStoredTheme()
+    );
 
 
     themeButton.addEventListener(
@@ -1468,10 +1546,12 @@
         const visible =
           password.type === "text";
 
+
         password.type =
           visible
             ? "password"
             : "text";
+
 
         passwordToggle.setAttribute(
           "aria-label",
@@ -1487,36 +1567,35 @@
             <path
               d="M2.5 12s3.5-6 9.5-6
               9.5 6 9.5 6-3.5 6-9.5 6
-              -9.5-6-9.5-6Z"
-            ></path>
+              -9.5-6-9.5-6Z">
+            </path>
+
             <circle
               cx="12"
               cy="12"
-              r="2.5"
-            ></circle>
+              r="2.5">
+            </circle>
           `;
 
         }else{
 
           eyeIcon.innerHTML = `
-            <path
-              d="M3 3l18 18"
-            ></path>
+            <path d="M3 3l18 18"></path>
 
             <path
               d="M10.6 5.1A9.9 9.9 0 0 1 12 5
               c6 0 9.5 7 9.5 7
-              a16.5 16.5 0 0 1-3.1 3.8"
-            ></path>
+              a16.5 16.5 0 0 1-3.1 3.8">
+            </path>
 
             <path
               d="M6.2 6.3C3.7 8 2.5 12 2.5 12
-              a16.8 16.8 0 0 0 5.7 5.6"
-            ></path>
+              a16.8 16.8 0 0 0 5.7 5.6">
+            </path>
 
             <path
-              d="M9.9 9.9a3 3 0 0 0 4.2 4.2"
-            ></path>
+              d="M9.9 9.9a3 3 0 0 0 4.2 4.2">
+            </path>
           `;
 
         }
@@ -1558,9 +1637,9 @@
 
       const session = {
 
-        authenticated: true,
+        authenticated:true,
 
-        role: "client_admin",
+        role:"admin",
 
         loginAt:
           new Date().toISOString(),
@@ -1576,6 +1655,7 @@
         CONFIG.sessionKey,
         JSON.stringify(session)
       );
+
 
       localStorage.setItem(
         "nusrat_admin_last_updated",
@@ -1594,10 +1674,14 @@
             CONFIG.sessionKey
           );
 
-        if(!raw) return null;
+        if(!raw){
+          return null;
+        }
+
 
         const session =
           JSON.parse(raw);
+
 
         if(
           !session.authenticated ||
@@ -1607,6 +1691,7 @@
           return null;
 
         }
+
 
         if(
           Date.now() >
@@ -1621,6 +1706,7 @@
 
         }
 
+
         return session;
 
       }catch{
@@ -1633,18 +1719,14 @@
 
 
     /* =========================================================
-       ALREADY LOGGED IN
+       EXISTING SESSION
        ========================================================= */
 
     const existingSession =
       getSession();
 
-    if(existingSession){
 
-      /*
-        If the client is already authenticated,
-        send them directly to dashboard.
-      */
+    if(existingSession){
 
       window.location.href =
         "./dashboard.html";
@@ -1661,12 +1743,14 @@
         CONFIG.rememberKey
       );
 
+
     if(savedUsername){
 
       email.value =
         savedUsername;
 
-      remember.checked = true;
+      remember.checked =
+        true;
 
     }
 
@@ -1725,15 +1809,12 @@
           "Authenticating…";
 
 
-        /*
-          Small UI delay for polished feedback.
-          Replace this entire demo authentication
-          block with Firebase/Supabase Auth.
-        */
-
         await new Promise(
           resolve =>
-            setTimeout(resolve, 700)
+            setTimeout(
+              resolve,
+              700
+            )
         );
 
 
@@ -1754,9 +1835,11 @@
           loginButtonText.textContent =
             "Sign in to Admin";
 
+
           showError(
             "The username or password is incorrect."
           );
+
 
           password.focus();
 
@@ -1811,7 +1894,7 @@
       () => {
 
         showError(
-          "Password recovery will be connected to your authentication provider."
+          "Password recovery will be connected to the authentication provider."
         );
 
       }
@@ -1819,10 +1902,13 @@
 
 
     /* =========================================================
-       ENTER KEY EXPERIENCE
+       INPUT EXPERIENCE
        ========================================================= */
 
-    [email, password].forEach(
+    [
+      email,
+      password
+    ].forEach(
       input => {
 
         input.addEventListener(
