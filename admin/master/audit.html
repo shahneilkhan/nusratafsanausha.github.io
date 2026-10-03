@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Audit Log — Restricted Access</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#08090b;
+  --sidebar:#0d0f12;
+  --panel:#121419;
+  --panel2:#17191f;
+  --border:rgba(255,255,255,.08);
+  --border2:rgba(255,255,255,.05);
+  --text:#f5f2eb;
+  --muted:#9699a2;
+  --muted2:#686b74;
+  --accent:#d8b36a;
+  --accent2:#efd59d;
+  --green:#83c89a;
+  --red:#e37d7d;
+  --orange:#e0a66c;
+  --blue:#83a9e0;
+}
+
+html[data-theme="light"]{
+  --bg:#f1eee7;
+  --sidebar:#f8f6f0;
+  --panel:#fff;
+  --panel2:#f8f6f0;
+  --border:rgba(20,20,20,.09);
+  --border2:rgba(20,20,20,.055);
+  --text:#171716;
+  --muted:#666760;
+  --muted2:#888981;
+  --accent:#a8792e;
+  --accent2:#8d651f;
+  --green:#39875a;
+  --red:#b34d4d;
+  --orange:#a86f31;
+  --blue:#5277ac;
+}
+
+body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",Arial,sans-serif;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+/* APP */
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  width:270px;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:40;
+  background:var(--sidebar);
+  border-right:1px solid var(--border);
+  padding:25px 18px;
+  display:flex;
+  flex-direction:column;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 9px 28px;
+  border-bottom:1px solid var(--border2);
+}
+
+.brand-mark{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  border:1px solid rgba(216,179,106,.35);
+  display:grid;
+  place-items:center;
+  color:var(--accent2);
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:700;
+  background:rgba(216,179,106,.05);
+}
+
+.brand-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:14px;
+  font-weight:600;
+}
+
+.brand-sub{
+  margin-top:3px;
+  color:var(--muted2);
+  font-size:9px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.nav-label{
+  padding:25px 10px 9px;
+  color:var(--muted2);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.nav-item{
+  min-height:43px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:0 12px;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:12px;
+  transition:.2s ease;
+}
+
+.nav-item:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.035);
+}
+
+.nav-item.active{
+  color:var(--accent2);
+  background:rgba(216,179,106,.08);
+  border:1px solid rgba(216,179,106,.12);
+}
+
+.nav-icon{
+  width:20px;
+  text-align:center;
+}
+
+.sidebar-bottom{
+  margin-top:auto;
+}
+
+.lock-card{
+  border:1px solid rgba(216,179,106,.13);
+  background:rgba(216,179,106,.045);
+  border-radius:16px;
+  padding:14px;
+}
+
+.lock-title{
+  font-size:11px;
+  font-weight:600;
+}
+
+.lock-text{
+  margin-top:5px;
+  color:var(--muted2);
+  font-size:10px;
+  line-height:1.55;
+}
+
+.lock-btn{
+  width:100%;
+  height:38px;
+  margin-top:11px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:transparent;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.lock-btn:hover{
+  color:var(--text);
+  border-color:rgba(216,179,106,.3);
+}
+
+/* MAIN */
+
+.main{
+  width:calc(100% - 270px);
+  margin-left:270px;
+  min-height:100vh;
+}
+
+.topbar{
+  height:78px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 34px;
+  border-bottom:1px solid var(--border);
+  background:rgba(8,9,11,.84);
+  backdrop-filter:blur(18px);
+}
+
+html[data-theme="light"] .topbar{
+  background:rgba(241,238,231,.84);
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.mobile-menu{
+  display:none;
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:transparent;
+  color:var(--text);
+}
+
+.breadcrumb{
+  color:var(--muted2);
+  font-size:11px;
+}
+
+.breadcrumb strong{
+  color:var(--text);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:transparent;
+  color:var(--muted);
+}
+
+.icon-btn:hover{
+  color:var(--text);
+  border-color:rgba(216,179,106,.3);
+}
+
+.master-badge{
+  height:40px;
+  padding:0 13px;
+  border:1px solid rgba(216,179,106,.18);
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent2);
+  background:rgba(216,179,106,.05);
+  font-size:10px;
+  font-weight:600;
+}
+
+.master-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px rgba(131,200,154,.5);
+}
+
+/* CONTENT */
+
+.content{
+  padding:38px 34px 60px;
+  max-width:1500px;
+}
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
+  margin-bottom:30px;
+}
+
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--accent);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.eyebrow::before{
+  content:"";
+  width:20px;
+  height:1px;
+  background:var(--accent);
+}
+
+h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(32px,4vw,52px);
+  line-height:.98;
+  letter-spacing:-.055em;
+  font-weight:600;
+}
+
+.heading-copy{
+  margin-top:11px;
+  max-width:620px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+
+.header-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 14px;
+  border:1px solid rgba(131,200,154,.16);
+  border-radius:12px;
+  color:var(--green);
+  background:rgba(131,200,154,.045);
+  font-size:10px;
+  white-space:nowrap;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
+
+.card{
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:19px;
+  box-shadow:0 20px 60px rgba(0,0,0,.16);
+}
+
+.stat{
+  min-height:130px;
+  padding:20px;
+}
+
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.stat-icon{
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border);
+  border-radius:9px;
+  color:var(--accent);
+}
+
+.stat-value{
+  margin-top:20px;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:27px;
+  letter-spacing:-.05em;
+}
+
+.stat-meta{
+  margin-top:5px;
+  color:var(--muted2);
+  font-size:10px;
+}
+
+/* TOOLBAR */
+
+.toolbar{
+  margin-top:16px;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.toolbar-left,
+.toolbar-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.search{
+  width:min(330px,100%);
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel2);
+  color:var(--text);
+  outline:none;
+  padding:0 13px;
+  font-size:11px;
+}
+
+.search:focus{
+  border-color:rgba(216,179,106,.4);
+}
+
+.search::placeholder{
+  color:var(--muted2);
+}
+
+.select{
+  height:40px;
+  min-width:125px;
+  padding:0 11px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel2);
+  color:var(--text);
+  outline:none;
+  font-size:10px;
+}
+
+.btn{
+  min-height:40px;
+  padding:0 13px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:transparent;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+}
+
+.btn:hover{
+  color:var(--text);
+  border-color:rgba(216,179,106,.3);
+}
+
+.btn.primary{
+  color:var(--accent2);
+  border-color:rgba(216,179,106,.22);
+  background:rgba(216,179,106,.08);
+}
+
+.btn.danger{
+  color:var(--red);
+  border-color:rgba(227,125,125,.2);
+  background:rgba(227,125,125,.035);
+}
+
+/* TABLE */
+
+.log-card{
+  margin-top:16px;
+  overflow:hidden;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  min-width:850px;
+  border-collapse:collapse;
+}
+
+thead{
+  background:var(--panel2);
+}
+
+th{
+  padding:14px 17px;
+  text-align:left;
+  color:var(--muted2);
+  font-size:8px;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  font-weight:700;
+  border-bottom:1px solid var(--border);
+}
+
+td{
+  padding:15px 17px;
+  border-bottom:1px solid var(--border2);
+  font-size:10px;
+  vertical-align:middle;
+}
+
+tbody tr{
+  transition:.18s ease;
+}
+
+tbody tr:hover{
+  background:rgba(255,255,255,.018);
+}
+
+.event-cell{
+  display:flex;
+  align-items:flex-start;
+  gap:11px;
+}
+
+.event-dot{
+  width:7px;
+  height:7px;
+  flex:0 0 7px;
+  margin-top:4px;
+  border-radius:50%;
+  background:var(--green);
+}
+
+.event-dot.warning{
+  background:var(--orange);
+}
+
+.event-dot.danger{
+  background:var(--red);
+}
+
+.event-dot.info{
+  background:var(--blue);
+}
+
+.event-title{
+  color:var(--text);
+  font-weight:600;
+}
+
+.event-detail{
+  margin-top:4px;
+  color:var(--muted2);
+  line-height:1.45;
+  max-width:420px;
+}
+
+.mono{
+  color:var(--muted);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:9px;
+}
+
+.type{
+  display:inline-flex;
+  align-items:center;
+  padding:6px 8px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--muted);
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.type.success{
+  color:var(--green);
+  border-color:rgba(131,200,154,.15);
+}
+
+.type.warning{
+  color:var(--orange);
+  border-color:rgba(224,166,108,.15);
+}
+
+.type.danger{
+  color:var(--red);
+  border-color:rgba(227,125,125,.15);
+}
+
+.type.info{
+  color:var(--blue);
+  border-color:rgba(131,169,224,.15);
+}
+
+.empty{
+  padding:70px 25px;
+  text-align:center;
+}
+
+.empty-icon{
+  width:46px;
+  height:46px;
+  display:grid;
+  place-items:center;
+  margin:0 auto 15px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  color:var(--accent);
+}
+
+.empty-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:18px;
+}
+
+.empty-copy{
+  margin:7px auto 0;
+  max-width:380px;
+  color:var(--muted2);
+  font-size:10px;
+  line-height:1.6;
+}
+
+/* FOOTER */
+
+.footer-card{
+  margin-top:16px;
+  padding:20px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.footer-title{
+  font-size:11px;
+  font-weight:600;
+}
+
+.footer-copy{
+  margin-top:4px;
+  color:var(--muted2);
+  font-size:9px;
+  line-height:1.5;
+}
+
+.footer-actions{
+  display:flex;
+  gap:8px;
+}
+
+/* MOBILE */
+
+.mobile-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:35;
+  background:rgba(0,0,0,.55);
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,20px);
+  opacity:0;
+  pointer-events:none;
+  z-index:100;
+  padding:12px 17px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#15171b;
+  color:#e9e8e4;
+  font-size:11px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  transition:.25s ease;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+@media(max-width:1050px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:800px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s ease;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .mobile-overlay.show{
+    display:block;
+  }
+
+  .main{
+    width:100%;
+    margin-left:0;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .content{
+    padding:28px 18px 50px;
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .header-status{
+    white-space:normal;
+  }
+}
+
+@media(max-width:580px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .master-badge{
+    display:none;
+  }
+
+  .content{
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .toolbar{
+    align-items:stretch;
+    flex-direction:column;
+  }
+
+  .toolbar-left,
+  .toolbar-right{
+    width:100%;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .footer-card{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation:none!important;
+    transition:none!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        NU
+      </div>
+
+      <div>
+        <div class="brand-title">
+          Nusrat Afsana Usha
+        </div>
+
+        <div class="brand-sub">
+          Restricted System
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="nav-label">
+      Control
+    </div>
+
+    <nav class="nav">
+
+      <a class="nav-item" href="./index.html">
+        <span class="nav-icon">⌂</span>
+        <span>Control Panel</span>
+      </a>
+
+      <a class="nav-item" href="./security.html">
+        <span class="nav-icon">⌑</span>
+        <span>Security</span>
+      </a>
+
+      <a class="nav-item active" href="./audit.html">
+        <span class="nav-icon">◷</span>
+        <span>Audit Log</span>
+      </a>
+
+      <a class="nav-item" href="../admin-management.html">
+        <span class="nav-icon">♙</span>
+        <span>Access Management</span>
+      </a>
+
+    </nav>
+
+
+    <div class="nav-label">
+      System
+    </div>
+
+    <nav class="nav">
+
+      <a class="nav-item" href="../dashboard.html">
+        <span class="nav-icon">▦</span>
+        <span>Admin Dashboard</span>
+      </a>
+
+      <a class="nav-item" href="../../index.html">
+        <span class="nav-icon">↗</span>
+        <span>View Portfolio</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="lock-card">
+
+        <div class="lock-title">
+          Restricted workspace
+        </div>
+
+        <div class="lock-text">
+          Audit records are available only to authorized sessions.
+        </div>
+
+        <button
+          class="lock-btn"
+          id="lockBtn">
+          Lock Workspace
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <div
+    class="mobile-overlay"
+    id="mobileOverlay">
+  </div>
+
+
+  <!-- MAIN -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="top-left">
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu">
+          ☰
+        </button>
+
+        <div class="breadcrumb">
+          Restricted / <strong>Audit Log</strong>
+        </div>
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <div class="master-badge">
+          <span class="master-dot"></span>
+          Authorized session
+        </div>
+
+        <button
+          class="icon-btn"
+          id="themeBtn">
+          ◐
+        </button>
+
+        <button
+          class="icon-btn"
+          id="lockTopBtn">
+          ⌑
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <section class="content">
+
+      <!-- HEADING -->
+
+      <div class="page-heading">
+
+        <div>
+
+          <div class="eyebrow">
+            Security Records
+          </div>
+
+          <h1>
+            Audit Log
+          </h1>
+
+          <p class="heading-copy">
+            Review administrative activity recorded by the
+            current browser session and privileged workspace.
+          </p>
+
+        </div>
+
+
+        <div class="header-status">
+          <span class="master-dot"></span>
+          Logging available
+        </div>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+        <div class="card stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              Total Events
+            </div>
+            <div class="stat-icon">
+              ◷
+            </div>
+          </div>
+
+          <div
+            class="stat-value"
+            id="totalEvents">
+            00
+          </div>
+
+          <div class="stat-meta">
+            Stored locally
+          </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              Security Events
+            </div>
+            <div class="stat-icon">
+              ⌑
+            </div>
+          </div>
+
+          <div
+            class="stat-value"
+            id="securityEvents">
+            00
+          </div>
+
+          <div class="stat-meta">
+            Authentication & access
+          </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              Warnings
+            </div>
+            <div class="stat-icon">
+              !
+            </div>
+          </div>
+
+          <div
+            class="stat-value"
+            id="warningEvents">
+            00
+          </div>
+
+          <div class="stat-meta">
+            Events requiring attention
+          </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              Critical
+            </div>
+            <div class="stat-icon">
+              ×
+            </div>
+          </div>
+
+          <div
+            class="stat-value"
+            id="dangerEvents">
+            00
+          </div>
+
+          <div class="stat-meta">
+            High-impact events
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- TOOLBAR -->
+
+      <div class="card toolbar">
+
+        <div class="toolbar-left">
+
+          <input
+            class="search"
+            id="search"
+            type="search"
+            placeholder="Search events, actions or details…"
+            autocomplete="off">
+
+          <select
+            class="select"
+            id="typeFilter">
+
+            <option value="all">
+              All events
+            </option>
+
+            <option value="success">
+              Success
+            </option>
+
+            <option value="warning">
+              Warning
+            </option>
+
+            <option value="danger">
+              Critical
+            </option>
+
+            <option value="info">
+              Information
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="toolbar-right">
+
+          <select
+            class="select"
+            id="timeFilter">
+
+            <option value="all">
+              All time
+            </option>
+
+            <option value="today">
+              Today
+            </option>
+
+            <option value="7">
+              Last 7 days
+            </option>
+
+            <option value="30">
+              Last 30 days
+            </option>
+
+          </select>
+
+
+          <button
+            class="btn primary"
+            id="exportBtn">
+            Export JSON
+          </button>
+
+          <button
+            class="btn danger"
+            id="clearBtn">
+            Clear Log
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- TABLE -->
+
+      <section class="card log-card">
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+
+              <tr>
+                <th>Event</th>
+                <th>Type</th>
+                <th>Actor</th>
+                <th>Time</th>
+                <th>Session</th>
+              </tr>
+
+            </thead>
+
+            <tbody id="tableBody">
+            </tbody>
+
+          </table>
+
+
+          <div
+            class="empty"
+            id="emptyState"
+            style="display:none;">
+
+            <div class="empty-icon">
+              ◷
+            </div>
+
+            <div class="empty-title">
+              No matching events
+            </div>
+
+            <div class="empty-copy">
+              Try changing the search term or filter.
+              New administrative actions will appear here.
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- FOOTER -->
+
+      <section class="card footer-card">
+
+        <div>
+
+          <div class="footer-title">
+            Local audit storage
+          </div>
+
+          <div class="footer-copy">
+            This demonstration stores audit records in browser
+            localStorage. Production audit logs should be stored
+            server-side and protected from client-side modification.
+          </div>
+
+        </div>
+
+
+        <div class="footer-actions">
+
+          <button
+            class="btn"
+            id="refreshBtn">
+            Refresh
+          </button>
+
+          <button
+            class="btn"
+            id="securityBtn">
+            Security Center
+          </button>
+
+        </div>
+
+      </section>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast">
+</div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   CONFIG
+   ========================================================= */
+
+const MASTER_SESSION_KEY =
+  "nusrat_master_session_v1";
+
+const AUDIT_KEY =
+  "nusrat_master_audit_v1";
+
+const THEME_KEY =
+  "nusrat_admin_theme";
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const html =
+  document.documentElement;
+
+const sidebar =
+  document.getElementById("sidebar");
+
+const overlay =
+  document.getElementById("mobileOverlay");
+
+const tableBody =
+  document.getElementById("tableBody");
+
+const emptyState =
+  document.getElementById("emptyState");
+
+const search =
+  document.getElementById("search");
+
+const typeFilter =
+  document.getElementById("typeFilter");
+
+const timeFilter =
+  document.getElementById("timeFilter");
+
+const toast =
+  document.getElementById("toast");
+
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+
+function getStorage(key){
+
+  try{
+    return localStorage.getItem(key);
+  }catch(error){
+    return null;
+  }
+
+}
+
+function setStorage(key,value){
+
+  try{
+    localStorage.setItem(key,value);
+  }catch(error){}
+
+}
+
+function removeStorage(key){
+
+  try{
+    localStorage.removeItem(key);
+  }catch(error){}
+
+}
+
+
+/* =========================================================
+   AUTHORIZATION
+   ========================================================= */
+
+function getSession(){
+
+  try{
+
+    const raw =
+      getStorage(MASTER_SESSION_KEY);
+
+    if(!raw){
+      return null;
+    }
+
+    const session =
+      JSON.parse(raw);
+
+    if(
+      !session ||
+      session.loggedIn !== true ||
+      session.role !== "master"
+    ){
+      return null;
+    }
+
+    if(
+      !session.expiresAt ||
+      Date.now() >=
+      Number(session.expiresAt)
+    ){
+
+      removeStorage(
+        MASTER_SESSION_KEY
+      );
+
+      return null;
+    }
+
+    return session;
+
+  }catch(error){
+
+    removeStorage(
+      MASTER_SESSION_KEY
+    );
+
+    return null;
+  }
+
+}
+
+
+const session =
+  getSession();
+
+if(!session){
+
+  window.location.replace(
+    "./login.html"
+  );
+
+  throw new Error(
+    "Unauthorized access."
+  );
+
+}
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function applyTheme(theme){
+
+  const selected =
+    theme === "light"
+      ? "light"
+      : "dark";
+
+  html.dataset.theme =
+    selected;
+
+  setStorage(
+    THEME_KEY,
+    selected
+  );
+
+  document.getElementById(
+    "themeBtn"
+  ).textContent =
+    selected === "dark"
+      ? "☼"
+      : "◐";
+
+}
+
+applyTheme(
+  getStorage(THEME_KEY) || "dark"
+);
+
+
+document.getElementById(
+  "themeBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    applyTheme(
+      html.dataset.theme === "dark"
+        ? "light"
+        : "dark"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   AUDIT DATA
+   ========================================================= */
+
+function readAudit(){
+
+  try{
+
+    const raw =
+      getStorage(AUDIT_KEY);
+
+    if(!raw){
+      return [];
+    }
+
+    const data =
+      JSON.parse(raw);
+
+    return Array.isArray(data)
+      ? data
+      : [];
+
+  }catch(error){
+
+    return [];
+
+  }
+
+}
+
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function formatDate(timestamp){
+
+  if(!timestamp){
+    return "—";
+  }
+
+  return new Date(timestamp)
+    .toLocaleString(
+      undefined,
+      {
+        dateStyle:"medium",
+        timeStyle:"short"
+      }
+    );
+
+}
+
+
+function formatSession(){
+
+  return session &&
+    session.createdAt
+      ? String(session.createdAt)
+          .slice(-8)
+      : "current";
+
+}
+
+
+function showToast(message){
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(
+    window.__toastTimer
+  );
+
+  window.__toastTimer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },2500);
+
+}
+
+
+/* =========================================================
+   FILTER
+   ========================================================= */
+
+function getFilteredEvents(){
+
+  const events =
+    readAudit();
+
+  const query =
+    search.value
+      .trim()
+      .toLowerCase();
+
+  const type =
+    typeFilter.value;
+
+  const time =
+    timeFilter.value;
+
+  const now =
+    Date.now();
+
+
+  return events.filter(event=>{
+
+    const text =
+      [
+        event.action,
+        event.detail,
+        event.type,
+        event.actor
+      ]
+      .join(" ")
+      .toLowerCase();
+
+
+    if(
+      query &&
+      !text.includes(query)
+    ){
+      return false;
+    }
+
+
+    if(
+      type !== "all" &&
+      (event.type || "success") !== type
+    ){
+      return false;
+    }
+
+
+    if(time !== "all"){
+
+      const timestamp =
+        Number(event.time || 0);
+
+      if(time === "today"){
+
+        const date =
+          new Date(timestamp);
+
+        const today =
+          new Date();
+
+        if(
+          date.getFullYear() !== today.getFullYear() ||
+          date.getMonth() !== today.getMonth() ||
+          date.getDate() !== today.getDate()
+        ){
+          return false;
+        }
+
+      }else{
+
+        const days =
+          Number(time);
+
+        const cutoff =
+          now -
+          days *
+          24 *
+          60 *
+          60 *
+          1000;
+
+        if(timestamp < cutoff){
+          return false;
+        }
+
+      }
+
+    }
+
+    return true;
+
+  });
+
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+function renderStats(){
+
+  const events =
+    readAudit();
+
+  const security =
+    events.filter(event=>
+      /session|login|access|security|lock|revoke|authentication|role/i
+        .test(
+          `${event.action} ${event.detail}`
+        )
+    ).length;
+
+  const warnings =
+    events.filter(event=>
+      event.type === "warning"
+    ).length;
+
+  const danger =
+    events.filter(event=>
+      event.type === "danger"
+    ).length;
+
+
+  document.getElementById(
+    "totalEvents"
+  ).textContent =
+    String(events.length)
+      .padStart(2,"0");
+
+  document.getElementById(
+    "securityEvents"
+  ).textContent =
+    String(security)
+      .padStart(2,"0");
+
+  document.getElementById(
+    "warningEvents"
+  ).textContent =
+    String(warnings)
+      .padStart(2,"0");
+
+  document.getElementById(
+    "dangerEvents"
+  ).textContent =
+    String(danger)
+      .padStart(2,"0");
+
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+function renderTable(){
+
+  const events =
+    getFilteredEvents();
+
+
+  tableBody.innerHTML = "";
+
+
+  if(!events.length){
+
+    emptyState.style.display =
+      "block";
+
+    return;
+
+  }
+
+
+  emptyState.style.display =
+    "none";
+
+
+  events.forEach(event=>{
+
+    const type =
+      event.type || "success";
+
+    const row =
+      document.createElement("tr");
+
+
+    row.innerHTML = `
+
+      <td>
+
+        <div class="event-cell">
+
+          <span class="event-dot ${escapeHTML(type)}"></span>
+
+          <div>
+
+            <div class="event-title">
+              ${escapeHTML(
+                event.action || "Administrative event"
+              )}
+            </div>
+
+            <div class="event-detail">
+              ${escapeHTML(
+                event.detail || "No additional details."
+              )}
+            </div>
+
+          </div>
+
+        </div>
+
+      </td>
+
+
+      <td>
+
+        <span class="type ${escapeHTML(type)}">
+          ${escapeHTML(type)}
+        </span>
+
+      </td>
+
+
+      <td>
+
+        <span class="mono">
+          ${escapeHTML(
+            event.actor ||
+            session.username ||
+            "master"
+          )}
+        </span>
+
+      </td>
+
+
+      <td>
+
+        <span class="mono">
+          ${escapeHTML(
+            formatDate(event.time)
+          )}
+        </span>
+
+      </td>
+
+
+      <td>
+
+        <span class="mono">
+          ${escapeHTML(
+            event.session ||
+            formatSession()
+          )}
+        </span>
+
+      </td>
+
+    `;
+
+
+    tableBody.appendChild(row);
+
+  });
+
+}
+
+
+/* =========================================================
+   RENDER
+   ========================================================= */
+
+function render(){
+
+  renderStats();
+
+  renderTable();
+
+}
+
+
+/* =========================================================
+   SEARCH / FILTER
+   ========================================================= */
+
+search.addEventListener(
+  "input",
+  renderTable
+);
+
+typeFilter.addEventListener(
+  "change",
+  renderTable
+);
+
+timeFilter.addEventListener(
+  "change",
+  renderTable
+);
+
+
+/* =========================================================
+   EXPORT
+   ========================================================= */
+
+document.getElementById(
+  "exportBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    const events =
+      getFilteredEvents();
+
+    const payload = {
+
+      exportedAt:
+        new Date().toISOString(),
+
+      actor:
+        session.username || "master",
+
+      role:
+        session.role,
+
+      count:
+        events.length,
+
+      events
+
+    };
+
+
+    const blob =
+      new Blob(
+        [
+          JSON.stringify(
+            payload,
+            null,
+            2
+          )
+        ],
+        {
+          type:"application/json"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      "nusrat-audit-log.json";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+
+    showToast(
+      `${events.length} event(s) exported.`
+    );
+
+  }
+);
+
+
+/* =========================================================
+   CLEAR LOG
+   ========================================================= */
+
+document.getElementById(
+  "clearBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    const confirmed =
+      window.confirm(
+        "Clear the complete local audit log?"
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+
+    removeStorage(
+      AUDIT_KEY
+    );
+
+    render();
+
+    showToast(
+      "Audit log cleared."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   REFRESH
+   ========================================================= */
+
+document.getElementById(
+  "refreshBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    render();
+
+    showToast(
+      "Audit log refreshed."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   SECURITY CENTER
+   ========================================================= */
+
+document.getElementById(
+  "securityBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    window.location.href =
+      "./security.html";
+
+  }
+);
+
+
+/* =========================================================
+   LOCK
+   ========================================================= */
+
+function lockWorkspace(){
+
+  removeStorage(
+    MASTER_SESSION_KEY
+  );
+
+  window.location.replace(
+    "./login.html"
+  );
+
+}
+
+
+document.getElementById(
+  "lockBtn"
+).addEventListener(
+  "click",
+  lockWorkspace
+);
+
+document.getElementById(
+  "lockTopBtn"
+).addEventListener(
+  "click",
+  lockWorkspace
+);
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+   ========================================================= */
+
+document.getElementById(
+  "mobileMenu"
+).addEventListener(
+  "click",
+  ()=>{
+
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+
+  }
+);
+
+
+overlay.addEventListener(
+  "click",
+  ()=>{
+
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+
+  }
+);
+
+
+/* =========================================================
+   SESSION WATCHER
+   ========================================================= */
+
+setInterval(()=>{
+
+  const current =
+    getSession();
+
+  if(!current){
+
+    window.location.replace(
+      "./login.html"
+    );
+
+  }
+
+},15000);
+
+
+/* =========================================================
+   INITIAL
+   ========================================================= */
+
+render();
+
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(
+      (event.ctrlKey || event.metaKey) &&
+      event.key.toLowerCase() === "k"
+    ){
+
+      event.preventDefault();
+
+      search.focus();
+
+    }
+
+
+    if(event.key === "Escape"){
+
+      sidebar.classList.remove("open");
+      overlay.classList.remove("show");
+
+    }
+
+  }
+);
+
+
+/*
+  PRODUCTION NOTE
+
+  Current audit storage uses localStorage for UI/demo purposes.
+
+  For production:
+
+  Authentication
+       ↓
+  Server-side authorization
+       ↓
+  Immutable audit API
+       ↓
+  Database
+       ↓
+  Admin-only audit viewer
+
+  Never trust client-side audit records as a security source.
+*/
+</script>
+
+</body>
+</html>
