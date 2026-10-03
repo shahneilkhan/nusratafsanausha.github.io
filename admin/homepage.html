@@ -1,226 +1,818 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
-
 <head>
   <meta charset="UTF-8">
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Homepage — Nusrat Admin</title>
-
+  <title>Homepage — Nusrat Afsana Usha Admin</title>
   <meta
     name="description"
-    content="Manage Nusrat Afsana Usha portfolio homepage content."
+    content="Homepage content management for Nusrat Afsana Usha portfolio."
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
     rel="stylesheet"
   >
 
   <link rel="stylesheet" href="./admin.css">
-</head>
 
+  <style>
+    /* =========================================================
+       HOMEPAGE EDITOR
+    ========================================================= */
+
+    .editor-hero{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:24px;
+      margin-bottom:28px;
+    }
+
+    .editor-kicker{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin-bottom:10px;
+      color:var(--accent);
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.17em;
+      text-transform:uppercase;
+    }
+
+    .editor-kicker::before{
+      content:"";
+      width:26px;
+      height:1px;
+      background:var(--accent);
+    }
+
+    .editor-hero h1{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:clamp(36px,4vw,56px);
+      line-height:.95;
+      letter-spacing:-.05em;
+    }
+
+    .editor-hero p{
+      max-width:650px;
+      margin:13px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.75;
+    }
+
+    .editor-state{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 13px;
+      border:1px solid rgba(117,212,154,.18);
+      border-radius:999px;
+      color:#79d69b;
+      background:rgba(117,212,154,.045);
+      font-size:9px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .editor-state-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:#79d69b;
+    }
+
+    .editor-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 300px;
+      gap:18px;
+    }
+
+    .editor-main{
+      display:grid;
+      gap:18px;
+    }
+
+    .editor-side{
+      display:grid;
+      align-content:start;
+      gap:18px;
+    }
+
+    .editor-card{
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:var(--panel);
+    }
+
+    .editor-card-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:15px;
+      padding:19px 20px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .editor-card-head h2{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:18px;
+      letter-spacing:-.025em;
+    }
+
+    .editor-card-head p{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.55;
+    }
+
+    .editor-card-body{
+      padding:20px;
+    }
+
+    .section-number{
+      color:var(--accent);
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.1em;
+    }
+
+    /* FIELDS */
+
+    .field-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:15px;
+    }
+
+    .field-full{
+      grid-column:1/-1;
+    }
+
+    .field-label{
+      display:block;
+      margin-bottom:7px;
+      color:var(--muted);
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .admin-input,
+    .admin-textarea,
+    .admin-select{
+      width:100%;
+      border:1px solid var(--border);
+      border-radius:10px;
+      outline:none;
+      color:var(--text);
+      background:var(--bg);
+      font:inherit;
+      font-size:11px;
+      transition:border-color .2s ease;
+    }
+
+    .admin-input,
+    .admin-select{
+      height:42px;
+      padding:0 12px;
+    }
+
+    .admin-textarea{
+      min-height:112px;
+      padding:11px 12px;
+      resize:vertical;
+      line-height:1.65;
+    }
+
+    .admin-input:focus,
+    .admin-textarea:focus,
+    .admin-select:focus{
+      border-color:rgba(216,179,106,.45);
+    }
+
+    .field-hint{
+      margin-top:5px;
+      color:var(--muted);
+      font-size:8px;
+      line-height:1.45;
+    }
+
+    /* CHARACTER COUNT */
+
+    .textarea-wrap{
+      position:relative;
+    }
+
+    .char-count{
+      position:absolute;
+      right:10px;
+      bottom:8px;
+      color:var(--muted);
+      font-size:8px;
+      pointer-events:none;
+    }
+
+    /* REPEATER */
+
+    .repeat-list{
+      display:grid;
+      gap:10px;
+    }
+
+    .repeat-item{
+      display:grid;
+      grid-template-columns:40px minmax(0,1fr) auto;
+      gap:12px;
+      align-items:center;
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:rgba(255,255,255,.012);
+    }
+
+    .repeat-number{
+      display:grid;
+      place-items:center;
+      width:40px;
+      height:40px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      color:var(--accent);
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:12px;
+    }
+
+    .repeat-copy strong{
+      display:block;
+      font-size:10px;
+    }
+
+    .repeat-copy span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:8px;
+    }
+
+    .mini-button{
+      height:33px;
+      padding:0 10px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      color:var(--muted);
+      background:transparent;
+      cursor:pointer;
+      font:inherit;
+      font-size:8px;
+    }
+
+    .mini-button:hover{
+      color:var(--text);
+      border-color:rgba(216,179,106,.3);
+    }
+
+    /* PROJECT */
+
+    .project-admin-card{
+      padding:15px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      background:rgba(255,255,255,.012);
+    }
+
+    .project-admin-card + .project-admin-card{
+      margin-top:10px;
+    }
+
+    .project-top{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .project-thumb{
+      display:grid;
+      place-items:center;
+      width:55px;
+      height:43px;
+      flex:0 0 55px;
+      border:1px solid var(--border);
+      border-radius:9px;
+      color:var(--accent);
+      background:
+        linear-gradient(
+          135deg,
+          rgba(216,179,106,.12),
+          rgba(255,255,255,.02)
+        );
+      font-size:8px;
+    }
+
+    .project-title{
+      flex:1;
+      min-width:0;
+    }
+
+    .project-title strong{
+      display:block;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:10px;
+    }
+
+    .project-title span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:8px;
+    }
+
+    .project-fields{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin-top:13px;
+    }
+
+    /* TIMELINE */
+
+    .timeline{
+      display:grid;
+      gap:10px;
+    }
+
+    .timeline-item{
+      display:grid;
+      grid-template-columns:7px 1fr;
+      gap:12px;
+    }
+
+    .timeline-line{
+      position:relative;
+      display:flex;
+      justify-content:center;
+    }
+
+    .timeline-line::before{
+      content:"";
+      width:7px;
+      height:7px;
+      margin-top:17px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 0 5px rgba(216,179,106,.07);
+    }
+
+    .timeline-line::after{
+      content:"";
+      position:absolute;
+      top:28px;
+      bottom:-14px;
+      width:1px;
+      background:var(--border);
+    }
+
+    .timeline-item:last-child .timeline-line::after{
+      display:none;
+    }
+
+    .timeline-content{
+      padding:12px;
+      border:1px solid var(--border);
+      border-radius:11px;
+    }
+
+    .timeline-content strong{
+      display:block;
+      font-size:10px;
+    }
+
+    .timeline-content span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:8px;
+    }
+
+    /* SKILLS */
+
+    .skill-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:7px;
+    }
+
+    .skill-tag{
+      padding:7px 9px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      background:rgba(255,255,255,.012);
+      font-size:8px;
+    }
+
+    /* SIDE */
+
+    .side-section{
+      padding:18px;
+    }
+
+    .side-title{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:16px;
+      letter-spacing:-.02em;
+    }
+
+    .side-copy{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.55;
+    }
+
+    .publish-card{
+      border:1px solid rgba(117,212,154,.18);
+      background:rgba(117,212,154,.025);
+    }
+
+    .publish-status{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-top:16px;
+      color:#79d69b;
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .publish-status::before{
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:#79d69b;
+    }
+
+    .side-actions{
+      display:grid;
+      gap:8px;
+      margin-top:15px;
+    }
+
+    .side-action{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      min-height:38px;
+      padding:0 11px;
+      border:1px solid var(--border);
+      border-radius:9px;
+      color:var(--text);
+      background:transparent;
+      cursor:pointer;
+      font:inherit;
+      font-size:9px;
+      text-decoration:none;
+    }
+
+    .side-action:hover{
+      border-color:rgba(216,179,106,.3);
+    }
+
+    .side-action span:last-child{
+      color:var(--muted);
+    }
+
+    /* CHECKLIST */
+
+    .checklist{
+      display:grid;
+      gap:11px;
+      margin-top:17px;
+    }
+
+    .check-item{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .check-icon{
+      display:grid;
+      place-items:center;
+      width:17px;
+      height:17px;
+      border-radius:50%;
+      color:#79d69b;
+      background:rgba(117,212,154,.08);
+      font-size:8px;
+      font-weight:700;
+    }
+
+    .check-icon.pending{
+      color:#dfbf70;
+      background:rgba(216,179,106,.08);
+    }
+
+    /* SAVE BAR */
+
+    .floating-save{
+      position:sticky;
+      bottom:15px;
+      z-index:5;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      margin-top:18px;
+      padding:11px 13px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      background:rgba(21,22,26,.92);
+      backdrop-filter:blur(18px);
+    }
+
+    .floating-save span{
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .floating-save strong{
+      color:var(--text);
+    }
+
+    [data-theme="light"] .editor-card{
+      background:#fff;
+    }
+
+    [data-theme="light"] .floating-save{
+      background:rgba(255,255,255,.94);
+    }
+
+    @media(max-width:1050px){
+      .editor-layout{
+        grid-template-columns:1fr;
+      }
+
+      .editor-side{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    @media(max-width:720px){
+      .editor-hero{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .field-grid,
+      .project-fields{
+        grid-template-columns:1fr;
+      }
+
+      .editor-side{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:500px){
+      .repeat-item{
+        grid-template-columns:34px minmax(0,1fr);
+      }
+
+      .repeat-number{
+        width:34px;
+        height:34px;
+      }
+
+      .repeat-item .mini-button{
+        grid-column:2;
+        justify-self:start;
+      }
+
+      .floating-save{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+    }
+  </style>
+</head>
 
 <body>
 
 <div class="app">
 
-  <!-- =====================================================
+  <!-- =======================================================
        SIDEBAR
-  ====================================================== -->
+  ======================================================== -->
 
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
 
-      <div class="brand-mark">
-        NU
-      </div>
+      <div class="brand-mark">NU</div>
 
       <div class="brand-copy">
-        <strong>Nusrat</strong>
+        <strong>Nusrat Afsana Usha</strong>
         <span>Portfolio Admin</span>
       </div>
 
     </div>
 
 
-    <div class="sidebar-section">
+    <nav class="side-nav">
 
-      <span class="sidebar-label">
-        Workspace
-      </span>
+      <div class="nav-label">
+        Overview
+      </div>
 
-
-      <nav class="side-nav">
-
-        <button
-          class="nav-item"
-          data-page="dashboard"
-        >
-          <span class="nav-icon">⌂</span>
-          <span>Dashboard</span>
-        </button>
-
-
-        <button
-          class="nav-item active"
-          data-page="homepage"
-        >
-          <span class="nav-icon">◉</span>
-          <span>Homepage</span>
-        </button>
-
-
-        <button
-          class="nav-item"
-          data-page="banner"
-        >
-          <span class="nav-icon">▧</span>
-          <span>Banner</span>
-        </button>
-
-
-        <button
-          class="nav-item"
-          data-page="browser-ui"
-        >
-          <span class="nav-icon">▣</span>
-          <span>Browser UI</span>
-        </button>
-
-
-        <button
-          class="nav-item"
-          data-page="newsletter"
-        >
-          <span class="nav-icon">✉</span>
-          <span>Newsletter</span>
-        </button>
-
-
-        <button
-          class="nav-item"
-          data-page="admin-management"
-        >
-          <span class="nav-icon">◎</span>
-          <span>Admin Management</span>
-        </button>
-
-
-        <button
-          class="nav-item"
-          data-page="system"
-        >
-          <span class="nav-icon">⚙</span>
-          <span>System</span>
-        </button>
-
-      </nav>
-
-    </div>
-
-
-    <div class="sidebar-bottom">
-
-      <a
-        href="../index.html"
-        target="_blank"
-        class="preview-link"
-      >
-        <span>↗</span>
-        View Portfolio
+      <a class="nav-item" href="./dashboard.html">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </span>
+        <span>Dashboard</span>
       </a>
 
 
-      <div class="account-card">
-
-        <div class="avatar">
-          NU
-        </div>
-
-        <div class="account-info">
-          <strong>Nusrat</strong>
-          <span>Content Admin</span>
-        </div>
-
-        <button
-          class="more-button"
-          id="accountMenu"
-          aria-label="Account menu"
-        >
-          •••
-        </button>
-
+      <div class="nav-label">
+        Content
       </div>
+
+      <a class="nav-item active" href="./homepage.html">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M3 11.5 12 4l9 7.5"/>
+            <path d="M5.5 10.5V20h13v-9.5"/>
+            <path d="M9.5 20v-5h5v5"/>
+          </svg>
+        </span>
+        <span>Homepage</span>
+      </a>
+
+
+      <a class="nav-item" href="./banner.html">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <circle cx="8" cy="10" r="1.5"/>
+            <path d="m21 15-4.5-4.5L9 18"/>
+          </svg>
+        </span>
+        <span>Banner</span>
+      </a>
+
+
+      <a class="nav-item" href="./browser-ui.html">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <path d="M3 8h18"/>
+            <circle cx="6.5" cy="6" r=".6"
+                    fill="currentColor"/>
+            <circle cx="9" cy="6" r=".6"
+                    fill="currentColor"/>
+            <circle cx="11.5" cy="6" r=".6"
+                    fill="currentColor"/>
+          </svg>
+        </span>
+        <span>Browser UI</span>
+      </a>
+
+
+      <a class="nav-item" href="./newsletter.html">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <path d="m4 7 8 6 8-6"/>
+          </svg>
+        </span>
+        <span>Newsletter</span>
+      </a>
+
+
+      <div class="nav-label">
+        Administration
+      </div>
+
+      <a class="nav-item" href="./admin-management.html">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M16 21v-1.8a4.2 4.2 0 0 0-4.2-4.2H6.2A4.2 4.2 0 0 0 2 19.2V21"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M17 11a4 4 0 1 0-1.5-7.7"/>
+            <path d="M22 21v-1.8a4.2 4.2 0 0 0-3.2-4.1"/>
+          </svg>
+        </span>
+        <span>Admin Management</span>
+      </a>
+
+
+      <a class="nav-item" href="./system.html">
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V22h-2.6v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.6h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0 1.6 1h.4V14h-.4a1.7 1.7 0 0 0-1.6 1Z"/>
+          </svg>
+        </span>
+        <span>System</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+      <a
+        class="nav-item"
+        href="../index.html"
+        target="_blank"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M14 3h7v7"/>
+            <path d="M10 14 21 3"/>
+            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+          </svg>
+        </span>
+        <span>View Portfolio</span>
+      </a>
 
     </div>
 
   </aside>
 
 
-  <!-- =====================================================
+  <!-- =======================================================
        MAIN
-  ====================================================== -->
+  ======================================================== -->
 
   <main class="main">
 
-
-    <!-- TOPBAR -->
-
     <header class="topbar">
 
-      <div class="mobile-brand">
+      <button
+        class="mobile-menu-button"
+        id="menuToggle"
+        aria-label="Open menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-        <button
-          class="mobile-menu"
-          id="mobileMenu"
-          aria-label="Open menu"
-        >
-          ☰
-        </button>
 
-        <strong>NUS</strong>
-
+      <div class="topbar-title">
+        <span>Content</span>
+        <strong>Homepage</strong>
       </div>
 
 
-      <div class="breadcrumb">
-
-        <span>Portfolio</span>
-
-        <b>/</b>
-
-        <strong id="pageTitle">
-          Homepage
-        </strong>
-
-      </div>
-
-
-      <div class="top-actions">
+      <div class="topbar-actions">
 
         <button
-          class="icon-button"
+          class="secondary-button"
           id="themeToggle"
-          aria-label="Toggle theme"
+          type="button"
         >
-          ◐
+          <span>◐</span>
+          <span>Theme</span>
         </button>
 
-
         <button
-          class="save-button"
-          id="globalSave"
+          class="primary-button"
+          id="saveButton"
+          type="button"
         >
-          <span>Save Changes</span>
-          <kbd>⌘ S</kbd>
+          Save Changes
         </button>
 
       </div>
@@ -228,271 +820,1145 @@
     </header>
 
 
-    <!-- ===================================================
-         CONTENT
-    ==================================================== -->
-
-    <div class="content">
+    <section class="content">
 
 
-      <!-- PAGE HEADING -->
+      <!-- ===================================================
+           HERO
+      ==================================================== -->
 
-      <section class="page active">
+      <div class="editor-hero">
 
-        <div class="page-heading">
+        <div>
 
-          <div>
-
-            <span class="eyebrow">
-              Homepage content
-            </span>
-
-            <h1>
-              Shape the
-              <em>experience.</em>
-            </h1>
-
-            <p>
-              Manage the main sections of Nusrat's portfolio
-              without touching the website code.
-            </p>
-
+          <div class="editor-kicker">
+            Homepage Content
           </div>
 
+          <h1>
+            Shape the story.
+          </h1>
 
-          <a
-            href="../index.html"
-            target="_blank"
-            class="primary-button"
-          >
-            Preview homepage
-            <span>↗</span>
-          </a>
+          <p>
+            Edit the content visitors see across Nusrat Afsana
+            Usha’s portfolio homepage. Keep every section clear,
+            intentional and aligned with the visual experience.
+          </p>
 
         </div>
+
+
+        <div class="editor-state">
+
+          <span class="editor-state-dot"></span>
+
+          Changes saved locally
+
+        </div>
+
+      </div>
+
+
+      <div class="editor-layout">
 
 
         <!-- =================================================
-             HERO
+             MAIN EDITOR
         ================================================== -->
 
-        <div class="section-head">
-
-          <div>
-
-            <span class="eyebrow">
-              01 / Hero
-            </span>
-
-            <h2>
-              First impression
-            </h2>
-
-          </div>
-
-        </div>
+        <div class="editor-main">
 
 
-        <div class="editor-grid">
+          <!-- HERO -->
 
+          <section class="editor-card">
 
-          <div class="panel">
-
-            <div class="panel-head">
+            <div class="editor-card-head">
 
               <div>
 
-                <span class="eyebrow">
-                  Identity
+                <span class="section-number">
+                  01 / HERO
                 </span>
 
-                <h3>
-                  Hero content
-                </h3>
+                <h2>
+                  First Impression
+                </h2>
+
+                <p>
+                  The opening message visitors see immediately.
+                </p>
 
               </div>
 
             </div>
 
 
-            <label class="field">
+            <div class="editor-card-body">
 
-              <span>
-                Availability label
-              </span>
-
-              <input
-                type="text"
-                value="Available for selected projects"
-                data-save="availability"
-              >
-
-            </label>
+              <div class="field-grid">
 
 
-            <label class="field">
+                <div>
 
-              <span>
-                Name
-              </span>
+                  <label class="field-label">
+                    Name
+                  </label>
 
-              <input
-                type="text"
-                value="Nusrat Afsana Usha"
-                data-save="name"
-              >
+                  <input
+                    class="admin-input"
+                    data-field="hero.name"
+                    value="Nusrat Afsana Usha"
+                  >
 
-            </label>
-
-
-            <label class="field">
-
-              <span>
-                Professional title
-              </span>
-
-              <input
-                type="text"
-                value="UX/UI Designer"
-                data-save="role"
-              >
-
-            </label>
+                </div>
 
 
-            <label class="field">
+                <div>
 
-              <span>
-                Main headline
-              </span>
+                  <label class="field-label">
+                    Role
+                  </label>
 
-              <textarea
-                rows="4"
-                data-save="headline"
-              >Designing clarity into digital experiences.</textarea>
+                  <input
+                    class="admin-input"
+                    data-field="hero.role"
+                    value="UX/UI Designer"
+                  >
 
-            </label>
-
-
-            <label class="field">
-
-              <span>
-                Hero description
-              </span>
-
-              <textarea
-                rows="6"
-                data-save="intro"
-              >I design thoughtful digital experiences that turn complexity into clarity — combining user insight, visual systems and purposeful interaction.</textarea>
-
-            </label>
-
-          </div>
+                </div>
 
 
-          <!-- HERO SETTINGS -->
+                <div class="field-full">
 
-          <div class="panel">
+                  <label class="field-label">
+                    Headline
+                  </label>
 
-            <div class="panel-head">
+                  <input
+                    class="admin-input"
+                    data-field="hero.headline"
+                    value="Designing with clarity."
+                  >
+
+                  <div class="field-hint">
+                    Keep this short and memorable.
+                  </div>
+
+                </div>
+
+
+                <div class="field-full">
+
+                  <label class="field-label">
+                    Supporting Copy
+                  </label>
+
+                  <div class="textarea-wrap">
+
+                    <textarea
+                      class="admin-textarea"
+                      data-field="hero.description"
+                      maxlength="220"
+                      id="heroDescription"
+                    >Thoughtful digital experiences built around people, purpose and interaction.</textarea>
+
+                    <span
+                      class="char-count"
+                      data-count-for="heroDescription"
+                    >
+                      0 / 220
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div>
+
+                  <label class="field-label">
+                    Primary CTA
+                  </label>
+
+                  <input
+                    class="admin-input"
+                    data-field="hero.primaryCta"
+                    value="View Selected Work"
+                  >
+
+                </div>
+
+
+                <div>
+
+                  <label class="field-label">
+                    Secondary CTA
+                  </label>
+
+                  <input
+                    class="admin-input"
+                    data-field="hero.secondaryCta"
+                    value="Let's Connect"
+                  >
+
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- ABOUT -->
+
+          <section class="editor-card">
+
+            <div class="editor-card-head">
 
               <div>
 
-                <span class="eyebrow">
-                  Hero controls
+                <span class="section-number">
+                  02 / ABOUT
                 </span>
 
-                <h3>
-                  Presentation
-                </h3>
+                <h2>
+                  About Section
+                </h2>
+
+                <p>
+                  Personal positioning and professional introduction.
+                </p>
 
               </div>
 
             </div>
 
 
-            <label class="field">
+            <div class="editor-card-body">
 
-              <span>
-                Primary CTA text
-              </span>
+              <div class="field-grid">
 
-              <input
-                type="text"
-                value="Explore selected work"
+
+                <div class="field-full">
+
+                  <label class="field-label">
+                    Section Heading
+                  </label>
+
+                  <input
+                    class="admin-input"
+                    data-field="about.heading"
+                    value="A thoughtful approach to digital design."
+                  >
+
+                </div>
+
+
+                <div class="field-full">
+
+                  <label class="field-label">
+                    Introduction
+                  </label>
+
+                  <div class="textarea-wrap">
+
+                    <textarea
+                      class="admin-textarea"
+                      data-field="about.description"
+                      maxlength="700"
+                      id="aboutDescription"
+                    >I’m Nusrat Afsana Usha, a UX/UI designer focused on creating clear, useful and human-centered digital experiences.</textarea>
+
+                    <span
+                      class="char-count"
+                      data-count-for="aboutDescription"
+                    >
+                      0 / 700
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div>
+
+                  <label class="field-label">
+                    Location
+                  </label>
+
+                  <input
+                    class="admin-input"
+                    data-field="about.location"
+                    value="Dhaka, Bangladesh"
+                  >
+
+                </div>
+
+
+                <div>
+
+                  <label class="field-label">
+                    Availability
+                  </label>
+
+                  <select
+                    class="admin-select"
+                    data-field="about.availability"
+                  >
+                    <option selected>Open to selected opportunities</option>
+                    <option>Available for freelance projects</option>
+                    <option>Available for collaborations</option>
+                    <option>Not currently available</option>
+                  </select>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- SERVICES -->
+
+          <section class="editor-card">
+
+            <div class="editor-card-head">
+
+              <div>
+
+                <span class="section-number">
+                  03 / SERVICES
+                </span>
+
+                <h2>
+                  Services
+                </h2>
+
+                <p>
+                  The capabilities visitors can explore.
+                </p>
+
+              </div>
+
+              <button
+                class="mini-button"
+                id="addService"
+                type="button"
+              >
+                + Add Service
+              </button>
+
+            </div>
+
+
+            <div class="editor-card-body">
+
+              <div
+                class="repeat-list"
+                id="servicesList"
               >
 
-            </label>
+                <div class="repeat-item">
+
+                  <div class="repeat-number">
+                    01
+                  </div>
+
+                  <div class="repeat-copy">
+
+                    <strong>
+                      UX/UI Design
+                    </strong>
+
+                    <span>
+                      Interfaces built around clarity and usability.
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button remove-item"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
 
 
-            <label class="field">
+                <div class="repeat-item">
 
-              <span>
-                Primary CTA link
-              </span>
+                  <div class="repeat-number">
+                    02
+                  </div>
 
-              <input
-                type="text"
-                value="#work"
+                  <div class="repeat-copy">
+
+                    <strong>
+                      Website Design
+                    </strong>
+
+                    <span>
+                      Structured experiences for modern websites.
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button remove-item"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
+
+
+                <div class="repeat-item">
+
+                  <div class="repeat-number">
+                    03
+                  </div>
+
+                  <div class="repeat-copy">
+
+                    <strong>
+                      Wireframing & Prototyping
+                    </strong>
+
+                    <span>
+                      Turning ideas into testable product flows.
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button remove-item"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
+
+
+                <div class="repeat-item">
+
+                  <div class="repeat-number">
+                    04
+                  </div>
+
+                  <div class="repeat-copy">
+
+                    <strong>
+                      Interaction Design
+                    </strong>
+
+                    <span>
+                      Designing intuitive digital interactions.
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button remove-item"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
+
+
+                <div class="repeat-item">
+
+                  <div class="repeat-number">
+                    05
+                  </div>
+
+                  <div class="repeat-copy">
+
+                    <strong>
+                      UX Research
+                    </strong>
+
+                    <span>
+                      Research-led decisions for better experiences.
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button remove-item"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- SELECTED WORK -->
+
+          <section class="editor-card">
+
+            <div class="editor-card-head">
+
+              <div>
+
+                <span class="section-number">
+                  04 / SELECTED WORK
+                </span>
+
+                <h2>
+                  Portfolio Projects
+                </h2>
+
+                <p>
+                  Manage project titles, descriptions and visibility.
+                </p>
+
+              </div>
+
+              <button
+                class="mini-button"
+                id="addProject"
+                type="button"
               >
+                + Add Project
+              </button>
 
-            </label>
-
-
-            <label class="field">
-
-              <span>
-                Secondary CTA text
-              </span>
-
-              <input
-                type="text"
-                value="Start a conversation"
-              >
-
-            </label>
+            </div>
 
 
-            <label class="field">
-
-              <span>
-                Secondary CTA link
-              </span>
-
-              <input
-                type="text"
-                value="#contact"
-              >
-
-            </label>
+            <div class="editor-card-body">
 
 
-            <label class="field">
+              <div class="project-admin-card">
 
-              <span>
-                Location
-              </span>
+                <div class="project-top">
 
-              <input
-                type="text"
-                value="Dhaka, Bangladesh"
-              >
+                  <div class="project-thumb">
+                    01
+                  </div>
 
-            </label>
+                  <div class="project-title">
+
+                    <strong>
+                      Restaurant Ordering Experience
+                    </strong>
+
+                    <span>
+                      UX/UI Design
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
 
 
-            <label class="field">
+                <div class="project-fields">
 
-              <span>
-                Education meta
-              </span>
+                  <div>
 
-              <input
-                type="text"
-                value="MA UX Design · 2026–27"
-              >
+                    <label class="field-label">
+                      Project Name
+                    </label>
 
-            </label>
+                    <input
+                      class="admin-input"
+                      data-project="1.name"
+                      value="Restaurant Ordering Experience"
+                    >
+
+                  </div>
+
+
+                  <div>
+
+                    <label class="field-label">
+                      Category
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="1.category"
+                      value="UX/UI Design"
+                    >
+
+                  </div>
+
+
+                  <div class="field-full">
+
+                    <label class="field-label">
+                      Short Description
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="1.description"
+                      value="A structured ordering experience focused on clarity and ease of use."
+                    >
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="project-admin-card">
+
+                <div class="project-top">
+
+                  <div class="project-thumb">
+                    02
+                  </div>
+
+                  <div class="project-title">
+
+                    <strong>
+                      SaaS / Video Conferencing
+                    </strong>
+
+                    <span>
+                      Product Design
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
+
+
+                <div class="project-fields">
+
+                  <div>
+
+                    <label class="field-label">
+                      Project Name
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="2.name"
+                      value="SaaS / Video Conferencing"
+                    >
+
+                  </div>
+
+
+                  <div>
+
+                    <label class="field-label">
+                      Category
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="2.category"
+                      value="Product Design"
+                    >
+
+                  </div>
+
+
+                  <div class="field-full">
+
+                    <label class="field-label">
+                      Short Description
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="2.description"
+                      value="A video collaboration concept exploring communication and meeting workflows."
+                    >
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="project-admin-card">
+
+                <div class="project-top">
+
+                  <div class="project-thumb">
+                    03
+                  </div>
+
+                  <div class="project-title">
+
+                    <strong>
+                      Digital Product Interface
+                    </strong>
+
+                    <span>
+                      Interface Design
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
+
+
+                <div class="project-fields">
+
+                  <div>
+
+                    <label class="field-label">
+                      Project Name
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="3.name"
+                      value="Digital Product Interface"
+                    >
+
+                  </div>
+
+
+                  <div>
+
+                    <label class="field-label">
+                      Category
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="3.category"
+                      value="Interface Design"
+                    >
+
+                  </div>
+
+
+                  <div class="field-full">
+
+                    <label class="field-label">
+                      Short Description
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="3.description"
+                      value="A focused interface system designed around hierarchy and interaction."
+                    >
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="project-admin-card">
+
+                <div class="project-top">
+
+                  <div class="project-thumb">
+                    04
+                  </div>
+
+                  <div class="project-title">
+
+                    <strong>
+                      Mobile Experience Concept
+                    </strong>
+
+                    <span>
+                      UX/UI Design
+                    </span>
+
+                  </div>
+
+                  <button
+                    class="mini-button"
+                    type="button"
+                  >
+                    Edit
+                  </button>
+
+                </div>
+
+
+                <div class="project-fields">
+
+                  <div>
+
+                    <label class="field-label">
+                      Project Name
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="4.name"
+                      value="Mobile Experience Concept"
+                    >
+
+                  </div>
+
+
+                  <div>
+
+                    <label class="field-label">
+                      Category
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="4.category"
+                      value="UX/UI Design"
+                    >
+
+                  </div>
+
+
+                  <div class="field-full">
+
+                    <label class="field-label">
+                      Short Description
+                    </label>
+
+                    <input
+                      class="admin-input"
+                      data-project="4.description"
+                      value="A mobile-first experience concept focused on simple navigation."
+                    >
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- EXPERIENCE -->
+
+          <section class="editor-card">
+
+            <div class="editor-card-head">
+
+              <div>
+
+                <span class="section-number">
+                  05 / EXPERIENCE
+                </span>
+
+                <h2>
+                  Professional Timeline
+                </h2>
+
+                <p>
+                  Keep the public experience timeline accurate.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="editor-card-body">
+
+              <div class="timeline">
+
+
+                <div class="timeline-item">
+
+                  <div class="timeline-line"></div>
+
+                  <div class="timeline-content">
+
+                    <strong>
+                      Operations & Administration Manager
+                    </strong>
+
+                    <span>
+                      United Marine Transport Limited · Sep 2019 — Present
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                  <div class="timeline-line"></div>
+
+                  <div class="timeline-content">
+
+                    <strong>
+                      Executive
+                    </strong>
+
+                    <span>
+                      Mentor's Education · Jul 2017 — May 2018
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="timeline-item">
+
+                  <div class="timeline-line"></div>
+
+                  <div class="timeline-content">
+
+                    <strong>
+                      Intern
+                    </strong>
+
+                    <span>
+                      First Security Islami Bank Limited · Jan 2017 — Apr 2017
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- SKILLS -->
+
+          <section class="editor-card">
+
+            <div class="editor-card-head">
+
+              <div>
+
+                <span class="section-number">
+                  06 / SKILLS
+                </span>
+
+                <h2>
+                  Skills & Expertise
+                </h2>
+
+                <p>
+                  The capabilities displayed throughout the portfolio.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="editor-card-body">
+
+
+              <div class="field-grid">
+
+                <div class="field-full">
+
+                  <label class="field-label">
+                    Design Skills
+                  </label>
+
+                  <div class="skill-grid">
+
+                    <span class="skill-tag">UX/UI Design</span>
+                    <span class="skill-tag">Website Design</span>
+                    <span class="skill-tag">Wireframing</span>
+                    <span class="skill-tag">Prototyping</span>
+                    <span class="skill-tag">Interaction Design</span>
+                    <span class="skill-tag">Information Architecture</span>
+                    <span class="skill-tag">User Research</span>
+                    <span class="skill-tag">Usability Testing</span>
+                    <span class="skill-tag">Figma</span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="field-full">
+
+                  <label class="field-label">
+                    Professional Skills
+                  </label>
+
+                  <div class="skill-grid">
+
+                    <span class="skill-tag">Project Management</span>
+                    <span class="skill-tag">Stakeholder Communication</span>
+                    <span class="skill-tag">Critical Thinking</span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- CONTACT -->
+
+          <section class="editor-card">
+
+            <div class="editor-card-head">
+
+              <div>
+
+                <span class="section-number">
+                  07 / CONTACT
+                </span>
+
+                <h2>
+                  Contact Information
+                </h2>
+
+                <p>
+                  Public contact details shown on the portfolio.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="editor-card-body">
+
+              <div class="field-grid">
+
+
+                <div>
+
+                  <label class="field-label">
+                    Email
+                  </label>
+
+                  <input
+                    class="admin-input"
+                    type="email"
+                    data-field="contact.email"
+                    value="nusrat.afsana1992@gmail.com"
+                  >
+
+                </div>
+
+
+                <div>
+
+                  <label class="field-label">
+                    Location
+                  </label>
+
+                  <input
+                    class="admin-input"
+                    data-field="contact.location"
+                    value="Dhaka, Bangladesh"
+                  >
+
+                </div>
+
+
+                <div>
+
+                  <label class="field-label">
+                    LinkedIn
+                  </label>
+
+                  <input
+                    class="admin-input"
+                    data-field="contact.linkedin"
+                    placeholder="Add LinkedIn URL"
+                    value=""
+                  >
+
+                </div>
+
+
+                <div>
+
+                  <label class="field-label">
+                    Behance
+                  </label>
+
+                  <input
+                    class="admin-input"
+                    data-field="contact.behance"
+                    placeholder="Add Behance URL"
+                    value=""
+                  >
+
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- FLOATING SAVE -->
+
+          <div class="floating-save">
+
+            <span>
+              <strong>Editing homepage content</strong>
+              · Changes are stored locally until backend integration.
+            </span>
+
+            <button
+              class="primary-button"
+              id="bottomSave"
+              type="button"
+            >
+              Save Homepage
+            </button>
 
           </div>
 
@@ -500,707 +1966,185 @@
 
 
         <!-- =================================================
-             HERO PHOTO
+             SIDE PANEL
         ================================================== -->
 
-        <div class="section-head" style="margin-top:58px;">
-
-          <div>
-
-            <span class="eyebrow">
-              02 / Portrait
-            </span>
-
-            <h2>
-              Profile image
-            </h2>
-
-          </div>
-
-        </div>
+        <aside class="editor-side">
 
 
-        <div class="panel">
+          <!-- PUBLISH -->
 
-          <div class="image-upload">
+          <section class="editor-card publish-card">
 
-            <div class="image-preview">
+            <div class="side-section">
 
-              <img
-                src="../nusrat-afsana-photo.jpg"
-                alt="Nusrat Afsana Usha"
-                id="profileImagePreview"
-              >
+              <h2 class="side-title">
+                Publication
+              </h2>
 
-            </div>
-
-
-            <div class="upload-info">
-
-              <strong>
-                Nusrat's portfolio portrait
-              </strong>
-
-              <p>
-                Keep the original portrait clean.
-                No text, badge, CTA or graphic overlay
-                should be placed over the face/photo.
+              <p class="side-copy">
+                Current homepage visibility.
               </p>
 
 
-              <label class="secondary-button upload-button">
+              <div class="publish-status">
+                Publicly visible
+              </div>
 
-                Change image
 
-                <input
-                  type="file"
-                  id="profileImageInput"
-                  accept="image/*"
-                  hidden
+              <div class="side-actions">
+
+                <a
+                  class="side-action"
+                  href="../index.html"
+                  target="_blank"
                 >
-
-              </label>
-
-            </div>
-
-          </div>
-
-        </div>
+                  <span>View Homepage</span>
+                  <span>↗</span>
+                </a>
 
 
-        <!-- =================================================
-             SERVICES
-        ================================================== -->
+                <button
+                  class="side-action"
+                  id="previewButton"
+                  type="button"
+                >
+                  <span>Preview Changes</span>
+                  <span>◉</span>
+                </button>
 
-        <div class="section-head" style="margin-top:58px;">
-
-          <div>
-
-            <span class="eyebrow">
-              03 / Services
-            </span>
-
-            <h2>
-              What I do
-            </h2>
-
-          </div>
-
-
-          <button
-            class="secondary-button"
-            id="addService"
-          >
-            + Add service
-          </button>
-
-        </div>
-
-
-        <div class="content-list" id="servicesList">
-
-
-          <article class="content-row">
-
-            <div class="row-number">
-              01
-            </div>
-
-            <div class="row-content">
-
-              <strong>
-                UX/UI Design
-              </strong>
-
-              <span>
-                Interfaces that feel clear,
-                intuitive and purposeful.
-              </span>
+              </div>
 
             </div>
 
-            <button class="row-action">
-              Edit
-            </button>
-
-          </article>
+          </section>
 
 
-          <article class="content-row">
+          <!-- CONTENT CHECK -->
 
-            <div class="row-number">
-              02
-            </div>
+          <section class="editor-card">
 
-            <div class="row-content">
+            <div class="side-section">
 
-              <strong>
-                Website Design
-              </strong>
+              <h2 class="side-title">
+                Content Check
+              </h2>
 
-              <span>
-                Premium digital experiences
-                for modern brands.
-              </span>
-
-            </div>
-
-            <button class="row-action">
-              Edit
-            </button>
-
-          </article>
+              <p class="side-copy">
+                Quick homepage readiness review.
+              </p>
 
 
-          <article class="content-row">
+              <div class="checklist">
 
-            <div class="row-number">
-              03
-            </div>
+                <div class="check-item">
+                  <span class="check-icon">✓</span>
+                  Hero content
+                </div>
 
-            <div class="row-content">
+                <div class="check-item">
+                  <span class="check-icon">✓</span>
+                  About section
+                </div>
 
-              <strong>
-                Wireframing
-              </strong>
+                <div class="check-item">
+                  <span class="check-icon">✓</span>
+                  Services
+                </div>
 
-              <span>
-                Structure and information architecture
-                before visual design.
-              </span>
+                <div class="check-item">
+                  <span class="check-icon">✓</span>
+                  Selected work
+                </div>
 
-            </div>
+                <div class="check-item">
+                  <span class="check-icon">✓</span>
+                  Experience
+                </div>
 
-            <button class="row-action">
-              Edit
-            </button>
+                <div class="check-item">
+                  <span class="check-icon">✓</span>
+                  Skills
+                </div>
 
-          </article>
+                <div class="check-item">
+                  <span class="check-icon pending">!</span>
+                  Social profile links
+                </div>
 
-
-          <article class="content-row">
-
-            <div class="row-number">
-              04
-            </div>
-
-            <div class="row-content">
-
-              <strong>
-                Prototyping
-              </strong>
-
-              <span>
-                Interactive prototypes for testing
-                ideas and flows.
-              </span>
+              </div>
 
             </div>
 
-            <button class="row-action">
-              Edit
-            </button>
-
-          </article>
+          </section>
 
 
-          <article class="content-row">
+          <!-- GUIDELINE -->
 
-            <div class="row-number">
-              05
+          <section class="editor-card">
+
+            <div class="side-section">
+
+              <h2 class="side-title">
+                Editorial Note
+              </h2>
+
+              <p class="side-copy">
+                Keep homepage copy concise. The visual design
+                should have enough space to breathe.
+              </p>
+
+              <div
+                style="
+                  margin-top:16px;
+                  padding-top:15px;
+                  border-top:1px solid var(--border);
+                  color:var(--muted);
+                  font-size:9px;
+                  line-height:1.7;
+                "
+              >
+                Avoid unsupported claims, invented metrics
+                or placeholder social links in the public
+                portfolio.
+              </div>
+
             </div>
 
-            <div class="row-content">
-
-              <strong>
-                User Research
-              </strong>
-
-              <span>
-                Research-led design decisions
-                grounded in user needs.
-              </span>
-
-            </div>
-
-            <button class="row-action">
-              Edit
-            </button>
-
-          </article>
-
-        </div>
+          </section>
 
 
-        <!-- =================================================
-             ABOUT
-        ================================================== -->
+          <!-- LAST UPDATE -->
 
-        <div class="section-head" style="margin-top:58px;">
+          <section class="editor-card">
 
-          <div>
+            <div class="side-section">
 
-            <span class="eyebrow">
-              04 / About
-            </span>
+              <h2 class="side-title">
+                Last Saved
+              </h2>
 
-            <h2>
-              About section
-            </h2>
-
-          </div>
-
-        </div>
-
-
-        <div class="panel">
-
-
-          <label class="field">
-
-            <span>
-              About eyebrow
-            </span>
-
-            <input
-              type="text"
-              value="A little about me"
-            >
-
-          </label>
-
-
-          <label class="field">
-
-            <span>
-              About heading
-            </span>
-
-            <textarea rows="3">Designing with empathy, structure and intention.</textarea>
-
-          </label>
-
-
-          <label class="field">
-
-            <span>
-              About description
-            </span>
-
-            <textarea rows="7">I am a UX/UI designer focused on creating digital experiences that feel thoughtful, useful and visually refined. My approach combines research, structure and visual craft to help people move through products with greater clarity.</textarea>
-
-          </label>
-
-
-          <label class="field">
-
-            <span>
-              About secondary text
-            </span>
-
-            <textarea rows="5">Beyond interface design, I enjoy understanding how people think, how systems work and how small details can make an experience feel significantly better.</textarea>
-
-          </label>
-
-        </div>
-
-
-        <!-- =================================================
-             PROCESS
-        ================================================== -->
-
-        <div class="section-head" style="margin-top:58px;">
-
-          <div>
-
-            <span class="eyebrow">
-              05 / Process
-            </span>
-
-            <h2>
-              Design thinking
-            </h2>
-
-          </div>
-
-        </div>
-
-
-        <div class="quick-grid">
-
-
-          <article class="quick-card">
-
-            <span class="quick-number">
-              01
-            </span>
-
-            <div>
-
-              <strong>
-                Understand
-              </strong>
-
-              <p>
-                Discover the problem, people and
-                context before designing.
+              <p
+                class="side-copy"
+                id="lastSaved"
+              >
+                Not saved yet.
               </p>
 
             </div>
 
-            <span class="arrow">
-              ↗
-            </span>
+          </section>
 
-          </article>
+        </aside>
 
+      </div>
 
-          <article class="quick-card">
-
-            <span class="quick-number">
-              02
-            </span>
-
-            <div>
-
-              <strong>
-                Structure
-              </strong>
-
-              <p>
-                Turn complexity into clear information,
-                flows and hierarchy.
-              </p>
-
-            </div>
-
-            <span class="arrow">
-              ↗
-            </span>
-
-          </article>
-
-
-          <article class="quick-card">
-
-            <span class="quick-number">
-              03
-            </span>
-
-            <div>
-
-              <strong>
-                Design
-              </strong>
-
-              <p>
-                Build interfaces where visual language
-                supports usability.
-              </p>
-
-            </div>
-
-            <span class="arrow">
-              ↗
-            </span>
-
-          </article>
-
-
-          <article class="quick-card">
-
-            <span class="quick-number">
-              04
-            </span>
-
-            <div>
-
-              <strong>
-                Refine
-              </strong>
-
-              <p>
-                Test, improve and polish until
-                the experience feels intentional.
-              </p>
-
-            </div>
-
-            <span class="arrow">
-              ↗
-            </span>
-
-          </article>
-
-        </div>
-
-
-        <!-- =================================================
-             SECTION VISIBILITY
-        ================================================== -->
-
-        <div class="section-head" style="margin-top:58px;">
-
-          <div>
-
-            <span class="eyebrow">
-              06 / Visibility
-            </span>
-
-            <h2>
-              Homepage sections
-            </h2>
-
-          </div>
-
-        </div>
-
-
-        <div class="content-list">
-
-
-          <article class="content-row">
-
-            <div class="row-number">
-              01
-            </div>
-
-            <div class="row-content">
-
-              <strong>
-                Hero
-              </strong>
-
-              <span>
-                Main introduction and portrait.
-              </span>
-
-            </div>
-
-            <button
-              class="row-action visibility-toggle"
-              data-visible="true"
-            >
-              Visible
-            </button>
-
-          </article>
-
-
-          <article class="content-row">
-
-            <div class="row-number">
-              02
-            </div>
-
-            <div class="row-content">
-
-              <strong>
-                Services
-              </strong>
-
-              <span>
-                UX/UI and design capabilities.
-              </span>
-
-            </div>
-
-            <button
-              class="row-action visibility-toggle"
-              data-visible="true"
-            >
-              Visible
-            </button>
-
-          </article>
-
-
-          <article class="content-row">
-
-            <div class="row-number">
-              03
-            </div>
-
-            <div class="row-content">
-
-              <strong>
-                Selected Work
-              </strong>
-
-              <span>
-                Featured portfolio projects.
-              </span>
-
-            </div>
-
-            <button
-              class="row-action visibility-toggle"
-              data-visible="true"
-            >
-              Visible
-            </button>
-
-          </article>
-
-
-          <article class="content-row">
-
-            <div class="row-number">
-              04
-            </div>
-
-            <div class="row-content">
-
-              <strong>
-                About
-              </strong>
-
-              <span>
-                Professional introduction.
-              </span>
-
-            </div>
-
-            <button
-              class="row-action visibility-toggle"
-              data-visible="true"
-            >
-              Visible
-            </button>
-
-          </article>
-
-
-          <article class="content-row">
-
-            <div class="row-number">
-              05
-            </div>
-
-            <div class="row-content">
-
-              <strong>
-                Experience
-              </strong>
-
-              <span>
-                Professional career timeline.
-              </span>
-
-            </div>
-
-            <button
-              class="row-action visibility-toggle"
-              data-visible="true"
-            >
-              Visible
-            </button>
-
-          </article>
-
-
-          <article class="content-row">
-
-            <div class="row-number">
-              06
-            </div>
-
-            <div class="row-content">
-
-              <strong>
-                Contact
-              </strong>
-
-              <span>
-                Professional contact information.
-              </span>
-
-            </div>
-
-            <button
-              class="row-action visibility-toggle"
-              data-visible="true"
-            >
-              Visible
-            </button>
-
-          </article>
-
-        </div>
-
-
-        <!-- =================================================
-             FOOTER NOTE
-        ================================================== -->
-
-        <div
-          class="status-card"
-          style="margin-top:58px;"
-        >
-
-          <div class="status-left">
-
-            <div class="status-dot"></div>
-
-            <div>
-
-              <strong>
-                Homepage ready
-              </strong>
-
-              <span>
-                Save your changes before leaving this page.
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <div class="status-right">
-
-            <span>
-              Shortcut
-            </span>
-
-            <strong>
-              Ctrl / Cmd + S
-            </strong>
-
-          </div>
-
-        </div>
-
-
-      </section>
-
-    </div>
+    </section>
 
   </main>
 
 </div>
 
-
-<!-- =======================================================
-     TOAST
-======================================================== -->
-
-<div
-  class="toast"
-  id="toast"
-  role="status"
-  aria-live="polite"
->
-  <span>✓</span>
-  <strong>
-    Changes saved
-  </strong>
-</div>
-
-
-<!-- =======================================================
-     MOBILE OVERLAY
-======================================================== -->
 
 <div
   class="mobile-overlay"
@@ -1210,167 +2154,771 @@
 
 <script src="./admin.js"></script>
 
-
 <script>
-/* =========================================================
-   Homepage-specific controls
-   ========================================================= */
+(function(){
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  const addService =
-    document.getElementById("addService");
-
-  const servicesList =
-    document.getElementById("servicesList");
-
-  const toast =
-    document.getElementById("toast");
+  "use strict";
 
 
-  function showHomepageToast(message){
+  /* =========================================================
+     HOMEPAGE DATA
+  ========================================================= */
 
-    if(!toast) return;
+  const STORAGE_KEY =
+    "nusrat_homepage_content_v1";
 
-    const strong =
-      toast.querySelector("strong");
 
-    if(strong){
-      strong.textContent = message;
+  function readData(){
+
+    try{
+
+      const raw =
+        localStorage.getItem(
+          STORAGE_KEY
+        );
+
+      return raw
+        ? JSON.parse(raw)
+        : {};
+
+    }catch(error){
+
+      return {};
+
     }
 
-    toast.classList.add("show");
-
-    clearTimeout(
-      window.__homepageToast
-    );
-
-    window.__homepageToast =
-      setTimeout(() => {
-
-        toast.classList.remove("show");
-
-      }, 2200);
   }
 
 
-  /* =======================================================
-     ADD SERVICE
-  ======================================================= */
+  let data =
+    readData();
 
-  if(addService && servicesList){
+
+  /* =========================================================
+     FIELD HELPERS
+  ========================================================= */
+
+  function setNested(
+    object,
+    path,
+    value
+  ){
+
+    const parts =
+      path.split(".");
+
+    let current =
+      object;
+
+    for(
+      let i = 0;
+      i < parts.length - 1;
+      i++
+    ){
+
+      if(
+        !current[parts[i]] ||
+        typeof current[parts[i]] !== "object"
+      ){
+
+        current[parts[i]] = {};
+
+      }
+
+      current =
+        current[parts[i]];
+
+    }
+
+    current[
+      parts[parts.length - 1]
+    ] =
+      value;
+
+  }
+
+
+  function getNested(
+    object,
+    path
+  ){
+
+    return path
+      .split(".")
+      .reduce(
+        function(current,key){
+
+          return current
+            ? current[key]
+            : undefined;
+
+        },
+        object
+      );
+
+  }
+
+
+  /* =========================================================
+     RESTORE SAVED FIELDS
+  ========================================================= */
+
+  document
+    .querySelectorAll(
+      "[data-field]"
+    )
+    .forEach(
+      function(field){
+
+        const path =
+          field.dataset.field;
+
+        const saved =
+          getNested(
+            data,
+            path
+          );
+
+        if(
+          saved !== undefined
+        ){
+
+          field.value =
+            saved;
+
+        }
+
+      }
+    );
+
+
+  /* =========================================================
+     CHARACTER COUNTERS
+  ========================================================= */
+
+  function updateCounter(
+    textarea
+  ){
+
+    const target =
+      document.querySelector(
+        '[data-count-for="' +
+        textarea.id +
+        '"]'
+      );
+
+    if(!target){
+      return;
+    }
+
+    target.textContent =
+      textarea.value.length +
+      " / " +
+      textarea.maxLength;
+
+  }
+
+
+  document
+    .querySelectorAll(
+      "textarea[maxlength]"
+    )
+    .forEach(
+      function(textarea){
+
+        updateCounter(
+          textarea
+        );
+
+        textarea.addEventListener(
+          "input",
+          function(){
+
+            updateCounter(
+              textarea
+            );
+
+          }
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     MARK CHANGES
+  ========================================================= */
+
+  let dirty =
+    false;
+
+
+  document
+    .querySelectorAll(
+      "input, textarea, select"
+    )
+    .forEach(
+      function(field){
+
+        field.addEventListener(
+          "input",
+          function(){
+
+            dirty =
+              true;
+
+          }
+        );
+
+        field.addEventListener(
+          "change",
+          function(){
+
+            dirty =
+              true;
+
+          }
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     SAVE
+  ========================================================= */
+
+  function saveHomepage(){
+
+    const fields =
+      document.querySelectorAll(
+        "[data-field]"
+      );
+
+
+    fields.forEach(
+      function(field){
+
+        setNested(
+          data,
+          field.dataset.field,
+          field.value
+        );
+
+      }
+    );
+
+
+    data.savedAt =
+      new Date().toISOString();
+
+
+    try{
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(data)
+      );
+
+      localStorage.setItem(
+        "nusrat_admin_last_updated",
+        data.savedAt
+      );
+
+    }catch(error){
+
+      showLocalMessage(
+        "Unable to save local data."
+      );
+
+      return;
+
+    }
+
+
+    dirty =
+      false;
+
+
+    updateLastSaved();
+
+
+    if(
+      typeof window.showToast ===
+      "function"
+    ){
+
+      window.showToast(
+        "Homepage content saved."
+      );
+
+    }else{
+
+      showLocalMessage(
+        "Homepage content saved."
+      );
+
+    }
+
+  }
+
+
+  const saveButton =
+    document.getElementById(
+      "saveButton"
+    );
+
+
+  const bottomSave =
+    document.getElementById(
+      "bottomSave"
+    );
+
+
+  if(saveButton){
+
+    saveButton.addEventListener(
+      "click",
+      saveHomepage
+    );
+
+  }
+
+
+  if(bottomSave){
+
+    bottomSave.addEventListener(
+      "click",
+      saveHomepage
+    );
+
+  }
+
+
+  /* =========================================================
+     LAST SAVED
+  ========================================================= */
+
+  const lastSaved =
+    document.getElementById(
+      "lastSaved"
+    );
+
+
+  function updateLastSaved(){
+
+    if(
+      !lastSaved ||
+      !data.savedAt
+    ){
+
+      return;
+
+    }
+
+    const date =
+      new Date(
+        data.savedAt
+      );
+
+
+    lastSaved.textContent =
+      "Saved " +
+      date.toLocaleString();
+
+  }
+
+
+  updateLastSaved();
+
+
+  /* =========================================================
+     ADD SERVICE
+  ========================================================= */
+
+  const addService =
+    document.getElementById(
+      "addService"
+    );
+
+
+  const servicesList =
+    document.getElementById(
+      "servicesList"
+    );
+
+
+  if(
+    addService &&
+    servicesList
+  ){
 
     addService.addEventListener(
       "click",
-      () => {
+      function(){
 
         const count =
-          servicesList.querySelectorAll(
-            ".content-row"
-          ).length + 1;
+          servicesList.children.length + 1;
 
-        const row =
-          document.createElement("article");
 
-        row.className =
-          "content-row";
+        const item =
+          document.createElement(
+            "div"
+          );
 
-        row.innerHTML = `
-          <div class="row-number">
-            ${String(count).padStart(2, "0")}
+        item.className =
+          "repeat-item";
+
+
+        item.innerHTML = `
+
+          <div class="repeat-number">
+            ${String(count).padStart(2,"0")}
           </div>
 
-          <div class="row-content">
+          <div class="repeat-copy">
+
             <strong>
               New Service
             </strong>
 
             <span>
-              Add your service description.
+              New service description.
             </span>
+
           </div>
 
           <button
-            class="row-action"
+            class="mini-button remove-item"
             type="button"
           >
-            Edit
+            Remove
           </button>
+
         `;
 
-        servicesList.appendChild(row);
 
-        showHomepageToast(
-          "New service added"
+        servicesList.appendChild(
+          item
         );
+
+
+        dirty =
+          true;
+
+
+        attachRemoveButton(
+          item.querySelector(
+            ".remove-item"
+          )
+        );
+
+
+        if(
+          typeof window.showToast ===
+          "function"
+        ){
+
+          window.showToast(
+            "New service added."
+          );
+
+        }
+
       }
     );
 
   }
 
 
-  /* =======================================================
-     VISIBILITY TOGGLE
-  ======================================================= */
+  /* =========================================================
+     REMOVE / EDIT BUTTONS
+  ========================================================= */
 
-  document
-    .querySelectorAll(".visibility-toggle")
-    .forEach(button => {
+  function attachRemoveButton(
+    button
+  ){
 
-      button.addEventListener(
-        "click",
-        () => {
+    if(!button){
+      return;
+    }
 
-          const visible =
-            button.dataset.visible === "true";
+    button.addEventListener(
+      "click",
+      function(){
 
-          const next =
-            !visible;
+        const item =
+          button.closest(
+            ".repeat-item"
+          );
 
-          button.dataset.visible =
-            String(next);
+        if(!item){
+          return;
+        }
 
-          button.textContent =
-            next
-              ? "Visible"
-              : "Hidden";
 
-          if(next){
+        if(
+          button.textContent
+            .trim()
+            .toLowerCase()
+            === "edit"
+        ){
 
-            button.style.color =
-              "var(--text-soft)";
+          const copy =
+            item.querySelector(
+              ".repeat-copy"
+            );
 
-            button.style.borderColor =
-              "var(--line)";
+          if(copy){
 
-            button.style.background =
-              "var(--white-soft)";
+            const title =
+              window.prompt(
+                "Service name:",
+                copy
+                  .querySelector(
+                    "strong"
+                  )
+                  .textContent
+                  .trim()
+              );
 
-          }else{
 
-            button.style.color =
-              "var(--muted)";
+            if(title !== null){
 
-            button.style.borderColor =
-              "var(--line)";
+              copy.querySelector(
+                "strong"
+              ).textContent =
+                title;
 
-            button.style.background =
-              "transparent";
+              dirty =
+                true;
+
+            }
 
           }
 
-          showHomepageToast(
-            next
-              ? "Section visible"
-              : "Section hidden"
-          );
+          return;
 
         }
+
+
+        item.remove();
+
+        dirty =
+          true;
+
+      }
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(
+      ".remove-item"
+    )
+    .forEach(
+      attachRemoveButton
+    );
+
+
+  /* =========================================================
+     ADD PROJECT
+  ========================================================= */
+
+  const addProject =
+    document.getElementById(
+      "addProject"
+    );
+
+
+  if(addProject){
+
+    addProject.addEventListener(
+      "click",
+      function(){
+
+        showLocalMessage(
+          "Project editor ready — connect this action to your backend data layer."
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     PREVIEW
+  ========================================================= */
+
+  const previewButton =
+    document.getElementById(
+      "previewButton"
+    );
+
+
+  if(previewButton){
+
+    previewButton.addEventListener(
+      "click",
+      function(){
+
+        if(dirty){
+
+          const saveFirst =
+            window.confirm(
+              "There are unsaved changes. Save them before opening the public portfolio?"
+            );
+
+          if(saveFirst){
+
+            saveHomepage();
+
+          }
+
+        }
+
+
+        window.open(
+          "../index.html",
+          "_blank"
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     LOCAL MESSAGE
+  ========================================================= */
+
+  function showLocalMessage(
+    message
+  ){
+
+    let toast =
+      document.getElementById(
+        "homepageToast"
       );
 
-    });
 
-});
+    if(!toast){
+
+      toast =
+        document.createElement(
+          "div"
+        );
+
+      toast.id =
+        "homepageToast";
+
+      toast.style.position =
+        "fixed";
+
+      toast.style.right =
+        "22px";
+
+      toast.style.bottom =
+        "22px";
+
+      toast.style.zIndex =
+        "9999";
+
+      toast.style.padding =
+        "12px 15px";
+
+      toast.style.border =
+        "1px solid rgba(216,179,106,.25)";
+
+      toast.style.borderRadius =
+        "10px";
+
+      toast.style.color =
+        "#f5f2eb";
+
+      toast.style.background =
+        "#15161a";
+
+      toast.style.fontSize =
+        "10px";
+
+      document.body.appendChild(
+        toast
+      );
+
+    }
+
+
+    toast.textContent =
+      message;
+
+
+    clearTimeout(
+      toast._timer
+    );
+
+
+    toast._timer =
+      setTimeout(
+        function(){
+
+          toast.remove();
+
+        },
+        2600
+      );
+
+  }
+
+
+  /* =========================================================
+     KEYBOARD SAVE
+  ========================================================= */
+
+  document.addEventListener(
+    "keydown",
+    function(event){
+
+      if(
+        (event.ctrlKey || event.metaKey) &&
+        event.key.toLowerCase() === "s"
+      ){
+
+        event.preventDefault();
+
+        saveHomepage();
+
+      }
+
+    }
+  );
+
+
+  /* =========================================================
+     UNSAVED WARNING
+  ========================================================= */
+
+  window.addEventListener(
+    "beforeunload",
+    function(event){
+
+      if(!dirty){
+        return;
+      }
+
+      event.preventDefault();
+
+      event.returnValue =
+        "";
+
+    }
+  );
+
+
+})();
 </script>
 
 </body>
