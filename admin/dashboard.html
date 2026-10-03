@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard — Nusrat Afsana Usha</title>
+
+  <meta
+    name="description"
+    content="Nusrat Afsana Usha portfolio administration dashboard."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="./admin.css">
+
+  <style>
+    /* =========================================================
+       DASHBOARD PAGE
+    ========================================================= */
+
+    .dashboard-hero{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:25px;
+      margin-bottom:28px;
+    }
+
+    .dashboard-kicker{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      margin-bottom:10px;
+      color:var(--accent);
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.17em;
+      text-transform:uppercase;
+    }
+
+    .dashboard-kicker::before{
+      content:"";
+      width:26px;
+      height:1px;
+      background:var(--accent);
+    }
+
+    .dashboard-hero h1{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:clamp(36px,4vw,58px);
+      line-height:.96;
+      letter-spacing:-.05em;
+      font-weight:600;
+    }
+
+    .dashboard-hero p{
+      max-width:650px;
+      margin:13px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.75;
+    }
+
+    .live-pill{
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:11px 14px;
+      border:1px solid rgba(117,212,154,.18);
+      border-radius:999px;
+      color:#79d69b;
+      background:rgba(117,212,154,.045);
+      font-size:10px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .live-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:#79d69b;
+      box-shadow:0 0 0 4px rgba(117,212,154,.09);
+    }
+
+    /* STATS */
+
+    .dashboard-stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:13px;
+      margin-bottom:20px;
+    }
+
+    .dashboard-stat{
+      position:relative;
+      overflow:hidden;
+      min-height:145px;
+      padding:20px;
+      border:1px solid var(--border);
+      border-radius:17px;
+      background:
+        radial-gradient(
+          circle at 100% 0,
+          rgba(216,179,106,.075),
+          transparent 40%
+        ),
+        var(--panel);
+    }
+
+    .dashboard-stat-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .dashboard-stat-label{
+      color:var(--muted);
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.11em;
+      text-transform:uppercase;
+    }
+
+    .dashboard-stat-icon{
+      display:grid;
+      place-items:center;
+      width:30px;
+      height:30px;
+      border:1px solid var(--border);
+      border-radius:9px;
+      color:var(--accent);
+      background:rgba(216,179,106,.045);
+    }
+
+    .dashboard-stat-icon svg{
+      width:14px;
+      height:14px;
+    }
+
+    .dashboard-stat-value{
+      margin-top:18px;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:37px;
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+
+    .dashboard-stat-bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .dashboard-stat-meta{
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .trend{
+      color:#79d69b;
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .trend.neutral{
+      color:var(--muted);
+    }
+
+    /* MAIN GRID */
+
+    .dashboard-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.35fr) minmax(310px,.65fr);
+      gap:18px;
+    }
+
+    .dashboard-column{
+      display:grid;
+      gap:18px;
+      align-content:start;
+    }
+
+    .dashboard-panel{
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:var(--panel);
+    }
+
+    .dashboard-panel-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:15px;
+      padding:19px 20px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .dashboard-panel-head h2{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:18px;
+      letter-spacing:-.025em;
+    }
+
+    .dashboard-panel-head p{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.5;
+    }
+
+    .panel-link{
+      color:var(--accent);
+      font-size:10px;
+      font-weight:600;
+      text-decoration:none;
+      white-space:nowrap;
+    }
+
+    .panel-link:hover{
+      text-decoration:underline;
+    }
+
+    /* QUICK ACTIONS */
+
+    .quick-actions{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      padding:18px;
+    }
+
+    .quick-action{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-height:82px;
+      padding:14px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      color:var(--text);
+      text-decoration:none;
+      background:rgba(255,255,255,.012);
+      transition:
+        transform .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+    }
+
+    .quick-action:hover{
+      transform:translateY(-2px);
+      border-color:rgba(216,179,106,.3);
+      background:rgba(216,179,106,.035);
+    }
+
+    .quick-action-icon{
+      display:grid;
+      place-items:center;
+      width:39px;
+      height:39px;
+      flex:0 0 39px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      color:var(--accent);
+      background:rgba(216,179,106,.045);
+    }
+
+    .quick-action-icon svg{
+      width:17px;
+      height:17px;
+    }
+
+    .quick-action-copy strong{
+      display:block;
+      font-size:11px;
+      font-weight:600;
+    }
+
+    .quick-action-copy span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.4;
+    }
+
+    .quick-arrow{
+      position:absolute;
+      right:12px;
+      top:12px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    /* ACTIVITY */
+
+    .activity-list{
+      padding:7px 20px 18px;
+    }
+
+    .activity-row{
+      display:grid;
+      grid-template-columns:8px 1fr auto;
+      gap:12px;
+      align-items:start;
+      padding:14px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .activity-row:last-child{
+      border-bottom:0;
+    }
+
+    .activity-dot{
+      width:7px;
+      height:7px;
+      margin-top:5px;
+      border-radius:50%;
+      background:var(--accent);
+    }
+
+    .activity-copy strong{
+      display:block;
+      font-size:10px;
+      line-height:1.45;
+    }
+
+    .activity-copy span{
+      display:block;
+      margin-top:4px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .activity-time{
+      color:var(--muted);
+      font-size:8px;
+      white-space:nowrap;
+    }
+
+    /* COMPLETION */
+
+    .completion{
+      padding:20px;
+    }
+
+    .completion-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:15px;
+    }
+
+    .completion-label{
+      color:var(--muted);
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+
+    .completion-value{
+      margin-top:8px;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:34px;
+      line-height:1;
+      letter-spacing:-.05em;
+    }
+
+    .completion-percent{
+      color:var(--accent);
+      font-size:11px;
+      font-weight:700;
+    }
+
+    .progress-track{
+      height:7px;
+      margin-top:17px;
+      overflow:hidden;
+      border-radius:999px;
+      background:rgba(255,255,255,.07);
+    }
+
+    .progress-fill{
+      width:82%;
+      height:100%;
+      border-radius:inherit;
+      background:var(--accent);
+    }
+
+    .completion-list{
+      display:grid;
+      gap:9px;
+      margin-top:17px;
+    }
+
+    .completion-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      color:var(--muted);
+      font-size:9px;
+    }
+
+    .completion-item strong{
+      color:var(--text);
+      font-weight:600;
+    }
+
+    .completion-check{
+      color:#79d69b;
+      font-weight:700;
+    }
+
+    /* STATUS */
+
+    .status-list{
+      padding:8px 20px 18px;
+    }
+
+    .status-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:13px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .status-row:last-child{
+      border-bottom:0;
+    }
+
+    .status-icon{
+      display:grid;
+      place-items:center;
+      width:33px;
+      height:33px;
+      flex:0 0 33px;
+      border-radius:10px;
+      color:#79d69b;
+      background:rgba(117,212,154,.07);
+    }
+
+    .status-icon.warning{
+      color:#dfbf70;
+      background:rgba(216,179,106,.07);
+    }
+
+    .status-icon svg{
+      width:15px;
+      height:15px;
+    }
+
+    .status-copy{
+      flex:1;
+    }
+
+    .status-copy strong{
+      display:block;
+      font-size:10px;
+    }
+
+    .status-copy span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:8px;
+    }
+
+    .status-state{
+      color:#79d69b;
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .status-state.warning{
+      color:#dfbf70;
+    }
+
+    /* PROJECT LIST */
+
+    .project-list{
+      padding:7px 20px 18px;
+    }
+
+    .project-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:13px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .project-row:last-child{
+      border-bottom:0;
+    }
+
+    .project-thumb{
+      width:50px;
+      height:38px;
+      flex:0 0 50px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      background:
+        linear-gradient(
+          135deg,
+          rgba(216,179,106,.14),
+          rgba(255,255,255,.02)
+        );
+    }
+
+    .project-info{
+      flex:1;
+      min-width:0;
+    }
+
+    .project-info strong{
+      display:block;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:10px;
+    }
+
+    .project-info span{
+      display:block;
+      margin-top:3px;
+      color:var(--muted);
+      font-size:8px;
+    }
+
+    .project-status{
+      padding:5px 8px;
+      border:1px solid rgba(117,212,154,.15);
+      border-radius:999px;
+      color:#79d69b;
+      background:rgba(117,212,154,.035);
+      font-size:8px;
+      font-weight:700;
+    }
+
+    /* VISIBILITY */
+
+    .visibility-card{
+      padding:20px;
+    }
+
+    .visibility-preview{
+      position:relative;
+      overflow:hidden;
+      min-height:145px;
+      padding:19px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:
+        radial-gradient(
+          circle at 80% 10%,
+          rgba(216,179,106,.12),
+          transparent 35%
+        ),
+        #101114;
+    }
+
+    .preview-label{
+      color:var(--accent);
+      font-size:8px;
+      font-weight:700;
+      letter-spacing:.15em;
+      text-transform:uppercase;
+    }
+
+    .preview-title{
+      max-width:240px;
+      margin-top:9px;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:24px;
+      line-height:.98;
+      letter-spacing:-.04em;
+    }
+
+    .preview-copy{
+      max-width:280px;
+      margin-top:8px;
+      color:#a5a5aa;
+      font-size:8px;
+      line-height:1.55;
+    }
+
+    .preview-orb{
+      position:absolute;
+      right:-25px;
+      bottom:-45px;
+      width:130px;
+      height:130px;
+      border:1px solid rgba(216,179,106,.24);
+      border-radius:50%;
+    }
+
+    .visibility-bottom{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    .visibility-state{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      color:#79d69b;
+      font-size:9px;
+      font-weight:700;
+    }
+
+    .visibility-state::before{
+      content:"";
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#79d69b;
+    }
+
+    /* LIGHT */
+
+    [data-theme="light"] .dashboard-stat,
+    [data-theme="light"] .dashboard-panel{
+      background:#fff;
+    }
+
+    [data-theme="light"] .visibility-preview{
+      background:#17181b;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:1100px){
+      .dashboard-stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .dashboard-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:760px){
+      .dashboard-hero{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .dashboard-stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    @media(max-width:520px){
+      .dashboard-stats{
+        grid-template-columns:1fr;
+      }
+
+      .quick-actions{
+        grid-template-columns:1fr;
+      }
+
+      .dashboard-stat{
+        min-height:125px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- =======================================================
+       SIDEBAR
+  ======================================================== -->
+
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        NU
+      </div>
+
+      <div class="brand-copy">
+        <strong>Nusrat Afsana Usha</strong>
+        <span>Portfolio Admin</span>
+      </div>
+
+    </div>
+
+
+    <nav class="side-nav">
+
+      <div class="nav-label">
+        Overview
+      </div>
+
+      <a
+        class="nav-item active"
+        href="./dashboard.html"
+        data-page="dashboard"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </span>
+
+        <span>Dashboard</span>
+      </a>
+
+
+      <div class="nav-label">
+        Content
+      </div>
+
+
+      <a
+        class="nav-item"
+        href="./homepage.html"
+        data-page="homepage"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M3 11.5 12 4l9 7.5"/>
+            <path d="M5.5 10.5V20h13v-9.5"/>
+            <path d="M9.5 20v-5h5v5"/>
+          </svg>
+        </span>
+
+        <span>Homepage</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="./banner.html"
+        data-page="banner"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <circle cx="8" cy="10" r="1.5"/>
+            <path d="m21 15-4.5-4.5L9 18"/>
+          </svg>
+        </span>
+
+        <span>Banner</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="./browser-ui.html"
+        data-page="browser-ui"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <path d="M3 8h18"/>
+            <circle cx="6.5" cy="6" r=".6"
+                    fill="currentColor"/>
+            <circle cx="9" cy="6" r=".6"
+                    fill="currentColor"/>
+            <circle cx="11.5" cy="6" r=".6"
+                    fill="currentColor"/>
+          </svg>
+        </span>
+
+        <span>Browser UI</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="./newsletter.html"
+        data-page="newsletter"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <rect x="3" y="5" width="18" height="14" rx="2"/>
+            <path d="m4 7 8 6 8-6"/>
+          </svg>
+        </span>
+
+        <span>Newsletter</span>
+      </a>
+
+
+      <div class="nav-label">
+        Administration
+      </div>
+
+
+      <a
+        class="nav-item"
+        href="./admin-management.html"
+        data-page="admin-management"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M16 21v-1.8a4.2 4.2 0 0 0-4.2-4.2H6.2A4.2 4.2 0 0 0 2 19.2V21"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M17 11a4 4 0 1 0-1.5-7.7"/>
+            <path d="M22 21v-1.8a4.2 4.2 0 0 0-3.2-4.1"/>
+          </svg>
+        </span>
+
+        <span>Admin Management</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        href="./system.html"
+        data-page="system"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V22h-2.6v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.6h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.4V14h-.4a1.7 1.7 0 0 0-1.6 1Z"/>
+          </svg>
+        </span>
+
+        <span>System</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+      <a
+        class="nav-item"
+        href="../index.html"
+        target="_blank"
+      >
+        <span class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.7">
+            <path d="M14 3h7v7"/>
+            <path d="M10 14 21 3"/>
+            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+          </svg>
+        </span>
+
+        <span>View Portfolio</span>
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- =======================================================
+       MAIN
+  ======================================================== -->
+
+  <main class="main">
+
+    <header class="topbar">
+
+      <button
+        class="mobile-menu-button"
+        id="menuToggle"
+        aria-label="Open menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+
+      <div class="topbar-title">
+
+        <span>Overview</span>
+
+        <strong>
+          Dashboard
+        </strong>
+
+      </div>
+
+
+      <div class="topbar-actions">
+
+        <button
+          class="secondary-button"
+          id="themeToggle"
+          type="button"
+        >
+          <span>◐</span>
+          <span>Theme</span>
+        </button>
+
+
+        <button
+          class="primary-button"
+          id="saveButton"
+          type="button"
+        >
+          Save Changes
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <section class="content">
+
+
+      <!-- ===================================================
+           HERO
+      ==================================================== -->
+
+      <div class="dashboard-hero">
+
+        <div>
+
+          <div class="dashboard-kicker">
+            Portfolio Overview
+          </div>
+
+          <h1>
+            Good to see you.
+          </h1>
+
+          <p>
+            Manage Nusrat Afsana Usha’s portfolio, content,
+            projects and administration from one focused workspace.
+          </p>
+
+        </div>
+
+
+        <div class="live-pill">
+
+          <span class="live-dot"></span>
+
+          Portfolio is live
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           STATS
+      ==================================================== -->
+
+      <div class="dashboard-stats">
+
+
+        <div class="dashboard-stat">
+
+          <div class="dashboard-stat-top">
+
+            <div class="dashboard-stat-label">
+              Projects
+            </div>
+
+            <div class="dashboard-stat-icon">
+
+              <svg viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor"
+                   stroke-width="1.7">
+                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                <path d="M3 9h18"/>
+                <path d="M8 4v5"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+          <div class="dashboard-stat-value">
+            04
+          </div>
+
+          <div class="dashboard-stat-bottom">
+
+            <span class="dashboard-stat-meta">
+              Selected work
+            </span>
+
+            <span class="trend">
+              Published
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+          <div class="dashboard-stat-top">
+
+            <div class="dashboard-stat-label">
+              Services
+            </div>
+
+            <div class="dashboard-stat-icon">
+
+              <svg viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor"
+                   stroke-width="1.7">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="m12 8 1.6 3.2L17 12l-3.4.8L12 16l-1.6-3.2L7 12l3.4-.8L12 8Z"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+          <div class="dashboard-stat-value">
+            05
+          </div>
+
+          <div class="dashboard-stat-bottom">
+
+            <span class="dashboard-stat-meta">
+              Service categories
+            </span>
+
+            <span class="trend">
+              Active
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+          <div class="dashboard-stat-top">
+
+            <div class="dashboard-stat-label">
+              Subscribers
+            </div>
+
+            <div class="dashboard-stat-icon">
+
+              <svg viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor"
+                   stroke-width="1.7">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="m4 7 8 6 8-6"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+          <div class="dashboard-stat-value">
+            128
+          </div>
+
+          <div class="dashboard-stat-bottom">
+
+            <span class="dashboard-stat-meta">
+              Newsletter
+            </span>
+
+            <span class="trend">
+              +12 this month
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+          <div class="dashboard-stat-top">
+
+            <div class="dashboard-stat-label">
+              Completion
+            </div>
+
+            <div class="dashboard-stat-icon">
+
+              <svg viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor"
+                   stroke-width="1.7">
+                <circle cx="12" cy="12" r="8"/>
+                <path d="m8.5 12 2.2 2.2 4.8-5"/>
+              </svg>
+
+            </div>
+
+          </div>
+
+          <div class="dashboard-stat-value">
+            82%
+          </div>
+
+          <div class="dashboard-stat-bottom">
+
+            <span class="dashboard-stat-meta">
+              Profile readiness
+            </span>
+
+            <span class="trend neutral">
+              18% remaining
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           GRID
+      ==================================================== -->
+
+      <div class="dashboard-grid">
+
+
+        <!-- LEFT -->
+
+        <div class="dashboard-column">
+
+
+          <!-- QUICK ACTIONS -->
+
+          <section class="dashboard-panel">
+
+            <div class="dashboard-panel-head">
+
+              <div>
+
+                <h2>
+                  Quick Actions
+                </h2>
+
+                <p>
+                  Jump directly into common portfolio tasks.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="quick-actions">
+
+
+              <a
+                class="quick-action"
+                href="./homepage.html"
+              >
+
+                <span class="quick-action-icon">
+
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor"
+                       stroke-width="1.7">
+                    <path d="M3 11.5 12 4l9 7.5"/>
+                    <path d="M5.5 10.5V20h13v-9.5"/>
+                    <path d="M9.5 20v-5h5v5"/>
+                  </svg>
+
+                </span>
+
+                <span class="quick-action-copy">
+
+                  <strong>
+                    Edit Homepage
+                  </strong>
+
+                  <span>
+                    Update hero, about and content.
+                  </span>
+
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+              </a>
+
+
+              <a
+                class="quick-action"
+                href="./banner.html"
+              >
+
+                <span class="quick-action-icon">
+
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor"
+                       stroke-width="1.7">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/>
+                    <circle cx="8" cy="10" r="1.5"/>
+                    <path d="m21 15-4.5-4.5L9 18"/>
+                  </svg>
+
+                </span>
+
+                <span class="quick-action-copy">
+
+                  <strong>
+                    Manage Banner
+                  </strong>
+
+                  <span>
+                    Change hero imagery and messaging.
+                  </span>
+
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+              </a>
+
+
+              <a
+                class="quick-action"
+                href="./browser-ui.html"
+              >
+
+                <span class="quick-action-icon">
+
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor"
+                       stroke-width="1.7">
+                    <rect x="3" y="4" width="18" height="16" rx="2"/>
+                    <path d="M3 8h18"/>
+                    <path d="m8 13 3 3 5-5"/>
+                  </svg>
+
+                </span>
+
+                <span class="quick-action-copy">
+
+                  <strong>
+                    Browser UI
+                  </strong>
+
+                  <span>
+                    Configure project presentation cards.
+                  </span>
+
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+              </a>
+
+
+              <a
+                class="quick-action"
+                href="./newsletter.html"
+              >
+
+                <span class="quick-action-icon">
+
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor"
+                       stroke-width="1.7">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/>
+                    <path d="m4 7 8 6 8-6"/>
+                  </svg>
+
+                </span>
+
+                <span class="quick-action-copy">
+
+                  <strong>
+                    Newsletter
+                  </strong>
+
+                  <span>
+                    Manage subscribers and signup settings.
+                  </span>
+
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+              </a>
+
+
+            </div>
+
+          </section>
+
+
+          <!-- ACTIVITY -->
+
+          <section class="dashboard-panel">
+
+            <div class="dashboard-panel-head">
+
+              <div>
+
+                <h2>
+                  Recent Activity
+                </h2>
+
+                <p>
+                  Latest portfolio administration events.
+                </p>
+
+              </div>
+
+              <a
+                href="./admin-management.html"
+                class="panel-link"
+              >
+                View all
+              </a>
+
+            </div>
+
+
+            <div class="activity-list">
+
+
+              <div class="activity-row">
+
+                <span class="activity-dot"></span>
+
+                <div class="activity-copy">
+
+                  <strong>
+                    Homepage content was updated
+                  </strong>
+
+                  <span>
+                    Client Admin
+                  </span>
+
+                </div>
+
+                <span class="activity-time">
+                  12m
+                </span>
+
+              </div>
+
+
+              <div class="activity-row">
+
+                <span class="activity-dot"></span>
+
+                <div class="activity-copy">
+
+                  <strong>
+                    Banner settings were reviewed
+                  </strong>
+
+                  <span>
+                    Client Admin
+                  </span>
+
+                </div>
+
+                <span class="activity-time">
+                  48m
+                </span>
+
+              </div>
+
+
+              <div class="activity-row">
+
+                <span class="activity-dot"></span>
+
+                <div class="activity-copy">
+
+                  <strong>
+                    New newsletter subscriber added
+                  </strong>
+
+                  <span>
+                    Newsletter
+                  </span>
+
+                </div>
+
+                <span class="activity-time">
+                  1h
+                </span>
+
+              </div>
+
+
+              <div class="activity-row">
+
+                <span class="activity-dot"></span>
+
+                <div class="activity-copy">
+
+                  <strong>
+                    Project presentation was edited
+                  </strong>
+
+                  <span>
+                    Design Editor
+                  </span>
+
+                </div>
+
+                <span class="activity-time">
+                  3h
+                </span>
+
+              </div>
+
+
+              <div class="activity-row">
+
+                <span class="activity-dot"></span>
+
+                <div class="activity-copy">
+
+                  <strong>
+                    Admin permissions reviewed
+                  </strong>
+
+                  <span>
+                    Private Master
+                  </span>
+
+                </div>
+
+                <span class="activity-time">
+                  5h
+                </span>
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+          <!-- PROJECTS -->
+
+          <section class="dashboard-panel">
+
+            <div class="dashboard-panel-head">
+
+              <div>
+
+                <h2>
+                  Selected Work
+                </h2>
+
+                <p>
+                  Current portfolio project visibility.
+                </p>
+
+              </div>
+
+              <a
+                href="./homepage.html"
+                class="panel-link"
+              >
+                Manage
+              </a>
+
+            </div>
+
+
+            <div class="project-list">
+
+
+              <div class="project-row">
+
+                <div class="project-thumb"></div>
+
+                <div class="project-info">
+
+                  <strong>
+                    Restaurant Ordering Experience
+                  </strong>
+
+                  <span>
+                    UX/UI · Published
+                  </span>
+
+                </div>
+
+                <span class="project-status">
+                  Live
+                </span>
+
+              </div>
+
+
+              <div class="project-row">
+
+                <div class="project-thumb"></div>
+
+                <div class="project-info">
+
+                  <strong>
+                    SaaS / Video Conferencing
+                  </strong>
+
+                  <span>
+                    Product Design · Published
+                  </span>
+
+                </div>
+
+                <span class="project-status">
+                  Live
+                </span>
+
+              </div>
+
+
+              <div class="project-row">
+
+                <div class="project-thumb"></div>
+
+                <div class="project-info">
+
+                  <strong>
+                    Digital Product Interface
+                  </strong>
+
+                  <span>
+                    Interface Design · Published
+                  </span>
+
+                </div>
+
+                <span class="project-status">
+                  Live
+                </span>
+
+              </div>
+
+
+              <div class="project-row">
+
+                <div class="project-thumb"></div>
+
+                <div class="project-info">
+
+                  <strong>
+                    Mobile Experience Concept
+                  </strong>
+
+                  <span>
+                    UX/UI · Draft
+                  </span>
+
+                </div>
+
+                <span
+                  class="project-status"
+                  style="
+                    color:#dfbf70;
+                    border-color:rgba(216,179,106,.15);
+                    background:rgba(216,179,106,.035);
+                  "
+                >
+                  Draft
+                </span>
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+        </div>
+
+
+        <!-- RIGHT -->
+
+        <div class="dashboard-column">
+
+
+          <!-- PROFILE COMPLETION -->
+
+          <section class="dashboard-panel">
+
+            <div class="dashboard-panel-head">
+
+              <div>
+
+                <h2>
+                  Profile Readiness
+                </h2>
+
+                <p>
+                  Content completeness overview.
+                </p>
+
+              </div>
+
+              <span class="panel-link">
+                82%
+              </span>
+
+            </div>
+
+
+            <div class="completion">
+
+              <div class="completion-top">
+
+                <div>
+
+                  <div class="completion-label">
+                    Portfolio completion
+                  </div>
+
+                  <div class="completion-value">
+                    82%
+                  </div>
+
+                </div>
+
+                <div class="completion-percent">
+                  Strong
+                </div>
+
+              </div>
+
+
+              <div class="progress-track">
+
+                <div class="progress-fill"></div>
+
+              </div>
+
+
+              <div class="completion-list">
+
+                <div class="completion-item">
+                  <strong>Profile</strong>
+                  <span class="completion-check">Complete</span>
+                </div>
+
+                <div class="completion-item">
+                  <strong>Services</strong>
+                  <span class="completion-check">Complete</span>
+                </div>
+
+                <div class="completion-item">
+                  <strong>Selected Work</strong>
+                  <span class="completion-check">Complete</span>
+                </div>
+
+                <div class="completion-item">
+                  <strong>Experience</strong>
+                  <span class="completion-check">Complete</span>
+                </div>
+
+                <div class="completion-item">
+                  <strong>Journal</strong>
+                  <span style="color:#dfbf70">Needs review</span>
+                </div>
+
+                <div class="completion-item">
+                  <strong>Contact</strong>
+                  <span style="color:#dfbf70">Needs review</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- SYSTEM STATUS -->
+
+          <section class="dashboard-panel">
+
+            <div class="dashboard-panel-head">
+
+              <div>
+
+                <h2>
+                  System Status
+                </h2>
+
+                <p>
+                  Connected services overview.
+                </p>
+
+              </div>
+
+              <span class="panel-label secure"
+                    style="
+                      padding:6px 9px;
+                      border:1px solid rgba(117,212,154,.17);
+                      border-radius:999px;
+                      color:#79d69b;
+                      background:rgba(117,212,154,.04);
+                      font-size:9px;
+                      font-weight:700;
+                    ">
+                Healthy
+              </span>
+
+            </div>
+
+
+            <div class="status-list">
+
+
+              <div class="status-row">
+
+                <div class="status-icon">
+
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor"
+                       stroke-width="1.7">
+                    <path d="M12 3v18"/>
+                    <path d="M3 12h18"/>
+                    <circle cx="12" cy="12" r="8"/>
+                  </svg>
+
+                </div>
+
+                <div class="status-copy">
+
+                  <strong>
+                    Portfolio
+                  </strong>
+
+                  <span>
+                    Public website
+                  </span>
+
+                </div>
+
+                <span class="status-state">
+                  Online
+                </span>
+
+              </div>
+
+
+              <div class="status-row">
+
+                <div class="status-icon">
+
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor"
+                       stroke-width="1.7">
+                    <rect x="4" y="5" width="16" height="14" rx="2"/>
+                    <path d="M8 9h8M8 13h5"/>
+                  </svg>
+
+                </div>
+
+                <div class="status-copy">
+
+                  <strong>
+                    Admin
+                  </strong>
+
+                  <span>
+                    Authentication
+                  </span>
+
+                </div>
+
+                <span class="status-state">
+                  Active
+                </span>
+
+              </div>
+
+
+              <div class="status-row">
+
+                <div class="status-icon">
+
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor"
+                       stroke-width="1.7">
+                    <ellipse cx="12" cy="6" rx="7" ry="3"/>
+                    <path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/>
+                    <path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/>
+                  </svg>
+
+                </div>
+
+                <div class="status-copy">
+
+                  <strong>
+                    Content Storage
+                  </strong>
+
+                  <span>
+                    Data layer
+                  </span>
+
+                </div>
+
+                <span class="status-state">
+                  Ready
+                </span>
+
+              </div>
+
+
+              <div class="status-row">
+
+                <div class="status-icon warning">
+
+                  <svg viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor"
+                       stroke-width="1.7">
+                    <path d="M12 3 2.8 19h18.4L12 3Z"/>
+                    <path d="M12 9v4"/>
+                    <circle cx="12" cy="16.5" r=".7"
+                            fill="currentColor"/>
+                  </svg>
+
+                </div>
+
+                <div class="status-copy">
+
+                  <strong>
+                    Newsletter Provider
+                  </strong>
+
+                  <span>
+                    Delivery service
+                  </span>
+
+                </div>
+
+                <span class="status-state warning">
+                  Pending
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- PUBLIC PREVIEW -->
+
+          <section class="dashboard-panel">
+
+            <div class="dashboard-panel-head">
+
+              <div>
+
+                <h2>
+                  Public Preview
+                </h2>
+
+                <p>
+                  Quick visual check of the homepage.
+                </p>
+
+              </div>
+
+              <a
+                href="../index.html"
+                target="_blank"
+                class="panel-link"
+              >
+                Open
+              </a>
+
+            </div>
+
+
+            <div class="visibility-card">
+
+              <div class="visibility-preview">
+
+                <div class="preview-label">
+                  UX / UI Designer
+                </div>
+
+                <div class="preview-title">
+                  Designing with clarity.
+                </div>
+
+                <div class="preview-copy">
+                  Thoughtful digital experiences built around
+                  people, purpose and interaction.
+                </div>
+
+                <div
+                  class="preview-orb"
+                  aria-hidden="true"
+                ></div>
+
+              </div>
+
+
+              <div class="visibility-bottom">
+
+                <div class="visibility-state">
+                  Publicly visible
+                </div>
+
+                <a
+                  href="../index.html"
+                  target="_blank"
+                  class="secondary-button"
+                  style="
+                    min-height:34px;
+                    padding:0 11px;
+                    font-size:9px;
+                  "
+                >
+                  View Site
+                </a>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- ADMIN ACCOUNT -->
+
+          <section class="dashboard-panel">
+
+            <div class="dashboard-panel-head">
+
+              <div>
+
+                <h2>
+                  Current Account
+                </h2>
+
+                <p>
+                  Signed-in administrator.
+                </p>
+
+              </div>
+
+              <span
+                style="
+                  color:#79d69b;
+                  font-size:9px;
+                  font-weight:700;
+                "
+              >
+                Active
+              </span>
+
+            </div>
+
+
+            <div
+              style="
+                display:flex;
+                align-items:center;
+                gap:12px;
+                padding:19px 20px;
+              "
+            >
+
+              <div
+                style="
+                  display:grid;
+                  place-items:center;
+                  width:43px;
+                  height:43px;
+                  border:1px solid var(--border);
+                  border-radius:12px;
+                  background:rgba(216,179,106,.06);
+                  color:var(--accent);
+                  font-family:'Bricolage Grotesque',sans-serif;
+                  font-size:12px;
+                  font-weight:700;
+                "
+              >
+                NU
+              </div>
+
+              <div>
+
+                <strong
+                  style="
+                    display:block;
+                    font-size:11px;
+                  "
+                >
+                  Client Administrator
+                </strong>
+
+                <span
+                  style="
+                    display:block;
+                    margin-top:4px;
+                    color:var(--muted);
+                    font-size:9px;
+                  "
+                >
+                  Content management access
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<div
+  class="mobile-overlay"
+  id="mobileOverlay"
+></div>
+
+
+<script src="./admin.js"></script>
+
+<script>
+(function(){
+
+  "use strict";
+
+  /* =======================================================
+     DASHBOARD LOCAL STATE
+  ======================================================== */
+
+  const DASHBOARD_KEY =
+    "nusrat_dashboard_state_v1";
+
+
+  const defaultState = {
+    portfolioOnline:true,
+    lastViewed:new Date().toISOString()
+  };
+
+
+  function loadDashboardState(){
+
+    try{
+
+      const stored =
+        localStorage.getItem(
+          DASHBOARD_KEY
+        );
+
+      if(stored){
+
+        return Object.assign(
+          {},
+          defaultState,
+          JSON.parse(stored)
+        );
+
+      }
+
+    }catch(error){
+
+      /* Ignore invalid local data */
+
+    }
+
+    return Object.assign(
+      {},
+      defaultState
+    );
+
+  }
+
+
+  function saveDashboardState(state){
+
+    try{
+
+      localStorage.setItem(
+        DASHBOARD_KEY,
+        JSON.stringify(state)
+      );
+
+    }catch(error){
+
+      /* Ignore storage errors */
+
+    }
+
+  }
+
+
+  const dashboardState =
+    loadDashboardState();
+
+  dashboardState.lastViewed =
+    new Date().toISOString();
+
+  saveDashboardState(
+    dashboardState
+  );
+
+
+  /* =======================================================
+     QUICK ACTION FEEDBACK
+  ======================================================== */
+
+  document
+    .querySelectorAll(".quick-action")
+    .forEach(function(link){
+
+      link.addEventListener(
+        "click",
+        function(){
+
+          const page =
+            link.getAttribute(
+              "href"
+            );
+
+          try{
+
+            localStorage.setItem(
+              "nusrat_admin_current_page",
+              page
+            );
+
+          }catch(error){}
+
+        }
+      );
+
+    });
+
+
+  /* =======================================================
+     LIVE STATUS
+  ======================================================== */
+
+  const livePill =
+    document.querySelector(
+      ".live-pill"
+    );
+
+  if(
+    livePill &&
+    dashboardState.portfolioOnline
+  ){
+
+    livePill.innerHTML =
+      '<span class="live-dot"></span> Portfolio is live';
+
+  }
+
+
+  /* =======================================================
+     DASHBOARD SHORTCUTS
+  ======================================================== */
+
+  document.addEventListener(
+    "keydown",
+    function(event){
+
+      if(
+        event.key === "/" &&
+        document.activeElement.tagName !== "INPUT" &&
+        document.activeElement.tagName !== "TEXTAREA"
+      ){
+
+        event.preventDefault();
+
+        const firstAction =
+          document.querySelector(
+            ".quick-action"
+          );
+
+        if(firstAction){
+          firstAction.focus();
+        }
+
+      }
+
+    }
+  );
+
+
+  /* =======================================================
+     SAVE
+  ======================================================== */
+
+  const saveButton =
+    document.getElementById(
+      "saveButton"
+    );
+
+  if(saveButton){
+
+    saveButton.addEventListener(
+      "click",
+      function(){
+
+        dashboardState.lastViewed =
+          new Date().toISOString();
+
+        saveDashboardState(
+          dashboardState
+        );
+
+        if(window.showToast){
+
+          window.showToast(
+            "Dashboard state saved."
+          );
+
+        }
+
+      }
+    );
+
+  }
+
+
+})();
+</script>
+
+</body>
+</html>
