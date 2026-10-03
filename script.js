@@ -1,4 +1,3 @@
-```javascript
 /* =========================================================
    SNK PREMIUM PORTFOLIO
    script.js
