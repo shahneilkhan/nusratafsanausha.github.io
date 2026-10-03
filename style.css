@@ -153,3 +153,23 @@ body{transition:background .35s,color .35s}
   .timeline li{grid-template-columns:1fr;gap:6px}
 }
 @media (prefers-reduced-motion:reduce){.track{animation:none}.js .reveal{opacity:1;transform:none}html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+/* client-focused additions */
+.intro{margin:0 0 18px;color:var(--muted);font-weight:500}
+.hero .name{font-size:clamp(2.5rem,6.4vw,5.2rem);line-height:1;letter-spacing:-.04em;max-width:13ch}
+.hero .lead{max-width:40ch}
+.reply{margin:18px 0 0;color:var(--muted);font-size:.92rem}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.services article{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px;transition:border-color .25s,transform .25s}
+.services article:hover{border-color:var(--accent);transform:translateY(-4px)}
+.services h3{font-size:1.35rem;margin-bottom:10px}
+.services p{margin:0;color:var(--muted);font-size:.98rem}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;counter-reset:s}
+.steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:18px}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font:700 1rem var(--display);margin-bottom:14px}
+.steps h3{font-size:1.25rem;margin-bottom:8px}
+.steps p{margin:0;color:var(--muted);font-size:.98rem}
+.why{list-style:none;margin:28px 0 0;padding:0;display:grid;gap:14px;max-width:62ch}
+.why li{padding-left:18px;border-left:3px solid var(--accent)}
+.why strong{display:block}
+@media (max-width:760px){.hero .name{max-width:none}}
