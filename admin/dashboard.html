@@ -1,500 +1,871 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 <title>Dashboard — Nusrat Afsana Usha</title>
-
-<meta
-  name="description"
-  content="Portfolio administration dashboard for Nusrat Afsana Usha."
->
+<meta name="description" content="Portfolio administration dashboard.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link
-  href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
-  rel="stylesheet"
->
-
-<link rel="stylesheet" href="./admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* =========================================================
-   DASHBOARD PAGE
-   ========================================================= */
-
-.dashboard-shell{
-  min-height:100vh;
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
-.welcome-card{
-  position:relative;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,.08);
-  background:
-    radial-gradient(
-      circle at 90% 10%,
-      rgba(216,179,106,.14),
-      transparent 34%
-    ),
-    linear-gradient(
-      145deg,
-      rgba(255,255,255,.045),
-      rgba(255,255,255,.015)
-    );
+:root{
+  --bg:#0a0a0c;
+  --sidebar:#0d0e11;
+  --panel:#15161a;
+  --panel2:#1a1b20;
+  --text:#f5f2eb;
+  --soft:#c9c7c0;
+  --muted:#92939a;
+  --faint:#64656c;
+  --border:rgba(255,255,255,.08);
+  --border2:rgba(255,255,255,.14);
+  --accent:#d8b36a;
+  --accent2:#f1d79c;
+  --green:#69c995;
+  --red:#e77878;
+  --blue:#7ea9e8;
+  --shadow:0 20px 70px rgba(0,0,0,.28);
 }
 
-.welcome-card::after{
-  content:"";
-  position:absolute;
-  width:220px;
-  height:220px;
-  right:-90px;
-  bottom:-120px;
-  border-radius:50%;
-  border:1px solid rgba(216,179,106,.12);
+[data-theme="light"]{
+  --bg:#f3f1ec;
+  --sidebar:#fff;
+  --panel:#fff;
+  --panel2:#f6f4ef;
+  --text:#171719;
+  --soft:#55555d;
+  --muted:#72737a;
+  --faint:#94949a;
+  --border:rgba(20,20,20,.08);
+  --border2:rgba(20,20,20,.14);
+  --accent:#a77931;
+  --accent2:#8d6429;
+  --green:#278458;
+  --red:#c64d4d;
+  --blue:#4777b8;
+  --shadow:0 20px 60px rgba(30,25,15,.08);
 }
 
-.welcome-inner{
-  position:relative;
-  z-index:2;
-  padding:34px;
+html,
+body{
+  min-height:100%;
 }
 
-.welcome-eyebrow{
-  color:var(--accent);
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.18em;
-  text-transform:uppercase;
-  margin-bottom:12px;
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",sans-serif;
 }
 
-.welcome-title{
-  font-family:"Bricolage Grotesque",sans-serif;
-  font-size:clamp(32px,5vw,54px);
-  line-height:.98;
-  letter-spacing:-.055em;
-  margin-bottom:15px;
+button,
+input{
+  font:inherit;
 }
 
-.welcome-copy{
-  max-width:650px;
-  color:var(--muted);
-  font-size:14px;
-  line-height:1.7;
+button{
+  cursor:pointer;
 }
 
-.welcome-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin-top:24px;
-}
-
-
-/* =========================================================
-   STATS
-   ========================================================= */
-
-.dashboard-stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-  margin-top:18px;
-}
-
-.dashboard-stat{
-  position:relative;
-  overflow:hidden;
-}
-
-.dashboard-stat::after{
-  content:"";
-  position:absolute;
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  right:-45px;
-  bottom:-45px;
-  border:1px solid rgba(216,179,106,.08);
-}
-
-.stat-label{
-  color:var(--muted);
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.1em;
-  margin-bottom:12px;
-}
-
-.stat-value{
-  font-family:"Bricolage Grotesque",sans-serif;
-  font-size:31px;
-  letter-spacing:-.05em;
-}
-
-.stat-note{
-  margin-top:7px;
-  color:#77777f;
-  font-size:11px;
-}
-
-
-/* =========================================================
-   GRID
-   ========================================================= */
-
-.dashboard-grid{
-  display:grid;
-  grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);
-  gap:18px;
-  margin-top:18px;
-}
-
-.dashboard-column{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
-}
-
-
-/* =========================================================
-   SECTION HEADER
-   ========================================================= */
-
-.section-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:15px;
-  margin-bottom:18px;
-}
-
-.section-title{
-  font-family:"Bricolage Grotesque",sans-serif;
-  font-size:20px;
-  letter-spacing:-.035em;
-}
-
-.section-subtitle{
-  color:var(--muted);
-  font-size:11px;
-  margin-top:5px;
-}
-
-
-/* =========================================================
-   QUICK ACTIONS
-   ========================================================= */
-
-.quick-actions{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.quick-action{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  min-height:78px;
-  padding:14px;
-  border-radius:16px;
-  border:1px solid var(--border);
-  background:rgba(255,255,255,.025);
+a{
   color:inherit;
   text-decoration:none;
-  transition:
-    transform .2s ease,
-    border-color .2s ease,
-    background .2s ease;
 }
 
-.quick-action:hover{
-  transform:translateY(-2px);
-  border-color:rgba(216,179,106,.35);
-  background:rgba(216,179,106,.045);
+/* ==========================================
+   APP
+========================================== */
+
+.app{
+  min-height:100vh;
+  display:flex;
 }
 
-.quick-icon{
-  width:40px;
-  height:40px;
-  flex:none;
-  display:grid;
-  place-items:center;
-  border-radius:13px;
-  background:rgba(216,179,106,.08);
-  color:var(--accent);
-}
+/* ==========================================
+   SIDEBAR
+========================================== */
 
-.quick-icon svg{
-  width:18px;
-  height:18px;
-}
-
-.quick-name{
-  font-size:13px;
-  font-weight:600;
-}
-
-.quick-desc{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:10px;
-}
-
-
-/* =========================================================
-   HEALTH
-   ========================================================= */
-
-.health-list{
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:272px;
+  z-index:50;
   display:flex;
   flex-direction:column;
-  gap:10px;
+  background:var(--sidebar);
+  border-right:1px solid var(--border);
 }
 
-.health-row{
+.brand{
+  height:82px;
+  padding:0 24px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  padding:13px 14px;
-  border-radius:14px;
-  background:rgba(255,255,255,.025);
-  border:1px solid rgba(255,255,255,.045);
-}
-
-.health-left{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:0;
-}
-
-.health-dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  flex:none;
-}
-
-.health-dot.ok{
-  background:#7dbb91;
-  box-shadow:0 0 12px rgba(125,187,145,.45);
-}
-
-.health-dot.warning{
-  background:#d8b36a;
-  box-shadow:0 0 12px rgba(216,179,106,.4);
-}
-
-.health-name{
-  font-size:12px;
-}
-
-.health-status{
-  color:var(--muted);
-  font-size:10px;
-}
-
-
-/* =========================================================
-   ACTIVITY
-   ========================================================= */
-
-.activity-list{
-  display:flex;
-  flex-direction:column;
-}
-
-.activity-item{
-  display:flex;
-  gap:12px;
-  padding:14px 0;
+  gap:11px;
   border-bottom:1px solid var(--border);
 }
 
-.activity-item:last-child{
-  border-bottom:0;
-  padding-bottom:0;
-}
-
-.activity-icon{
-  width:34px;
-  height:34px;
-  flex:none;
-  border-radius:11px;
+.brand-mark{
+  width:39px;
+  height:39px;
   display:grid;
   place-items:center;
+  border-radius:12px;
+  background:linear-gradient(
+    145deg,
+    var(--accent2),
+    var(--accent)
+  );
+  color:#17120a;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:-.08em;
+}
+
+.brand-copy strong{
+  display:block;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:13px;
+  letter-spacing:-.02em;
+}
+
+.brand-copy span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.nav{
+  flex:1;
+  padding:22px 14px;
+  overflow-y:auto;
+}
+
+.nav-label{
+  padding:0 11px;
+  margin:0 0 9px;
+  color:var(--faint);
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.nav-item{
+  width:100%;
+  min-height:43px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:0 11px;
+  margin-bottom:4px;
+  border:1px solid transparent;
+  border-radius:11px;
+  background:transparent;
+  color:var(--muted);
+  font-size:11px;
+  text-align:left;
+  transition:.18s ease;
+}
+
+.nav-item:hover{
+  color:var(--text);
+  background:var(--panel2);
+}
+
+.nav-item.active{
+  color:var(--text);
+  background:rgba(216,179,106,.08);
+  border-color:rgba(216,179,106,.12);
+}
+
+.nav-icon{
+  width:20px;
+  text-align:center;
+  color:var(--faint);
+  font-size:13px;
+}
+
+.nav-item.active .nav-icon{
+  color:var(--accent);
+}
+
+.sidebar-bottom{
+  padding:14px;
+  border-top:1px solid var(--border);
+}
+
+.profile-mini{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:11px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:var(--panel);
+}
+
+.profile-avatar{
+  width:33px;
+  height:33px;
+  border-radius:10px;
+  object-fit:cover;
+  background:var(--panel2);
+}
+
+.profile-mini strong{
+  display:block;
+  font-size:10px;
+}
+
+.profile-mini span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+/* ==========================================
+   MAIN
+========================================== */
+
+.main{
+  width:calc(100% - 272px);
+  margin-left:272px;
+  min-height:100vh;
+}
+
+/* ==========================================
+   TOPBAR
+========================================== */
+
+.topbar{
+  height:76px;
+  position:sticky;
+  top:0;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 32px;
+  background:rgba(10,10,12,.86);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(18px);
+}
+
+[data-theme="light"] .topbar{
+  background:rgba(243,241,236,.88);
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.menu-button{
+  display:none;
+  width:39px;
+  height:39px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel);
+  color:var(--text);
+}
+
+.breadcrumb{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.breadcrumb strong{
+  color:var(--text);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.top-button{
+  width:39px;
+  height:39px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel);
+  color:var(--soft);
+  transition:.18s ease;
+}
+
+.top-button:hover{
+  color:var(--text);
+  border-color:var(--border2);
+}
+
+.logout-button{
+  padding:0 13px;
+  height:39px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel);
+  color:var(--muted);
+  font-size:10px;
+}
+
+.logout-button:hover{
+  color:var(--red);
+  border-color:rgba(231,120,120,.2);
+}
+
+/* ==========================================
+   CONTENT
+========================================== */
+
+.content{
+  max-width:1500px;
+  padding:34px;
+}
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
+  margin-bottom:27px;
+}
+
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:9px;
+  color:var(--accent);
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+}
+
+.eyebrow::before{
+  content:"";
+  width:17px;
+  height:1px;
+  background:var(--accent);
+}
+
+h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(34px,4vw,54px);
+  line-height:.95;
+  letter-spacing:-.06em;
+}
+
+.heading-copy{
+  max-width:560px;
+  margin-top:11px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.65;
+}
+
+.preview-button{
+  min-height:40px;
+  padding:0 14px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel);
+  color:var(--soft);
+  font-size:10px;
+  white-space:nowrap;
+}
+
+.preview-button:hover{
+  color:var(--text);
+  border-color:var(--border2);
+}
+
+/* ==========================================
+   STATUS
+========================================== */
+
+.status-strip{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px 15px;
+  margin-bottom:22px;
+  border:1px solid rgba(105,201,149,.13);
+  border-radius:13px;
+  background:rgba(105,201,149,.035);
+}
+
+.status-dot{
+  width:7px;
+  height:7px;
+  flex:0 0 auto;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 0 4px rgba(105,201,149,.06);
+}
+
+.status-strip strong{
+  font-size:10px;
+}
+
+.status-strip span{
+  margin-left:auto;
+  color:var(--muted);
+  font-size:9px;
+}
+
+/* ==========================================
+   STATS
+========================================== */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:13px;
+  margin-bottom:22px;
+}
+
+.stat-card{
+  min-height:142px;
+  padding:19px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:var(--panel);
+  box-shadow:var(--shadow);
+}
+
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.stat-icon{
+  width:29px;
+  height:29px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
   background:rgba(216,179,106,.07);
   color:var(--accent);
 }
 
-.activity-icon svg{
-  width:15px;
-  height:15px;
-}
-
-.activity-title{
-  font-size:12px;
-  font-weight:600;
-}
-
-.activity-time{
-  color:var(--muted);
-  font-size:10px;
-  margin-top:4px;
-}
-
-
-/* =========================================================
-   PROFILE
-   ========================================================= */
-
-.profile-card{
-  display:flex;
-  align-items:center;
-  gap:16px;
-}
-
-.profile-image{
-  width:68px;
-  height:68px;
-  flex:none;
-  object-fit:cover;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,.08);
-  background:#1b1b1f;
-}
-
-.profile-name{
+.stat-value{
+  margin-top:22px;
   font-family:"Bricolage Grotesque",sans-serif;
-  font-size:20px;
-  letter-spacing:-.035em;
+  font-size:31px;
+  line-height:1;
+  letter-spacing:-.05em;
 }
 
-.profile-role{
-  margin-top:4px;
-  color:var(--muted);
-  font-size:11px;
-}
-
-.profile-location{
+.stat-note{
   margin-top:8px;
-  color:#77777f;
-  font-size:10px;
+  color:var(--muted);
+  font-size:8px;
 }
 
+/* ==========================================
+   GRID
+========================================== */
 
-/* =========================================================
-   STATUS
-   ========================================================= */
+.grid-main{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
+  gap:18px;
+}
 
-.status-line{
+.panel{
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:var(--panel);
+  overflow:hidden;
+}
+
+.panel-head{
+  min-height:64px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:15px;
-  padding:13px 0;
+  padding:0 18px;
   border-bottom:1px solid var(--border);
 }
 
-.status-line:last-child{
-  border-bottom:0;
-  padding-bottom:0;
+.panel-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:14px;
+  letter-spacing:-.025em;
 }
 
-.status-line:first-child{
-  padding-top:0;
-}
-
-.status-label{
+.panel-subtitle{
+  margin-top:3px;
   color:var(--muted);
-  font-size:11px;
+  font-size:8px;
 }
 
-.status-value{
-  font-size:11px;
-  font-weight:600;
+.panel-link{
+  color:var(--accent);
+  font-size:9px;
 }
 
-.status-value.online{
-  color:#86c99d;
+/* ==========================================
+   QUICK ACTIONS
+========================================== */
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  padding:18px;
 }
 
-.status-value.offline{
-  color:#d98989;
+.quick-card{
+  min-height:112px;
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:var(--panel2);
+  transition:.18s ease;
 }
 
+.quick-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(216,179,106,.2);
+}
 
-/* =========================================================
+.quick-icon{
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  margin-bottom:17px;
+  border-radius:9px;
+  background:rgba(216,179,106,.07);
+  color:var(--accent);
+}
+
+.quick-card strong{
+  display:block;
+  font-size:10px;
+}
+
+.quick-card span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:8px;
+  line-height:1.4;
+}
+
+/* ==========================================
+   HEALTH
+========================================== */
+
+.health-list{
+  padding:8px 18px 17px;
+}
+
+.health-row{
+  min-height:53px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  border-bottom:1px solid var(--border);
+}
+
+.health-row:last-child{
+  border-bottom:0;
+}
+
+.health-icon{
+  width:29px;
+  height:29px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  background:var(--panel2);
+  color:var(--accent);
+}
+
+.health-info{
+  flex:1;
+}
+
+.health-info strong{
+  display:block;
+  font-size:9px;
+}
+
+.health-info span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.health-status{
+  font-size:8px;
+  color:var(--green);
+}
+
+/* ==========================================
+   ACTIVITY
+========================================== */
+
+.activity-list{
+  padding:7px 18px 17px;
+}
+
+.activity{
+  display:flex;
+  gap:11px;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.activity:last-child{
+  border-bottom:0;
+}
+
+.activity-dot{
+  width:7px;
+  height:7px;
+  flex:0 0 auto;
+  margin-top:5px;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+.activity strong{
+  display:block;
+  font-size:9px;
+}
+
+.activity span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+/* ==========================================
+   PROFILE CARD
+========================================== */
+
+.profile-panel{
+  margin-top:18px;
+}
+
+.profile-content{
+  display:flex;
+  align-items:center;
+  gap:17px;
+  padding:19px;
+}
+
+.profile-photo{
+  width:72px;
+  height:72px;
+  object-fit:cover;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:var(--panel2);
+}
+
+.profile-details{
+  flex:1;
+}
+
+.profile-details h2{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:19px;
+  letter-spacing:-.04em;
+}
+
+.profile-details p{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.profile-details small{
+  display:block;
+  margin-top:7px;
+  color:var(--accent);
+  font-size:8px;
+}
+
+/* ==========================================
+   OVERLAY
+========================================== */
+
+.mobile-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:40;
+  background:rgba(0,0,0,.5);
+  backdrop-filter:blur(3px);
+}
+
+/* ==========================================
+   TOAST
+========================================== */
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:100;
+  min-width:220px;
+  padding:13px 15px;
+  border:1px solid var(--border2);
+  border-radius:12px;
+  background:#17181d;
+  color:#fff;
+  font-size:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
+  transform:translateY(20px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+/* ==========================================
    RESPONSIVE
-   ========================================================= */
+========================================== */
 
-@media(max-width:1050px){
+@media(max-width:1100px){
 
-  .dashboard-stats{
+  .stats{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .dashboard-grid{
+  .grid-main{
     grid-template-columns:1fr;
   }
 
 }
 
-@media(max-width:700px){
+@media(max-width:800px){
 
-  .welcome-inner{
-    padding:25px 21px;
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s ease;
   }
 
-  .dashboard-stats{
-    grid-template-columns:1fr 1fr;
+  .sidebar.open{
+    transform:translateX(0);
   }
 
-  .quick-actions{
-    grid-template-columns:1fr;
+  .mobile-overlay.show{
+    display:block;
   }
 
-}
-
-@media(max-width:480px){
-
-  .dashboard-stats{
-    grid-template-columns:1fr;
+  .main{
+    width:100%;
+    margin-left:0;
   }
 
-  .welcome-title{
-    font-size:38px;
+  .topbar{
+    padding:0 18px;
   }
 
-  .welcome-actions{
+  .menu-button{
+    display:grid;
+    place-items:center;
+  }
+
+  .content{
+    padding:25px 18px;
+  }
+
+  .page-heading{
+    align-items:flex-start;
     flex-direction:column;
   }
 
-  .welcome-actions a,
-  .welcome-actions button{
-    width:100%;
+}
+
+@media(max-width:560px){
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    min-height:125px;
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:26px;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr;
+  }
+
+  .logout-button{
+    display:none;
+  }
+
+  .breadcrumb{
+    font-size:9px;
+  }
+
+  .profile-content{
+    align-items:flex-start;
+  }
+
+}
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    transition:none!important;
   }
 
 }
 </style>
 </head>
 
-
-<body data-theme="dark">
+<body>
 
 <div class="app">
 
-  <!-- =====================================================
+  <!-- ======================================
        SIDEBAR
-       ===================================================== -->
+  ======================================= -->
 
   <aside class="sidebar" id="sidebar">
 
@@ -504,82 +875,83 @@
         NU
       </div>
 
-      <div>
-        <div class="brand-name">
-          Nusrat Afsana
-        </div>
-
-        <div class="brand-subtitle">
-          Portfolio Admin
-        </div>
+      <div class="brand-copy">
+        <strong>Nusrat Afsana</strong>
+        <span>Portfolio Administration</span>
       </div>
 
     </div>
 
 
-    <nav class="side-nav">
+    <nav class="nav">
 
       <div class="nav-label">
         Workspace
       </div>
 
-      <a
+      <button
         class="nav-item active"
-        href="./dashboard.html"
+        data-page="dashboard.html"
       >
         <span class="nav-icon">⌂</span>
-        <span>Dashboard</span>
-      </a>
+        Dashboard
+      </button>
 
-
-      <a
+      <button
         class="nav-item"
-        href="./homepage.html"
+        data-page="homepage.html"
       >
-        <span class="nav-icon">✦</span>
-        <span>Homepage</span>
-      </a>
+        <span class="nav-icon">◈</span>
+        Homepage
+      </button>
 
-
-      <a
+      <button
         class="nav-item"
-        href="./banner.html"
-      >
-        <span class="nav-icon">◫</span>
-        <span>Banner</span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        href="./browser-ui.html"
+        data-page="banner.html"
       >
         <span class="nav-icon">▣</span>
-        <span>Browser UI</span>
-      </a>
+        Banner
+      </button>
 
-
-      <a
+      <button
         class="nav-item"
-        href="./newsletter.html"
+        data-page="browser-ui.html"
+      >
+        <span class="nav-icon">◫</span>
+        Browser UI
+      </button>
+
+      <button
+        class="nav-item"
+        data-page="newsletter.html"
       >
         <span class="nav-icon">✉</span>
-        <span>Newsletter</span>
-      </a>
+        Newsletter
+      </button>
 
 
-      <div class="nav-label">
-        Portfolio
+      <div
+        class="nav-label"
+        style="margin-top:25px"
+      >
+        System
       </div>
+
+      <button
+        class="nav-item"
+        data-page="system.html"
+      >
+        <span class="nav-icon">⚙</span>
+        System
+      </button>
 
       <a
         class="nav-item"
         href="../index.html"
         target="_blank"
-        rel="noopener"
       >
         <span class="nav-icon">↗</span>
-        <span>View Portfolio</span>
+        View Portfolio
       </a>
 
     </nav>
@@ -587,23 +959,29 @@
 
     <div class="sidebar-bottom">
 
-      <button
-        class="nav-item"
-        id="logoutButton"
-        type="button"
-      >
-        <span class="nav-icon">↪</span>
-        <span>Sign Out</span>
-      </button>
+      <div class="profile-mini">
+
+        <img
+          class="profile-avatar"
+          src="../nusrat-afsana-photo.jpg"
+          alt="Nusrat Afsana Usha"
+        >
+
+        <div>
+          <strong>Nusrat Afsana Usha</strong>
+          <span>Administrator</span>
+        </div>
+
+      </div>
 
     </div>
 
   </aside>
 
 
-  <!-- =====================================================
+  <!-- ======================================
        MOBILE OVERLAY
-       ===================================================== -->
+  ======================================= -->
 
   <div
     class="mobile-overlay"
@@ -611,878 +989,505 @@
   ></div>
 
 
-  <!-- =====================================================
+  <!-- ======================================
        MAIN
-       ===================================================== -->
+  ======================================= -->
 
   <main class="main">
 
-
-    <!-- TOPBAR -->
-
     <header class="topbar">
 
-      <div class="topbar-left">
+      <div class="top-left">
 
         <button
-          class="mobile-menu-button"
-          id="mobileMenuButton"
-          type="button"
-          aria-label="Open navigation"
+          class="menu-button"
+          id="menuButton"
+          aria-label="Open menu"
         >
           ☰
         </button>
 
-        <div>
-
-          <div class="topbar-title">
-            Dashboard
-          </div>
-
-          <div class="topbar-subtitle">
-            Portfolio administration
-          </div>
-
+        <div class="breadcrumb">
+          Administration / <strong>Dashboard</strong>
         </div>
 
       </div>
 
 
-      <div class="topbar-actions">
+      <div class="top-actions">
 
         <button
-          class="icon-button"
-          id="themeToggle"
-          type="button"
+          class="top-button"
+          id="themeButton"
           title="Toggle theme"
           aria-label="Toggle theme"
         >
           ◐
         </button>
 
-
-        <a
-          class="topbar-profile"
-          href="./homepage.html"
-          title="Account"
+        <button
+          class="top-button"
+          id="refreshButton"
+          title="Refresh dashboard"
+          aria-label="Refresh dashboard"
         >
-          <span class="topbar-avatar">
-            NU
-          </span>
+          ↻
+        </button>
 
-          <span class="topbar-account">
-            Admin
-          </span>
-        </a>
+        <button
+          class="logout-button"
+          id="logoutButton"
+        >
+          Sign Out
+        </button>
 
       </div>
 
     </header>
 
 
-    <!-- CONTENT -->
+    <section class="content">
 
-    <div class="content">
+      <!-- PAGE HEADING -->
 
-      <section class="page">
+      <div class="page-heading">
+
+        <div>
+
+          <div class="eyebrow">
+            Portfolio Workspace
+          </div>
+
+          <h1>
+            Good to see you.
+          </h1>
+
+          <p class="heading-copy">
+            Manage the portfolio experience from one focused
+            workspace. Review content, publishing status and
+            recent updates at a glance.
+          </p>
+
+        </div>
+
+        <button
+          class="preview-button"
+          id="previewButton"
+        >
+          Open Portfolio ↗
+        </button>
+
+      </div>
 
 
-        <!-- =================================================
-             WELCOME
-             ================================================= -->
+      <!-- STATUS -->
 
-        <div class="panel welcome-card">
+      <div class="status-strip">
 
-          <div class="welcome-inner">
+        <span class="status-dot"></span>
 
-            <div class="welcome-eyebrow">
-              Portfolio Workspace
+        <strong>
+          Portfolio is live
+        </strong>
+
+        <span id="lastUpdated">
+          Checking latest update…
+        </span>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+            <span>Selected Work</span>
+
+            <div class="stat-icon">
+              ◇
+            </div>
+          </div>
+
+          <div
+            class="stat-value"
+            id="projectCount"
+          >
+            04
+          </div>
+
+          <div class="stat-note">
+            Projects configured
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+            <span>Services</span>
+
+            <div class="stat-icon">
+              ✦
+            </div>
+          </div>
+
+          <div
+            class="stat-value"
+            id="serviceCount"
+          >
+            05
+          </div>
+
+          <div class="stat-note">
+            Active service entries
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+            <span>Visibility</span>
+
+            <div class="stat-icon">
+              ◉
+            </div>
+          </div>
+
+          <div
+            class="stat-value"
+            id="visibilityCount"
+          >
+            04
+          </div>
+
+          <div class="stat-note">
+            Published sections
+          </div>
+
+        </article>
+
+
+        <article class="stat-card">
+
+          <div class="stat-top">
+            <span>Updates</span>
+
+            <div class="stat-icon">
+              ↗
+            </div>
+          </div>
+
+          <div
+            class="stat-value"
+            id="updateCount"
+          >
+            00
+          </div>
+
+          <div class="stat-note">
+            Saved changes
+          </div>
+
+        </article>
+
+      </div>
+
+
+      <!-- MAIN GRID -->
+
+      <div class="grid-main">
+
+        <!-- QUICK ACTIONS -->
+
+        <section class="panel">
+
+          <div class="panel-head">
+
+            <div>
+              <div class="panel-title">
+                Quick Actions
+              </div>
+
+              <div class="panel-subtitle">
+                Jump directly into a workspace
+              </div>
             </div>
 
-            <h1 class="welcome-title">
-              Good to see you.
-            </h1>
-
-            <p class="welcome-copy">
-              Manage Nusrat Afsana Usha's portfolio,
-              homepage content, visual presentation,
-              project browser and newsletter from one
-              focused workspace.
-            </p>
+          </div>
 
 
-            <div class="welcome-actions">
+          <div class="quick-grid">
 
-              <a
-                href="./homepage.html"
-                class="primary-button"
-              >
+            <a
+              class="quick-card"
+              href="./homepage.html"
+            >
+
+              <div class="quick-icon">
+                ◈
+              </div>
+
+              <strong>
                 Edit Homepage
-              </a>
+              </strong>
 
-              <a
-                href="../index.html"
-                target="_blank"
-                rel="noopener"
-                class="secondary-button"
-              >
-                View Portfolio ↗
-              </a>
+              <span>
+                Update hero, about, services and work.
+              </span>
 
-            </div>
-
-          </div>
-
-        </div>
+            </a>
 
 
-        <!-- =================================================
-             STATS
-             ================================================= -->
-
-        <div class="dashboard-stats">
-
-          <div class="panel dashboard-stat">
-
-            <div class="stat-label">
-              Projects
-            </div>
-
-            <div
-              class="stat-value"
-              id="projectCount"
+            <a
+              class="quick-card"
+              href="./banner.html"
             >
-              04
-            </div>
 
-            <div class="stat-note">
-              Selected work
-            </div>
+              <div class="quick-icon">
+                ▣
+              </div>
 
-          </div>
+              <strong>
+                Manage Banner
+              </strong>
+
+              <span>
+                Control hero messaging and visual presentation.
+              </span>
+
+            </a>
 
 
-          <div class="panel dashboard-stat">
-
-            <div class="stat-label">
-              Services
-            </div>
-
-            <div
-              class="stat-value"
-              id="serviceCount"
+            <a
+              class="quick-card"
+              href="./browser-ui.html"
             >
-              05
-            </div>
 
-            <div class="stat-note">
-              Published services
-            </div>
+              <div class="quick-icon">
+                ◫
+              </div>
 
-          </div>
+              <strong>
+                Browser UI
+              </strong>
+
+              <span>
+                Configure portfolio browser presentation.
+              </span>
+
+            </a>
 
 
-          <div class="panel dashboard-stat">
-
-            <div class="stat-label">
-              Visibility
-            </div>
-
-            <div
-              class="stat-value"
-              id="visibilityStatus"
+            <a
+              class="quick-card"
+              href="./newsletter.html"
             >
-              ON
-            </div>
 
-            <div class="stat-note">
-              Portfolio status
+              <div class="quick-icon">
+                ✉
+              </div>
+
+              <strong>
+                Newsletter
+              </strong>
+
+              <span>
+                Review subscribers and signup settings.
+              </span>
+
+            </a>
+
+          </div>
+
+        </section>
+
+
+        <!-- CONTENT HEALTH -->
+
+        <section class="panel">
+
+          <div class="panel-head">
+
+            <div>
+              <div class="panel-title">
+                Content Health
+              </div>
+
+              <div class="panel-subtitle">
+                Current publishing state
+              </div>
             </div>
 
           </div>
 
 
-          <div class="panel dashboard-stat">
+          <div class="health-list">
 
-            <div class="stat-label">
-              Updates
-            </div>
+            <div class="health-row">
 
-            <div
-              class="stat-value"
-              id="updateCount"
-            >
-              01
-            </div>
-
-            <div class="stat-note">
-              Latest saved changes
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- =================================================
-             MAIN GRID
-             ================================================= -->
-
-        <div class="dashboard-grid">
-
-
-          <!-- LEFT -->
-          <div class="dashboard-column">
-
-
-            <!-- QUICK ACTIONS -->
-
-            <section class="panel">
-
-              <div class="section-header">
-
-                <div>
-
-                  <div class="section-title">
-                    Quick actions
-                  </div>
-
-                  <div class="section-subtitle">
-                    Jump directly into frequently used controls.
-                  </div>
-
-                </div>
-
+              <div class="health-icon">
+                ◈
               </div>
 
-
-              <div class="quick-actions">
-
-                <a
-                  href="./homepage.html"
-                  class="quick-action"
-                >
-
-                  <div class="quick-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                    >
-                      <path d="M4 4h16v16H4z"></path>
-                      <path d="M8 8h8"></path>
-                      <path d="M8 12h8"></path>
-                      <path d="M8 16h5"></path>
-                    </svg>
-                  </div>
-
-                  <div>
-                    <div class="quick-name">
-                      Homepage
-                    </div>
-
-                    <div class="quick-desc">
-                      Edit hero, about and content.
-                    </div>
-                  </div>
-
-                </a>
-
-
-                <a
-                  href="./banner.html"
-                  class="quick-action"
-                >
-
-                  <div class="quick-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                    >
-                      <rect
-                        x="3"
-                        y="4"
-                        width="18"
-                        height="16"
-                        rx="2"
-                      ></rect>
-                      <circle
-                        cx="8"
-                        cy="9"
-                        r="1.4"
-                      ></circle>
-                      <path d="m5 17 5-5 3 3 2-2 4 4"></path>
-                    </svg>
-                  </div>
-
-                  <div>
-                    <div class="quick-name">
-                      Banner
-                    </div>
-
-                    <div class="quick-desc">
-                      Control hero image and CTA.
-                    </div>
-                  </div>
-
-                </a>
-
-
-                <a
-                  href="./browser-ui.html"
-                  class="quick-action"
-                >
-
-                  <div class="quick-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                    >
-                      <rect
-                        x="3"
-                        y="4"
-                        width="18"
-                        height="16"
-                        rx="2"
-                      ></rect>
-                      <path d="M3 8h18"></path>
-                      <path d="M7 6h.01"></path>
-                      <path d="M10 6h.01"></path>
-                      <path d="M13 6h.01"></path>
-                    </svg>
-                  </div>
-
-                  <div>
-                    <div class="quick-name">
-                      Browser UI
-                    </div>
-
-                    <div class="quick-desc">
-                      Manage project presentation.
-                    </div>
-                  </div>
-
-                </a>
-
-
-                <a
-                  href="./newsletter.html"
-                  class="quick-action"
-                >
-
-                  <div class="quick-icon">
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.6"
-                    >
-                      <rect
-                        x="3"
-                        y="5"
-                        width="18"
-                        height="14"
-                        rx="2"
-                      ></rect>
-                      <path d="m4 7 8 6 8-6"></path>
-                    </svg>
-                  </div>
-
-                  <div>
-                    <div class="quick-name">
-                      Newsletter
-                    </div>
-
-                    <div class="quick-desc">
-                      Manage subscribers and signup.
-                    </div>
-                  </div>
-
-                </a>
-
-              </div>
-
-            </section>
-
-
-            <!-- CONTENT HEALTH -->
-
-            <section class="panel">
-
-              <div class="section-header">
-
-                <div>
-
-                  <div class="section-title">
-                    Content health
-                  </div>
-
-                  <div class="section-subtitle">
-                    A quick check of the current portfolio setup.
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div class="health-list">
-
-                <div class="health-row">
-
-                  <div class="health-left">
-
-                    <span class="health-dot ok"></span>
-
-                    <span class="health-name">
-                      Homepage content
-                    </span>
-
-                  </div>
-
-                  <span class="health-status">
-                    Ready
-                  </span>
-
-                </div>
-
-
-                <div class="health-row">
-
-                  <div class="health-left">
-
-                    <span class="health-dot ok"></span>
-
-                    <span class="health-name">
-                      Selected work
-                    </span>
-
-                  </div>
-
-                  <span class="health-status">
-                    Ready
-                  </span>
-
-                </div>
-
-
-                <div class="health-row">
-
-                  <div class="health-left">
-
-                    <span class="health-dot ok"></span>
-
-                    <span class="health-name">
-                      Banner presentation
-                    </span>
-
-                  </div>
-
-                  <span class="health-status">
-                    Ready
-                  </span>
-
-                </div>
-
-
-                <div class="health-row">
-
-                  <div class="health-left">
-
-                    <span class="health-dot warning"></span>
-
-                    <span class="health-name">
-                      Newsletter provider
-                    </span>
-
-                  </div>
-
-                  <span class="health-status">
-                    Not connected
-                  </span>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- ACTIVITY -->
-
-            <section class="panel">
-
-              <div class="section-header">
-
-                <div>
-
-                  <div class="section-title">
-                    Recent activity
-                  </div>
-
-                  <div class="section-subtitle">
-                    Latest workspace events.
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div class="activity-list">
-
-                <div class="activity-item">
-
-                  <div class="activity-icon">
-                    ✓
-                  </div>
-
-                  <div>
-
-                    <div class="activity-title">
-                      Admin workspace opened
-                    </div>
-
-                    <div class="activity-time">
-                      Current session
-                    </div>
-
-                  </div>
-
-                </div>
-
-
-                <div class="activity-item">
-
-                  <div class="activity-icon">
-                    ✦
-                  </div>
-
-                  <div>
-
-                    <div class="activity-title">
-                      Homepage content is available
-                    </div>
-
-                    <div class="activity-time">
-                      Portfolio content
-                    </div>
-
-                  </div>
-
-                </div>
-
-
-                <div class="activity-item">
-
-                  <div class="activity-icon">
-                    ◫
-                  </div>
-
-                  <div>
-
-                    <div class="activity-title">
-                      Banner configuration ready
-                    </div>
-
-                    <div class="activity-time">
-                      Visual presentation
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
-
-            </section>
-
-          </div>
-
-
-          <!-- RIGHT -->
-          <div class="dashboard-column">
-
-
-            <!-- PROFILE -->
-
-            <section class="panel">
-
-              <div class="section-header">
-
-                <div>
-
-                  <div class="section-title">
-                    Portfolio profile
-                  </div>
-
-                  <div class="section-subtitle">
-                    Public identity overview.
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div class="profile-card">
-
-                <img
-                  class="profile-image"
-                  src="../nusrat-afsana-photo.jpg"
-                  alt="Nusrat Afsana Usha"
-                  onerror="this.style.visibility='hidden'"
-                >
-
-                <div>
-
-                  <div class="profile-name">
-                    Nusrat Afsana Usha
-                  </div>
-
-                  <div class="profile-role">
-                    UX/UI Designer
-                  </div>
-
-                  <div class="profile-location">
-                    Dhaka, Bangladesh
-                  </div>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- PORTFOLIO STATUS -->
-
-            <section class="panel">
-
-              <div class="section-header">
-
-                <div>
-
-                  <div class="section-title">
-                    Portfolio status
-                  </div>
-
-                  <div class="section-subtitle">
-                    Public-facing availability.
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div>
-
-                <div class="status-line">
-
-                  <span class="status-label">
-                    Website
-                  </span>
-
-                  <span class="status-value online">
-                    Live
-                  </span>
-
-                </div>
-
-
-                <div class="status-line">
-
-                  <span class="status-label">
-                    Homepage
-                  </span>
-
-                  <span
-                    class="status-value online"
-                    id="homepageStatus"
-                  >
-                    Published
-                  </span>
-
-                </div>
-
-
-                <div class="status-line">
-
-                  <span class="status-label">
-                    Selected Work
-                  </span>
-
-                  <span
-                    class="status-value online"
-                    id="workStatus"
-                  >
-                    Visible
-                  </span>
-
-                </div>
-
-
-                <div class="status-line">
-
-                  <span class="status-label">
-                    Services
-                  </span>
-
-                  <span
-                    class="status-value online"
-                    id="servicesStatus"
-                  >
-                    Visible
-                  </span>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- NEWSLETTER -->
-
-            <section class="panel">
-
-              <div class="section-header">
-
-                <div>
-
-                  <div class="section-title">
-                    Newsletter
-                  </div>
-
-                  <div class="section-subtitle">
-                    Subscriber overview.
-                  </div>
-
-                </div>
-
-              </div>
-
-
-              <div class="status-line">
-
-                <span class="status-label">
-                  Subscribers
+              <div class="health-info">
+                <strong>Homepage</strong>
+                <span id="homepageHealth">
+                  Published
                 </span>
-
-                <span
-                  class="status-value"
-                  id="subscriberCount"
-                >
-                  0
-                </span>
-
               </div>
-
-
-              <div class="status-line">
-
-                <span class="status-label">
-                  Signup
-                </span>
-
-                <span
-                  class="status-value online"
-                  id="newsletterStatus"
-                >
-                  Enabled
-                </span>
-
-              </div>
-
 
               <div
-                style="
-                  margin-top:16px;
-                "
+                class="health-status"
+                id="homepageStatus"
               >
-
-                <a
-                  href="./newsletter.html"
-                  class="secondary-button"
-                  style="width:100%;justify-content:center;"
-                >
-                  Open Newsletter
-                </a>
-
+                ● Live
               </div>
 
-            </section>
+            </div>
 
 
-            <!-- LAST UPDATE -->
+            <div class="health-row">
 
-            <section class="panel">
-
-              <div class="section-header">
-
-                <div>
-
-                  <div class="section-title">
-                    Workspace
-                  </div>
-
-                  <div class="section-subtitle">
-                    Current administration state.
-                  </div>
-
-                </div>
-
+              <div class="health-icon">
+                ▣
               </div>
 
-
-              <div class="status-line">
-
-                <span class="status-label">
-                  Session
+              <div class="health-info">
+                <strong>Banner</strong>
+                <span id="bannerHealth">
+                  Published
                 </span>
-
-                <span class="status-value online">
-                  Active
-                </span>
-
               </div>
 
-
-              <div class="status-line">
-
-                <span class="status-label">
-                  Storage
-                </span>
-
-                <span class="status-value online">
-                  Local
-                </span>
-
+              <div
+                class="health-status"
+                id="bannerStatus"
+              >
+                ● Live
               </div>
 
+            </div>
 
-              <div class="status-line">
 
-                <span class="status-label">
-                  Last saved
-                </span>
+            <div class="health-row">
 
-                <span
-                  class="status-value"
-                  id="lastSaved"
-                >
-                  —
-                </span>
-
+              <div class="health-icon">
+                ◫
               </div>
 
-            </section>
+              <div class="health-info">
+                <strong>Browser UI</strong>
+                <span id="browserHealth">
+                  Configured
+                </span>
+              </div>
+
+              <div
+                class="health-status"
+                id="browserStatus"
+              >
+                ● Ready
+              </div>
+
+            </div>
+
+
+            <div class="health-row">
+
+              <div class="health-icon">
+                ✉
+              </div>
+
+              <div class="health-info">
+                <strong>Newsletter</strong>
+                <span id="newsletterHealth">
+                  Signup enabled
+                </span>
+              </div>
+
+              <div
+                class="health-status"
+                id="newsletterStatus"
+              >
+                ● Ready
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <!-- ACTIVITY -->
+
+      <section class="panel profile-panel">
+
+        <div class="panel-head">
+
+          <div>
+            <div class="panel-title">
+              Recent Activity
+            </div>
+
+            <div class="panel-subtitle">
+              Latest local administration events
+            </div>
+          </div>
+
+          <span
+            class="panel-link"
+            id="activityCount"
+          >
+            0 updates
+          </span>
+
+        </div>
+
+
+        <div
+          class="activity-list"
+          id="activityList"
+        >
+
+          <div class="activity">
+
+            <span class="activity-dot"></span>
+
+            <div>
+              <strong>
+                Dashboard initialized
+              </strong>
+
+              <span>
+                Portfolio administration workspace is ready.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="activity">
+
+            <span class="activity-dot"></span>
+
+            <div>
+              <strong>
+                Session authenticated
+              </strong>
+
+              <span>
+                Current administrator session is active.
+              </span>
+            </div>
 
           </div>
 
@@ -1490,107 +1495,196 @@
 
       </section>
 
-    </div>
+
+      <!-- PROFILE -->
+
+      <section class="panel profile-panel">
+
+        <div class="panel-head">
+
+          <div>
+            <div class="panel-title">
+              Portfolio Profile
+            </div>
+
+            <div class="panel-subtitle">
+              Current public identity
+            </div>
+          </div>
+
+          <a
+            class="panel-link"
+            href="./homepage.html"
+          >
+            Edit →
+          </a>
+
+        </div>
+
+
+        <div class="profile-content">
+
+          <img
+            class="profile-photo"
+            src="../nusrat-afsana-photo.jpg"
+            alt="Nusrat Afsana Usha"
+          >
+
+          <div class="profile-details">
+
+            <h2>
+              Nusrat Afsana Usha
+            </h2>
+
+            <p>
+              UX/UI Designer · Dhaka, Bangladesh
+            </p>
+
+            <small>
+              Portfolio profile active
+            </small>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </section>
 
   </main>
 
 </div>
 
 
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
 <script>
-/* =========================================================
-   CONFIG
-   ========================================================= */
+(() => {
 
-const SESSION_KEY =
-  "nusrat_admin_session_v1";
-
-const THEME_KEY =
-  "nusrat_admin_theme";
-
-const HOMEPAGE_KEY =
-  "nusrat_homepage_content_v1";
-
-const BANNER_KEY =
-  "nusrat_banner_content_v1";
-
-const BROWSER_KEY =
-  "nusrat_browser_ui_v1";
-
-const NEWSLETTER_KEY =
-  "nusrat_newsletter_v1";
-
-const LAST_UPDATED_KEY =
-  "nusrat_admin_last_updated";
+  "use strict";
 
 
-/* =========================================================
-   SESSION
-   ========================================================= */
+  /* ==========================================
+     AUTH
+  ========================================== */
 
-function getJSON(key, fallback = null){
+  const SESSION_KEY =
+    "nusrat_admin_session_v1";
 
-  try{
+  const THEME_KEY =
+    "nusrat_admin_theme";
 
-    const value =
-      localStorage.getItem(key);
+  const LAST_UPDATED_KEY =
+    "nusrat_admin_last_updated";
 
-    if(!value){
-      return fallback;
+  const HOMEPAGE_KEY =
+    "nusrat_homepage_content_v1";
+
+  const BANNER_KEY =
+    "nusrat_banner_content_v1";
+
+  const BROWSER_KEY =
+    "nusrat_browser_ui_v1";
+
+  const NEWSLETTER_KEY =
+    "nusrat_newsletter_v1";
+
+
+  /* ==========================================
+     DEFAULT DATA
+  ========================================== */
+
+  const DEFAULT_HOME = {
+    hero:{},
+    about:{},
+    services:[
+      {},
+      {},
+      {},
+      {},
+      {}
+    ],
+    projects:[
+      {},
+      {},
+      {},
+      {}
+    ],
+    visibility:{
+      published:true,
+      services:true,
+      work:true,
+      experience:true
+    }
+  };
+
+
+  /* ==========================================
+     AUTH CHECK
+  ========================================== */
+
+  function getSession(){
+
+    try{
+
+      const raw =
+        localStorage.getItem(
+          SESSION_KEY
+        );
+
+      if(!raw){
+        return null;
+      }
+
+      const session =
+        JSON.parse(raw);
+
+      if(
+        !session ||
+        session.loggedIn !== true ||
+        session.role !== "admin"
+      ){
+
+        return null;
+
+      }
+
+      if(
+        session.expiresAt &&
+        Date.now() >= session.expiresAt
+      ){
+
+        localStorage.removeItem(
+          SESSION_KEY
+        );
+
+        return null;
+
+      }
+
+      return session;
+
+    }catch(error){
+
+      localStorage.removeItem(
+        SESSION_KEY
+      );
+
+      return null;
+
     }
 
-    return JSON.parse(value);
-
-  }catch(error){
-
-    return fallback;
-
   }
 
-}
-
-
-function getSession(){
-
-  const session =
-    getJSON(
-      SESSION_KEY,
-      null
-    );
-
-  if(
-    !session ||
-    session.authenticated !== true
-  ){
-
-    return null;
-
-  }
-
-
-  if(
-    Number(session.expiresAt) <=
-    Date.now()
-  ){
-
-    localStorage.removeItem(
-      SESSION_KEY
-    );
-
-    return null;
-
-  }
-
-
-  return session;
-
-}
-
-
-function requireSession(){
 
   const session =
     getSession();
+
 
   if(!session){
 
@@ -1598,496 +1692,717 @@ function requireSession(){
       "./index.html"
     );
 
-    return null;
+    return;
 
   }
 
-  return session;
 
-}
+  /* ==========================================
+     THEME
+  ========================================== */
 
+  function applyTheme(){
 
-const currentSession =
-  requireSession();
+    const theme =
+      localStorage.getItem(
+        THEME_KEY
+      ) || "dark";
 
+    document.documentElement.dataset.theme =
+      theme;
 
-if(!currentSession){
-
-  throw new Error(
-    "Authentication required."
-  );
-
-}
-
-
-/* =========================================================
-   THEME
-   ========================================================= */
-
-function applyTheme(){
-
-  const theme =
-    localStorage.getItem(
-      THEME_KEY
-    ) || "dark";
-
-  document.documentElement
-    .setAttribute(
-      "data-theme",
-      theme
-    );
-
-  document.body
-    .setAttribute(
-      "data-theme",
-      theme
-    );
-
-}
-
-
-function toggleTheme(){
-
-  const current =
-    localStorage.getItem(
-      THEME_KEY
-    ) || "dark";
-
-  const next =
-    current === "dark"
-      ? "light"
-      : "dark";
-
-  localStorage.setItem(
-    THEME_KEY,
-    next
-  );
+  }
 
   applyTheme();
 
-}
+
+  document
+    .getElementById("themeButton")
+    .addEventListener(
+      "click",
+      () => {
+
+        const current =
+          document.documentElement.dataset.theme;
+
+        const next =
+          current === "dark"
+            ? "light"
+            : "dark";
+
+        document.documentElement.dataset.theme =
+          next;
+
+        localStorage.setItem(
+          THEME_KEY,
+          next
+        );
+
+      }
+    );
 
 
-applyTheme();
+  /* ==========================================
+     MOBILE SIDEBAR
+  ========================================== */
+
+  const sidebar =
+    document.getElementById(
+      "sidebar"
+    );
+
+  const overlay =
+    document.getElementById(
+      "mobileOverlay"
+    );
+
+  const menuButton =
+    document.getElementById(
+      "menuButton"
+    );
 
 
-/* =========================================================
-   SIDEBAR
-   ========================================================= */
+  function closeSidebar(){
 
-const sidebar =
-  document.getElementById(
-    "sidebar"
-  );
+    sidebar.classList.remove(
+      "open"
+    );
 
-const overlay =
-  document.getElementById(
-    "mobileOverlay"
-  );
+    overlay.classList.remove(
+      "show"
+    );
 
-const menuButton =
-  document.getElementById(
-    "mobileMenuButton"
-  );
+  }
 
-
-function openSidebar(){
-
-  sidebar.classList.add(
-    "open"
-  );
-
-  overlay.classList.add(
-    "show"
-  );
-
-}
-
-
-function closeSidebar(){
-
-  sidebar.classList.remove(
-    "open"
-  );
-
-  overlay.classList.remove(
-    "show"
-  );
-
-}
-
-
-if(menuButton){
 
   menuButton.addEventListener(
     "click",
-    openSidebar
+    () => {
+
+      sidebar.classList.toggle(
+        "open"
+      );
+
+      overlay.classList.toggle(
+        "show"
+      );
+
+    }
   );
 
-}
-
-
-if(overlay){
 
   overlay.addEventListener(
     "click",
     closeSidebar
   );
 
-}
 
+  /* ==========================================
+     NAVIGATION
+  ========================================== */
 
-/* =========================================================
-   THEME BUTTON
-   ========================================================= */
-
-const themeToggle =
-  document.getElementById(
-    "themeToggle"
-  );
-
-
-if(themeToggle){
-
-  themeToggle.addEventListener(
-    "click",
-    toggleTheme
-  );
-
-}
-
-
-/* =========================================================
-   LOGOUT
-   ========================================================= */
-
-const logoutButton =
-  document.getElementById(
-    "logoutButton"
-  );
-
-
-if(logoutButton){
-
-  logoutButton.addEventListener(
-    "click",
-    () => {
-
-      localStorage.removeItem(
-        SESSION_KEY
-      );
-
-      window.location.replace(
-        "./index.html"
-      );
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   HOMEPAGE DATA
-   ========================================================= */
-
-const defaultHomepage = {
-
-  hero:{
-    published:true
-  },
-
-  services:{
-    published:true,
-    items:[
-      {},
-      {},
-      {},
-      {},
-      {}
-    ]
-  },
-
-  projects:{
-    published:true,
-    items:[
-      {},
-      {},
-      {},
-      {}
-    ]
-  }
-
-};
-
-
-const homepage =
-  getJSON(
-    HOMEPAGE_KEY,
-    defaultHomepage
-  );
-
-
-/* =========================================================
-   PROJECT COUNT
-   ========================================================= */
-
-function getProjectCount(){
-
-  if(
-    homepage &&
-    homepage.projects &&
-    Array.isArray(
-      homepage.projects.items
+  document
+    .querySelectorAll(
+      ".nav-item[data-page]"
     )
-  ){
+    .forEach(
+      item => {
 
-    return homepage.projects.items.length;
+        item.addEventListener(
+          "click",
+          () => {
 
-  }
+            const page =
+              item.dataset.page;
 
-  return 4;
+            window.location.href =
+              "./" + page;
 
-}
+          }
+        );
 
-
-function getServiceCount(){
-
-  if(
-    homepage &&
-    homepage.services &&
-    Array.isArray(
-      homepage.services.items
-    )
-  ){
-
-    return homepage.services.items.length;
-
-  }
-
-  return 5;
-
-}
-
-
-document.getElementById(
-  "projectCount"
-).textContent =
-  String(
-    getProjectCount()
-  ).padStart(2,"0");
-
-
-document.getElementById(
-  "serviceCount"
-).textContent =
-  String(
-    getServiceCount()
-  ).padStart(2,"0");
-
-
-/* =========================================================
-   VISIBILITY
-   ========================================================= */
-
-const published =
-  homepage?.hero?.published !== false;
-
-
-document.getElementById(
-  "visibilityStatus"
-).textContent =
-  published
-    ? "ON"
-    : "OFF";
-
-
-document.getElementById(
-  "homepageStatus"
-).textContent =
-  published
-    ? "Published"
-    : "Hidden";
-
-
-document.getElementById(
-  "workStatus"
-).textContent =
-  homepage?.projects?.published === false
-    ? "Hidden"
-    : "Visible";
-
-
-document.getElementById(
-  "servicesStatus"
-).textContent =
-  homepage?.services?.published === false
-    ? "Hidden"
-    : "Visible";
-
-
-/* =========================================================
-   UPDATE COUNT
-   ========================================================= */
-
-const lastUpdated =
-  localStorage.getItem(
-    LAST_UPDATED_KEY
-  );
-
-
-if(lastUpdated){
-
-  document.getElementById(
-    "lastSaved"
-  ).textContent =
-    formatDate(lastUpdated);
-
-  document.getElementById(
-    "updateCount"
-  ).textContent =
-    "01";
-
-}else{
-
-  document.getElementById(
-    "lastSaved"
-  ).textContent =
-    "Not yet";
-
-}
-
-
-/* =========================================================
-   NEWSLETTER
-   ========================================================= */
-
-const newsletter =
-  getJSON(
-    NEWSLETTER_KEY,
-    null
-  );
-
-
-if(newsletter){
-
-  let subscribers = 0;
-
-  if(
-    Array.isArray(
-      newsletter.subscribers
-    )
-  ){
-
-    subscribers =
-      newsletter.subscribers.length;
-
-  }
-
-
-  document.getElementById(
-    "subscriberCount"
-  ).textContent =
-    String(subscribers);
-
-
-  const enabled =
-    newsletter.enabled !== false;
-
-
-  document.getElementById(
-    "newsletterStatus"
-  ).textContent =
-    enabled
-      ? "Enabled"
-      : "Disabled";
-
-}
-
-
-/* =========================================================
-   DATE
-   ========================================================= */
-
-function formatDate(value){
-
-  try{
-
-    const date =
-      new Date(value);
-
-    if(
-      Number.isNaN(
-        date.getTime()
-      )
-    ){
-
-      return "—";
-
-    }
-
-
-    return date.toLocaleString(
-      undefined,
-      {
-        year:"numeric",
-        month:"short",
-        day:"numeric",
-        hour:"2-digit",
-        minute:"2-digit"
       }
     );
 
-  }catch(error){
 
-    return "—";
+  /* ==========================================
+     HELPERS
+  ========================================== */
 
-  }
+  function readJSON(
+    key,
+    fallback
+  ){
 
-}
+    try{
 
+      const raw =
+        localStorage.getItem(key);
 
-/* =========================================================
-   SESSION WATCH
-   ========================================================= */
+      if(!raw){
+        return fallback;
+      }
 
-setInterval(
-  () => {
+      return JSON.parse(raw);
 
-    const session =
-      getSession();
+    }catch(error){
 
-    if(!session){
-
-      window.location.replace(
-        "./index.html"
-      );
-
-    }
-
-  },
-  30000
-);
-
-
-/* =========================================================
-   PREVENT BACK AFTER LOGOUT
-   ========================================================= */
-
-window.addEventListener(
-  "pageshow",
-  () => {
-
-    if(!getSession()){
-
-      window.location.replace(
-        "./index.html"
-      );
+      return fallback;
 
     }
 
   }
-);
+
+
+  function countValidItems(
+    value,
+    fallback
+  ){
+
+    if(!Array.isArray(value)){
+      return fallback;
+    }
+
+    return value.filter(
+      item =>
+        item &&
+        typeof item === "object" &&
+        Object.keys(item).length > 0
+    ).length;
+
+  }
+
+
+  /* ==========================================
+     DASHBOARD DATA
+  ========================================== */
+
+  function loadDashboard(){
+
+    const home =
+      readJSON(
+        HOMEPAGE_KEY,
+        DEFAULT_HOME
+      );
+
+    const banner =
+      readJSON(
+        BANNER_KEY,
+        {}
+      );
+
+    const browser =
+      readJSON(
+        BROWSER_KEY,
+        {}
+      );
+
+    const newsletter =
+      readJSON(
+        NEWSLETTER_KEY,
+        {}
+      );
+
+
+    /* PROJECTS */
+
+    const projects =
+      countValidItems(
+        home.projects,
+        4
+      );
+
+    document.getElementById(
+      "projectCount"
+    ).textContent =
+      String(projects).padStart(
+        2,
+        "0"
+      );
+
+
+    /* SERVICES */
+
+    const services =
+      countValidItems(
+        home.services,
+        5
+      );
+
+    document.getElementById(
+      "serviceCount"
+    ).textContent =
+      String(services).padStart(
+        2,
+        "0"
+      );
+
+
+    /* VISIBILITY */
+
+    const visibility =
+      home.visibility || {};
+
+    const visibleSections =
+      [
+        visibility.published,
+        visibility.services,
+        visibility.work,
+        visibility.experience
+      ].filter(Boolean).length;
+
+    document.getElementById(
+      "visibilityCount"
+    ).textContent =
+      String(
+        visibleSections || 4
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    /* UPDATES */
+
+    const lastUpdated =
+      localStorage.getItem(
+        LAST_UPDATED_KEY
+      );
+
+    if(lastUpdated){
+
+      const date =
+        new Date(lastUpdated);
+
+      if(!Number.isNaN(date.getTime())){
+
+        document.getElementById(
+          "lastUpdated"
+        ).textContent =
+          "Last saved " +
+          formatRelativeDate(date);
+
+      }
+
+    }else{
+
+      document.getElementById(
+        "lastUpdated"
+      ).textContent =
+        "No recent changes";
+
+    }
+
+
+    /* BANNER */
+
+    if(
+      banner &&
+      banner.publish === false
+    ){
+
+      setHealth(
+        "bannerHealth",
+        "Not published",
+        "bannerStatus",
+        "● Offline",
+        false
+      );
+
+    }
+
+
+    /* BROWSER */
+
+    if(
+      browser &&
+      browser.enabled === false
+    ){
+
+      setHealth(
+        "browserHealth",
+        "Disabled",
+        "browserStatus",
+        "● Off",
+        false
+      );
+
+    }
+
+
+    /* NEWSLETTER */
+
+    if(
+      newsletter &&
+      newsletter.signupEnabled === false
+    ){
+
+      setHealth(
+        "newsletterHealth",
+        "Signup disabled",
+        "newsletterStatus",
+        "● Off",
+        false
+      );
+
+    }
+
+
+    updateActivity(lastUpdated);
+
+  }
+
+
+  function setHealth(
+    infoId,
+    infoText,
+    statusId,
+    statusText,
+    good
+  ){
+
+    const info =
+      document.getElementById(
+        infoId
+      );
+
+    const status =
+      document.getElementById(
+        statusId
+      );
+
+    if(info){
+      info.textContent =
+        infoText;
+    }
+
+    if(status){
+
+      status.textContent =
+        statusText;
+
+      status.style.color =
+        good
+          ? "var(--green)"
+          : "var(--red)";
+
+    }
+
+  }
+
+
+  /* ==========================================
+     RELATIVE DATE
+  ========================================== */
+
+  function formatRelativeDate(
+    date
+  ){
+
+    const diff =
+      Date.now() -
+      date.getTime();
+
+    const minute =
+      60 * 1000;
+
+    const hour =
+      60 * minute;
+
+    const day =
+      24 * hour;
+
+
+    if(diff < minute){
+      return "just now";
+    }
+
+    if(diff < hour){
+
+      return (
+        Math.max(
+          1,
+          Math.floor(
+            diff / minute
+          )
+        ) +
+        "m ago"
+      );
+
+    }
+
+    if(diff < day){
+
+      return (
+        Math.floor(
+          diff / hour
+        ) +
+        "h ago"
+      );
+
+    }
+
+    if(diff < 7 * day){
+
+      return (
+        Math.floor(
+          diff / day
+        ) +
+        "d ago"
+      );
+
+    }
+
+    return date.toLocaleDateString(
+      undefined,
+      {
+        day:"numeric",
+        month:"short",
+        year:"numeric"
+      }
+    );
+
+  }
+
+
+  /* ==========================================
+     ACTIVITY
+  ========================================== */
+
+  function updateActivity(
+    lastUpdated
+  ){
+
+    const list =
+      document.getElementById(
+        "activityList"
+      );
+
+    const count =
+      document.getElementById(
+        "activityCount"
+      );
+
+    let html = "";
+
+    html += `
+      <div class="activity">
+        <span class="activity-dot"></span>
+        <div>
+          <strong>
+            Session authenticated
+          </strong>
+          <span>
+            Administrator access is active.
+          </span>
+        </div>
+      </div>
+    `;
+
+
+    if(lastUpdated){
+
+      const date =
+        new Date(lastUpdated);
+
+      html += `
+        <div class="activity">
+          <span class="activity-dot"></span>
+          <div>
+            <strong>
+              Portfolio content updated
+            </strong>
+            <span>
+              ${formatRelativeDate(date)}
+            </span>
+          </div>
+        </div>
+      `;
+
+    }
+
+
+    html += `
+      <div class="activity">
+        <span class="activity-dot"></span>
+        <div>
+          <strong>
+            Dashboard ready
+          </strong>
+          <span>
+            Content health checks completed.
+          </span>
+        </div>
+      </div>
+    `;
+
+
+    list.innerHTML =
+      html;
+
+
+    const activityNumber =
+      lastUpdated ? 3 : 2;
+
+    count.textContent =
+      activityNumber +
+      " updates";
+
+  }
+
+
+  /* ==========================================
+     PREVIEW
+  ========================================== */
+
+  document
+    .getElementById(
+      "previewButton"
+    )
+    .addEventListener(
+      "click",
+      () => {
+
+        window.open(
+          "../index.html",
+          "_blank",
+          "noopener"
+        );
+
+      }
+    );
+
+
+  /* ==========================================
+     REFRESH
+  ========================================== */
+
+  document
+    .getElementById(
+      "refreshButton"
+    )
+    .addEventListener(
+      "click",
+      () => {
+
+        loadDashboard();
+
+        showToast(
+          "Dashboard refreshed."
+        );
+
+      }
+    );
+
+
+  /* ==========================================
+     TOAST
+  ========================================== */
+
+  let toastTimer;
+
+  function showToast(message){
+
+    const toast =
+      document.getElementById(
+        "toast"
+      );
+
+    toast.textContent =
+      message;
+
+    toast.classList.add(
+      "show"
+    );
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+      setTimeout(
+        () => {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        2200
+      );
+
+  }
+
+
+  /* ==========================================
+     LOGOUT
+  ========================================== */
+
+  document
+    .getElementById(
+      "logoutButton"
+    )
+    .addEventListener(
+      "click",
+      () => {
+
+        localStorage.removeItem(
+          SESSION_KEY
+        );
+
+        showToast(
+          "Signing out…"
+        );
+
+        setTimeout(
+          () => {
+
+            window.location.replace(
+              "./index.html"
+            );
+
+          },
+          350
+        );
+
+      }
+    );
+
+
+  /* ==========================================
+     SESSION EXPIRY WATCHER
+  ========================================== */
+
+  const expiryTimer =
+    setInterval(
+      () => {
+
+        const current =
+          getSession();
+
+        if(!current){
+
+          clearInterval(
+            expiryTimer
+          );
+
+          window.location.replace(
+            "./index.html"
+          );
+
+        }
+
+      },
+      30000
+    );
+
+
+  /* ==========================================
+     INITIALIZE
+  ========================================== */
+
+  loadDashboard();
+
+
+})();
 </script>
 
 </body>
