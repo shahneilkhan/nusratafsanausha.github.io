@@ -1,0 +1,2998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Security — Restricted Access</title>
+<meta name="robots" content="noindex,nofollow,noarchive">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#08090b;
+  --sidebar:#0d0f12;
+  --panel:#121419;
+  --panel2:#17191f;
+  --border:rgba(255,255,255,.08);
+  --border2:rgba(255,255,255,.05);
+  --text:#f5f2eb;
+  --muted:#9699a2;
+  --muted2:#686b74;
+  --accent:#d8b36a;
+  --accent2:#efd59d;
+  --green:#83c89a;
+  --red:#e37d7d;
+  --orange:#e0a66c;
+  --shadow:0 25px 70px rgba(0,0,0,.28);
+}
+
+html[data-theme="light"]{
+  --bg:#f1eee7;
+  --sidebar:#f8f6f0;
+  --panel:#fff;
+  --panel2:#f8f6f0;
+  --border:rgba(20,20,20,.09);
+  --border2:rgba(20,20,20,.055);
+  --text:#171716;
+  --muted:#666760;
+  --muted2:#888981;
+  --accent:#a8792e;
+  --accent2:#8d651f;
+  --green:#39875a;
+  --red:#b34d4d;
+  --orange:#a86f31;
+  --shadow:0 25px 70px rgba(40,35,25,.12);
+}
+
+html,
+body{
+  min-height:100%;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",Arial,sans-serif;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+/* APP */
+
+.app{
+  min-height:100vh;
+  display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  width:270px;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:30;
+  background:var(--sidebar);
+  border-right:1px solid var(--border);
+  padding:25px 18px;
+  display:flex;
+  flex-direction:column;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 9px 28px;
+  border-bottom:1px solid var(--border2);
+}
+
+.brand-mark{
+  width:43px;
+  height:43px;
+  border-radius:14px;
+  border:1px solid rgba(216,179,106,.35);
+  display:grid;
+  place-items:center;
+  color:var(--accent2);
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:700;
+  background:rgba(216,179,106,.05);
+}
+
+.brand-copy{
+  min-width:0;
+}
+
+.brand-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:14px;
+  font-weight:600;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.brand-sub{
+  margin-top:3px;
+  color:var(--muted2);
+  font-size:9px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.nav-label{
+  padding:25px 10px 9px;
+  color:var(--muted2);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.nav-item{
+  min-height:43px;
+  display:flex;
+  align-items:center;
+  gap:11px;
+  padding:0 12px;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:12px;
+  transition:.2s ease;
+}
+
+.nav-item:hover{
+  color:var(--text);
+  background:rgba(255,255,255,.035);
+}
+
+.nav-item.active{
+  color:var(--accent2);
+  background:rgba(216,179,106,.08);
+  border:1px solid rgba(216,179,106,.12);
+}
+
+.nav-icon{
+  width:20px;
+  text-align:center;
+  font-size:14px;
+}
+
+.sidebar-bottom{
+  margin-top:auto;
+}
+
+.lock-card{
+  border:1px solid rgba(216,179,106,.13);
+  background:rgba(216,179,106,.045);
+  border-radius:16px;
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.lock-title{
+  font-size:11px;
+  font-weight:600;
+}
+
+.lock-text{
+  margin-top:5px;
+  color:var(--muted2);
+  font-size:10px;
+  line-height:1.55;
+}
+
+.lock-btn{
+  width:100%;
+  height:38px;
+  margin-top:11px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:transparent;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.lock-btn:hover{
+  color:var(--text);
+  border-color:rgba(216,179,106,.3);
+}
+
+/* MAIN */
+
+.main{
+  width:calc(100% - 270px);
+  margin-left:270px;
+  min-height:100vh;
+}
+
+.topbar{
+  height:78px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 34px;
+  border-bottom:1px solid var(--border);
+  background:rgba(8,9,11,.82);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+html[data-theme="light"] .topbar{
+  background:rgba(241,238,231,.84);
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.mobile-menu{
+  display:none;
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:transparent;
+  color:var(--text);
+}
+
+.breadcrumb{
+  color:var(--muted2);
+  font-size:11px;
+}
+
+.breadcrumb strong{
+  color:var(--text);
+  font-weight:600;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:transparent;
+  color:var(--muted);
+}
+
+.icon-btn:hover{
+  color:var(--text);
+  border-color:rgba(216,179,106,.3);
+}
+
+.master-badge{
+  height:40px;
+  padding:0 13px;
+  border:1px solid rgba(216,179,106,.18);
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent2);
+  background:rgba(216,179,106,.05);
+  font-size:10px;
+  font-weight:600;
+}
+
+.master-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px rgba(131,200,154,.5);
+}
+
+/* CONTENT */
+
+.content{
+  padding:38px 34px 60px;
+  max-width:1450px;
+}
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
+  margin-bottom:30px;
+}
+
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--accent);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.eyebrow::before{
+  content:"";
+  width:20px;
+  height:1px;
+  background:var(--accent);
+}
+
+h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(32px,4vw,52px);
+  line-height:.98;
+  letter-spacing:-.055em;
+  font-weight:600;
+}
+
+.heading-copy{
+  margin-top:11px;
+  max-width:610px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+
+.header-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:11px 14px;
+  border:1px solid rgba(131,200,154,.16);
+  border-radius:12px;
+  color:var(--green);
+  background:rgba(131,200,154,.045);
+  font-size:10px;
+  white-space:nowrap;
+}
+
+/* GRID */
+
+.grid{
+  display:grid;
+  gap:16px;
+}
+
+.security-grid{
+  grid-template-columns:repeat(4,1fr);
+}
+
+.two-grid{
+  grid-template-columns:1.15fr .85fr;
+  margin-top:16px;
+}
+
+.card{
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:19px;
+  box-shadow:var(--shadow);
+}
+
+.stat{
+  padding:20px;
+  min-height:132px;
+}
+
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  font-weight:600;
+}
+
+.stat-icon{
+  width:31px;
+  height:31px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  border:1px solid var(--border);
+  color:var(--accent);
+  font-size:12px;
+}
+
+.stat-value{
+  margin-top:22px;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:25px;
+  letter-spacing:-.04em;
+}
+
+.stat-meta{
+  margin-top:5px;
+  color:var(--muted2);
+  font-size:10px;
+}
+
+.green{
+  color:var(--green)!important;
+}
+
+.red{
+  color:var(--red)!important;
+}
+
+.orange{
+  color:var(--orange)!important;
+}
+
+/* PANELS */
+
+.panel{
+  padding:22px;
+}
+
+.panel-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.panel-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:18px;
+  letter-spacing:-.03em;
+}
+
+.panel-description{
+  color:var(--muted2);
+  font-size:10px;
+  margin-top:5px;
+  line-height:1.5;
+}
+
+/* SECURITY ROWS */
+
+.security-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.security-row{
+  min-height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  border-top:1px solid var(--border2);
+}
+
+.security-row:first-child{
+  border-top:0;
+}
+
+.security-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.security-icon{
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  border:1px solid var(--border);
+  color:var(--accent);
+  font-size:12px;
+}
+
+.security-name{
+  font-size:12px;
+  font-weight:600;
+}
+
+.security-detail{
+  margin-top:3px;
+  color:var(--muted2);
+  font-size:10px;
+}
+
+.status-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:7px 9px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:9px;
+  white-space:nowrap;
+}
+
+.status-pill::before{
+  content:"";
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:currentColor;
+}
+
+.status-pill.success{
+  color:var(--green);
+  border-color:rgba(131,200,154,.17);
+  background:rgba(131,200,154,.04);
+}
+
+.status-pill.warning{
+  color:var(--orange);
+  border-color:rgba(224,166,108,.17);
+  background:rgba(224,166,108,.04);
+}
+
+.status-pill.danger{
+  color:var(--red);
+  border-color:rgba(227,125,125,.17);
+  background:rgba(227,125,125,.04);
+}
+
+/* SETTINGS */
+
+.setting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:15px 0;
+  border-top:1px solid var(--border2);
+}
+
+.setting-row:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.setting-title{
+  font-size:11px;
+  font-weight:600;
+}
+
+.setting-help{
+  margin-top:4px;
+  color:var(--muted2);
+  font-size:9px;
+  line-height:1.5;
+}
+
+.select{
+  min-width:145px;
+  height:38px;
+  padding:0 11px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  outline:none;
+  background:var(--panel2);
+  color:var(--text);
+  font-size:10px;
+}
+
+.select:focus{
+  border-color:rgba(216,179,106,.4);
+}
+
+/* TOGGLE */
+
+.toggle{
+  width:43px;
+  height:24px;
+  border:0;
+  border-radius:30px;
+  padding:3px;
+  background:#292c33;
+  transition:.2s ease;
+}
+
+.toggle span{
+  display:block;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#8d9098;
+  transition:.2s ease;
+}
+
+.toggle.active{
+  background:rgba(216,179,106,.28);
+}
+
+.toggle.active span{
+  transform:translateX(19px);
+  background:var(--accent);
+}
+
+/* SESSION */
+
+.session-card{
+  padding:22px;
+}
+
+.session-main{
+  padding:18px;
+  border:1px solid rgba(131,200,154,.13);
+  background:rgba(131,200,154,.035);
+  border-radius:15px;
+}
+
+.session-title{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.session-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 10px rgba(131,200,154,.5);
+}
+
+.session-info{
+  margin-top:13px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.info-box{
+  padding:11px;
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+
+.info-label{
+  color:var(--muted2);
+  font-size:8px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+
+.info-value{
+  margin-top:5px;
+  color:var(--text);
+  font-size:10px;
+}
+
+/* BUTTONS */
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:20px;
+}
+
+.btn{
+  min-height:39px;
+  padding:0 13px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+}
+
+.btn:hover{
+  color:var(--text);
+  border-color:rgba(216,179,106,.3);
+}
+
+.btn.primary{
+  background:rgba(216,179,106,.09);
+  border-color:rgba(216,179,106,.22);
+  color:var(--accent2);
+}
+
+.btn.danger{
+  color:var(--red);
+  border-color:rgba(227,125,125,.2);
+  background:rgba(227,125,125,.035);
+}
+
+/* AUDIT */
+
+.audit{
+  display:flex;
+  flex-direction:column;
+}
+
+.audit-item{
+  display:grid;
+  grid-template-columns:9px 1fr auto;
+  align-items:start;
+  gap:10px;
+  padding:14px 0;
+  border-top:1px solid var(--border2);
+}
+
+.audit-item:first-child{
+  border-top:0;
+  padding-top:0;
+}
+
+.audit-dot{
+  width:7px;
+  height:7px;
+  margin-top:4px;
+  border-radius:50%;
+  background:var(--green);
+}
+
+.audit-dot.warning{
+  background:var(--orange);
+}
+
+.audit-dot.danger{
+  background:var(--red);
+}
+
+.audit-title{
+  font-size:10px;
+  font-weight:600;
+}
+
+.audit-detail{
+  margin-top:3px;
+  color:var(--muted2);
+  font-size:9px;
+  line-height:1.5;
+}
+
+.audit-time{
+  color:var(--muted2);
+  font-size:8px;
+  white-space:nowrap;
+}
+
+/* DANGER AREA */
+
+.danger-zone{
+  margin-top:16px;
+  padding:22px;
+  border:1px solid rgba(227,125,125,.18);
+  background:rgba(227,125,125,.035);
+  border-radius:19px;
+}
+
+.danger-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.danger-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:18px;
+}
+
+.danger-copy{
+  margin-top:6px;
+  color:var(--muted2);
+  font-size:10px;
+  line-height:1.6;
+  max-width:650px;
+}
+
+.danger-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+
+/* OVERLAY */
+
+.mobile-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:25;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:25px;
+  transform:translate(-50%,20px);
+  padding:12px 17px;
+  border:1px solid var(--border);
+  background:#15171b;
+  color:#e9e8e4;
+  border-radius:12px;
+  font-size:11px;
+  box-shadow:0 15px 40px rgba(0,0,0,.3);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s ease;
+  z-index:100;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+  .security-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .two-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s ease;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .mobile-overlay.show{
+    display:block;
+  }
+
+  .main{
+    width:100%;
+    margin-left:0;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .content{
+    padding:28px 18px 50px;
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .header-status{
+    white-space:normal;
+  }
+}
+
+@media(max-width:560px){
+
+  .security-grid{
+    grid-template-columns:1fr;
+  }
+
+  .session-info{
+    grid-template-columns:1fr;
+  }
+
+  .top-actions .master-badge{
+    display:none;
+  }
+
+  .content{
+    padding-left:14px;
+    padding-right:14px;
+  }
+
+  .panel,
+  .session-card,
+  .danger-zone{
+    padding:17px;
+  }
+
+  .security-row{
+    align-items:flex-start;
+    padding:15px 0;
+  }
+
+  .setting-row{
+    align-items:flex-start;
+  }
+
+  .select{
+    min-width:110px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    animation:none!important;
+    transition:none!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-mark">
+        NU
+      </div>
+
+      <div class="brand-copy">
+        <div class="brand-title">
+          Nusrat Afsana Usha
+        </div>
+        <div class="brand-sub">
+          Restricted System
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="nav-label">
+      Control
+    </div>
+
+    <nav class="nav">
+
+      <a class="nav-item" href="./index.html">
+        <span class="nav-icon">⌂</span>
+        <span>Control Panel</span>
+      </a>
+
+      <a class="nav-item active" href="./security.html">
+        <span class="nav-icon">⌑</span>
+        <span>Security</span>
+      </a>
+
+      <a class="nav-item" href="./audit.html" id="auditLink">
+        <span class="nav-icon">◷</span>
+        <span>Audit Log</span>
+      </a>
+
+      <a class="nav-item" href="../admin-management.html">
+        <span class="nav-icon">♙</span>
+        <span>Access Management</span>
+      </a>
+
+    </nav>
+
+
+    <div class="nav-label">
+      System
+    </div>
+
+    <nav class="nav">
+
+      <a class="nav-item" href="../dashboard.html">
+        <span class="nav-icon">▦</span>
+        <span>Admin Dashboard</span>
+      </a>
+
+      <a class="nav-item" href="../../index.html">
+        <span class="nav-icon">↗</span>
+        <span>View Portfolio</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <div class="lock-card">
+
+        <div class="lock-title">
+          Restricted workspace
+        </div>
+
+        <div class="lock-text">
+          This area is protected by role-based session validation.
+        </div>
+
+        <button
+          class="lock-btn"
+          id="lockBtn">
+          Lock Workspace
+        </button>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <div
+    class="mobile-overlay"
+    id="mobileOverlay">
+  </div>
+
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="top-left">
+
+        <button
+          class="mobile-menu"
+          id="mobileMenu">
+          ☰
+        </button>
+
+        <div class="breadcrumb">
+          Restricted / <strong>Security</strong>
+        </div>
+
+      </div>
+
+
+      <div class="top-actions">
+
+        <div class="master-badge">
+          <span class="master-dot"></span>
+          Authorized session
+        </div>
+
+        <button
+          class="icon-btn"
+          id="themeBtn"
+          aria-label="Toggle theme">
+          ◐
+        </button>
+
+        <button
+          class="icon-btn"
+          id="lockTopBtn"
+          aria-label="Lock workspace">
+          ⌑
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <section class="content">
+
+      <!-- HEADING -->
+
+      <div class="page-heading">
+
+        <div>
+
+          <div class="eyebrow">
+            Security Center
+          </div>
+
+          <h1>
+            Security & Access
+          </h1>
+
+          <p class="heading-copy">
+            Monitor privileged access, session health and
+            critical protection controls from one restricted workspace.
+          </p>
+
+        </div>
+
+        <div class="header-status">
+          <span class="master-dot"></span>
+          All critical systems operational
+        </div>
+
+      </div>
+
+
+      <!-- STATS -->
+
+      <div class="grid security-grid">
+
+        <div class="card stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              Protection
+            </div>
+            <div class="stat-icon">⌑</div>
+          </div>
+
+          <div class="stat-value green">
+            Active
+          </div>
+
+          <div class="stat-meta">
+            Privileged controls protected
+          </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              Active Sessions
+            </div>
+            <div class="stat-icon">◉</div>
+          </div>
+
+          <div class="stat-value" id="sessionCount">
+            01
+          </div>
+
+          <div class="stat-meta">
+            Current browser session
+          </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              2FA
+            </div>
+            <div class="stat-icon">✦</div>
+          </div>
+
+          <div class="stat-value orange">
+            Pending
+          </div>
+
+          <div class="stat-meta">
+            Production setup required
+          </div>
+
+        </div>
+
+
+        <div class="card stat">
+
+          <div class="stat-top">
+            <div class="stat-label">
+              Audit
+            </div>
+            <div class="stat-icon">◷</div>
+          </div>
+
+          <div class="stat-value green">
+            ON
+          </div>
+
+          <div class="stat-meta">
+            Local event tracking active
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- MAIN TWO COLUMNS -->
+
+      <div class="grid two-grid">
+
+
+        <!-- SECURITY HEALTH -->
+
+        <section class="card panel">
+
+          <div class="panel-head">
+
+            <div>
+              <div class="panel-title">
+                Security Health
+              </div>
+
+              <div class="panel-description">
+                Current state of critical protection layers.
+              </div>
+            </div>
+
+            <span class="status-pill success">
+              Healthy
+            </span>
+
+          </div>
+
+
+          <div class="security-list">
+
+
+            <div class="security-row">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  ⌑
+                </div>
+
+                <div>
+                  <div class="security-name">
+                    Role Verification
+                  </div>
+
+                  <div class="security-detail">
+                    Master role is required before access.
+                  </div>
+                </div>
+
+              </div>
+
+              <span class="status-pill success">
+                Active
+              </span>
+
+            </div>
+
+
+            <div class="security-row">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  ◷
+                </div>
+
+                <div>
+                  <div class="security-name">
+                    Session Expiration
+                  </div>
+
+                  <div class="security-detail">
+                    Automatic privileged-session expiry enabled.
+                  </div>
+                </div>
+
+              </div>
+
+              <span class="status-pill success">
+                Active
+              </span>
+
+            </div>
+
+
+            <div class="security-row">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  ◌
+                </div>
+
+                <div>
+                  <div class="security-name">
+                    Authentication
+                  </div>
+
+                  <div class="security-detail">
+                    Frontend demonstration authentication layer.
+                  </div>
+                </div>
+
+              </div>
+
+              <span class="status-pill warning">
+                Demo
+              </span>
+
+            </div>
+
+
+            <div class="security-row">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  ✦
+                </div>
+
+                <div>
+                  <div class="security-name">
+                    Two-Factor Authentication
+                  </div>
+
+                  <div class="security-detail">
+                    Connect an authentication provider for production.
+                  </div>
+                </div>
+
+              </div>
+
+              <span class="status-pill warning">
+                Pending
+              </span>
+
+            </div>
+
+
+            <div class="security-row">
+
+              <div class="security-left">
+
+                <div class="security-icon">
+                  ◫
+                </div>
+
+                <div>
+                  <div class="security-name">
+                    Audit Logging
+                  </div>
+
+                  <div class="security-detail">
+                    Administrative events are recorded locally.
+                  </div>
+                </div>
+
+              </div>
+
+              <span class="status-pill success">
+                Enabled
+              </span>
+
+            </div>
+
+
+          </div>
+
+        </section>
+
+
+        <!-- SESSION -->
+
+        <section class="card session-card">
+
+          <div class="panel-head">
+
+            <div>
+              <div class="panel-title">
+                Current Session
+              </div>
+
+              <div class="panel-description">
+                The privileged browser session currently in use.
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="session-main">
+
+            <div class="session-title">
+              <span class="session-dot"></span>
+              Authorized
+            </div>
+
+
+            <div class="session-info">
+
+              <div class="info-box">
+
+                <div class="info-label">
+                  Role
+                </div>
+
+                <div
+                  class="info-value"
+                  id="roleValue">
+                  Master
+                </div>
+
+              </div>
+
+
+              <div class="info-box">
+
+                <div class="info-label">
+                  Username
+                </div>
+
+                <div
+                  class="info-value"
+                  id="usernameValue">
+                  master
+                </div>
+
+              </div>
+
+
+              <div class="info-box">
+
+                <div class="info-label">
+                  Started
+                </div>
+
+                <div
+                  class="info-value"
+                  id="startedValue">
+                  —
+                </div>
+
+              </div>
+
+
+              <div class="info-box">
+
+                <div class="info-label">
+                  Expires
+                </div>
+
+                <div
+                  class="info-value"
+                  id="expiresValue">
+                  —
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="actions">
+
+              <button
+                class="btn primary"
+                id="refreshSession">
+                Refresh Session
+              </button>
+
+              <button
+                class="btn danger"
+                id="revokeCurrent">
+                Revoke Current
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <!-- SETTINGS + AUDIT -->
+
+      <div class="grid two-grid">
+
+
+        <section class="card panel">
+
+          <div class="panel-head">
+
+            <div>
+              <div class="panel-title">
+                Protection Settings
+              </div>
+
+              <div class="panel-description">
+                Local demonstration controls.
+              </div>
+            </div>
+
+          </div>
+
+
+          <div class="setting-row">
+
+            <div>
+              <div class="setting-title">
+                Audit Logging
+              </div>
+              <div class="setting-help">
+                Record administrative actions locally.
+              </div>
+            </div>
+
+            <button
+              class="toggle active"
+              data-setting="audit"
+              aria-label="Toggle audit logging">
+              <span></span>
+            </button>
+
+          </div>
+
+
+          <div class="setting-row">
+
+            <div>
+              <div class="setting-title">
+                Session Expiration
+              </div>
+              <div class="setting-help">
+                Automatically expire privileged sessions.
+              </div>
+            </div>
+
+            <button
+              class="toggle active"
+              data-setting="expiration"
+              aria-label="Toggle session expiration">
+              <span></span>
+            </button>
+
+          </div>
+
+
+          <div class="setting-row">
+
+            <div>
+              <div class="setting-title">
+                Login Protection
+              </div>
+              <div class="setting-help">
+                Prevent normal admin sessions from entering here.
+              </div>
+            </div>
+
+            <button
+              class="toggle active"
+              data-setting="role"
+              aria-label="Toggle role protection">
+              <span></span>
+            </button>
+
+          </div>
+
+
+          <div class="setting-row">
+
+            <div>
+              <div class="setting-title">
+                Default Session Duration
+              </div>
+              <div class="setting-help">
+                Applied by the demonstration login.
+              </div>
+            </div>
+
+            <select
+              class="select"
+              id="durationSelect">
+
+              <option value="60">
+                1 hour
+              </option>
+
+              <option value="120">
+                2 hours
+              </option>
+
+              <option value="360">
+                6 hours
+              </option>
+
+              <option value="1440">
+                24 hours
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="setting-row">
+
+            <div>
+              <div class="setting-title">
+                Authentication Provider
+              </div>
+              <div class="setting-help">
+                Production authentication should be server-backed.
+              </div>
+            </div>
+
+            <select
+              class="select"
+              id="providerSelect">
+
+              <option value="demo">
+                Demo / Local
+              </option>
+
+              <option value="firebase">
+                Firebase
+              </option>
+
+              <option value="supabase">
+                Supabase
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="actions">
+
+            <button
+              class="btn primary"
+              id="saveSettings">
+              Save Settings
+            </button>
+
+            <button
+              class="btn"
+              id="resetSettings">
+              Reset
+            </button>
+
+          </div>
+
+        </section>
+
+
+        <!-- AUDIT -->
+
+        <section class="card panel">
+
+          <div class="panel-head">
+
+            <div>
+              <div class="panel-title">
+                Recent Activity
+              </div>
+
+              <div class="panel-description">
+                Recent privileged actions in this browser.
+              </div>
+            </div>
+
+            <button
+              class="btn"
+              id="clearAudit">
+              Clear
+            </button>
+
+          </div>
+
+
+          <div
+            class="audit"
+            id="auditList">
+          </div>
+
+        </section>
+
+      </div>
+
+
+      <!-- DANGER -->
+
+      <section class="danger-zone">
+
+        <div class="danger-head">
+
+          <div>
+
+            <div class="danger-title">
+              Emergency Controls
+            </div>
+
+            <div class="danger-copy">
+              These actions affect local administrative state.
+              In production, these operations should be executed
+              through a secure backend with verified authorization.
+            </div>
+
+          </div>
+
+          <span class="status-pill danger">
+            Restricted
+          </span>
+
+        </div>
+
+
+        <div class="danger-actions">
+
+          <button
+            class="btn danger"
+            id="revokeAll">
+            Revoke Local Sessions
+          </button>
+
+          <button
+            class="btn danger"
+            id="maintenanceBtn">
+            Emergency Maintenance
+          </button>
+
+          <button
+            class="btn danger"
+            id="resetAdmin">
+            Reset Local Admin State
+          </button>
+
+          <button
+            class="btn"
+            id="exportSecurity">
+            Export Security State
+          </button>
+
+        </div>
+
+      </section>
+
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<div
+  class="toast"
+  id="toast">
+</div>
+
+
+<script>
+"use strict";
+
+/* =========================================================
+   MASTER SECURITY CONFIG
+   ========================================================= */
+
+const MASTER_SESSION_KEY =
+  "nusrat_master_session_v1";
+
+const MASTER_STATE_KEY =
+  "nusrat_private_master_v1";
+
+const SECURITY_SETTINGS_KEY =
+  "nusrat_master_security_v1";
+
+const AUDIT_KEY =
+  "nusrat_master_audit_v1";
+
+const THEME_KEY =
+  "nusrat_admin_theme";
+
+const ADMIN_SESSION_KEY =
+  "nusrat_admin_session_v1";
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const html =
+  document.documentElement;
+
+const sidebar =
+  document.getElementById("sidebar");
+
+const overlay =
+  document.getElementById("mobileOverlay");
+
+const mobileMenu =
+  document.getElementById("mobileMenu");
+
+const themeBtn =
+  document.getElementById("themeBtn");
+
+const toast =
+  document.getElementById("toast");
+
+const auditList =
+  document.getElementById("auditList");
+
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+
+function getStorage(key){
+
+  try{
+    return localStorage.getItem(key);
+  }catch(error){
+    return null;
+  }
+
+}
+
+function setStorage(key,value){
+
+  try{
+    localStorage.setItem(key,value);
+  }catch(error){}
+
+}
+
+function removeStorage(key){
+
+  try{
+    localStorage.removeItem(key);
+  }catch(error){}
+
+}
+
+
+/* =========================================================
+   MASTER SESSION
+   ========================================================= */
+
+function getMasterSession(){
+
+  try{
+
+    const raw =
+      getStorage(MASTER_SESSION_KEY);
+
+    if(!raw){
+      return null;
+    }
+
+    const session =
+      JSON.parse(raw);
+
+    if(
+      !session ||
+      session.loggedIn !== true ||
+      session.role !== "master"
+    ){
+      return null;
+    }
+
+    if(
+      !session.expiresAt ||
+      Date.now() >= Number(session.expiresAt)
+    ){
+
+      removeStorage(MASTER_SESSION_KEY);
+
+      return null;
+    }
+
+    return session;
+
+  }catch(error){
+
+    removeStorage(MASTER_SESSION_KEY);
+
+    return null;
+  }
+
+}
+
+
+/* =========================================================
+   HARD ACCESS CHECK
+   ========================================================= */
+
+const masterSession =
+  getMasterSession();
+
+if(!masterSession){
+
+  window.location.replace("./login.html");
+
+  throw new Error(
+    "Unauthorized access."
+  );
+
+}
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function applyTheme(theme){
+
+  const selected =
+    theme === "light"
+      ? "light"
+      : "dark";
+
+  html.dataset.theme =
+    selected;
+
+  setStorage(
+    THEME_KEY,
+    selected
+  );
+
+  themeBtn.textContent =
+    selected === "dark"
+      ? "☼"
+      : "◐";
+
+}
+
+applyTheme(
+  getStorage(THEME_KEY) || "dark"
+);
+
+themeBtn.addEventListener(
+  "click",
+  ()=>{
+
+    applyTheme(
+      html.dataset.theme === "dark"
+        ? "light"
+        : "dark"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+let toastTimer;
+
+function showToast(message){
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer =
+    setTimeout(()=>{
+      toast.classList.remove("show");
+    },2600);
+
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+function formatDate(timestamp){
+
+  if(!timestamp){
+    return "—";
+  }
+
+  return new Date(timestamp)
+    .toLocaleString(
+      undefined,
+      {
+        dateStyle:"medium",
+        timeStyle:"short"
+      }
+    );
+
+}
+
+
+/* =========================================================
+   SESSION DISPLAY
+   ========================================================= */
+
+function renderSession(){
+
+  const session =
+    getMasterSession();
+
+  if(!session){
+
+    window.location.replace(
+      "./login.html"
+    );
+
+    return;
+  }
+
+  document.getElementById(
+    "roleValue"
+  ).textContent =
+    session.role;
+
+  document.getElementById(
+    "usernameValue"
+  ).textContent =
+    session.username || "master";
+
+  document.getElementById(
+    "startedValue"
+  ).textContent =
+    formatDate(session.createdAt);
+
+  document.getElementById(
+    "expiresValue"
+  ).textContent =
+    formatDate(session.expiresAt);
+
+}
+
+
+/* =========================================================
+   AUDIT LOG
+   ========================================================= */
+
+function readAudit(){
+
+  try{
+
+    const raw =
+      getStorage(AUDIT_KEY);
+
+    if(!raw){
+      return [];
+    }
+
+    const data =
+      JSON.parse(raw);
+
+    return Array.isArray(data)
+      ? data
+      : [];
+
+  }catch(error){
+
+    return [];
+
+  }
+
+}
+
+
+function writeAudit(
+  action,
+  detail,
+  type="success"
+){
+
+  const current =
+    readAudit();
+
+  current.unshift({
+
+    action,
+    detail,
+    type,
+    time:Date.now()
+
+  });
+
+  const trimmed =
+    current.slice(0,30);
+
+  setStorage(
+    AUDIT_KEY,
+    JSON.stringify(trimmed)
+  );
+
+  renderAudit();
+
+}
+
+
+function renderAudit(){
+
+  const items =
+    readAudit();
+
+  if(!items.length){
+
+    auditList.innerHTML = `
+      <div style="
+        color:var(--muted2);
+        font-size:10px;
+        padding:15px 0;
+      ">
+        No local security events yet.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  auditList.innerHTML =
+    items.slice(0,7).map(item=>`
+
+      <div class="audit-item">
+
+        <span
+          class="audit-dot ${item.type || ""}">
+        </span>
+
+        <div>
+
+          <div class="audit-title">
+            ${escapeHTML(item.action)}
+          </div>
+
+          <div class="audit-detail">
+            ${escapeHTML(item.detail)}
+          </div>
+
+        </div>
+
+        <div class="audit-time">
+          ${formatRelative(item.time)}
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function formatRelative(timestamp){
+
+  const seconds =
+    Math.max(
+      0,
+      Math.floor(
+        (Date.now() - timestamp) / 1000
+      )
+    );
+
+  if(seconds < 10){
+    return "just now";
+  }
+
+  if(seconds < 60){
+    return `${seconds}s`;
+  }
+
+  const minutes =
+    Math.floor(seconds / 60);
+
+  if(minutes < 60){
+    return `${minutes}m`;
+  }
+
+  const hours =
+    Math.floor(minutes / 60);
+
+  if(hours < 24){
+    return `${hours}h`;
+  }
+
+  return `${Math.floor(hours / 24)}d`;
+
+}
+
+
+/* =========================================================
+   SECURITY SETTINGS
+   ========================================================= */
+
+const defaultSettings = {
+
+  audit:true,
+
+  expiration:true,
+
+  role:true,
+
+  duration:"60",
+
+  provider:"demo"
+
+};
+
+
+function getSettings(){
+
+  try{
+
+    const raw =
+      getStorage(
+        SECURITY_SETTINGS_KEY
+      );
+
+    if(!raw){
+      return {...defaultSettings};
+    }
+
+    return {
+      ...defaultSettings,
+      ...JSON.parse(raw)
+    };
+
+  }catch(error){
+
+    return {...defaultSettings};
+
+  }
+
+}
+
+
+function saveSettingsData(data){
+
+  setStorage(
+    SECURITY_SETTINGS_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+function loadSettings(){
+
+  const settings =
+    getSettings();
+
+
+  document
+    .querySelectorAll(".toggle")
+    .forEach(toggle=>{
+
+      const key =
+        toggle.dataset.setting;
+
+      toggle.classList.toggle(
+        "active",
+        Boolean(settings[key])
+      );
+
+    });
+
+
+  document.getElementById(
+    "durationSelect"
+  ).value =
+    settings.duration || "60";
+
+
+  document.getElementById(
+    "providerSelect"
+  ).value =
+    settings.provider || "demo";
+
+}
+
+
+function saveSettings(){
+
+  const settings =
+    getSettings();
+
+
+  document
+    .querySelectorAll(".toggle")
+    .forEach(toggle=>{
+
+      const key =
+        toggle.dataset.setting;
+
+      settings[key] =
+        toggle.classList.contains(
+          "active"
+        );
+
+    });
+
+
+  settings.duration =
+    document.getElementById(
+      "durationSelect"
+    ).value;
+
+
+  settings.provider =
+    document.getElementById(
+      "providerSelect"
+    ).value;
+
+
+  saveSettingsData(settings);
+
+  writeAudit(
+    "Security settings updated",
+    "Protection settings were saved.",
+    "success"
+  );
+
+  showToast(
+    "Security settings saved."
+  );
+
+}
+
+
+/* =========================================================
+   TOGGLE EVENTS
+   ========================================================= */
+
+document
+  .querySelectorAll(".toggle")
+  .forEach(toggle=>{
+
+    toggle.addEventListener(
+      "click",
+      ()=>{
+
+        toggle.classList.toggle(
+          "active"
+        );
+
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   SAVE / RESET
+   ========================================================= */
+
+document.getElementById(
+  "saveSettings"
+).addEventListener(
+  "click",
+  saveSettings
+);
+
+
+document.getElementById(
+  "resetSettings"
+).addEventListener(
+  "click",
+  ()=>{
+
+    saveSettingsData(
+      {...defaultSettings}
+    );
+
+    loadSettings();
+
+    writeAudit(
+      "Security settings reset",
+      "Default local protection settings restored.",
+      "warning"
+    );
+
+    showToast(
+      "Settings restored."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   SESSION REFRESH
+   ========================================================= */
+
+document.getElementById(
+  "refreshSession"
+).addEventListener(
+  "click",
+  ()=>{
+
+    const session =
+      getMasterSession();
+
+    if(!session){
+      window.location.replace(
+        "./login.html"
+      );
+      return;
+    }
+
+    const settings =
+      getSettings();
+
+    const duration =
+      Number(settings.duration || 60);
+
+    session.expiresAt =
+      Date.now() +
+      duration * 60 * 1000;
+
+    setStorage(
+      MASTER_SESSION_KEY,
+      JSON.stringify(session)
+    );
+
+    writeAudit(
+      "Session refreshed",
+      `Privileged session extended for ${duration} minutes.`,
+      "success"
+    );
+
+    renderSession();
+
+    showToast(
+      "Session refreshed."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   REVOKE CURRENT SESSION
+   ========================================================= */
+
+function revokeCurrentSession(){
+
+  const confirmed =
+    window.confirm(
+      "Revoke the current privileged session?"
+    );
+
+  if(!confirmed){
+    return;
+  }
+
+  writeAudit(
+    "Current session revoked",
+    "The active privileged session was terminated.",
+    "danger"
+  );
+
+  removeStorage(
+    MASTER_SESSION_KEY
+  );
+
+  showToast(
+    "Session revoked."
+  );
+
+  setTimeout(()=>{
+    window.location.replace(
+      "./login.html"
+    );
+  },500);
+
+}
+
+
+document.getElementById(
+  "revokeCurrent"
+).addEventListener(
+  "click",
+  revokeCurrentSession
+);
+
+
+/* =========================================================
+   REVOKE ALL LOCAL SESSIONS
+   ========================================================= */
+
+document.getElementById(
+  "revokeAll"
+).addEventListener(
+  "click",
+  ()=>{
+
+    const confirmed =
+      window.confirm(
+        "Revoke all local admin sessions?"
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+    removeStorage(
+      ADMIN_SESSION_KEY
+    );
+
+    removeStorage(
+      MASTER_SESSION_KEY
+    );
+
+    writeAudit(
+      "All local sessions revoked",
+      "Local administrative sessions were cleared.",
+      "danger"
+    );
+
+    showToast(
+      "All local sessions revoked."
+    );
+
+    setTimeout(()=>{
+      window.location.replace(
+        "./login.html"
+      );
+    },500);
+
+  }
+);
+
+
+/* =========================================================
+   EMERGENCY MAINTENANCE
+   ========================================================= */
+
+document.getElementById(
+  "maintenanceBtn"
+).addEventListener(
+  "click",
+  ()=>{
+
+    const confirmed =
+      window.confirm(
+        "Enable emergency maintenance mode?"
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+    let state = {};
+
+    try{
+
+      state =
+        JSON.parse(
+          getStorage(
+            MASTER_STATE_KEY
+          ) || "{}"
+        );
+
+    }catch(error){
+
+      state = {};
+
+    }
+
+    state.maintenanceMode = true;
+    state.updatedAt = Date.now();
+
+    setStorage(
+      MASTER_STATE_KEY,
+      JSON.stringify(state)
+    );
+
+    writeAudit(
+      "Emergency maintenance enabled",
+      "Portfolio maintenance mode was enabled locally.",
+      "warning"
+    );
+
+    showToast(
+      "Maintenance mode enabled."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   RESET LOCAL ADMIN STATE
+   ========================================================= */
+
+document.getElementById(
+  "resetAdmin"
+).addEventListener(
+  "click",
+  ()=>{
+
+    const confirmed =
+      window.confirm(
+        "Reset local admin state? This cannot be undone."
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+    removeStorage(
+      "nusrat_portfolio_admin_data"
+    );
+
+    removeStorage(
+      "nusrat_homepage_content_v1"
+    );
+
+    removeStorage(
+      "nusrat_banner_content_v1"
+    );
+
+    removeStorage(
+      "nusrat_browser_ui_v1"
+    );
+
+    removeStorage(
+      "nusrat_newsletter_v1"
+    );
+
+    removeStorage(
+      "nusrat_admin_last_updated"
+    );
+
+    removeStorage(
+      ADMIN_SESSION_KEY
+    );
+
+    writeAudit(
+      "Local admin state reset",
+      "Demo administrative content state was cleared.",
+      "danger"
+    );
+
+    showToast(
+      "Local admin state reset."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   EXPORT SECURITY STATE
+   ========================================================= */
+
+document.getElementById(
+  "exportSecurity"
+).addEventListener(
+  "click",
+  ()=>{
+
+    const data = {
+
+      exportedAt:
+        new Date().toISOString(),
+
+      session:
+        getMasterSession(),
+
+      settings:
+        getSettings(),
+
+      audit:
+        readAudit(),
+
+      environment:
+        "frontend-demo"
+
+    };
+
+
+    const blob =
+      new Blob(
+        [
+          JSON.stringify(
+            data,
+            null,
+            2
+          )
+        ],
+        {
+          type:"application/json"
+        }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+    const link =
+      document.createElement("a");
+
+    link.href = url;
+
+    link.download =
+      "nusrat-security-state.json";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+
+    writeAudit(
+      "Security state exported",
+      "Current local security state was exported.",
+      "success"
+    );
+
+    showToast(
+      "Security state exported."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   CLEAR AUDIT
+   ========================================================= */
+
+document.getElementById(
+  "clearAudit"
+).addEventListener(
+  "click",
+  ()=>{
+
+    const confirmed =
+      window.confirm(
+        "Clear all local audit events?"
+      );
+
+    if(!confirmed){
+      return;
+    }
+
+    removeStorage(
+      AUDIT_KEY
+    );
+
+    renderAudit();
+
+    showToast(
+      "Audit history cleared."
+    );
+
+  }
+);
+
+
+/* =========================================================
+   LOCK WORKSPACE
+   ========================================================= */
+
+function lockWorkspace(){
+
+  writeAudit(
+    "Workspace locked",
+    "Privileged workspace was manually locked.",
+    "success"
+  );
+
+  removeStorage(
+    MASTER_SESSION_KEY
+  );
+
+  window.location.replace(
+    "./login.html"
+  );
+
+}
+
+
+document.getElementById(
+  "lockBtn"
+).addEventListener(
+  "click",
+  lockWorkspace
+);
+
+document.getElementById(
+  "lockTopBtn"
+).addEventListener(
+  "click",
+  lockWorkspace
+);
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+   ========================================================= */
+
+mobileMenu.addEventListener(
+  "click",
+  ()=>{
+
+    sidebar.classList.add("open");
+    overlay.classList.add("show");
+
+  }
+);
+
+
+overlay.addEventListener(
+  "click",
+  ()=>{
+
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+
+  }
+);
+
+
+/* =========================================================
+   ESCAPE = LOCK
+   ========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(event.key === "Escape"){
+
+      sidebar.classList.remove("open");
+      overlay.classList.remove("show");
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   SESSION WATCHER
+   ========================================================= */
+
+setInterval(()=>{
+
+  const session =
+    getMasterSession();
+
+  if(!session){
+
+    window.location.replace(
+      "./login.html"
+    );
+
+    return;
+  }
+
+  renderSession();
+
+},15000);
+
+
+/* =========================================================
+   INITIALIZATION
+   ========================================================= */
+
+loadSettings();
+
+renderSession();
+
+renderAudit();
+
+
+if(!readAudit().length){
+
+  writeAudit(
+    "Security center opened",
+    "Privileged security workspace initialized.",
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   PRODUCTION SECURITY NOTE
+   ========================================================= */
+
+/*
+
+IMPORTANT FOR PRODUCTION:
+
+This page currently demonstrates the UI and local
+session architecture.
+
+Real protection MUST NOT depend on:
+
+- localStorage
+- hidden URLs
+- frontend JavaScript
+- hard-coded passwords
+- client-side role checks alone
+
+Production architecture should use:
+
+Authentication
+        ↓
+Server-side session
+        ↓
+Verified user ID
+        ↓
+Server-side role = master
+        ↓
+Protected admin API
+        ↓
+Security actions
+
+Recommended options:
+
+- Firebase Authentication + Firestore Security Rules
+- Supabase Auth + Row Level Security
+- Custom backend authentication
+
+The browser should never contain the real
+master password.
+
+*/
+</script>
+
+</body>
+</html>
