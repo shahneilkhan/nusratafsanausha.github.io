@@ -1,680 +1,867 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <title>Private Master — SNK Portfolio Control</title>
-
-  <meta
-    name="description"
-    content="Private master administration panel for portfolio infrastructure and privileged controls."
-  >
+  <title>Control Panel — Nusrat Afsana Usha</title>
+  <meta name="description" content="Private control panel.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="../admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* =========================================================
-       PRIVATE MASTER ADMIN
-    ========================================================= */
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
     :root{
-      --master-danger:#df7777;
-      --master-success:#75d49a;
-      --master-blue:#8cb8ff;
+      --bg:#08090b;
+      --panel:#111318;
+      --panel2:#15171c;
+      --panel3:#191b21;
+      --border:rgba(255,255,255,.08);
+      --border2:rgba(255,255,255,.14);
+      --text:#f5f2eb;
+      --muted:#8e9098;
+      --soft:#bfc0c6;
+      --gold:#d8b36a;
+      --gold2:#f0d59a;
+      --green:#69c995;
+      --red:#e77878;
+      --orange:#e3b768;
+      --shadow:0 30px 90px rgba(0,0,0,.38);
     }
 
-    .master-shell{
-      max-width:1500px;
-      margin:0 auto;
+    [data-theme="light"]{
+      --bg:#f4f2ed;
+      --panel:#fff;
+      --panel2:#faf9f5;
+      --panel3:#f0eee8;
+      --border:rgba(20,20,20,.08);
+      --border2:rgba(20,20,20,.14);
+      --text:#171719;
+      --muted:#707078;
+      --soft:#55555d;
+      --gold:#a87a32;
+      --gold2:#8d6426;
+      --green:#278458;
+      --red:#c64d4d;
+      --orange:#a77418;
+      --shadow:0 25px 70px rgba(30,25,15,.12);
     }
 
-    .master-header{
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 80% 0%,rgba(216,179,106,.08),transparent 28%),
+        var(--bg);
+      color:var(--text);
+      font-family:"Instrument Sans",sans-serif;
+      overflow-x:hidden;
+    }
+
+    button,
+    input,
+    select{
+      font:inherit;
+    }
+
+    button{
+      cursor:pointer;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar{
+      position:fixed;
+      inset:0 auto 0 0;
+      width:270px;
+      z-index:100;
+      padding:24px 16px;
       display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:24px;
-      margin-bottom:28px;
+      flex-direction:column;
+      background:rgba(10,11,14,.94);
+      border-right:1px solid var(--border);
+      backdrop-filter:blur(24px);
     }
 
-    .master-kicker{
+    [data-theme="light"] .sidebar{
+      background:rgba(255,255,255,.94);
+    }
+
+    .brand{
       display:flex;
       align-items:center;
-      gap:9px;
-      margin-bottom:11px;
-      color:var(--accent);
+      gap:12px;
+      padding:5px 10px 28px;
+    }
+
+    .brand-mark{
+      width:43px;
+      height:43px;
+      display:grid;
+      place-items:center;
+      border-radius:14px;
+      color:#17120a;
+      background:linear-gradient(145deg,#f2d89d,#a87932);
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-weight:800;
+      letter-spacing:-.07em;
+      box-shadow:0 12px 30px rgba(216,179,106,.16);
+    }
+
+    .brand strong{
+      display:block;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:15px;
+    }
+
+    .brand span{
+      display:block;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:10px;
+    }
+
+    .private-badge{
+      margin:0 9px 18px;
+      padding:10px 11px;
+      border:1px solid rgba(216,179,106,.16);
+      border-radius:12px;
+      background:rgba(216,179,106,.05);
+      color:var(--gold);
       font-size:10px;
       font-weight:700;
-      letter-spacing:.18em;
+      letter-spacing:.12em;
       text-transform:uppercase;
     }
 
-    .master-kicker::before{
-      content:"";
-      width:28px;
-      height:1px;
-      background:var(--accent);
+    .nav-title{
+      color:#65666e;
+      font-size:9px;
+      font-weight:700;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      padding:9px 11px;
     }
 
-    .master-header h1{
-      margin:0;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:clamp(36px,4.5vw,64px);
-      line-height:.95;
-      letter-spacing:-.055em;
-      font-weight:600;
+    .nav{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
     }
 
-    .master-header p{
-      max-width:650px;
-      margin:15px 0 0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.75;
-    }
-
-    .master-status{
+    .nav-item{
+      width:100%;
       display:flex;
       align-items:center;
-      gap:10px;
-      padding:12px 15px;
-      border:1px solid rgba(117,212,154,.18);
-      border-radius:999px;
-      color:var(--master-success);
-      background:rgba(117,212,154,.045);
-      font-size:11px;
-      font-weight:700;
-      white-space:nowrap;
+      gap:12px;
+      padding:12px;
+      border:0;
+      border-radius:13px;
+      background:transparent;
+      color:var(--muted);
+      text-align:left;
+      font-size:12px;
+      font-weight:600;
+      transition:.2s ease;
     }
 
-    .master-status-dot{
-      width:7px;
-      height:7px;
-      border-radius:50%;
-      background:var(--master-success);
-      box-shadow:0 0 0 4px rgba(117,212,154,.09);
+    .nav-item:hover{
+      color:var(--text);
+      background:rgba(255,255,255,.04);
     }
 
-    /* TOP WARNING */
+    .nav-item.active{
+      color:var(--text);
+      background:rgba(216,179,106,.10);
+      border:1px solid rgba(216,179,106,.12);
+    }
 
-    .master-warning{
+    .nav-icon{
+      width:19px;
+      text-align:center;
+      color:var(--gold);
+    }
+
+    .sidebar-bottom{
+      margin-top:auto;
+    }
+
+    .lock-button{
+      margin-top:7px;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main{
+      width:calc(100% - 270px);
+      margin-left:270px;
+      min-height:100vh;
+    }
+
+    .topbar{
+      height:78px;
+      position:sticky;
+      top:0;
+      z-index:50;
       display:flex;
-      align-items:flex-start;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 34px;
+      background:rgba(8,9,11,.76);
+      border-bottom:1px solid var(--border);
+      backdrop-filter:blur(22px);
+    }
+
+    [data-theme="light"] .topbar{
+      background:rgba(244,242,237,.78);
+    }
+
+    .top-left{
+      display:flex;
+      align-items:center;
       gap:14px;
-      margin-bottom:22px;
-      padding:16px 18px;
-      border:1px solid rgba(223,119,119,.2);
-      border-radius:16px;
-      background:rgba(223,119,119,.035);
     }
 
-    .warning-icon{
-      display:grid;
-      place-items:center;
-      width:34px;
-      height:34px;
-      flex:0 0 34px;
-      border-radius:10px;
-      color:var(--master-danger);
-      background:rgba(223,119,119,.08);
+    .mobile-menu{
+      display:none;
+      width:40px;
+      height:40px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--panel);
+      color:var(--text);
     }
 
-    .warning-icon svg{
-      width:16px;
-      height:16px;
-    }
-
-    .master-warning strong{
-      display:block;
-      margin-bottom:4px;
+    .crumb{
+      color:var(--muted);
       font-size:12px;
     }
 
-    .master-warning p{
-      margin:0;
-      color:var(--muted);
+    .crumb strong{
+      color:var(--text);
+    }
+
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .icon-button{
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--panel);
+      color:var(--soft);
+      transition:.2s ease;
+    }
+
+    .icon-button:hover{
+      border-color:var(--border2);
+      color:var(--text);
+      transform:translateY(-1px);
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content{
+      max-width:1450px;
+      margin:auto;
+      padding:42px 34px 70px;
+    }
+
+    .heading{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:30px;
+      margin-bottom:30px;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      color:var(--gold);
       font-size:10px;
-      line-height:1.65;
-    }
-
-    /* STATS */
-
-    .master-stats{
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:12px;
-      margin-bottom:20px;
-    }
-
-    .master-stat{
-      min-height:116px;
-      padding:18px;
-      border:1px solid var(--border);
-      border-radius:16px;
-      background:
-        radial-gradient(
-          circle at 100% 0,
-          rgba(216,179,106,.07),
-          transparent 45%
-        ),
-        var(--panel);
-    }
-
-    .master-stat-label{
-      color:var(--muted);
-      font-size:9px;
       font-weight:700;
-      letter-spacing:.13em;
+      letter-spacing:.16em;
       text-transform:uppercase;
+      margin-bottom:10px;
     }
 
-    .master-stat-value{
-      margin-top:13px;
+    .eyebrow::before{
+      content:"";
+      width:18px;
+      height:1px;
+      background:var(--gold);
+    }
+
+    h1,h2,h3{
       font-family:"Bricolage Grotesque",sans-serif;
-      font-size:29px;
-      line-height:1;
-      letter-spacing:-.04em;
+      letter-spacing:-.045em;
     }
 
-    .master-stat-meta{
-      margin-top:8px;
+    h1{
+      font-size:clamp(34px,4.5vw,58px);
+      line-height:.95;
+    }
+
+    .heading p{
+      max-width:650px;
+      margin-top:13px;
       color:var(--muted);
-      font-size:9px;
+      line-height:1.65;
+      font-size:13px;
     }
 
-    /* GRID */
+    .security-status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 13px;
+      border:1px solid rgba(105,201,149,.2);
+      background:rgba(105,201,149,.06);
+      border-radius:999px;
+      color:var(--green);
+      font-size:10px;
+      font-weight:700;
+      white-space:nowrap;
+    }
 
-    .master-grid{
+    .status-dot{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:currentColor;
+      box-shadow:0 0 0 4px rgba(105,201,149,.08);
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats{
       display:grid;
-      grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);
-      gap:18px;
+      grid-template-columns:repeat(4,1fr);
+      gap:13px;
+      margin-bottom:18px;
     }
 
-    .master-column{
-      display:grid;
-      gap:18px;
-      align-content:start;
-    }
-
-    .master-panel{
-      overflow:hidden;
+    .stat{
+      min-height:125px;
+      padding:20px;
       border:1px solid var(--border);
-      border-radius:18px;
+      border-radius:20px;
+      background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
+      box-shadow:var(--shadow);
+    }
+
+    [data-theme="light"] .stat{
       background:var(--panel);
     }
 
-    .master-panel-head{
+    .stat-label{
+      color:var(--muted);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:700;
+    }
+
+    .stat-value{
+      margin-top:12px;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:31px;
+      letter-spacing:-.05em;
+    }
+
+    .stat-note{
+      color:var(--soft);
+      font-size:10px;
+      margin-top:5px;
+    }
+
+    /* =========================
+       GRID
+    ========================= */
+
+    .grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.4fr) minmax(320px,.75fr);
+      gap:18px;
+    }
+
+    .panel{
+      border:1px solid var(--border);
+      border-radius:22px;
+      background:linear-gradient(145deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    [data-theme="light"] .panel{
+      background:var(--panel);
+    }
+
+    .panel-head{
       display:flex;
       align-items:flex-start;
       justify-content:space-between;
       gap:15px;
-      padding:19px 20px;
+      padding:22px 23px 18px;
       border-bottom:1px solid var(--border);
     }
 
-    .master-panel-head h2{
-      margin:0;
-      font-family:"Bricolage Grotesque",sans-serif;
+    .panel-head h2{
       font-size:18px;
-      letter-spacing:-.025em;
     }
 
-    .master-panel-head p{
-      margin:5px 0 0;
+    .panel-head p{
+      margin-top:5px;
       color:var(--muted);
-      font-size:10px;
+      font-size:11px;
+      line-height:1.55;
+    }
+
+    .panel-body{
+      padding:21px 23px 23px;
+    }
+
+    /* =========================
+       CONTROL LIST
+    ========================= */
+
+    .control{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      padding:16px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .control:first-child{
+      padding-top:1px;
+    }
+
+    .control:last-child{
+      border-bottom:0;
+      padding-bottom:0;
+    }
+
+    .control strong{
+      display:block;
+      font-size:13px;
+    }
+
+    .control span{
+      display:block;
+      color:var(--muted);
+      margin-top:4px;
+      font-size:11px;
       line-height:1.5;
     }
 
-    .panel-label{
-      padding:6px 9px;
-      border:1px solid var(--border);
+    .toggle{
+      flex:0 0 auto;
+      width:48px;
+      height:28px;
+      border:1px solid var(--border2);
       border-radius:999px;
-      color:var(--muted);
-      font-size:9px;
-      font-weight:700;
-      letter-spacing:.07em;
-      text-transform:uppercase;
-      white-space:nowrap;
+      background:var(--panel3);
+      position:relative;
+      transition:.2s ease;
     }
 
-    .panel-label.secure{
-      color:var(--master-success);
-      border-color:rgba(117,212,154,.17);
-      background:rgba(117,212,154,.04);
+    .toggle::after{
+      content:"";
+      position:absolute;
+      left:4px;
+      top:3px;
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:#73757b;
+      transition:.2s ease;
     }
 
-    /* QUICK CONTROL */
-
-    .master-controls{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:10px;
-      padding:18px;
+    .toggle.on{
+      border-color:rgba(216,179,106,.35);
+      background:rgba(216,179,106,.17);
     }
 
-    .master-control{
+    .toggle.on::after{
+      left:23px;
+      background:var(--gold);
+    }
+
+    /* =========================
+       SERVICE LIST
+    ========================= */
+
+    .service{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:15px;
-      min-height:70px;
-      padding:13px 14px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:rgba(255,255,255,.012);
-    }
-
-    .master-control-info strong{
-      display:block;
-      font-size:11px;
-      font-weight:600;
-    }
-
-    .master-control-info span{
-      display:block;
-      margin-top:4px;
-      color:var(--muted);
-      font-size:9px;
-      line-height:1.4;
-    }
-
-    .master-toggle{
-      position:relative;
-      width:38px;
-      height:21px;
-      flex:0 0 38px;
-    }
-
-    .master-toggle input{
-      position:absolute;
-      opacity:0;
-      pointer-events:none;
-    }
-
-    .master-toggle-track{
-      position:absolute;
-      inset:0;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:rgba(255,255,255,.045);
-      cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .master-toggle-track::after{
-      content:"";
-      position:absolute;
-      top:2px;
-      left:2px;
-      width:15px;
-      height:15px;
-      border-radius:50%;
-      background:var(--muted);
-      transition:.2s ease;
-    }
-
-    .master-toggle input:checked + .master-toggle-track{
-      border-color:rgba(216,179,106,.38);
-      background:rgba(216,179,106,.14);
-    }
-
-    .master-toggle input:checked + .master-toggle-track::after{
-      left:19px;
-      background:var(--accent);
-    }
-
-    /* SYSTEM SERVICES */
-
-    .service-list{
-      padding:7px 18px 18px;
-    }
-
-    .service-row{
-      display:grid;
-      grid-template-columns:1fr auto auto;
-      align-items:center;
-      gap:16px;
       padding:14px 0;
       border-bottom:1px solid var(--border);
     }
 
-    .service-row:last-child{
+    .service:last-child{
       border-bottom:0;
     }
 
-    .service-name{
-      font-size:11px;
-      font-weight:600;
+    .service-main{
+      display:flex;
+      align-items:center;
+      gap:11px;
     }
 
-    .service-meta{
-      margin-top:3px;
+    .service-icon{
+      width:36px;
+      height:36px;
+      display:grid;
+      place-items:center;
+      border-radius:11px;
+      background:rgba(216,179,106,.08);
+      color:var(--gold);
+    }
+
+    .service strong{
+      display:block;
+      font-size:11px;
+    }
+
+    .service small{
+      display:block;
       color:var(--muted);
+      margin-top:2px;
       font-size:9px;
     }
 
     .service-status{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      color:var(--master-success);
+      color:var(--green);
       font-size:9px;
       font-weight:700;
+      text-transform:uppercase;
     }
 
-    .service-status::before{
-      content:"";
-      width:5px;
-      height:5px;
-      border-radius:50%;
-      background:currentColor;
-    }
+    /* =========================
+       AUDIT
+    ========================= */
 
-    .service-status.warning{
-      color:#dfbf70;
-    }
-
-    .service-time{
-      color:var(--muted);
-      font-size:9px;
-      white-space:nowrap;
-    }
-
-    /* ADMIN ACCOUNTS */
-
-    .account-list{
-      padding:7px 18px 18px;
-    }
-
-    .account-row{
+    .audit{
       display:flex;
-      align-items:center;
-      gap:11px;
-      padding:13px 0;
+      flex-direction:column;
+    }
+
+    .audit-row{
+      display:flex;
+      gap:12px;
+      padding:14px 0;
       border-bottom:1px solid var(--border);
     }
 
-    .account-row:last-child{
-      border-bottom:0;
-    }
-
-    .account-avatar{
-      display:grid;
-      place-items:center;
-      width:36px;
-      height:36px;
-      flex:0 0 36px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      color:var(--accent);
-      background:rgba(216,179,106,.06);
-      font-size:10px;
-      font-weight:700;
-    }
-
-    .account-info{
-      flex:1;
-      min-width:0;
-    }
-
-    .account-info strong{
-      display:block;
-      font-size:11px;
-    }
-
-    .account-info span{
-      display:block;
-      margin-top:3px;
-      color:var(--muted);
-      font-size:9px;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
-    }
-
-    .account-role{
-      color:var(--muted);
-      font-size:9px;
-      white-space:nowrap;
-    }
-
-    .account-role.master{
-      color:var(--accent);
-    }
-
-    /* AUDIT LOG */
-
-    .audit-list{
-      padding:7px 18px 18px;
-    }
-
-    .audit-item{
-      position:relative;
-      display:grid;
-      grid-template-columns:8px 1fr auto;
-      gap:11px;
-      align-items:start;
-      padding:13px 0;
-      border-bottom:1px solid var(--border);
-    }
-
-    .audit-item:last-child{
+    .audit-row:last-child{
       border-bottom:0;
     }
 
     .audit-dot{
-      width:7px;
-      height:7px;
+      width:8px;
+      height:8px;
       margin-top:5px;
+      flex:0 0 auto;
       border-radius:50%;
-      background:var(--accent);
+      background:var(--gold);
+      box-shadow:0 0 0 5px rgba(216,179,106,.06);
     }
 
-    .audit-item strong{
+    .audit-row strong{
       display:block;
-      font-size:10px;
-      line-height:1.4;
+      font-size:11px;
     }
 
-    .audit-item span{
+    .audit-row span{
       display:block;
-      margin-top:4px;
       color:var(--muted);
+      margin-top:3px;
       font-size:9px;
     }
 
-    .audit-time{
-      color:var(--muted);
-      font-size:8px;
-      white-space:nowrap;
-    }
+    /* =========================
+       BACKUP
+    ========================= */
 
-    /* BACKUP */
-
-    .backup-body{
+    .backup-box{
       padding:18px;
+      border:1px solid var(--border);
+      border-radius:16px;
+      background:rgba(255,255,255,.018);
     }
 
     .backup-status{
       display:flex;
       align-items:center;
+      justify-content:space-between;
       gap:12px;
-      padding:13px;
-      border:1px solid rgba(117,212,154,.16);
-      border-radius:12px;
-      background:rgba(117,212,154,.035);
-    }
-
-    .backup-icon{
-      display:grid;
-      place-items:center;
-      width:35px;
-      height:35px;
-      border-radius:10px;
-      background:rgba(117,212,154,.08);
-      color:var(--master-success);
-    }
-
-    .backup-icon svg{
-      width:16px;
-      height:16px;
     }
 
     .backup-status strong{
-      display:block;
-      font-size:10px;
+      font-size:12px;
     }
 
     .backup-status span{
+      color:var(--green);
+      font-size:10px;
+      font-weight:700;
+    }
+
+    .backup-meta{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .backup-meta div{
+      padding:10px;
+      border-radius:11px;
+      background:var(--panel3);
+    }
+
+    .backup-meta small{
       display:block;
-      margin-top:3px;
       color:var(--muted);
       font-size:9px;
     }
 
-    .backup-actions{
+    .backup-meta strong{
+      display:block;
+      margin-top:3px;
+      font-size:10px;
+    }
+
+    .button-row{
       display:flex;
       gap:8px;
-      margin-top:11px;
+      margin-top:13px;
     }
 
-    .backup-actions button{
-      flex:1;
+    .button{
+      min-height:40px;
+      padding:0 13px;
+      border-radius:11px;
+      border:1px solid var(--border);
+      background:var(--panel3);
+      color:var(--text);
+      font-size:10px;
+      font-weight:700;
     }
 
-    /* DANGER */
+    .button.primary{
+      background:var(--gold);
+      color:#17120a;
+      border-color:transparent;
+    }
 
-    .danger-panel{
-      border-color:rgba(223,119,119,.18);
+    .button:hover{
+      transform:translateY(-1px);
+    }
+
+    /* =========================
+       DANGER
+    ========================= */
+
+    .danger{
+      margin-top:18px;
+      border-color:rgba(231,120,120,.18);
+    }
+
+    .danger .panel-head{
+      border-bottom-color:rgba(231,120,120,.12);
+    }
+
+    .danger h2{
+      color:var(--red);
     }
 
     .danger-actions{
       display:grid;
-      gap:8px;
-      padding:18px;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
     }
 
     .danger-button{
-      width:100%;
-      min-height:45px;
-      padding:0 13px;
-      border:1px solid rgba(223,119,119,.2);
-      border-radius:10px;
-      background:rgba(223,119,119,.035);
-      color:#df9a9a;
-      font:600 10px "Instrument Sans",sans-serif;
-      text-align:left;
-      cursor:pointer;
-      transition:.2s ease;
+      min-height:44px;
+      border:1px solid rgba(231,120,120,.18);
+      border-radius:12px;
+      background:rgba(231,120,120,.045);
+      color:var(--red);
+      font-size:10px;
+      font-weight:700;
     }
 
     .danger-button:hover{
-      border-color:rgba(223,119,119,.4);
-      background:rgba(223,119,119,.07);
+      background:rgba(231,120,120,.10);
     }
 
-    .danger-button strong{
-      display:block;
-      font-size:10px;
-    }
+    /* =========================
+       TOAST
+    ========================= */
 
-    .danger-button span{
-      display:block;
-      margin-top:3px;
-      color:var(--muted);
-      font-size:8px;
-    }
-
-    /* FOOTER */
-
-    .master-footer{
+    .toast{
+      position:fixed;
+      right:24px;
+      bottom:24px;
+      z-index:500;
+      min-width:280px;
+      max-width:390px;
+      padding:14px 16px;
       display:flex;
-      justify-content:space-between;
       align-items:center;
-      gap:15px;
-      margin-top:18px;
-      padding:16px 18px;
-      border:1px solid var(--border);
+      gap:10px;
+      border:1px solid var(--border2);
       border-radius:15px;
-      color:var(--muted);
-      font-size:9px;
+      background:#17181d;
+      color:#fff;
+      box-shadow:0 25px 70px rgba(0,0,0,.4);
+      opacity:0;
+      transform:translateY(25px);
+      pointer-events:none;
+      transition:.25s ease;
+      font-size:11px;
     }
 
-    .master-footer strong{
-      color:var(--text);
+    .toast.show{
+      opacity:1;
+      transform:translateY(0);
     }
 
-    /* LIGHT */
-
-    [data-theme="light"] .master-stat,
-    [data-theme="light"] .master-panel{
-      background:#fff;
+    .toast-dot{
+      width:7px;
+      height:7px;
+      flex:0 0 auto;
+      border-radius:50%;
+      background:var(--gold);
     }
 
-    /* RESPONSIVE */
+    /* =========================
+       MOBILE
+    ========================= */
 
-    @media(max-width:1200px){
-      .master-stats{
-        grid-template-columns:repeat(3,1fr);
-      }
+    .mobile-overlay{
+      display:none;
+      position:fixed;
+      inset:0;
+      z-index:90;
+      background:rgba(0,0,0,.58);
     }
 
-    @media(max-width:1000px){
-      .master-grid{
-        grid-template-columns:1fr;
-      }
-    }
-
-    @media(max-width:760px){
-      .master-header{
-        align-items:flex-start;
-        flex-direction:column;
-      }
-
-      .master-stats{
+    @media(max-width:1100px){
+      .stats{
         grid-template-columns:repeat(2,1fr);
       }
 
-      .master-controls{
+      .grid{
         grid-template-columns:1fr;
       }
     }
 
-    @media(max-width:500px){
-      .master-stats{
-        grid-template-columns:1fr 1fr;
-        gap:8px;
+    @media(max-width:800px){
+      .sidebar{
+        transform:translateX(-100%);
+        transition:.25s ease;
       }
 
-      .master-stat{
-        min-height:105px;
-        padding:14px;
+      .sidebar.open{
+        transform:translateX(0);
       }
 
-      .master-stat-value{
-        font-size:25px;
+      .mobile-overlay.show{
+        display:block;
       }
 
-      .service-row{
-        grid-template-columns:1fr auto;
+      .main{
+        width:100%;
+        margin-left:0;
       }
 
-      .service-time{
-        display:none;
+      .mobile-menu{
+        display:grid;
+        place-items:center;
       }
 
-      .master-footer{
-        flex-direction:column;
+      .topbar{
+        padding:0 18px;
+      }
+
+      .content{
+        padding:30px 18px 55px;
+      }
+
+      .heading{
         align-items:flex-start;
+        flex-direction:column;
+      }
+    }
+
+    @media(max-width:560px){
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .danger-actions{
+        grid-template-columns:1fr;
+      }
+
+      .panel-head,
+      .panel-body{
+        padding-left:17px;
+        padding-right:17px;
+      }
+
+      .backup-meta{
+        grid-template-columns:1fr;
+      }
+
+      .button-row{
+        flex-direction:column;
+      }
+
+      .button{
+        width:100%;
+      }
+
+      .toast{
+        left:15px;
+        right:15px;
+        min-width:0;
       }
     }
   </style>
@@ -684,1148 +871,531 @@
 
 <div class="app">
 
-  <!-- =======================================================
-       SIDEBAR
-  ======================================================== -->
-
+  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
-
-      <div class="brand-mark">
-        NU
+      <div class="brand-mark">NU</div>
+      <div>
+        <strong>Nusrat Afsana</strong>
+        <span>Control Panel</span>
       </div>
-
-      <div class="brand-copy">
-        <strong>Private Master</strong>
-        <span>Protected Control</span>
-      </div>
-
     </div>
 
+    <div class="private-badge">
+      Restricted Access
+    </div>
 
-    <nav class="side-nav">
+    <div class="nav-title">Control</div>
 
-      <div class="nav-label">
-        Master
-      </div>
+    <nav class="nav">
 
       <a class="nav-item active" href="./index.html">
-
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
-        </span>
-
+        <span class="nav-icon">⌂</span>
         <span>Overview</span>
-
       </a>
-
 
       <a class="nav-item" href="../admin-management.html">
-
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <path d="M16 21v-1.8a4.2 4.2 0 0 0-4.2-4.2H6.2A4.2 4.2 0 0 0 2 19.2V21"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M17 11a4 4 0 1 0-1.5-7.7"/>
-            <path d="M22 21v-1.8a4.2 4.2 0 0 0-3.2-4.1"/>
-          </svg>
-        </span>
-
-        <span>Administrators</span>
-
+        <span class="nav-icon">♙</span>
+        <span>Access Management</span>
       </a>
-
 
       <a class="nav-item" href="../system.html">
-
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V22h-2.6v-.2a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1A1.7 1.7 0 0 0 8 15a1.7 1.7 0 0 0-1.6-1H6v-2.6h.4A1.7 1.7 0 0 0 8 10a1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.8-1.8.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V5h2.6v.2a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.4V14h-.4a1.7 1.7 0 0 0-1.6 1Z"/>
-          </svg>
-        </span>
-
-        <span>System</span>
-
+        <span class="nav-icon">⚙</span>
+        <span>System Settings</span>
       </a>
 
-
-      <div class="nav-label">
-        Security
-      </div>
-
-
-      <a class="nav-item" href="#audit">
-
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <path d="M4 5h16v14H4z"/>
-            <path d="M8 9h8M8 13h5M8 17h3"/>
-          </svg>
-        </span>
-
-        <span>Audit Log</span>
-
+      <a class="nav-item" href="../dashboard.html">
+        <span class="nav-icon">◫</span>
+        <span>Admin Dashboard</span>
       </a>
 
-
-      <a class="nav-item" href="#backup">
-
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <path d="M12 3v12"/>
-            <path d="m7 10 5 5 5-5"/>
-            <path d="M4 20h16"/>
-          </svg>
-        </span>
-
-        <span>Backup</span>
-
+      <a class="nav-item" href="../../index.html" target="_blank">
+        <span class="nav-icon">↗</span>
+        <span>View Portfolio</span>
       </a>
 
     </nav>
 
+    <div class="sidebar-bottom">
 
-    <div class="sidebar-footer">
+      <button class="nav-item" id="themeToggle">
+        <span class="nav-icon">◐</span>
+        <span>Toggle Theme</span>
+      </button>
 
-      <a class="nav-item" href="../../index.html" target="_blank">
-
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="1.7">
-            <path d="M14 3h7v7"/>
-            <path d="M10 14 21 3"/>
-            <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
-          </svg>
-        </span>
-
-        <span>View Portfolio</span>
-
-      </a>
+      <button class="nav-item lock-button" id="lockPanel">
+        <span class="nav-icon">⌑</span>
+        <span>Lock Panel</span>
+      </button>
 
     </div>
 
   </aside>
 
+  <div class="mobile-overlay" id="mobileOverlay"></div>
 
-  <!-- =======================================================
-       MAIN
-  ======================================================== -->
-
+  <!-- MAIN -->
   <main class="main">
 
     <header class="topbar">
 
-      <button
-        class="mobile-menu-button"
-        id="menuToggle"
-        aria-label="Open menu"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div class="top-left">
 
-
-      <div class="topbar-title">
-        <span>Restricted Area</span>
-        <strong>Private Master Control</strong>
-      </div>
-
-
-      <div class="topbar-actions">
-
-        <button
-          class="secondary-button"
-          id="themeToggle"
-          type="button"
-        >
-          <span>◐</span>
-          <span>Theme</span>
+        <button class="mobile-menu" id="mobileMenu">
+          ☰
         </button>
 
+        <div class="crumb">
+          Private / <strong>Control Panel</strong>
+        </div>
 
-        <button
-          class="primary-button"
-          id="lockMaster"
-          type="button"
-        >
-          Lock Panel
+      </div>
+
+      <div class="top-actions">
+
+        <button class="icon-button" id="openPortfolio" title="Open portfolio">
+          ↗
+        </button>
+
+        <button class="icon-button" id="logout" title="Lock">
+          ⌑
         </button>
 
       </div>
 
     </header>
 
-
     <section class="content">
 
-      <div class="master-shell">
+      <!-- HEADING -->
 
+      <div class="heading">
 
-        <!-- HEADER -->
+        <div>
 
-        <div class="master-header">
-
-          <div>
-
-            <div class="master-kicker">
-              Private Infrastructure
-            </div>
-
-            <h1>
-              Master Control.
-            </h1>
-
-            <p>
-              A privileged control layer for administrator access,
-              infrastructure status, backups, audit activity and
-              protected portfolio operations.
-            </p>
-
+          <div class="eyebrow">
+            Restricted Workspace
           </div>
 
+          <h1>Control Panel</h1>
 
-          <div class="master-status">
-
-            <span class="master-status-dot"></span>
-
-            Master session active
-
-          </div>
+          <p>
+            Centralized control for administration, security, system behavior,
+            backups and portfolio infrastructure.
+          </p>
 
         </div>
 
-
-        <!-- WARNING -->
-
-        <div class="master-warning">
-
-          <div class="warning-icon">
-
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.7">
-              <path d="M12 3 2.8 19h18.4L12 3Z"/>
-              <path d="M12 9v4"/>
-              <circle cx="12" cy="16.5" r=".7"
-                      fill="currentColor"/>
-            </svg>
-
-          </div>
-
-          <div>
-
-            <strong>
-              Privileged area — production protection required
-            </strong>
-
-            <p>
-              This interface is only the administrative UI.
-              Real authorization must be enforced by the backend.
-              Never rely on a hidden URL, HTML condition, or JavaScript
-              check as the security boundary.
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- STATS -->
-
-        <div class="master-stats">
-
-          <div class="master-stat">
-            <div class="master-stat-label">
-              Admins
-            </div>
-
-            <div class="master-stat-value">
-              03
-            </div>
-
-            <div class="master-stat-meta">
-              registered accounts
-            </div>
-          </div>
-
-
-          <div class="master-stat">
-            <div class="master-stat-label">
-              Services
-            </div>
-
-            <div class="master-stat-value">
-              05
-            </div>
-
-            <div class="master-stat-meta">
-              connected systems
-            </div>
-          </div>
-
-
-          <div class="master-stat">
-            <div class="master-stat-label">
-              Backup
-            </div>
-
-            <div class="master-stat-value">
-              OK
-            </div>
-
-            <div class="master-stat-meta">
-              latest snapshot verified
-            </div>
-          </div>
-
-
-          <div class="master-stat">
-            <div class="master-stat-label">
-              Audit
-            </div>
-
-            <div class="master-stat-value">
-              24
-            </div>
-
-            <div class="master-stat-meta">
-              recent events
-            </div>
-          </div>
-
-
-          <div class="master-stat">
-            <div class="master-stat-label">
-              Security
-            </div>
-
-            <div class="master-stat-value">
-              ON
-            </div>
-
-            <div class="master-stat-meta">
-              privileged controls active
-            </div>
-          </div>
-
-        </div>
-
-
-        <!-- MAIN GRID -->
-
-        <div class="master-grid">
-
-
-          <!-- LEFT -->
-
-          <div class="master-column">
-
-
-            <!-- QUICK CONTROLS -->
-
-            <section class="master-panel">
-
-              <div class="master-panel-head">
-
-                <div>
-
-                  <h2>
-                    Master Controls
-                  </h2>
-
-                  <p>
-                    High-level operational switches.
-                  </p>
-
-                </div>
-
-                <span class="panel-label secure">
-                  Protected
-                </span>
-
-              </div>
-
-
-              <div class="master-controls">
-
-                <div class="master-control">
-
-                  <div class="master-control-info">
-                    <strong>Maintenance Mode</strong>
-                    <span>Temporarily restrict public access.</span>
-                  </div>
-
-                  <label class="master-toggle">
-                    <input
-                      type="checkbox"
-                      id="maintenanceMode"
-                    >
-                    <span class="master-toggle-track"></span>
-                  </label>
-
-                </div>
-
-
-                <div class="master-control">
-
-                  <div class="master-control-info">
-                    <strong>Public Portfolio</strong>
-                    <span>Allow visitors to view the site.</span>
-                  </div>
-
-                  <label class="master-toggle">
-                    <input
-                      type="checkbox"
-                      id="publicPortfolio"
-                      checked
-                    >
-                    <span class="master-toggle-track"></span>
-                  </label>
-
-                </div>
-
-
-                <div class="master-control">
-
-                  <div class="master-control-info">
-                    <strong>Admin Login</strong>
-                    <span>Allow authenticated admin sessions.</span>
-                  </div>
-
-                  <label class="master-toggle">
-                    <input
-                      type="checkbox"
-                      id="adminLogin"
-                      checked
-                    >
-                    <span class="master-toggle-track"></span>
-                  </label>
-
-                </div>
-
-
-                <div class="master-control">
-
-                  <div class="master-control-info">
-                    <strong>Audit Logging</strong>
-                    <span>Record privileged administrative events.</span>
-                  </div>
-
-                  <label class="master-toggle">
-                    <input
-                      type="checkbox"
-                      id="auditLogging"
-                      checked
-                    >
-                    <span class="master-toggle-track"></span>
-                  </label>
-
-                </div>
-
-
-                <div class="master-control">
-
-                  <div class="master-control-info">
-                    <strong>Public Newsletter</strong>
-                    <span>Allow newsletter subscriptions.</span>
-                  </div>
-
-                  <label class="master-toggle">
-                    <input
-                      type="checkbox"
-                      id="newsletterPublic"
-                      checked
-                    >
-                    <span class="master-toggle-track"></span>
-                  </label>
-
-                </div>
-
-
-                <div class="master-control">
-
-                  <div class="master-control-info">
-                    <strong>Debug Mode</strong>
-                    <span>Development diagnostics only.</span>
-                  </div>
-
-                  <label class="master-toggle">
-                    <input
-                      type="checkbox"
-                      id="debugMode"
-                    >
-                    <span class="master-toggle-track"></span>
-                  </label>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- SYSTEM SERVICES -->
-
-            <section class="master-panel">
-
-              <div class="master-panel-head">
-
-                <div>
-
-                  <h2>
-                    Connected Services
-                  </h2>
-
-                  <p>
-                    High-level status overview.
-                  </p>
-
-                </div>
-
-                <span class="panel-label">
-                  Live Status
-                </span>
-
-              </div>
-
-
-              <div class="service-list">
-
-                <div class="service-row">
-
-                  <div>
-                    <div class="service-name">
-                      Authentication
-                    </div>
-
-                    <div class="service-meta">
-                      Admin identity provider
-                    </div>
-                  </div>
-
-                  <span class="service-status">
-                    Operational
-                  </span>
-
-                  <span class="service-time">
-                    checked now
-                  </span>
-
-                </div>
-
-
-                <div class="service-row">
-
-                  <div>
-                    <div class="service-name">
-                      Database
-                    </div>
-
-                    <div class="service-meta">
-                      Portfolio content storage
-                    </div>
-                  </div>
-
-                  <span class="service-status">
-                    Operational
-                  </span>
-
-                  <span class="service-time">
-                    checked now
-                  </span>
-
-                </div>
-
-
-                <div class="service-row">
-
-                  <div>
-                    <div class="service-name">
-                      Storage
-                    </div>
-
-                    <div class="service-meta">
-                      Image and media assets
-                    </div>
-                  </div>
-
-                  <span class="service-status">
-                    Operational
-                  </span>
-
-                  <span class="service-time">
-                    checked now
-                  </span>
-
-                </div>
-
-
-                <div class="service-row">
-
-                  <div>
-                    <div class="service-name">
-                      Newsletter Provider
-                    </div>
-
-                    <div class="service-meta">
-                      Subscriber delivery service
-                    </div>
-                  </div>
-
-                  <span class="service-status warning">
-                    Not Connected
-                  </span>
-
-                  <span class="service-time">
-                    — 
-                  </span>
-
-                </div>
-
-
-                <div class="service-row">
-
-                  <div>
-                    <div class="service-name">
-                      Analytics
-                    </div>
-
-                    <div class="service-meta">
-                      Traffic and performance data
-                    </div>
-                  </div>
-
-                  <span class="service-status warning">
-                    Pending
-                  </span>
-
-                  <span class="service-time">
-                    —
-                  </span>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- AUDIT -->
-
-            <section class="master-panel" id="audit">
-
-              <div class="master-panel-head">
-
-                <div>
-
-                  <h2>
-                    Recent Audit Activity
-                  </h2>
-
-                  <p>
-                    Privileged actions recorded by the system.
-                  </p>
-
-                </div>
-
-                <span class="panel-label">
-                  24 Events
-                </span>
-
-              </div>
-
-
-              <div class="audit-list">
-
-                <div class="audit-item">
-
-                  <span class="audit-dot"></span>
-
-                  <div>
-                    <strong>
-                      Master session authenticated
-                    </strong>
-
-                    <span>
-                      Private master account
-                    </span>
-                  </div>
-
-                  <span class="audit-time">
-                    Just now
-                  </span>
-
-                </div>
-
-
-                <div class="audit-item">
-
-                  <span class="audit-dot"></span>
-
-                  <div>
-                    <strong>
-                      Admin permissions reviewed
-                    </strong>
-
-                    <span>
-                      Administrator management
-                    </span>
-                  </div>
-
-                  <span class="audit-time">
-                    18m
-                  </span>
-
-                </div>
-
-
-                <div class="audit-item">
-
-                  <span class="audit-dot"></span>
-
-                  <div>
-                    <strong>
-                      Homepage content updated
-                    </strong>
-
-                    <span>
-                      Client Admin
-                    </span>
-                  </div>
-
-                  <span class="audit-time">
-                    1h
-                  </span>
-
-                </div>
-
-
-                <div class="audit-item">
-
-                  <span class="audit-dot"></span>
-
-                  <div>
-                    <strong>
-                      Backup verification completed
-                    </strong>
-
-                    <span>
-                      Automated system task
-                    </span>
-                  </div>
-
-                  <span class="audit-time">
-                    3h
-                  </span>
-
-                </div>
-
-
-                <div class="audit-item">
-
-                  <span class="audit-dot"></span>
-
-                  <div>
-                    <strong>
-                      Newsletter settings viewed
-                    </strong>
-
-                    <span>
-                      Client Admin
-                    </span>
-                  </div>
-
-                  <span class="audit-time">
-                    6h
-                  </span>
-
-                </div>
-
-              </div>
-
-            </section>
-
-          </div>
-
-
-          <!-- RIGHT -->
-
-          <div class="master-column">
-
-
-            <!-- ADMIN ACCOUNTS -->
-
-            <section class="master-panel">
-
-              <div class="master-panel-head">
-
-                <div>
-
-                  <h2>
-                    Admin Accounts
-                  </h2>
-
-                  <p>
-                    Current access holders.
-                  </p>
-
-                </div>
-
-                <span class="panel-label">
-                  03
-                </span>
-
-              </div>
-
-
-              <div class="account-list">
-
-                <div class="account-row">
-
-                  <div class="account-avatar">
-                    NU
-                  </div>
-
-                  <div class="account-info">
-                    <strong>
-                      Nusrat Afsana Usha
-                    </strong>
-
-                    <span>
-                      Client administrator
-                    </span>
-                  </div>
-
-                  <div class="account-role">
-                    Client
-                  </div>
-
-                </div>
-
-
-                <div class="account-row">
-
-                  <div class="account-avatar">
-                    DE
-                  </div>
-
-                  <div class="account-info">
-                    <strong>
-                      Design Editor
-                    </strong>
-
-                    <span>
-                      Content editor
-                    </span>
-                  </div>
-
-                  <div class="account-role">
-                    Editor
-                  </div>
-
-                </div>
-
-
-                <div class="account-row">
-
-                  <div class="account-avatar">
-                    M
-                  </div>
-
-                  <div class="account-info">
-                    <strong>
-                      Private Master
-                    </strong>
-
-                    <span>
-                      Restricted infrastructure account
-                    </span>
-                  </div>
-
-                  <div class="account-role master">
-                    Master
-                  </div>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- BACKUP -->
-
-            <section class="master-panel" id="backup">
-
-              <div class="master-panel-head">
-
-                <div>
-
-                  <h2>
-                    Backup & Recovery
-                  </h2>
-
-                  <p>
-                    Site recovery controls.
-                  </p>
-
-                </div>
-
-                <span class="panel-label secure">
-                  Verified
-                </span>
-
-              </div>
-
-
-              <div class="backup-body">
-
-                <div class="backup-status">
-
-                  <div class="backup-icon">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.7">
-                      <path d="M12 3v12"/>
-                      <path d="m7 10 5 5 5-5"/>
-                      <path d="M4 20h16"/>
-                    </svg>
-
-                  </div>
-
-                  <div>
-
-                    <strong>
-                      Latest backup verified
-                    </strong>
-
-                    <span>
-                      Last snapshot: Today, 04:10 AM
-                    </span>
-
-                  </div>
-
-                </div>
-
-
-                <div class="backup-actions">
-
-                  <button
-                    class="secondary-button"
-                    id="verifyBackup"
-                    type="button"
-                  >
-                    Verify
-                  </button>
-
-                  <button
-                    class="primary-button"
-                    id="createBackup"
-                    type="button"
-                  >
-                    Create Backup
-                  </button>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- SECURITY -->
-
-            <section class="master-panel">
-
-              <div class="master-panel-head">
-
-                <div>
-
-                  <h2>
-                    Security
-                  </h2>
-
-                  <p>
-                    Master session protection.
-                  </p>
-
-                </div>
-
-                <span class="panel-label secure">
-                  Active
-                </span>
-
-              </div>
-
-
-              <div class="master-controls">
-
-                <div class="master-control">
-
-                  <div class="master-control-info">
-                    <strong>Session Timeout</strong>
-                    <span>Automatic privileged logout.</span>
-                  </div>
-
-                  <select
-                    id="sessionTimeout"
-                    style="
-                      width:90px;
-                      height:34px;
-                      padding:0 8px;
-                      border:1px solid var(--border);
-                      border-radius:8px;
-                      background:var(--panel);
-                      color:var(--text);
-                      font:500 10px 'Instrument Sans',sans-serif;
-                    "
-                  >
-                    <option>15 min</option>
-                    <option selected>30 min</option>
-                    <option>60 min</option>
-                    <option>120 min</option>
-                  </select>
-
-                </div>
-
-
-                <div class="master-control">
-
-                  <div class="master-control-info">
-                    <strong>Two-Step Verification</strong>
-                    <span>Required for master access.</span>
-                  </div>
-
-                  <label class="master-toggle">
-
-                    <input
-                      type="checkbox"
-                      checked
-                    >
-
-                    <span class="master-toggle-track"></span>
-
-                  </label>
-
-                </div>
-
-              </div>
-
-            </section>
-
-
-            <!-- DANGER -->
-
-            <section class="master-panel danger-panel">
-
-              <div class="master-panel-head">
-
-                <div>
-
-                  <h2>
-                    Sensitive Operations
-                  </h2>
-
-                  <p>
-                    Use carefully. These actions affect production.
-                  </p>
-
-                </div>
-
-                <span class="panel-label">
-                  Restricted
-                </span>
-
-              </div>
-
-
-              <div class="danger-actions">
-
-                <button
-                  class="danger-button"
-                  data-danger="revoke"
-                  type="button"
-                >
-                  <strong>
-                    Revoke all active admin sessions
-                  </strong>
-
-                  <span>
-                    Forces every administrator to authenticate again.
-                  </span>
-
-                </button>
-
-
-                <button
-                  class="danger-button"
-                  data-danger="maintenance"
-                  type="button"
-                >
-                  <strong>
-                    Enable emergency maintenance
-                  </strong>
-
-                  <span>
-                    Temporarily restrict public portfolio access.
-                  </span>
-
-                </button>
-
-
-                <button
-                  class="danger-button"
-                  data-danger="reset"
-                  type="button"
-                >
-                  <strong>
-                    Reset local admin state
-                  </strong>
-
-                  <span>
-                    Clears this browser's temporary admin UI state only.
-                  </span>
-
-                </button>
-
-              </div>
-
-            </section>
-
-          </div>
-
-        </div>
-
-
-        <!-- FOOTER -->
-
-        <div class="master-footer">
-
-          <div>
-            <strong>Private Master Control</strong>
-            · UI layer only
-          </div>
-
-          <div>
-            Authentication and authorization must be enforced server-side.
-          </div>
-
+        <div class="security-status">
+          <span class="status-dot"></span>
+          Access Verified
         </div>
 
       </div>
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+        <div class="stat">
+          <div class="stat-label">Administrators</div>
+          <div class="stat-value">03</div>
+          <div class="stat-note">2 active · 1 pending</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Content Items</div>
+          <div class="stat-value" id="contentCount">—</div>
+          <div class="stat-note">Portfolio-managed items</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Security</div>
+          <div class="stat-value">ON</div>
+          <div class="stat-note">Session protection active</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-label">Backup</div>
+          <div class="stat-value">OK</div>
+          <div class="stat-note">Local snapshot available</div>
+        </div>
+
+      </div>
+
+      <div class="grid">
+
+        <!-- LEFT COLUMN -->
+
+        <div>
+
+          <!-- SYSTEM CONTROLS -->
+
+          <section class="panel">
+
+            <div class="panel-head">
+              <div>
+                <h2>System Controls</h2>
+                <p>High-level switches affecting portfolio behavior.</p>
+              </div>
+            </div>
+
+            <div class="panel-body">
+
+              <div class="control">
+
+                <div>
+                  <strong>Public Portfolio</strong>
+                  <span>Allow the portfolio to remain publicly accessible.</span>
+                </div>
+
+                <button class="toggle on" data-control="publicPortfolio"></button>
+
+              </div>
+
+              <div class="control">
+
+                <div>
+                  <strong>Maintenance Mode</strong>
+                  <span>Temporarily place the public website into maintenance mode.</span>
+                </div>
+
+                <button class="toggle" data-control="maintenance"></button>
+
+              </div>
+
+              <div class="control">
+
+                <div>
+                  <strong>Admin Login</strong>
+                  <span>Allow authenticated administrators to access the dashboard.</span>
+                </div>
+
+                <button class="toggle on" data-control="adminLogin"></button>
+
+              </div>
+
+              <div class="control">
+
+                <div>
+                  <strong>Audit Logging</strong>
+                  <span>Record important administrative actions.</span>
+                </div>
+
+                <button class="toggle on" data-control="audit"></button>
+
+              </div>
+
+              <div class="control">
+
+                <div>
+                  <strong>Public Newsletter</strong>
+                  <span>Allow newsletter signup forms on the public portfolio.</span>
+                </div>
+
+                <button class="toggle on" data-control="newsletter"></button>
+
+              </div>
+
+              <div class="control">
+
+                <div>
+                  <strong>Debug Mode</strong>
+                  <span>Enable development diagnostics for controlled testing.</span>
+                </div>
+
+                <button class="toggle" data-control="debug"></button>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- CONNECTED SERVICES -->
+
+          <section class="panel" style="margin-top:18px;">
+
+            <div class="panel-head">
+              <div>
+                <h2>Connected Services</h2>
+                <p>Current application infrastructure status.</p>
+              </div>
+            </div>
+
+            <div class="panel-body">
+
+              <div class="service">
+
+                <div class="service-main">
+                  <div class="service-icon">⌁</div>
+                  <div>
+                    <strong>Authentication</strong>
+                    <small>Admin session layer</small>
+                  </div>
+                </div>
+
+                <div class="service-status">Operational</div>
+
+              </div>
+
+              <div class="service">
+
+                <div class="service-main">
+                  <div class="service-icon">◇</div>
+                  <div>
+                    <strong>Database</strong>
+                    <small>Portfolio content storage</small>
+                  </div>
+                </div>
+
+                <div class="service-status">Local</div>
+
+              </div>
+
+              <div class="service">
+
+                <div class="service-main">
+                  <div class="service-icon">▧</div>
+                  <div>
+                    <strong>Media Storage</strong>
+                    <small>Image and asset storage</small>
+                  </div>
+                </div>
+
+                <div class="service-status">Local</div>
+
+              </div>
+
+              <div class="service">
+
+                <div class="service-main">
+                  <div class="service-icon">✉</div>
+                  <div>
+                    <strong>Newsletter Provider</strong>
+                    <small>Email delivery service</small>
+                  </div>
+                </div>
+
+                <div class="service-status" style="color:var(--orange);">
+                  Not Connected
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- AUDIT -->
+
+          <section class="panel" style="margin-top:18px;">
+
+            <div class="panel-head">
+              <div>
+                <h2>Recent Activity</h2>
+                <p>Latest local administrative events.</p>
+              </div>
+            </div>
+
+            <div class="panel-body">
+
+              <div class="audit">
+
+                <div class="audit-row">
+                  <span class="audit-dot"></span>
+                  <div>
+                    <strong>System settings opened</strong>
+                    <span>Current session · Just now</span>
+                  </div>
+                </div>
+
+                <div class="audit-row">
+                  <span class="audit-dot"></span>
+                  <div>
+                    <strong>Portfolio configuration checked</strong>
+                    <span>Administrative event · Today</span>
+                  </div>
+                </div>
+
+                <div class="audit-row">
+                  <span class="audit-dot"></span>
+                  <div>
+                    <strong>Admin session verified</strong>
+                    <span>Authentication · Today</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </div>
+
+        <!-- RIGHT COLUMN -->
+
+        <aside>
+
+          <!-- BACKUP -->
+
+          <section class="panel">
+
+            <div class="panel-head">
+              <div>
+                <h2>Backup & Recovery</h2>
+                <p>Local configuration snapshot.</p>
+              </div>
+            </div>
+
+            <div class="panel-body">
+
+              <div class="backup-box">
+
+                <div class="backup-status">
+                  <strong>Latest Snapshot</strong>
+                  <span>READY</span>
+                </div>
+
+                <div class="backup-meta">
+
+                  <div>
+                    <small>Status</small>
+                    <strong>Available</strong>
+                  </div>
+
+                  <div>
+                    <small>Type</small>
+                    <strong>Local JSON</strong>
+                  </div>
+
+                  <div>
+                    <small>Updated</small>
+                    <strong id="backupTime">—</strong>
+                  </div>
+
+                  <div>
+                    <small>Version</small>
+                    <strong>V1</strong>
+                  </div>
+
+                </div>
+
+                <div class="button-row">
+
+                  <button class="button primary" id="createBackup">
+                    Create Backup
+                  </button>
+
+                  <button class="button" id="restoreBackup">
+                    Restore
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+          <!-- SECURITY -->
+
+          <section class="panel" style="margin-top:18px;">
+
+            <div class="panel-head">
+              <div>
+                <h2>Security</h2>
+                <p>Current access configuration.</p>
+              </div>
+            </div>
+
+            <div class="panel-body">
+
+              <div class="control">
+
+                <div>
+                  <strong>Session Timeout</strong>
+                  <span>Automatic session expiration.</span>
+                </div>
+
+                <strong style="font-size:11px;">60 min</strong>
+
+              </div>
+
+              <div class="control">
+
+                <div>
+                  <strong>Two-Step Verification</strong>
+                  <span>Additional authentication layer.</span>
+                </div>
+
+                <strong style="color:var(--orange);font-size:10px;">
+                  Pending
+                </strong>
+
+              </div>
+
+              <div class="control">
+
+                <div>
+                  <strong>Audit Trail</strong>
+                  <span>Administrative event tracking.</span>
+                </div>
+
+                <strong style="color:var(--green);font-size:10px;">
+                  Active
+                </strong>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </aside>
+
+      </div>
+
+      <!-- DANGER -->
+
+      <section class="panel danger" style="margin-top:18px;">
+
+        <div class="panel-head">
+
+          <div>
+            <h2>Restricted Operations</h2>
+            <p>
+              These operations can affect access or local configuration.
+              Confirm carefully before continuing.
+            </p>
+          </div>
+
+        </div>
+
+        <div class="panel-body">
+
+          <div class="danger-actions">
+
+            <button class="danger-button" id="revokeSessions">
+              Revoke Active Sessions
+            </button>
+
+            <button class="danger-button" id="emergencyMaintenance">
+              Emergency Maintenance
+            </button>
+
+            <button class="danger-button" id="resetAdmin">
+              Reset Local Admin State
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
 
     </section>
 
@@ -1833,352 +1403,528 @@
 
 </div>
 
+<!-- TOAST -->
 
-<div class="mobile-overlay" id="mobileOverlay"></div>
-
-
-<script src="../admin.js"></script>
+<div class="toast" id="toast">
+  <span class="toast-dot"></span>
+  <span id="toastText">Action completed.</span>
+</div>
 
 <script>
-(function(){
+(() => {
 
   "use strict";
 
+  /* =================================
+     PRIVATE SESSION
+  ================================= */
 
-  /* =======================================================
-     MASTER STATE
-  ======================================================== */
+  const MASTER_SESSION_KEY =
+    "nusrat_master_session_v1";
 
-  const MASTER_KEY =
+  const MASTER_STATE_KEY =
     "nusrat_private_master_v1";
 
-  const state = {
+  const THEME_KEY =
+    "nusrat_admin_theme";
 
-    maintenance:
-      false,
+  const BACKUP_KEY =
+    "nusrat_master_backup_v1";
 
-    publicPortfolio:
-      true,
+  const normalSessionKey =
+    "nusrat_admin_session_v1";
 
-    adminLogin:
-      true,
+  /* =================================
+     AUTH
+  ================================= */
 
-    auditLogging:
-      true,
+  function getMasterSession(){
 
-    newsletterPublic:
-      true,
+    try{
 
-    debugMode:
-      false,
+      const raw =
+        localStorage.getItem(MASTER_SESSION_KEY);
 
-    sessionTimeout:
-      "30 min"
+      if(!raw) return null;
+
+      const session =
+        JSON.parse(raw);
+
+      if(
+        !session ||
+        !session.loggedIn ||
+        session.role !== "master"
+      ){
+        return null;
+      }
+
+      if(
+        session.expiresAt &&
+        Date.now() > session.expiresAt
+      ){
+        localStorage.removeItem(
+          MASTER_SESSION_KEY
+        );
+
+        return null;
+      }
+
+      return session;
+
+    }catch{
+
+      return null;
+
+    }
+
+  }
+
+  const masterSession =
+    getMasterSession();
+
+  if(!masterSession){
+
+    window.location.replace(
+      "./login.html"
+    );
+
+    return;
+
+  }
+
+  /* =================================
+     DEFAULT STATE
+  ================================= */
+
+  const defaultState = {
+
+    publicPortfolio:true,
+    maintenance:false,
+    adminLogin:true,
+    audit:true,
+    newsletter:true,
+    debug:false
 
   };
-
 
   function loadState(){
 
     try{
 
       const saved =
-        localStorage.getItem(MASTER_KEY);
+        localStorage.getItem(
+          MASTER_STATE_KEY
+        );
 
-      if(!saved) return;
+      return saved
+        ? {
+            ...defaultState,
+            ...JSON.parse(saved)
+          }
+        : {...defaultState};
 
-      const parsed =
-        JSON.parse(saved);
+    }catch{
 
-      Object.assign(
-        state,
-        parsed
-      );
-
-    }catch(error){
-
-      /* Ignore invalid local state */
+      return {...defaultState};
 
     }
 
   }
 
+  let state =
+    loadState();
 
-  function saveState(){
+  /* =================================
+     ELEMENTS
+  ================================= */
 
-    try{
+  const sidebar =
+    document.getElementById("sidebar");
+
+  const mobileMenu =
+    document.getElementById("mobileMenu");
+
+  const mobileOverlay =
+    document.getElementById("mobileOverlay");
+
+  const themeToggle =
+    document.getElementById("themeToggle");
+
+  const toast =
+    document.getElementById("toast");
+
+  const toastText =
+    document.getElementById("toastText");
+
+  /* =================================
+     THEME
+  ================================= */
+
+  function applyTheme(theme){
+
+    document.documentElement.dataset.theme =
+      theme;
+
+  }
+
+  const initialTheme =
+    localStorage.getItem(THEME_KEY) ||
+    "dark";
+
+  applyTheme(initialTheme);
+
+  themeToggle.addEventListener(
+    "click",
+    () => {
+
+      const current =
+        document.documentElement
+          .dataset.theme || "dark";
+
+      const next =
+        current === "dark"
+          ? "light"
+          : "dark";
+
+      applyTheme(next);
 
       localStorage.setItem(
-        MASTER_KEY,
-        JSON.stringify(state)
+        THEME_KEY,
+        next
       );
 
-    }catch(error){
-
-      /* Ignore unavailable storage */
+      showToast(
+        next === "dark"
+          ? "Dark theme enabled."
+          : "Light theme enabled."
+      );
 
     }
+  );
+
+  /* =================================
+     CONTROLS
+  ================================= */
+
+  function renderControls(){
+
+    document
+      .querySelectorAll(".toggle")
+      .forEach(toggle => {
+
+        const key =
+          toggle.dataset.control;
+
+        toggle.classList.toggle(
+          "on",
+          Boolean(state[key])
+        );
+
+      });
 
   }
 
-
-  loadState();
-
-
-  /* =======================================================
-     CONTROL BINDINGS
-  ======================================================== */
-
-  const controls = {
-
-    maintenanceMode:
-      "maintenance",
-
-    publicPortfolio:
-      "publicPortfolio",
-
-    adminLogin:
-      "adminLogin",
-
-    auditLogging:
-      "auditLogging",
-
-    newsletterPublic:
-      "newsletterPublic",
-
-    debugMode:
-      "debugMode"
-
-  };
-
-
-  Object.keys(controls).forEach(function(id){
-
-    const input =
-      document.getElementById(id);
-
-    if(!input) return;
-
-    const key =
-      controls[id];
-
-    input.checked =
-      Boolean(state[key]);
-
-    input.addEventListener(
-      "change",
-      function(){
-
-        state[key] =
-          input.checked;
-
-        saveState();
-
-        if(window.showToast){
-
-          window.showToast(
-            input.checked
-              ? "Control enabled."
-              : "Control disabled."
-          );
-
-        }
-
-      }
-    );
-
-  });
-
-
-  /* =======================================================
-     SESSION TIMEOUT
-  ======================================================== */
-
-  const timeout =
-    document.getElementById(
-      "sessionTimeout"
-    );
-
-  if(timeout){
-
-    timeout.value =
-      state.sessionTimeout;
-
-    timeout.addEventListener(
-      "change",
-      function(){
-
-        state.sessionTimeout =
-          timeout.value;
-
-        saveState();
-
-        if(window.showToast){
-
-          window.showToast(
-            "Session timeout updated."
-          );
-
-        }
-
-      }
-    );
-
-  }
-
-
-  /* =======================================================
-     BACKUP
-  ======================================================== */
-
-  const createBackup =
-    document.getElementById(
-      "createBackup"
-    );
-
-  const verifyBackup =
-    document.getElementById(
-      "verifyBackup"
-    );
-
-
-  if(createBackup){
-
-    createBackup.addEventListener(
-      "click",
-      function(){
-
-        if(window.showToast){
-
-          window.showToast(
-            "Backup request prepared. Connect your backend storage before production use."
-          );
-
-        }
-
-      }
-    );
-
-  }
-
-
-  if(verifyBackup){
-
-    verifyBackup.addEventListener(
-      "click",
-      function(){
-
-        if(window.showToast){
-
-          window.showToast(
-            "Backup verification requested."
-          );
-
-        }
-
-      }
-    );
-
-  }
-
-
-  /* =======================================================
-     DANGER OPERATIONS
-  ======================================================== */
+  renderControls();
 
   document
-    .querySelectorAll(
-      "[data-danger]"
-    )
-    .forEach(function(button){
+    .querySelectorAll(".toggle")
+    .forEach(toggle => {
 
-      button.addEventListener(
+      toggle.addEventListener(
         "click",
-        function(){
+        () => {
 
-          const type =
-            button.dataset.danger;
+          const key =
+            toggle.dataset.control;
 
-          let message =
-            "This is a protected operation.";
+          state[key] =
+            !state[key];
 
-          if(type === "revoke"){
-            message =
-              "Production session revocation must be connected to your authentication provider.";
-          }
+          localStorage.setItem(
+            MASTER_STATE_KEY,
+            JSON.stringify(state)
+          );
 
-          if(type === "maintenance"){
-            message =
-              "Emergency maintenance should be enforced by the production backend.";
-          }
+          renderControls();
 
-          if(type === "reset"){
-            message =
-              "Local admin state will be cleared from this browser.";
-          }
-
-          if(type === "reset"){
-
-            const confirmed =
-              window.confirm(
-                "Clear local admin state from this browser?"
-              );
-
-            if(confirmed){
-
-              try{
-                localStorage.removeItem(
-                  MASTER_KEY
-                );
-              }catch(error){}
-
-              if(window.showToast){
-                window.showToast(
-                  "Local master state cleared."
-                );
-              }
-
-            }
-
-            return;
-          }
-
-          if(window.showToast){
-            window.showToast(message);
-          }
+          showToast(
+            `${formatKey(key)} ${state[key] ? "enabled" : "disabled"}.`
+          );
 
         }
       );
 
     });
 
+  function formatKey(key){
 
-  /* =======================================================
-     LOCK PANEL
-  ======================================================== */
+    return key
+      .replace(/([A-Z])/g," $1")
+      .replace(/^./,
+        char => char.toUpperCase()
+      );
 
-  const lockButton =
+  }
+
+  /* =================================
+     CONTENT COUNT
+  ================================= */
+
+  function calculateContent(){
+
+    let count = 0;
+
+    try{
+
+      const homepage =
+        JSON.parse(
+          localStorage.getItem(
+            "nusrat_homepage_content_v1"
+          ) || "null"
+        );
+
+      if(homepage){
+
+        count += 1;
+
+        if(Array.isArray(homepage.services)){
+          count += homepage.services.length;
+        }
+
+        if(Array.isArray(homepage.projects)){
+          count += homepage.projects.length;
+        }
+
+      }
+
+      const banner =
+        localStorage.getItem(
+          "nusrat_banner_content_v1"
+        );
+
+      const browser =
+        localStorage.getItem(
+          "nusrat_browser_ui_v1"
+        );
+
+      if(banner) count++;
+      if(browser) count++;
+
+    }catch{}
+
     document.getElementById(
-      "lockMaster"
+      "contentCount"
+    ).textContent = count || "0";
+
+  }
+
+  calculateContent();
+
+  /* =================================
+     BACKUP
+  ================================= */
+
+  function updateBackupTime(){
+
+    const raw =
+      localStorage.getItem(
+        BACKUP_KEY
+      );
+
+    const element =
+      document.getElementById(
+        "backupTime"
+      );
+
+    if(!raw){
+
+      element.textContent =
+        "Not created";
+
+      return;
+
+    }
+
+    try{
+
+      const backup =
+        JSON.parse(raw);
+
+      const date =
+        new Date(
+          backup.createdAt
+        );
+
+      element.textContent =
+        date.toLocaleDateString(
+          undefined,
+          {
+            day:"2-digit",
+            month:"short"
+          }
+        );
+
+    }catch{
+
+      element.textContent =
+        "Available";
+
+    }
+
+  }
+
+  updateBackupTime();
+
+  document
+    .getElementById("createBackup")
+    .addEventListener(
+      "click",
+      () => {
+
+        const backup = {
+
+          createdAt:
+            new Date().toISOString(),
+
+          state:state,
+
+          homepage:
+            localStorage.getItem(
+              "nusrat_homepage_content_v1"
+            ),
+
+          banner:
+            localStorage.getItem(
+              "nusrat_banner_content_v1"
+            ),
+
+          browser:
+            localStorage.getItem(
+              "nusrat_browser_ui_v1"
+            ),
+
+          newsletter:
+            localStorage.getItem(
+              "nusrat_newsletter_v1"
+            ),
+
+          system:
+            localStorage.getItem(
+              "nusrat_system_settings_v1"
+            )
+
+        };
+
+        localStorage.setItem(
+          BACKUP_KEY,
+          JSON.stringify(backup)
+        );
+
+        updateBackupTime();
+
+        showToast(
+          "Local backup created successfully."
+        );
+
+      }
     );
 
-  if(lockButton){
-
-    lockButton.addEventListener(
+  document
+    .getElementById("restoreBackup")
+    .addEventListener(
       "click",
-      function(){
+      () => {
+
+        const raw =
+          localStorage.getItem(
+            BACKUP_KEY
+          );
+
+        if(!raw){
+
+          showToast(
+            "No backup is available."
+          );
+
+          return;
+
+        }
 
         const confirmed =
-          window.confirm(
-            "Lock this master session?"
+          confirm(
+            "Restore the latest local backup?"
           );
 
         if(!confirmed) return;
 
-        if(window.showToast){
+        try{
 
-          window.showToast(
-            "Master session locked. Connect this action to your authentication provider."
+          const backup =
+            JSON.parse(raw);
+
+          if(backup.state){
+
+            state =
+              backup.state;
+
+            localStorage.setItem(
+              MASTER_STATE_KEY,
+              JSON.stringify(state)
+            );
+
+          }
+
+          const map = {
+
+            homepage:
+              "nusrat_homepage_content_v1",
+
+            banner:
+              "nusrat_banner_content_v1",
+
+            browser:
+              "nusrat_browser_ui_v1",
+
+            newsletter:
+              "nusrat_newsletter_v1",
+
+            system:
+              "nusrat_system_settings_v1"
+
+          };
+
+          Object.entries(map)
+            .forEach(
+              ([property,key]) => {
+
+                if(
+                  backup[property] !==
+                  undefined &&
+                  backup[property] !==
+                  null
+                ){
+
+                  localStorage.setItem(
+                    key,
+                    backup[property]
+                  );
+
+                }
+
+              }
+            );
+
+          renderControls();
+          calculateContent();
+
+          showToast(
+            "Backup restored successfully."
+          );
+
+        }catch{
+
+          showToast(
+            "Backup could not be restored."
           );
 
         }
@@ -2186,152 +1932,261 @@
       }
     );
 
-  }
-
-
-  /* =======================================================
-     MOBILE MENU
-  ======================================================== */
-
-  const menuToggle =
-    document.getElementById(
-      "menuToggle"
-    );
-
-  const sidebar =
-    document.getElementById(
-      "sidebar"
-    );
-
-  const overlay =
-    document.getElementById(
-      "mobileOverlay"
-    );
-
-
-  function closeMenu(){
-
-    if(sidebar){
-      sidebar.classList.remove(
-        "open"
-      );
-    }
-
-    if(overlay){
-      overlay.classList.remove(
-        "show"
-      );
-    }
-
-  }
-
-
-  if(menuToggle){
-
-    menuToggle.addEventListener(
-      "click",
-      function(){
-
-        if(sidebar){
-          sidebar.classList.toggle(
-            "open"
-          );
-        }
-
-        if(overlay){
-          overlay.classList.toggle(
-            "show"
-          );
-        }
-
-      }
-    );
-
-  }
-
-
-  if(overlay){
-
-    overlay.addEventListener(
-      "click",
-      closeMenu
-    );
-
-  }
-
-
-  /* =======================================================
-     SMOOTH INTERNAL LINKS
-  ======================================================== */
+  /* =================================
+     RESTRICTED OPERATIONS
+  ================================= */
 
   document
-    .querySelectorAll(
-      'a[href^="#"]'
-    )
-    .forEach(function(link){
+    .getElementById("revokeSessions")
+    .addEventListener(
+      "click",
+      () => {
 
-      link.addEventListener(
+        const confirmed =
+          confirm(
+            "Revoke the current administrative sessions?"
+          );
+
+        if(!confirmed) return;
+
+        localStorage.removeItem(
+          normalSessionKey
+        );
+
+        showToast(
+          "Active normal admin session revoked."
+        );
+
+      }
+    );
+
+  document
+    .getElementById("emergencyMaintenance")
+    .addEventListener(
+      "click",
+      () => {
+
+        const confirmed =
+          confirm(
+            "Enable emergency maintenance mode?"
+          );
+
+        if(!confirmed) return;
+
+        state.maintenance = true;
+        state.publicPortfolio = false;
+
+        localStorage.setItem(
+          MASTER_STATE_KEY,
+          JSON.stringify(state)
+        );
+
+        renderControls();
+
+        showToast(
+          "Emergency maintenance mode enabled."
+        );
+
+      }
+    );
+
+  document
+    .getElementById("resetAdmin")
+    .addEventListener(
+      "click",
+      () => {
+
+        const confirmed =
+          confirm(
+            "This will remove local admin configuration data. Continue?"
+          );
+
+        if(!confirmed) return;
+
+        const keys = [
+
+          "nusrat_admin_session_v1",
+          "nusrat_admin_remember_v1",
+          "nusrat_portfolio_admin_data",
+          "nusrat_homepage_content_v1",
+          "nusrat_banner_content_v1",
+          "nusrat_browser_ui_v1",
+          "nusrat_newsletter_v1",
+          "nusrat_system_settings_v1",
+          "nusrat_admin_last_updated"
+
+        ];
+
+        keys.forEach(
+          key => localStorage.removeItem(key)
+        );
+
+        showToast(
+          "Local admin state has been reset."
+        );
+
+      }
+    );
+
+  /* =================================
+     LOCK PANEL
+  ================================= */
+
+  function lockPanel(){
+
+    localStorage.removeItem(
+      MASTER_SESSION_KEY
+    );
+
+    window.location.replace(
+      "./login.html"
+    );
+
+  }
+
+  document
+    .getElementById("lockPanel")
+    .addEventListener(
+      "click",
+      lockPanel
+    );
+
+  document
+    .getElementById("logout")
+    .addEventListener(
+      "click",
+      lockPanel
+    );
+
+  /* =================================
+     PORTFOLIO
+  ================================= */
+
+  document
+    .getElementById("openPortfolio")
+    .addEventListener(
+      "click",
+      () => {
+
+        window.open(
+          "../../index.html",
+          "_blank"
+        );
+
+      }
+    );
+
+  /* =================================
+     MOBILE
+  ================================= */
+
+  mobileMenu.addEventListener(
+    "click",
+    () => {
+
+      sidebar.classList.add("open");
+      mobileOverlay.classList.add("show");
+
+    }
+  );
+
+  mobileOverlay.addEventListener(
+    "click",
+    () => {
+
+      sidebar.classList.remove("open");
+      mobileOverlay.classList.remove("show");
+
+    }
+  );
+
+  document
+    .querySelectorAll(".nav-item")
+    .forEach(item => {
+
+      item.addEventListener(
         "click",
-        function(event){
+        () => {
 
-          const targetId =
-            link.getAttribute(
-              "href"
+          if(window.innerWidth <= 800){
+
+            sidebar.classList.remove(
+              "open"
             );
 
-          const target =
-            document.querySelector(
-              targetId
+            mobileOverlay.classList.remove(
+              "show"
             );
 
-          if(!target) return;
-
-          event.preventDefault();
-
-          target.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-          });
-
-          closeMenu();
+          }
 
         }
       );
 
     });
 
+  /* =================================
+     TOAST
+  ================================= */
 
-  /* =======================================================
-     KEYBOARD SHORTCUT
-  ======================================================== */
+  let toastTimer;
+
+  function showToast(message){
+
+    toastText.textContent =
+      message;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+      setTimeout(
+        () => {
+          toast.classList.remove("show");
+        },
+        2600
+      );
+
+  }
+
+  /* =================================
+     SESSION WATCHER
+  ================================= */
+
+  setInterval(
+    () => {
+
+      if(!getMasterSession()){
+
+        window.location.replace(
+          "./login.html"
+        );
+
+      }
+
+    },
+    30000
+  );
+
+  /* =================================
+     KEYBOARD LOCK
+  ================================= */
 
   document.addEventListener(
     "keydown",
-    function(event){
+    event => {
 
       if(
-        (event.ctrlKey ||
-         event.metaKey) &&
-        event.key.toLowerCase() === "s"
+        event.key === "Escape"
       ){
 
-        event.preventDefault();
-
-        saveState();
-
-        if(window.showToast){
-
-          window.showToast(
-            "Master settings saved locally."
-          );
-
-        }
+        lockPanel();
 
       }
 
     }
   );
-
 
 })();
 </script>
