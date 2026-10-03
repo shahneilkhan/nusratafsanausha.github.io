@@ -1,760 +1,517 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Dashboard — Nusrat Afsana Usha Admin</title>
-  <meta
-    name="description"
-    content="Nusrat Afsana Usha portfolio administration dashboard."
-  >
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  >
-
-  <link rel="stylesheet" href="./admin.css">
-
-  <style>
-    /* =========================================================
-       DASHBOARD
-    ========================================================= */
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr);
-      gap: 22px;
-      align-items: start;
-    }
-
-    .dashboard-main,
-    .dashboard-side {
-      display: grid;
-      gap: 22px;
-    }
-
-    .welcome-panel {
-      position: relative;
-      min-height: 255px;
-      overflow: hidden;
-      padding: 32px;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      background:
-        radial-gradient(
-          circle at 88% 10%,
-          rgba(216,179,106,.18),
-          transparent 32%
-        ),
-        radial-gradient(
-          circle at 10% 100%,
-          rgba(216,179,106,.06),
-          transparent 34%
-        ),
-        var(--panel);
-    }
-
-    .welcome-panel::before {
-      content: "";
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      right: -130px;
-      bottom: -180px;
-      border: 1px solid rgba(216,179,106,.12);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .welcome-panel::after {
-      content: "";
-      position: absolute;
-      width: 210px;
-      height: 210px;
-      right: -80px;
-      bottom: -125px;
-      border: 1px solid rgba(216,179,106,.08);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .welcome-content {
-      position: relative;
-      z-index: 2;
-      max-width: 720px;
-    }
-
-    .welcome-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 18px;
-      color: var(--accent);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-    }
-
-    .welcome-kicker::before {
-      content: "";
-      width: 24px;
-      height: 1px;
-      background: var(--accent);
-    }
-
-    .welcome-title {
-      margin: 0;
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: clamp(35px, 5vw, 58px);
-      line-height: .96;
-      letter-spacing: -.055em;
-      max-width: 650px;
-    }
-
-    .welcome-title span {
-      color: var(--accent);
-    }
-
-    .welcome-copy {
-      margin: 17px 0 0;
-      max-width: 590px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .welcome-actions {
-      margin-top: 24px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-    }
-
-    /* =========================================================
-       STATS
-    ========================================================= */
-
-    .dashboard-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .dashboard-stat {
-      min-height: 125px;
-      padding: 18px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: var(--panel);
-      transition: .2s ease;
-    }
-
-    .dashboard-stat:hover {
-      transform: translateY(-2px);
-      border-color: rgba(216,179,106,.3);
-    }
-
-    .stat-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .09em;
-    }
-
-    .stat-icon {
-      width: 30px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--border);
-      border-radius: 9px;
-      color: var(--accent);
-      font-size: 12px;
-      background: rgba(216,179,106,.05);
-    }
-
-    .stat-value {
-      margin-top: 18px;
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 31px;
-      line-height: 1;
-      letter-spacing: -.04em;
-    }
-
-    .stat-note {
-      margin-top: 7px;
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    /* =========================================================
-       PANEL
-    ========================================================= */
-
-    .dash-panel {
-      padding: 22px;
-    }
-
-    .dash-panel-heading {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 19px;
-    }
-
-    .dash-panel-heading h2 {
-      margin: 0;
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 19px;
-      letter-spacing: -.035em;
-    }
-
-    .dash-panel-heading p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.5;
-    }
-
-    .text-link {
-      color: var(--accent);
-      font-size: 11px;
-      text-decoration: none;
-      white-space: nowrap;
-    }
-
-    /* =========================================================
-       QUICK ACTIONS
-    ========================================================= */
-
-    .quick-actions {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .quick-action {
-      position: relative;
-      min-height: 126px;
-      padding: 17px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      color: var(--text);
-      background: rgba(255,255,255,.015);
-      text-decoration: none;
-      transition: .2s ease;
-    }
-
-    .quick-action:hover {
-      transform: translateY(-2px);
-      border-color: rgba(216,179,106,.38);
-      background: rgba(216,179,106,.04);
-    }
-
-    .quick-action-icon {
-      width: 34px;
-      height: 34px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      color: var(--accent);
-      border: 1px solid rgba(216,179,106,.18);
-      background: rgba(216,179,106,.06);
-      font-size: 13px;
-    }
-
-    .quick-action strong {
-      display: block;
-      margin-top: 16px;
-      font-size: 12px;
-    }
-
-    .quick-action span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.4;
-    }
-
-    .quick-arrow {
-      position: absolute;
-      right: 15px;
-      top: 17px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    /* =========================================================
-       CONTENT HEALTH
-    ========================================================= */
-
-    .health-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .health-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: center;
-      min-height: 63px;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(255,255,255,.015);
-    }
-
-    .health-info {
-      min-width: 0;
-    }
-
-    .health-info strong {
-      display: block;
-      font-size: 12px;
-      margin-bottom: 4px;
-    }
-
-    .health-info span {
-      display: block;
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    .health-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      min-height: 28px;
-      padding: 0 9px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      font-size: 9px;
-      color: var(--muted);
-    }
-
-    .health-status::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-    }
-
-    .health-status.good {
-      color: #63ca91;
-      background: rgba(99,202,145,.06);
-      border-color: rgba(99,202,145,.16);
-    }
-
-    .health-status.attention {
-      color: var(--accent);
-      background: rgba(216,179,106,.06);
-      border-color: rgba(216,179,106,.16);
-    }
-
-    /* =========================================================
-       ACTIVITY
-    ========================================================= */
-
-    .activity-list {
-      display: grid;
-    }
-
-    .activity-item {
-      display: grid;
-      grid-template-columns: 30px minmax(0, 1fr) auto;
-      gap: 11px;
-      align-items: start;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .activity-item:last-child {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .activity-item:first-child {
-      padding-top: 0;
-    }
-
-    .activity-icon {
-      width: 29px;
-      height: 29px;
-      display: grid;
-      place-items: center;
-      border-radius: 9px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.025);
-      color: var(--accent);
-      font-size: 10px;
-    }
-
-    .activity-copy strong {
-      display: block;
-      font-size: 11px;
-      line-height: 1.4;
-    }
-
-    .activity-copy span {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 9px;
-    }
-
-    .activity-time {
-      color: var(--muted);
-      font-size: 9px;
-      white-space: nowrap;
-    }
-
-    /* =========================================================
-       VISIBILITY
-    ========================================================= */
-
-    .visibility-card {
-      padding: 22px;
-    }
-
-    .visibility-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 14px;
-    }
-
-    .visibility-title {
-      margin: 0;
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 18px;
-      letter-spacing: -.03em;
-    }
-
-    .visibility-copy {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.55;
-    }
-
-    .live-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      min-height: 29px;
-      padding: 0 10px;
-      border-radius: 999px;
-      color: #63ca91;
-      background: rgba(99,202,145,.07);
-      border: 1px solid rgba(99,202,145,.16);
-      font-size: 9px;
-      white-space: nowrap;
-    }
-
-    .live-badge::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: currentColor;
-      box-shadow: 0 0 0 4px rgba(99,202,145,.08);
-    }
-
-    .visibility-footer {
-      margin-top: 18px;
-      padding-top: 16px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .visibility-url {
-      min-width: 0;
-      color: var(--muted);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 9px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* =========================================================
-       PROFILE
-    ========================================================= */
-
-    .profile-mini {
-      display: grid;
-      grid-template-columns: 62px minmax(0, 1fr);
-      gap: 13px;
-      align-items: center;
-    }
-
-    .profile-avatar {
-      width: 62px;
-      height: 62px;
-      overflow: hidden;
-      border-radius: 17px;
-      border: 1px solid var(--border);
-      background: #111216;
-    }
-
-    .profile-avatar img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    .profile-mini strong {
-      display: block;
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 15px;
-      letter-spacing: -.02em;
-    }
-
-    .profile-mini span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    .profile-details {
-      margin-top: 18px;
-      display: grid;
-      gap: 9px;
-    }
-
-    .profile-detail {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding-bottom: 9px;
-      border-bottom: 1px solid var(--border);
-      font-size: 10px;
-    }
-
-    .profile-detail:last-child {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .profile-detail span:first-child {
-      color: var(--muted);
-    }
-
-    .profile-detail span:last-child {
-      text-align: right;
-      max-width: 65%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* =========================================================
-       NEWSLETTER
-    ========================================================= */
-
-    .newsletter-stat {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .newsletter-number {
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 38px;
-      letter-spacing: -.045em;
-    }
-
-    .newsletter-label {
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 10px;
-    }
-
-    .newsletter-icon {
-      width: 45px;
-      height: 45px;
-      display: grid;
-      place-items: center;
-      border-radius: 13px;
-      color: var(--accent);
-      border: 1px solid rgba(216,179,106,.18);
-      background: rgba(216,179,106,.06);
-      font-size: 16px;
-    }
-
-    /* =========================================================
-       SWITCH
-    ========================================================= */
-
-    .switch-row-dashboard {
-      margin-top: 17px;
-      padding-top: 17px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .switch-row-dashboard strong {
-      display: block;
-      font-size: 11px;
-    }
-
-    .switch-row-dashboard span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 9px;
-    }
-
-    .switch {
-      position: relative;
-      width: 46px;
-      height: 26px;
-      flex: 0 0 auto;
-    }
-
-    .switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    .switch-track {
-      position: absolute;
-      inset: 0;
-      border-radius: 999px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      transition: .2s ease;
-    }
-
-    .switch-track::after {
-      content: "";
-      position: absolute;
-      left: 3px;
-      top: 3px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: #fff;
-      transition: .2s ease;
-    }
-
-    .switch input:checked + .switch-track {
-      background: rgba(216,179,106,.25);
-      border-color: rgba(216,179,106,.65);
-    }
-
-    .switch input:checked + .switch-track::after {
-      transform: translateX(20px);
-      background: var(--accent);
-    }
-
-    /* =========================================================
-       RESPONSIVE
-    ========================================================= */
-
-    @media (max-width: 1200px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .dashboard-side {
-        grid-template-columns: 1fr 1fr;
-        align-items: start;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .dashboard-stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .quick-actions {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .dashboard-side {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .welcome-panel {
-        padding: 24px;
-      }
-
-      .dashboard-stats,
-      .quick-actions {
-        grid-template-columns: 1fr;
-      }
-
-      .dash-panel,
-      .visibility-card {
-        padding: 18px;
-      }
-
-      .visibility-head {
-        flex-direction: column;
-      }
-
-      .visibility-footer {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .visibility-url {
-        width: 100%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Dashboard — Nusrat Afsana Usha</title>
+
+<meta
+  name="description"
+  content="Portfolio administration dashboard for Nusrat Afsana Usha."
+>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
+  rel="stylesheet"
+>
+
+<link rel="stylesheet" href="./admin.css">
+
+<style>
+/* =========================================================
+   DASHBOARD PAGE
+   ========================================================= */
+
+.dashboard-shell{
+  min-height:100vh;
+}
+
+.welcome-card{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(216,179,106,.14),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.045),
+      rgba(255,255,255,.015)
+    );
+}
+
+.welcome-card::after{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  right:-90px;
+  bottom:-120px;
+  border-radius:50%;
+  border:1px solid rgba(216,179,106,.12);
+}
+
+.welcome-inner{
+  position:relative;
+  z-index:2;
+  padding:34px;
+}
+
+.welcome-eyebrow{
+  color:var(--accent);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+}
+
+.welcome-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(32px,5vw,54px);
+  line-height:.98;
+  letter-spacing:-.055em;
+  margin-bottom:15px;
+}
+
+.welcome-copy{
+  max-width:650px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+.welcome-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:24px;
+}
+
+
+/* =========================================================
+   STATS
+   ========================================================= */
+
+.dashboard-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:18px;
+}
+
+.dashboard-stat{
+  position:relative;
+  overflow:hidden;
+}
+
+.dashboard-stat::after{
+  content:"";
+  position:absolute;
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  right:-45px;
+  bottom:-45px;
+  border:1px solid rgba(216,179,106,.08);
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  margin-bottom:12px;
+}
+
+.stat-value{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:31px;
+  letter-spacing:-.05em;
+}
+
+.stat-note{
+  margin-top:7px;
+  color:#77777f;
+  font-size:11px;
+}
+
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);
+  gap:18px;
+  margin-top:18px;
+}
+
+.dashboard-column{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+
+/* =========================================================
+   SECTION HEADER
+   ========================================================= */
+
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.section-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:20px;
+  letter-spacing:-.035em;
+}
+
+.section-subtitle{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:5px;
+}
+
+
+/* =========================================================
+   QUICK ACTIONS
+   ========================================================= */
+
+.quick-actions{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.quick-action{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  min-height:78px;
+  padding:14px;
+  border-radius:16px;
+  border:1px solid var(--border);
+  background:rgba(255,255,255,.025);
+  color:inherit;
+  text-decoration:none;
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    background .2s ease;
+}
+
+.quick-action:hover{
+  transform:translateY(-2px);
+  border-color:rgba(216,179,106,.35);
+  background:rgba(216,179,106,.045);
+}
+
+.quick-icon{
+  width:40px;
+  height:40px;
+  flex:none;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:rgba(216,179,106,.08);
+  color:var(--accent);
+}
+
+.quick-icon svg{
+  width:18px;
+  height:18px;
+}
+
+.quick-name{
+  font-size:13px;
+  font-weight:600;
+}
+
+.quick-desc{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+
+/* =========================================================
+   HEALTH
+   ========================================================= */
+
+.health-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.health-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:13px 14px;
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.045);
+}
+
+.health-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+
+.health-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  flex:none;
+}
+
+.health-dot.ok{
+  background:#7dbb91;
+  box-shadow:0 0 12px rgba(125,187,145,.45);
+}
+
+.health-dot.warning{
+  background:#d8b36a;
+  box-shadow:0 0 12px rgba(216,179,106,.4);
+}
+
+.health-name{
+  font-size:12px;
+}
+
+.health-status{
+  color:var(--muted);
+  font-size:10px;
+}
+
+
+/* =========================================================
+   ACTIVITY
+   ========================================================= */
+
+.activity-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.activity-item{
+  display:flex;
+  gap:12px;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.activity-item:last-child{
+  border-bottom:0;
+  padding-bottom:0;
+}
+
+.activity-icon{
+  width:34px;
+  height:34px;
+  flex:none;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  background:rgba(216,179,106,.07);
+  color:var(--accent);
+}
+
+.activity-icon svg{
+  width:15px;
+  height:15px;
+}
+
+.activity-title{
+  font-size:12px;
+  font-weight:600;
+}
+
+.activity-time{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.profile-card{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.profile-image{
+  width:68px;
+  height:68px;
+  flex:none;
+  object-fit:cover;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.08);
+  background:#1b1b1f;
+}
+
+.profile-name{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:20px;
+  letter-spacing:-.035em;
+}
+
+.profile-role{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.profile-location{
+  margin-top:8px;
+  color:#77777f;
+  font-size:10px;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status-line{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:13px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.status-line:last-child{
+  border-bottom:0;
+  padding-bottom:0;
+}
+
+.status-line:first-child{
+  padding-top:0;
+}
+
+.status-label{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.status-value{
+  font-size:11px;
+  font-weight:600;
+}
+
+.status-value.online{
+  color:#86c99d;
+}
+
+.status-value.offline{
+  color:#d98989;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:1050px){
+
+  .dashboard-stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:700px){
+
+  .welcome-inner{
+    padding:25px 21px;
+  }
+
+  .dashboard-stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .quick-actions{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:480px){
+
+  .dashboard-stats{
+    grid-template-columns:1fr;
+  }
+
+  .welcome-title{
+    font-size:38px;
+  }
+
+  .welcome-actions{
+    flex-direction:column;
+  }
+
+  .welcome-actions a,
+  .welcome-actions button{
+    width:100%;
+  }
+
+}
+</style>
 </head>
 
-<body>
+
+<body data-theme="dark">
 
 <div class="app">
 
-  <!-- =======================================================
+  <!-- =====================================================
        SIDEBAR
-  ======================================================== -->
+       ===================================================== -->
+
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
 
-      <div class="brand-mark">NU</div>
+      <div class="brand-mark">
+        NU
+      </div>
 
-      <div class="brand-copy">
-        <strong>Nusrat Afsana Usha</strong>
-        <span>Portfolio Admin</span>
+      <div>
+        <div class="brand-name">
+          Nusrat Afsana
+        </div>
+
+        <div class="brand-subtitle">
+          Portfolio Admin
+        </div>
       </div>
 
     </div>
@@ -763,7 +520,7 @@
     <nav class="side-nav">
 
       <div class="nav-label">
-        Manage
+        Workspace
       </div>
 
       <a
@@ -774,29 +531,33 @@
         <span>Dashboard</span>
       </a>
 
+
       <a
         class="nav-item"
         href="./homepage.html"
       >
-        <span class="nav-icon">◈</span>
+        <span class="nav-icon">✦</span>
         <span>Homepage</span>
       </a>
+
 
       <a
         class="nav-item"
         href="./banner.html"
       >
-        <span class="nav-icon">▣</span>
+        <span class="nav-icon">◫</span>
         <span>Banner</span>
       </a>
+
 
       <a
         class="nav-item"
         href="./browser-ui.html"
       >
-        <span class="nav-icon">▤</span>
+        <span class="nav-icon">▣</span>
         <span>Browser UI</span>
       </a>
+
 
       <a
         class="nav-item"
@@ -824,15 +585,10 @@
     </nav>
 
 
-    <div class="sidebar-footer">
-
-      <div class="sidebar-status">
-        <span class="status-dot"></span>
-        <span>System ready</span>
-      </div>
+    <div class="sidebar-bottom">
 
       <button
-        class="nav-item logout-button"
+        class="nav-item"
         id="logoutButton"
         type="button"
       >
@@ -845,16 +601,24 @@
   </aside>
 
 
+  <!-- =====================================================
+       MOBILE OVERLAY
+       ===================================================== -->
+
   <div
     class="mobile-overlay"
     id="mobileOverlay"
   ></div>
 
 
-  <!-- =======================================================
+  <!-- =====================================================
        MAIN
-  ======================================================== -->
+       ===================================================== -->
+
   <main class="main">
+
+
+    <!-- TOPBAR -->
 
     <header class="topbar">
 
@@ -864,19 +628,21 @@
           class="mobile-menu-button"
           id="mobileMenuButton"
           type="button"
-          aria-label="Open menu"
+          aria-label="Open navigation"
         >
           ☰
         </button>
 
         <div>
-          <div class="topbar-eyebrow">
-            Portfolio administration
-          </div>
 
           <div class="topbar-title">
             Dashboard
           </div>
+
+          <div class="topbar-subtitle">
+            Portfolio administration
+          </div>
+
         </div>
 
       </div>
@@ -889,161 +655,834 @@
           id="themeToggle"
           type="button"
           title="Toggle theme"
+          aria-label="Toggle theme"
         >
           ◐
         </button>
 
 
         <a
-          class="topbar-view"
-          href="../index.html"
-          target="_blank"
-          rel="noopener"
+          class="topbar-profile"
+          href="./homepage.html"
+          title="Account"
         >
-          View site ↗
+          <span class="topbar-avatar">
+            NU
+          </span>
+
+          <span class="topbar-account">
+            Admin
+          </span>
         </a>
-
-
-        <div class="account-menu">
-
-          <button
-            class="account-button"
-            id="accountButton"
-            type="button"
-          >
-            <span class="account-avatar">
-              NU
-            </span>
-
-            <span class="account-name">
-              Admin
-            </span>
-
-            <span class="account-chevron">
-              ⌄
-            </span>
-          </button>
-
-
-          <div
-            class="account-dropdown"
-            id="accountDropdown"
-          >
-
-            <div class="account-dropdown-head">
-              <strong>
-                Nusrat Portfolio
-              </strong>
-
-              <span>
-                Administrator access
-              </span>
-            </div>
-
-            <button
-              type="button"
-              id="dropdownSignOut"
-            >
-              Sign out
-            </button>
-
-          </div>
-
-        </div>
 
       </div>
 
     </header>
 
 
-    <!-- =====================================================
-         CONTENT
-    ====================================================== -->
-    <section class="content">
+    <!-- CONTENT -->
 
-      <div class="page-heading">
+    <div class="content">
 
-        <div>
+      <section class="page">
 
-          <div class="eyebrow">
-            Overview
+
+        <!-- =================================================
+             WELCOME
+             ================================================= -->
+
+        <div class="panel welcome-card">
+
+          <div class="welcome-inner">
+
+            <div class="welcome-eyebrow">
+              Portfolio Workspace
+            </div>
+
+            <h1 class="welcome-title">
+              Good to see you.
+            </h1>
+
+            <p class="welcome-copy">
+              Manage Nusrat Afsana Usha's portfolio,
+              homepage content, visual presentation,
+              project browser and newsletter from one
+              focused workspace.
+            </p>
+
+
+            <div class="welcome-actions">
+
+              <a
+                href="./homepage.html"
+                class="primary-button"
+              >
+                Edit Homepage
+              </a>
+
+              <a
+                href="../index.html"
+                target="_blank"
+                rel="noopener"
+                class="secondary-button"
+              >
+                View Portfolio ↗
+              </a>
+
+            </div>
+
           </div>
-
-          <h1>
-            Portfolio control.
-          </h1>
-
-          <p>
-            A clean overview of the portfolio content,
-            presentation and publishing status.
-          </p>
 
         </div>
 
 
-        <div class="page-heading-actions">
+        <!-- =================================================
+             STATS
+             ================================================= -->
 
-          <a
-            class="secondary-button"
-            href="./homepage.html"
-          >
-            Edit homepage
-          </a>
+        <div class="dashboard-stats">
 
-          <a
-            class="primary-button"
-            href="../index.html"
-            target="_blank"
-            rel="noopener"
-          >
-            Open portfolio ↗
-          </a>
+          <div class="panel dashboard-stat">
+
+            <div class="stat-label">
+              Projects
+            </div>
+
+            <div
+              class="stat-value"
+              id="projectCount"
+            >
+              04
+            </div>
+
+            <div class="stat-note">
+              Selected work
+            </div>
+
+          </div>
+
+
+          <div class="panel dashboard-stat">
+
+            <div class="stat-label">
+              Services
+            </div>
+
+            <div
+              class="stat-value"
+              id="serviceCount"
+            >
+              05
+            </div>
+
+            <div class="stat-note">
+              Published services
+            </div>
+
+          </div>
+
+
+          <div class="panel dashboard-stat">
+
+            <div class="stat-label">
+              Visibility
+            </div>
+
+            <div
+              class="stat-value"
+              id="visibilityStatus"
+            >
+              ON
+            </div>
+
+            <div class="stat-note">
+              Portfolio status
+            </div>
+
+          </div>
+
+
+          <div class="panel dashboard-stat">
+
+            <div class="stat-label">
+              Updates
+            </div>
+
+            <div
+              class="stat-value"
+              id="updateCount"
+            >
+              01
+            </div>
+
+            <div class="stat-note">
+              Latest saved changes
+            </div>
+
+          </div>
 
         </div>
 
-      </div>
+
+        <!-- =================================================
+             MAIN GRID
+             ================================================= -->
+
+        <div class="dashboard-grid">
 
 
-      <!-- ===================================================
-           WELCOME
-      ==================================================== -->
+          <!-- LEFT -->
+          <div class="dashboard-column">
 
-      <section class="welcome-panel">
 
-        <div class="welcome-content">
+            <!-- QUICK ACTIONS -->
 
-          <div class="welcome-kicker">
-            Good to see you
+            <section class="panel">
+
+              <div class="section-header">
+
+                <div>
+
+                  <div class="section-title">
+                    Quick actions
+                  </div>
+
+                  <div class="section-subtitle">
+                    Jump directly into frequently used controls.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="quick-actions">
+
+                <a
+                  href="./homepage.html"
+                  class="quick-action"
+                >
+
+                  <div class="quick-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    >
+                      <path d="M4 4h16v16H4z"></path>
+                      <path d="M8 8h8"></path>
+                      <path d="M8 12h8"></path>
+                      <path d="M8 16h5"></path>
+                    </svg>
+                  </div>
+
+                  <div>
+                    <div class="quick-name">
+                      Homepage
+                    </div>
+
+                    <div class="quick-desc">
+                      Edit hero, about and content.
+                    </div>
+                  </div>
+
+                </a>
+
+
+                <a
+                  href="./banner.html"
+                  class="quick-action"
+                >
+
+                  <div class="quick-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    >
+                      <rect
+                        x="3"
+                        y="4"
+                        width="18"
+                        height="16"
+                        rx="2"
+                      ></rect>
+                      <circle
+                        cx="8"
+                        cy="9"
+                        r="1.4"
+                      ></circle>
+                      <path d="m5 17 5-5 3 3 2-2 4 4"></path>
+                    </svg>
+                  </div>
+
+                  <div>
+                    <div class="quick-name">
+                      Banner
+                    </div>
+
+                    <div class="quick-desc">
+                      Control hero image and CTA.
+                    </div>
+                  </div>
+
+                </a>
+
+
+                <a
+                  href="./browser-ui.html"
+                  class="quick-action"
+                >
+
+                  <div class="quick-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    >
+                      <rect
+                        x="3"
+                        y="4"
+                        width="18"
+                        height="16"
+                        rx="2"
+                      ></rect>
+                      <path d="M3 8h18"></path>
+                      <path d="M7 6h.01"></path>
+                      <path d="M10 6h.01"></path>
+                      <path d="M13 6h.01"></path>
+                    </svg>
+                  </div>
+
+                  <div>
+                    <div class="quick-name">
+                      Browser UI
+                    </div>
+
+                    <div class="quick-desc">
+                      Manage project presentation.
+                    </div>
+                  </div>
+
+                </a>
+
+
+                <a
+                  href="./newsletter.html"
+                  class="quick-action"
+                >
+
+                  <div class="quick-icon">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                    >
+                      <rect
+                        x="3"
+                        y="5"
+                        width="18"
+                        height="14"
+                        rx="2"
+                      ></rect>
+                      <path d="m4 7 8 6 8-6"></path>
+                    </svg>
+                  </div>
+
+                  <div>
+                    <div class="quick-name">
+                      Newsletter
+                    </div>
+
+                    <div class="quick-desc">
+                      Manage subscribers and signup.
+                    </div>
+                  </div>
+
+                </a>
+
+              </div>
+
+            </section>
+
+
+            <!-- CONTENT HEALTH -->
+
+            <section class="panel">
+
+              <div class="section-header">
+
+                <div>
+
+                  <div class="section-title">
+                    Content health
+                  </div>
+
+                  <div class="section-subtitle">
+                    A quick check of the current portfolio setup.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="health-list">
+
+                <div class="health-row">
+
+                  <div class="health-left">
+
+                    <span class="health-dot ok"></span>
+
+                    <span class="health-name">
+                      Homepage content
+                    </span>
+
+                  </div>
+
+                  <span class="health-status">
+                    Ready
+                  </span>
+
+                </div>
+
+
+                <div class="health-row">
+
+                  <div class="health-left">
+
+                    <span class="health-dot ok"></span>
+
+                    <span class="health-name">
+                      Selected work
+                    </span>
+
+                  </div>
+
+                  <span class="health-status">
+                    Ready
+                  </span>
+
+                </div>
+
+
+                <div class="health-row">
+
+                  <div class="health-left">
+
+                    <span class="health-dot ok"></span>
+
+                    <span class="health-name">
+                      Banner presentation
+                    </span>
+
+                  </div>
+
+                  <span class="health-status">
+                    Ready
+                  </span>
+
+                </div>
+
+
+                <div class="health-row">
+
+                  <div class="health-left">
+
+                    <span class="health-dot warning"></span>
+
+                    <span class="health-name">
+                      Newsletter provider
+                    </span>
+
+                  </div>
+
+                  <span class="health-status">
+                    Not connected
+                  </span>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- ACTIVITY -->
+
+            <section class="panel">
+
+              <div class="section-header">
+
+                <div>
+
+                  <div class="section-title">
+                    Recent activity
+                  </div>
+
+                  <div class="section-subtitle">
+                    Latest workspace events.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="activity-list">
+
+                <div class="activity-item">
+
+                  <div class="activity-icon">
+                    ✓
+                  </div>
+
+                  <div>
+
+                    <div class="activity-title">
+                      Admin workspace opened
+                    </div>
+
+                    <div class="activity-time">
+                      Current session
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="activity-item">
+
+                  <div class="activity-icon">
+                    ✦
+                  </div>
+
+                  <div>
+
+                    <div class="activity-title">
+                      Homepage content is available
+                    </div>
+
+                    <div class="activity-time">
+                      Portfolio content
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="activity-item">
+
+                  <div class="activity-icon">
+                    ◫
+                  </div>
+
+                  <div>
+
+                    <div class="activity-title">
+                      Banner configuration ready
+                    </div>
+
+                    <div class="activity-time">
+                      Visual presentation
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </section>
+
           </div>
 
-          <h2 class="welcome-title">
-            Shape the portfolio
-            <span>with intention.</span>
-          </h2>
 
-          <p class="welcome-copy">
-            Manage the public presentation of Nusrat Afsana Usha's
-            portfolio from one focused workspace. Update the homepage,
-            banner, selected work and newsletter content without
-            changing the visual foundation.
-          </p>
+          <!-- RIGHT -->
+          <div class="dashboard-column">
 
 
-          <div class="welcome-actions">
+            <!-- PROFILE -->
 
-            <a
-              class="primary-button"
-              href="./homepage.html"
-            >
-              Edit content
-            </a>
+            <section class="panel">
 
-            <a
-              class="secondary-button"
-              href="./banner.html"
-            >
-              Manage banner
-            </a>
+              <div class="section-header">
+
+                <div>
+
+                  <div class="section-title">
+                    Portfolio profile
+                  </div>
+
+                  <div class="section-subtitle">
+                    Public identity overview.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="profile-card">
+
+                <img
+                  class="profile-image"
+                  src="../nusrat-afsana-photo.jpg"
+                  alt="Nusrat Afsana Usha"
+                  onerror="this.style.visibility='hidden'"
+                >
+
+                <div>
+
+                  <div class="profile-name">
+                    Nusrat Afsana Usha
+                  </div>
+
+                  <div class="profile-role">
+                    UX/UI Designer
+                  </div>
+
+                  <div class="profile-location">
+                    Dhaka, Bangladesh
+                  </div>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- PORTFOLIO STATUS -->
+
+            <section class="panel">
+
+              <div class="section-header">
+
+                <div>
+
+                  <div class="section-title">
+                    Portfolio status
+                  </div>
+
+                  <div class="section-subtitle">
+                    Public-facing availability.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div>
+
+                <div class="status-line">
+
+                  <span class="status-label">
+                    Website
+                  </span>
+
+                  <span class="status-value online">
+                    Live
+                  </span>
+
+                </div>
+
+
+                <div class="status-line">
+
+                  <span class="status-label">
+                    Homepage
+                  </span>
+
+                  <span
+                    class="status-value online"
+                    id="homepageStatus"
+                  >
+                    Published
+                  </span>
+
+                </div>
+
+
+                <div class="status-line">
+
+                  <span class="status-label">
+                    Selected Work
+                  </span>
+
+                  <span
+                    class="status-value online"
+                    id="workStatus"
+                  >
+                    Visible
+                  </span>
+
+                </div>
+
+
+                <div class="status-line">
+
+                  <span class="status-label">
+                    Services
+                  </span>
+
+                  <span
+                    class="status-value online"
+                    id="servicesStatus"
+                  >
+                    Visible
+                  </span>
+
+                </div>
+
+              </div>
+
+            </section>
+
+
+            <!-- NEWSLETTER -->
+
+            <section class="panel">
+
+              <div class="section-header">
+
+                <div>
+
+                  <div class="section-title">
+                    Newsletter
+                  </div>
+
+                  <div class="section-subtitle">
+                    Subscriber overview.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="status-line">
+
+                <span class="status-label">
+                  Subscribers
+                </span>
+
+                <span
+                  class="status-value"
+                  id="subscriberCount"
+                >
+                  0
+                </span>
+
+              </div>
+
+
+              <div class="status-line">
+
+                <span class="status-label">
+                  Signup
+                </span>
+
+                <span
+                  class="status-value online"
+                  id="newsletterStatus"
+                >
+                  Enabled
+                </span>
+
+              </div>
+
+
+              <div
+                style="
+                  margin-top:16px;
+                "
+              >
+
+                <a
+                  href="./newsletter.html"
+                  class="secondary-button"
+                  style="width:100%;justify-content:center;"
+                >
+                  Open Newsletter
+                </a>
+
+              </div>
+
+            </section>
+
+
+            <!-- LAST UPDATE -->
+
+            <section class="panel">
+
+              <div class="section-header">
+
+                <div>
+
+                  <div class="section-title">
+                    Workspace
+                  </div>
+
+                  <div class="section-subtitle">
+                    Current administration state.
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="status-line">
+
+                <span class="status-label">
+                  Session
+                </span>
+
+                <span class="status-value online">
+                  Active
+                </span>
+
+              </div>
+
+
+              <div class="status-line">
+
+                <span class="status-label">
+                  Storage
+                </span>
+
+                <span class="status-value online">
+                  Local
+                </span>
+
+              </div>
+
+
+              <div class="status-line">
+
+                <span class="status-label">
+                  Last saved
+                </span>
+
+                <span
+                  class="status-value"
+                  id="lastSaved"
+                >
+                  —
+                </span>
+
+              </div>
+
+            </section>
 
           </div>
 
@@ -1051,1149 +1490,539 @@
 
       </section>
 
-
-      <!-- ===================================================
-           STATS
-      ==================================================== -->
-
-      <div class="dashboard-stats">
-
-        <div class="dashboard-stat">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Projects
-            </span>
-
-            <span class="stat-icon">
-              ◇
-            </span>
-
-          </div>
-
-          <div
-            class="stat-value"
-            id="projectCount"
-          >
-            04
-          </div>
-
-          <div class="stat-note">
-            Selected work items
-          </div>
-
-        </div>
-
-
-        <div class="dashboard-stat">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Services
-            </span>
-
-            <span class="stat-icon">
-              ✦
-            </span>
-
-          </div>
-
-          <div
-            class="stat-value"
-            id="serviceCount"
-          >
-            05
-          </div>
-
-          <div class="stat-note">
-            Published offerings
-          </div>
-
-        </div>
-
-
-        <div class="dashboard-stat">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Visibility
-            </span>
-
-            <span class="stat-icon">
-              ◉
-            </span>
-
-          </div>
-
-          <div
-            class="stat-value"
-            id="visibilityValue"
-          >
-            ON
-          </div>
-
-          <div class="stat-note">
-            Portfolio publishing
-          </div>
-
-        </div>
-
-
-        <div class="dashboard-stat">
-
-          <div class="stat-top">
-
-            <span class="stat-label">
-              Updates
-            </span>
-
-            <span class="stat-icon">
-              ↻
-            </span>
-
-          </div>
-
-          <div
-            class="stat-value"
-            id="updateValue"
-          >
-            —
-          </div>
-
-          <div class="stat-note">
-            Latest saved change
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- ===================================================
-           MAIN GRID
-      ==================================================== -->
-
-      <div class="dashboard-grid">
-
-        <div class="dashboard-main">
-
-
-          <!-- QUICK ACTIONS -->
-          <section class="panel dash-panel">
-
-            <div class="dash-panel-heading">
-
-              <div>
-
-                <h2>
-                  Quick actions
-                </h2>
-
-                <p>
-                  Jump directly to the area you want to update.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <div class="quick-actions">
-
-              <a
-                class="quick-action"
-                href="./homepage.html"
-              >
-
-                <span class="quick-action-icon">
-                  ◈
-                </span>
-
-                <span class="quick-arrow">
-                  ↗
-                </span>
-
-                <div>
-                  <strong>
-                    Homepage
-                  </strong>
-
-                  <span>
-                    Hero, about, services and work
-                  </span>
-                </div>
-
-              </a>
-
-
-              <a
-                class="quick-action"
-                href="./banner.html"
-              >
-
-                <span class="quick-action-icon">
-                  ▣
-                </span>
-
-                <span class="quick-arrow">
-                  ↗
-                </span>
-
-                <div>
-                  <strong>
-                    Banner
-                  </strong>
-
-                  <span>
-                    Hero visual and presentation
-                  </span>
-                </div>
-
-              </a>
-
-
-              <a
-                class="quick-action"
-                href="./browser-ui.html"
-              >
-
-                <span class="quick-action-icon">
-                  ▤
-                </span>
-
-                <span class="quick-arrow">
-                  ↗
-                </span>
-
-                <div>
-                  <strong>
-                    Browser UI
-                  </strong>
-
-                  <span>
-                    Project browser presentations
-                  </span>
-                </div>
-
-              </a>
-
-
-              <a
-                class="quick-action"
-                href="./newsletter.html"
-              >
-
-                <span class="quick-action-icon">
-                  ✉
-                </span>
-
-                <span class="quick-arrow">
-                  ↗
-                </span>
-
-                <div>
-                  <strong>
-                    Newsletter
-                  </strong>
-
-                  <span>
-                    Subscribers and signup settings
-                  </span>
-                </div>
-
-              </a>
-
-
-              <a
-                class="quick-action"
-                href="../index.html#work"
-                target="_blank"
-                rel="noopener"
-              >
-
-                <span class="quick-action-icon">
-                  ◇
-                </span>
-
-                <span class="quick-arrow">
-                  ↗
-                </span>
-
-                <div>
-                  <strong>
-                    Selected work
-                  </strong>
-
-                  <span>
-                    Review the public project section
-                  </span>
-                </div>
-
-              </a>
-
-
-              <a
-                class="quick-action"
-                href="../index.html"
-                target="_blank"
-                rel="noopener"
-              >
-
-                <span class="quick-action-icon">
-                  ↗
-                </span>
-
-                <span class="quick-arrow">
-                  ↗
-                </span>
-
-                <div>
-                  <strong>
-                    Live portfolio
-                  </strong>
-
-                  <span>
-                    Open the public website
-                  </span>
-                </div>
-
-              </a>
-
-            </div>
-
-          </section>
-
-
-          <!-- CONTENT HEALTH -->
-          <section class="panel dash-panel">
-
-            <div class="dash-panel-heading">
-
-              <div>
-
-                <h2>
-                  Content health
-                </h2>
-
-                <p>
-                  A quick check of the main portfolio sections.
-                </p>
-
-              </div>
-
-              <span
-                class="health-status good"
-                id="overallHealth"
-              >
-                Ready
-              </span>
-
-            </div>
-
-
-            <div class="health-list">
-
-              <div class="health-row">
-
-                <div class="health-info">
-
-                  <strong>
-                    Homepage content
-                  </strong>
-
-                  <span id="homepageHealth">
-                    Checking saved content…
-                  </span>
-
-                </div>
-
-                <span
-                  class="health-status"
-                  id="homepageStatus"
-                >
-                  Checking
-                </span>
-
-              </div>
-
-
-              <div class="health-row">
-
-                <div class="health-info">
-
-                  <strong>
-                    Hero banner
-                  </strong>
-
-                  <span id="bannerHealth">
-                    Checking banner settings…
-                  </span>
-
-                </div>
-
-                <span
-                  class="health-status"
-                  id="bannerStatus"
-                >
-                  Checking
-                </span>
-
-              </div>
-
-
-              <div class="health-row">
-
-                <div class="health-info">
-
-                  <strong>
-                    Selected work
-                  </strong>
-
-                  <span id="browserHealth">
-                    Checking project presentation…
-                  </span>
-
-                </div>
-
-                <span
-                  class="health-status"
-                  id="browserStatus"
-                >
-                  Checking
-                </span>
-
-              </div>
-
-
-              <div class="health-row">
-
-                <div class="health-info">
-
-                  <strong>
-                    Newsletter
-                  </strong>
-
-                  <span>
-                    Subscriber management is available.
-                  </span>
-
-                </div>
-
-                <span class="health-status good">
-                  Ready
-                </span>
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- ACTIVITY -->
-          <section class="panel dash-panel">
-
-            <div class="dash-panel-heading">
-
-              <div>
-
-                <h2>
-                  Recent activity
-                </h2>
-
-                <p>
-                  Latest local portfolio administration events.
-                </p>
-
-              </div>
-
-              <span
-                class="text-link"
-                id="activityCount"
-              >
-                0 updates
-              </span>
-
-            </div>
-
-
-            <div
-              class="activity-list"
-              id="activityList"
-            ></div>
-
-          </section>
-
-
-        </div>
-
-
-        <!-- =================================================
-             SIDE
-        ================================================== -->
-
-        <div class="dashboard-side">
-
-
-          <!-- VISIBILITY -->
-          <section class="panel visibility-card">
-
-            <div class="visibility-head">
-
-              <div>
-
-                <h2 class="visibility-title">
-                  Portfolio status
-                </h2>
-
-                <p class="visibility-copy">
-                  Public portfolio visibility is controlled
-                  from the current content state.
-                </p>
-
-              </div>
-
-              <span
-                class="live-badge"
-                id="liveBadge"
-              >
-                Live
-              </span>
-
-            </div>
-
-
-            <div class="visibility-footer">
-
-              <span class="visibility-url">
-                shahneilkhan.github.io/nusratafsanausha
-              </span>
-
-              <a
-                class="secondary-button"
-                href="../index.html"
-                target="_blank"
-                rel="noopener"
-              >
-                Visit
-              </a>
-
-            </div>
-
-          </section>
-
-
-          <!-- PROFILE -->
-          <section class="panel dash-panel">
-
-            <div class="dash-panel-heading">
-
-              <div>
-
-                <h2>
-                  Profile
-                </h2>
-
-                <p>
-                  Current portfolio identity.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <div class="profile-mini">
-
-              <div class="profile-avatar">
-
-                <img
-                  src="../nusrat-afsana-photo.jpg"
-                  alt="Nusrat Afsana Usha"
-                >
-
-              </div>
-
-
-              <div>
-
-                <strong>
-                  Nusrat Afsana Usha
-                </strong>
-
-                <span>
-                  UX/UI Designer
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <div class="profile-details">
-
-              <div class="profile-detail">
-
-                <span>
-                  Location
-                </span>
-
-                <span>
-                  Dhaka, Bangladesh
-                </span>
-
-              </div>
-
-
-              <div class="profile-detail">
-
-                <span>
-                  Education
-                </span>
-
-                <span>
-                  MA UX Design
-                </span>
-
-              </div>
-
-
-              <div class="profile-detail">
-
-                <span>
-                  Focus
-                </span>
-
-                <span>
-                  UX / UI & Digital Products
-                </span>
-
-              </div>
-
-            </div>
-
-          </section>
-
-
-          <!-- NEWSLETTER -->
-          <section class="panel dash-panel">
-
-            <div class="dash-panel-heading">
-
-              <div>
-
-                <h2>
-                  Newsletter
-                </h2>
-
-                <p>
-                  Subscriber overview.
-                </p>
-
-              </div>
-
-              <a
-                class="text-link"
-                href="./newsletter.html"
-              >
-                Manage
-              </a>
-
-            </div>
-
-
-            <div class="newsletter-stat">
-
-              <div>
-
-                <div
-                  class="newsletter-number"
-                  id="subscriberCount"
-                >
-                  00
-                </div>
-
-                <div class="newsletter-label">
-                  Current subscribers
-                </div>
-
-              </div>
-
-
-              <div class="newsletter-icon">
-                ✉
-              </div>
-
-            </div>
-
-
-            <div class="switch-row-dashboard">
-
-              <div>
-
-                <strong>
-                  Signup enabled
-                </strong>
-
-                <span>
-                  Portfolio newsletter form
-                </span>
-
-              </div>
-
-
-              <label class="switch">
-
-                <input
-                  id="newsletterSwitch"
-                  type="checkbox"
-                  checked
-                >
-
-                <span class="switch-track"></span>
-
-              </label>
-
-            </div>
-
-          </section>
-
-
-          <!-- LAST UPDATE -->
-          <section class="panel dash-panel">
-
-            <div class="dash-panel-heading">
-
-              <div>
-
-                <h2>
-                  Last saved
-                </h2>
-
-                <p>
-                  Shared portfolio update timestamp.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <div
-              class="status-card"
-              style="margin:0;"
-            >
-
-              <div
-                class="status-card-label"
-              >
-                Latest change
-              </div>
-
-              <div
-                class="status-card-value"
-                id="lastSavedFull"
-              >
-                No saved update yet
-              </div>
-
-              <div
-                class="status-card-note"
-              >
-                Changes are currently stored in the browser.
-              </div>
-
-            </div>
-
-          </section>
-
-
-        </div>
-
-      </div>
-
-    </section>
+    </div>
 
   </main>
 
 </div>
 
 
-<div
-  class="toast"
-  id="toast"
-></div>
-
-
 <script>
-(() => {
+/* =========================================================
+   CONFIG
+   ========================================================= */
 
-  "use strict";
+const SESSION_KEY =
+  "nusrat_admin_session_v1";
 
+const THEME_KEY =
+  "nusrat_admin_theme";
 
-  /* =========================================================
-     CONFIG
-  ========================================================= */
+const HOMEPAGE_KEY =
+  "nusrat_homepage_content_v1";
 
-  const SESSION_KEY =
-    "nusrat_admin_session_v1";
+const BANNER_KEY =
+  "nusrat_banner_content_v1";
 
-  const THEME_KEY =
-    "nusrat_admin_theme";
+const BROWSER_KEY =
+  "nusrat_browser_ui_v1";
 
-  const HOMEPAGE_KEY =
-    "nusrat_homepage_content_v1";
+const NEWSLETTER_KEY =
+  "nusrat_newsletter_v1";
 
-  const BANNER_KEY =
-    "nusrat_banner_content_v1";
-
-  const BROWSER_KEY =
-    "nusrat_browser_ui_v1";
-
-  const NEWSLETTER_KEY =
-    "nusrat_newsletter_v1";
-
-  const LAST_UPDATED_KEY =
-    "nusrat_admin_last_updated";
+const LAST_UPDATED_KEY =
+  "nusrat_admin_last_updated";
 
 
-  /* =========================================================
-     DOM
-  ========================================================= */
+/* =========================================================
+   SESSION
+   ========================================================= */
 
-  const $ = selector =>
-    document.querySelector(selector);
+function getJSON(key, fallback = null){
 
-
-  const sidebar =
-    $("#sidebar");
-
-  const mobileOverlay =
-    $("#mobileOverlay");
-
-  const mobileMenuButton =
-    $("#mobileMenuButton");
-
-  const themeToggle =
-    $("#themeToggle");
-
-  const accountButton =
-    $("#accountButton");
-
-  const accountDropdown =
-    $("#accountDropdown");
-
-  const logoutButton =
-    $("#logoutButton");
-
-  const dropdownSignOut =
-    $("#dropdownSignOut");
-
-  const toast =
-    $("#toast");
-
-
-  /* =========================================================
-     AUTH
-  ========================================================= */
-
-  function getSession() {
-
-    try {
-
-      return JSON.parse(
-        localStorage.getItem(
-          SESSION_KEY
-        ) || "null"
-      );
-
-    } catch {
-
-      return null;
-
-    }
-
-  }
-
-
-  function isSessionValid() {
-
-    const session =
-      getSession();
-
-    if (
-      !session ||
-      session.authenticated !== true
-    ) {
-
-      return false;
-
-    }
-
-
-    if (
-      session.expiresAt &&
-      Date.now() >
-      Number(session.expiresAt)
-    ) {
-
-      localStorage.removeItem(
-        SESSION_KEY
-      );
-
-      return false;
-
-    }
-
-
-    return true;
-
-  }
-
-
-  if (!isSessionValid()) {
-
-    window.location.href =
-      "./index.html";
-
-    return;
-
-  }
-
-
-  /* =========================================================
-     THEME
-  ========================================================= */
-
-  function applyTheme(theme) {
+  try{
 
     const value =
-      theme === "light"
-        ? "light"
-        : "dark";
+      localStorage.getItem(key);
 
-    document.documentElement
-      .setAttribute(
-        "data-theme",
-        value
-      );
+    if(!value){
+      return fallback;
+    }
 
-    localStorage.setItem(
-      THEME_KEY,
-      value
+    return JSON.parse(value);
+
+  }catch(error){
+
+    return fallback;
+
+  }
+
+}
+
+
+function getSession(){
+
+  const session =
+    getJSON(
+      SESSION_KEY,
+      null
     );
 
-    if (themeToggle) {
+  if(
+    !session ||
+    session.authenticated !== true
+  ){
 
-      themeToggle.textContent =
-        value === "light"
-          ? "☀"
-          : "◐";
-
-    }
+    return null;
 
   }
 
 
-  applyTheme(
-    localStorage.getItem(
-      THEME_KEY
-    ) || "dark"
-  );
-
-
-  themeToggle?.addEventListener(
-    "click",
-    () => {
-
-      const current =
-        document.documentElement
-          .getAttribute(
-            "data-theme"
-          ) || "dark";
-
-      applyTheme(
-        current === "dark"
-          ? "light"
-          : "dark"
-      );
-
-    }
-  );
-
-
-  /* =========================================================
-     MOBILE MENU
-  ========================================================= */
-
-  function openSidebar() {
-
-    sidebar?.classList.add(
-      "open"
-    );
-
-    mobileOverlay?.classList.add(
-      "show"
-    );
-
-    document.body.classList.add(
-      "menu-open"
-    );
-
-  }
-
-
-  function closeSidebar() {
-
-    sidebar?.classList.remove(
-      "open"
-    );
-
-    mobileOverlay?.classList.remove(
-      "show"
-    );
-
-    document.body.classList.remove(
-      "menu-open"
-    );
-
-  }
-
-
-  mobileMenuButton?.addEventListener(
-    "click",
-    openSidebar
-  );
-
-  mobileOverlay?.addEventListener(
-    "click",
-    closeSidebar
-  );
-
-
-  /* =========================================================
-     ACCOUNT
-  ========================================================= */
-
-  accountButton?.addEventListener(
-    "click",
-    event => {
-
-      event.stopPropagation();
-
-      accountDropdown?.classList.toggle(
-        "show"
-      );
-
-    }
-  );
-
-
-  document.addEventListener(
-    "click",
-    () => {
-
-      accountDropdown?.classList.remove(
-        "show"
-      );
-
-    }
-  );
-
-
-  /* =========================================================
-     LOGOUT
-  ========================================================= */
-
-  function logout() {
+  if(
+    Number(session.expiresAt) <=
+    Date.now()
+  ){
 
     localStorage.removeItem(
       SESSION_KEY
     );
 
-    window.location.href =
-      "./index.html";
+    return null;
 
   }
 
 
-  logoutButton?.addEventListener(
-    "click",
-    logout
+  return session;
+
+}
+
+
+function requireSession(){
+
+  const session =
+    getSession();
+
+  if(!session){
+
+    window.location.replace(
+      "./index.html"
+    );
+
+    return null;
+
+  }
+
+  return session;
+
+}
+
+
+const currentSession =
+  requireSession();
+
+
+if(!currentSession){
+
+  throw new Error(
+    "Authentication required."
   );
 
-  dropdownSignOut?.addEventListener(
-    "click",
-    logout
+}
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function applyTheme(){
+
+  const theme =
+    localStorage.getItem(
+      THEME_KEY
+    ) || "dark";
+
+  document.documentElement
+    .setAttribute(
+      "data-theme",
+      theme
+    );
+
+  document.body
+    .setAttribute(
+      "data-theme",
+      theme
+    );
+
+}
+
+
+function toggleTheme(){
+
+  const current =
+    localStorage.getItem(
+      THEME_KEY
+    ) || "dark";
+
+  const next =
+    current === "dark"
+      ? "light"
+      : "dark";
+
+  localStorage.setItem(
+    THEME_KEY,
+    next
+  );
+
+  applyTheme();
+
+}
+
+
+applyTheme();
+
+
+/* =========================================================
+   SIDEBAR
+   ========================================================= */
+
+const sidebar =
+  document.getElementById(
+    "sidebar"
+  );
+
+const overlay =
+  document.getElementById(
+    "mobileOverlay"
+  );
+
+const menuButton =
+  document.getElementById(
+    "mobileMenuButton"
   );
 
 
-  /* =========================================================
-     STORAGE HELPERS
-  ========================================================= */
+function openSidebar(){
 
-  function readJSON(
-    key,
-    fallback = null
-  ) {
+  sidebar.classList.add(
+    "open"
+  );
 
-    try {
+  overlay.classList.add(
+    "show"
+  );
 
-      const value =
-        localStorage.getItem(
-          key
-        );
+}
 
-      if (!value)
-        return fallback;
 
-      return JSON.parse(
-        value
+function closeSidebar(){
+
+  sidebar.classList.remove(
+    "open"
+  );
+
+  overlay.classList.remove(
+    "show"
+  );
+
+}
+
+
+if(menuButton){
+
+  menuButton.addEventListener(
+    "click",
+    openSidebar
+  );
+
+}
+
+
+if(overlay){
+
+  overlay.addEventListener(
+    "click",
+    closeSidebar
+  );
+
+}
+
+
+/* =========================================================
+   THEME BUTTON
+   ========================================================= */
+
+const themeToggle =
+  document.getElementById(
+    "themeToggle"
+  );
+
+
+if(themeToggle){
+
+  themeToggle.addEventListener(
+    "click",
+    toggleTheme
+  );
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+const logoutButton =
+  document.getElementById(
+    "logoutButton"
+  );
+
+
+if(logoutButton){
+
+  logoutButton.addEventListener(
+    "click",
+    () => {
+
+      localStorage.removeItem(
+        SESSION_KEY
       );
 
-    } catch {
-
-      return fallback;
+      window.location.replace(
+        "./index.html"
+      );
 
     }
+  );
+
+}
+
+
+/* =========================================================
+   HOMEPAGE DATA
+   ========================================================= */
+
+const defaultHomepage = {
+
+  hero:{
+    published:true
+  },
+
+  services:{
+    published:true,
+    items:[
+      {},
+      {},
+      {},
+      {},
+      {}
+    ]
+  },
+
+  projects:{
+    published:true,
+    items:[
+      {},
+      {},
+      {},
+      {}
+    ]
+  }
+
+};
+
+
+const homepage =
+  getJSON(
+    HOMEPAGE_KEY,
+    defaultHomepage
+  );
+
+
+/* =========================================================
+   PROJECT COUNT
+   ========================================================= */
+
+function getProjectCount(){
+
+  if(
+    homepage &&
+    homepage.projects &&
+    Array.isArray(
+      homepage.projects.items
+    )
+  ){
+
+    return homepage.projects.items.length;
+
+  }
+
+  return 4;
+
+}
+
+
+function getServiceCount(){
+
+  if(
+    homepage &&
+    homepage.services &&
+    Array.isArray(
+      homepage.services.items
+    )
+  ){
+
+    return homepage.services.items.length;
+
+  }
+
+  return 5;
+
+}
+
+
+document.getElementById(
+  "projectCount"
+).textContent =
+  String(
+    getProjectCount()
+  ).padStart(2,"0");
+
+
+document.getElementById(
+  "serviceCount"
+).textContent =
+  String(
+    getServiceCount()
+  ).padStart(2,"0");
+
+
+/* =========================================================
+   VISIBILITY
+   ========================================================= */
+
+const published =
+  homepage?.hero?.published !== false;
+
+
+document.getElementById(
+  "visibilityStatus"
+).textContent =
+  published
+    ? "ON"
+    : "OFF";
+
+
+document.getElementById(
+  "homepageStatus"
+).textContent =
+  published
+    ? "Published"
+    : "Hidden";
+
+
+document.getElementById(
+  "workStatus"
+).textContent =
+  homepage?.projects?.published === false
+    ? "Hidden"
+    : "Visible";
+
+
+document.getElementById(
+  "servicesStatus"
+).textContent =
+  homepage?.services?.published === false
+    ? "Hidden"
+    : "Visible";
+
+
+/* =========================================================
+   UPDATE COUNT
+   ========================================================= */
+
+const lastUpdated =
+  localStorage.getItem(
+    LAST_UPDATED_KEY
+  );
+
+
+if(lastUpdated){
+
+  document.getElementById(
+    "lastSaved"
+  ).textContent =
+    formatDate(lastUpdated);
+
+  document.getElementById(
+    "updateCount"
+  ).textContent =
+    "01";
+
+}else{
+
+  document.getElementById(
+    "lastSaved"
+  ).textContent =
+    "Not yet";
+
+}
+
+
+/* =========================================================
+   NEWSLETTER
+   ========================================================= */
+
+const newsletter =
+  getJSON(
+    NEWSLETTER_KEY,
+    null
+  );
+
+
+if(newsletter){
+
+  let subscribers = 0;
+
+  if(
+    Array.isArray(
+      newsletter.subscribers
+    )
+  ){
+
+    subscribers =
+      newsletter.subscribers.length;
 
   }
 
 
-  function formatDate(
-    value,
-    short = false
-  ) {
+  document.getElementById(
+    "subscriberCount"
+  ).textContent =
+    String(subscribers);
 
-    if (!value)
-      return "—";
+
+  const enabled =
+    newsletter.enabled !== false;
+
+
+  document.getElementById(
+    "newsletterStatus"
+  ).textContent =
+    enabled
+      ? "Enabled"
+      : "Disabled";
+
+}
+
+
+/* =========================================================
+   DATE
+   ========================================================= */
+
+function formatDate(value){
+
+  try{
 
     const date =
       new Date(value);
 
-    if (
+    if(
       Number.isNaN(
         date.getTime()
       )
-    ) {
+    ){
 
       return "—";
-
-    }
-
-
-    if (short) {
-
-      return date.toLocaleDateString(
-        undefined,
-        {
-          month: "short",
-          day: "numeric"
-        }
-      );
 
     }
 
@@ -2201,738 +2030,64 @@
     return date.toLocaleString(
       undefined,
       {
-        dateStyle: "medium",
-        timeStyle: "short"
+        year:"numeric",
+        month:"short",
+        day:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
       }
     );
 
-  }
+  }catch(error){
 
-
-  /* =========================================================
-     HOMEPAGE DATA
-  ========================================================= */
-
-  function getHomepageData() {
-
-    return readJSON(
-      HOMEPAGE_KEY,
-      null
-    );
+    return "—";
 
   }
 
+}
 
-  function getProjectsFromHomepage() {
 
-    const data =
-      getHomepageData();
+/* =========================================================
+   SESSION WATCH
+   ========================================================= */
 
-    if (
-      data &&
-      Array.isArray(
-        data.projects
-      )
-    ) {
+setInterval(
+  () => {
 
-      return data.projects;
+    const session =
+      getSession();
+
+    if(!session){
+
+      window.location.replace(
+        "./index.html"
+      );
 
     }
 
-    return [];
-
-  }
-
-
-  function getServicesFromHomepage() {
-
-    const data =
-      getHomepageData();
-
-    if (
-      data &&
-      Array.isArray(
-        data.services
-      )
-    ) {
-
-      return data.services;
-
-    }
-
-    return [];
-
-  }
+  },
+  30000
+);
 
 
-  /* =========================================================
-     STATS
-  ========================================================= */
+/* =========================================================
+   PREVENT BACK AFTER LOGOUT
+   ========================================================= */
 
-  function updateStats() {
+window.addEventListener(
+  "pageshow",
+  () => {
 
-    const homepage =
-      getHomepageData();
+    if(!getSession()){
 
-    const projects =
-      getProjectsFromHomepage();
-
-    const services =
-      getServicesFromHomepage();
-
-    const browserProjects =
-      readJSON(
-        BROWSER_KEY,
-        []
+      window.location.replace(
+        "./index.html"
       );
-
-    const projectTotal =
-      browserProjects.length ||
-      projects.length ||
-      4;
-
-    const serviceTotal =
-      services.length ||
-      5;
-
-
-    $("#projectCount")
-      .textContent =
-      String(
-        projectTotal
-      ).padStart(
-        2,
-        "0"
-      );
-
-
-    $("#serviceCount")
-      .textContent =
-      String(
-        serviceTotal
-      ).padStart(
-        2,
-        "0"
-      );
-
-
-    const visibility =
-      homepage?.published !== false;
-
-    $("#visibilityValue")
-      .textContent =
-      visibility
-        ? "ON"
-        : "OFF";
-
-
-    $("#liveBadge")
-      .textContent =
-      visibility
-        ? "Live"
-        : "Offline";
-
-
-    $("#liveBadge")
-      .style.color =
-      visibility
-        ? "#63ca91"
-        : "var(--accent)";
-
-
-    const lastUpdated =
-      localStorage.getItem(
-        LAST_UPDATED_KEY
-      );
-
-
-    $("#updateValue")
-      .textContent =
-      lastUpdated
-        ? formatDate(
-            lastUpdated,
-            true
-          )
-        : "—";
-
-
-    $("#lastSavedFull")
-      .textContent =
-      lastUpdated
-        ? formatDate(
-            lastUpdated
-          )
-        : "No saved update yet";
-
-  }
-
-
-  /* =========================================================
-     HEALTH
-  ========================================================= */
-
-  function setHealth(
-    statusElement,
-    descriptionElement,
-    good,
-    statusText,
-    description
-  ) {
-
-    if (!statusElement)
-      return;
-
-
-    statusElement.textContent =
-      statusText;
-
-    statusElement.classList.remove(
-      "good",
-      "attention"
-    );
-
-    statusElement.classList.add(
-      good
-        ? "good"
-        : "attention"
-    );
-
-
-    if (descriptionElement) {
-
-      descriptionElement.textContent =
-        description;
 
     }
 
   }
-
-
-  function updateHealth() {
-
-    const homepage =
-      getHomepageData();
-
-    const banner =
-      readJSON(
-        BANNER_KEY,
-        null
-      );
-
-    const browser =
-      readJSON(
-        BROWSER_KEY,
-        []
-      );
-
-
-    const homepageReady =
-      Boolean(
-        homepage &&
-        (
-          homepage.hero ||
-          homepage.about ||
-          homepage.projects
-        )
-      );
-
-
-    setHealth(
-
-      $("#homepageStatus"),
-
-      $("#homepageHealth"),
-
-      homepageReady,
-
-      homepageReady
-        ? "Ready"
-        : "Attention",
-
-      homepageReady
-        ? "Homepage content is available."
-        : "No saved homepage content found."
-
-    );
-
-
-    const bannerReady =
-      Boolean(
-        banner &&
-        (
-          banner.headline ||
-          banner.title ||
-          banner.image
-        )
-      );
-
-
-    setHealth(
-
-      $("#bannerStatus"),
-
-      $("#bannerHealth"),
-
-      bannerReady,
-
-      bannerReady
-        ? "Ready"
-        : "Default",
-
-      bannerReady
-        ? "Banner settings are available."
-        : "Using the default banner presentation."
-
-    );
-
-
-    const browserReady =
-      Array.isArray(browser) &&
-      browser.length > 0;
-
-
-    setHealth(
-
-      $("#browserStatus"),
-
-      $("#browserHealth"),
-
-      browserReady,
-
-      browserReady
-        ? "Ready"
-        : "Default",
-
-      browserReady
-        ? `${browser.length} project presentation${browser.length === 1 ? "" : "s"} configured.`
-        : "Browser UI is using its default project set."
-
-    );
-
-
-    const overall =
-      homepageReady &&
-      browserReady;
-
-
-    const overallHealth =
-      $("#overallHealth");
-
-    overallHealth.textContent =
-      overall
-        ? "Ready"
-        : "Review";
-
-    overallHealth.classList.remove(
-      "good",
-      "attention"
-    );
-
-    overallHealth.classList.add(
-      overall
-        ? "good"
-        : "attention"
-    );
-
-  }
-
-
-  /* =========================================================
-     NEWSLETTER
-  ========================================================= */
-
-  function updateNewsletter() {
-
-    const newsletter =
-      readJSON(
-        NEWSLETTER_KEY,
-        null
-      );
-
-
-    let subscribers = 0;
-
-    let enabled = true;
-
-
-    if (
-      newsletter &&
-      Array.isArray(
-        newsletter.subscribers
-      )
-    ) {
-
-      subscribers =
-        newsletter.subscribers
-          .filter(
-            subscriber =>
-              subscriber.status !==
-              "unsubscribed"
-          )
-          .length;
-
-    }
-
-
-    if (
-      newsletter &&
-      typeof newsletter.enabled ===
-      "boolean"
-    ) {
-
-      enabled =
-        newsletter.enabled;
-
-    }
-
-
-    $("#subscriberCount")
-      .textContent =
-      String(
-        subscribers
-      ).padStart(
-        2,
-        "0"
-      );
-
-
-    $("#newsletterSwitch")
-      .checked =
-      enabled;
-
-  }
-
-
-  $("#newsletterSwitch")
-    ?.addEventListener(
-      "change",
-      event => {
-
-        const data =
-          readJSON(
-            NEWSLETTER_KEY,
-            {}
-          );
-
-
-        data.enabled =
-          event.target.checked;
-
-
-        localStorage.setItem(
-          NEWSLETTER_KEY,
-          JSON.stringify(data)
-        );
-
-
-        showToast(
-          event.target.checked
-            ? "Newsletter signup enabled."
-            : "Newsletter signup disabled."
-        );
-
-      }
-    );
-
-
-  /* =========================================================
-     ACTIVITY
-  ========================================================= */
-
-  function buildActivity() {
-
-    const activities = [];
-
-
-    const homepage =
-      readJSON(
-        HOMEPAGE_KEY,
-        null
-      );
-
-    const banner =
-      readJSON(
-        BANNER_KEY,
-        null
-      );
-
-    const browser =
-      readJSON(
-        BROWSER_KEY,
-        null
-      );
-
-    const lastUpdated =
-      localStorage.getItem(
-        LAST_UPDATED_KEY
-      );
-
-
-    if (lastUpdated) {
-
-      activities.push({
-        icon: "↻",
-        title: "Portfolio content updated",
-        detail: "A portfolio section was recently saved.",
-        time: lastUpdated
-      });
-
-    }
-
-
-    if (homepage) {
-
-      activities.push({
-        icon: "◈",
-        title: "Homepage content available",
-        detail: "Homepage editor data is stored locally.",
-        time: lastUpdated
-      });
-
-    }
-
-
-    if (banner) {
-
-      activities.push({
-        icon: "▣",
-        title: "Banner configuration available",
-        detail: "Hero presentation settings are ready.",
-        time: lastUpdated
-      });
-
-    }
-
-
-    if (
-      Array.isArray(browser) &&
-      browser.length
-    ) {
-
-      activities.push({
-        icon: "▤",
-        title: "Project browser configured",
-        detail: `${browser.length} project presentation${browser.length === 1 ? "" : "s"} available.`,
-        time: lastUpdated
-      });
-
-    }
-
-
-    if (!activities.length) {
-
-      activities.push({
-        icon: "○",
-        title: "Workspace initialized",
-        detail: "No saved activity yet.",
-        time: null
-      });
-
-    }
-
-
-    const list =
-      $("#activityList");
-
-    list.innerHTML = "";
-
-
-    activities
-      .slice(0, 6)
-      .forEach(
-        activity => {
-
-          const item =
-            document.createElement(
-              "div"
-            );
-
-          item.className =
-            "activity-item";
-
-
-          item.innerHTML = `
-
-            <div class="activity-icon">
-              ${activity.icon}
-            </div>
-
-            <div class="activity-copy">
-
-              <strong>
-                ${escapeHtml(
-                  activity.title
-                )}
-              </strong>
-
-              <span>
-                ${escapeHtml(
-                  activity.detail
-                )}
-              </span>
-
-            </div>
-
-            <div class="activity-time">
-              ${
-                activity.time
-                  ? formatDate(
-                      activity.time,
-                      true
-                    )
-                  : "—"
-              }
-            </div>
-
-          `;
-
-
-          list.appendChild(
-            item
-          );
-
-        }
-      );
-
-
-    $("#activityCount")
-      .textContent =
-      `${activities.length} update${activities.length === 1 ? "" : "s"}`;
-
-  }
-
-
-  /* =========================================================
-     ESCAPE
-  ========================================================= */
-
-  function escapeHtml(
-    value
-  ) {
-
-    return String(
-      value ?? ""
-    )
-      .replaceAll(
-        "&",
-        "&amp;"
-      )
-      .replaceAll(
-        "<",
-        "&lt;"
-      )
-      .replaceAll(
-        ">",
-        "&gt;"
-      )
-      .replaceAll(
-        '"',
-        "&quot;"
-      )
-      .replaceAll(
-        "'",
-        "&#039;"
-      );
-
-  }
-
-
-  /* =========================================================
-     TOAST
-  ========================================================= */
-
-  let toastTimer = null;
-
-
-  function showToast(
-    message
-  ) {
-
-    toast.textContent =
-      message;
-
-    toast.classList.add(
-      "show"
-    );
-
-
-    clearTimeout(
-      toastTimer
-    );
-
-
-    toastTimer =
-      setTimeout(
-        () => {
-
-          toast.classList.remove(
-            "show"
-          );
-
-        },
-        2500
-      );
-
-  }
-
-
-  /* =========================================================
-     KEYBOARD
-  ========================================================= */
-
-  document.addEventListener(
-    "keydown",
-    event => {
-
-      if (
-        event.key === "Escape"
-      ) {
-
-        accountDropdown?.classList.remove(
-          "show"
-        );
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     INITIALIZE
-  ========================================================= */
-
-  updateStats();
-
-  updateHealth();
-
-  updateNewsletter();
-
-  buildActivity();
-
-
-  /*
-    Refresh dashboard when another admin page
-    has changed localStorage in another tab.
-  */
-
-  window.addEventListener(
-    "storage",
-    () => {
-
-      updateStats();
-
-      updateHealth();
-
-      updateNewsletter();
-
-      buildActivity();
-
-    }
-  );
-
-
-})();
+);
 </script>
 
 </body>
