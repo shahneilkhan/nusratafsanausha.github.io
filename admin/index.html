@@ -1,100 +1,64 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Admin Login — Nusrat Afsana Usha</title>
+  <title>Admin — Nusrat Afsana Usha</title>
 
   <meta
     name="description"
-    content="Secure administration portal for Nusrat Afsana Usha portfolio."
+    content="Secure administration panel for Nusrat Afsana Usha portfolio."
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap"
     rel="stylesheet"
   >
 
+  <link rel="stylesheet" href="./admin.css">
+
   <style>
+    :root{
+      --login-bg:#09090b;
+      --login-panel:rgba(21,22,26,.88);
+      --login-border:rgba(255,255,255,.09);
+      --login-text:#f6f3ec;
+      --login-muted:#9999a1;
+      --login-accent:#d8b36a;
+      --login-accent-soft:rgba(216,179,106,.12);
+      --danger:#e87878;
+    }
+
     *{
+      box-sizing:border-box;
       margin:0;
       padding:0;
-      box-sizing:border-box;
-    }
-
-    :root{
-      --bg:#08090b;
-      --panel:#101114;
-      --panel-2:#15161a;
-      --panel-3:#1b1c21;
-
-      --text:#f5f2eb;
-      --muted:#96979e;
-      --muted-2:#6d6e75;
-
-      --accent:#d8b36a;
-      --accent-soft:rgba(216,179,106,.12);
-      --accent-border:rgba(216,179,106,.28);
-
-      --border:rgba(255,255,255,.08);
-      --border-soft:rgba(255,255,255,.05);
-
-      --success:#71d6a1;
-      --danger:#e47d7d;
-
-      --shadow:
-        0 30px 100px rgba(0,0,0,.45),
-        0 10px 40px rgba(0,0,0,.25);
-    }
-
-    html[data-theme="light"]{
-      --bg:#f4f1ea;
-      --panel:#fffdf9;
-      --panel-2:#f7f4ed;
-      --panel-3:#eeeae1;
-
-      --text:#181817;
-      --muted:#686762;
-      --muted-2:#88867f;
-
-      --border:rgba(0,0,0,.09);
-      --border-soft:rgba(0,0,0,.05);
-
-      --accent-soft:rgba(174,133,48,.10);
-      --accent-border:rgba(174,133,48,.30);
-
-      --shadow:
-        0 30px 90px rgba(32,28,20,.10),
-        0 10px 30px rgba(32,28,20,.06);
     }
 
     html{
-      scroll-behavior:smooth;
+      min-height:100%;
     }
 
     body{
       min-height:100vh;
-
       background:
         radial-gradient(
           circle at 15% 15%,
-          rgba(216,179,106,.10),
-          transparent 28%
+          rgba(216,179,106,.09),
+          transparent 30%
         ),
         radial-gradient(
           circle at 85% 80%,
-          rgba(216,179,106,.07),
-          transparent 30%
+          rgba(255,255,255,.035),
+          transparent 28%
         ),
-        var(--bg);
-
-      color:var(--text);
+        var(--login-bg);
+      color:var(--login-text);
       font-family:"Instrument Sans",sans-serif;
-
       overflow-x:hidden;
     }
 
@@ -107,488 +71,205 @@
       cursor:pointer;
     }
 
-    /* =========================
-       BACKGROUND
-    ========================== */
+    .login-shell{
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:30px;
+      position:relative;
+      overflow:hidden;
+    }
 
-    .background{
-      position:fixed;
+    .ambient{
+      position:absolute;
       inset:0;
       pointer-events:none;
       overflow:hidden;
-      z-index:0;
     }
 
-    .background::before{
+    .ambient::before,
+    .ambient::after{
       content:"";
       position:absolute;
-      inset:0;
-
-      background-image:
-        linear-gradient(
-          rgba(255,255,255,.025) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255,255,255,.025) 1px,
-          transparent 1px
-        );
-
-      background-size:72px 72px;
-
-      mask-image:
-        radial-gradient(
-          ellipse at center,
-          black 20%,
-          transparent 78%
-        );
-
-      opacity:.35;
+      border-radius:999px;
+      filter:blur(100px);
+      opacity:.18;
     }
 
-    .orb{
-      position:absolute;
-
-      width:420px;
-      height:420px;
-
-      border-radius:50%;
-
-      background:
-        radial-gradient(
-          circle,
-          rgba(216,179,106,.13),
-          transparent 68%
-        );
-
-      filter:blur(10px);
-
-      animation:
-        floatOrb 14s ease-in-out infinite alternate;
+    .ambient::before{
+      width:360px;
+      height:360px;
+      left:-150px;
+      top:-120px;
+      background:#d8b36a;
     }
 
-    .orb.one{
-      top:-180px;
-      left:-140px;
+    .ambient::after{
+      width:300px;
+      height:300px;
+      right:-120px;
+      bottom:-100px;
+      background:#7c6b4e;
     }
 
-    .orb.two{
-      right:-180px;
-      bottom:-180px;
-      animation-delay:-5s;
-    }
-
-    @keyframes floatOrb{
-      from{
-        transform:translate3d(0,0,0) scale(1);
-      }
-
-      to{
-        transform:translate3d(30px,25px,0) scale(1.08);
-      }
-    }
-
-    /* =========================
-       LAYOUT
-    ========================== */
-
-    .page{
-      min-height:100vh;
-
+    .login-container{
+      width:min(100%,460px);
       position:relative;
-      z-index:1;
-
-      display:grid;
-
-      grid-template-columns:
-        minmax(0,1.05fr)
-        minmax(420px,.95fr);
-
-      align-items:center;
-
-      padding:32px;
-      gap:50px;
+      z-index:2;
     }
 
-    /* =========================
-       BRAND SIDE
-    ========================== */
-
-    .brand-side{
-      max-width:720px;
-      margin:auto;
-      width:100%;
-      padding:30px;
-    }
-
-    .brand-top{
+    .brand{
       display:flex;
-      align-items:center;
-      gap:14px;
-
-      margin-bottom:70px;
+      justify-content:center;
+      margin-bottom:28px;
     }
 
     .brand-mark{
-      width:48px;
-      height:48px;
-
-      display:grid;
-      place-items:center;
-
-      border:1px solid var(--accent-border);
-      border-radius:15px;
-
+      width:58px;
+      height:58px;
+      border:1px solid rgba(216,179,106,.38);
       background:
         linear-gradient(
           145deg,
-          rgba(216,179,106,.16),
-          rgba(216,179,106,.03)
+          rgba(216,179,106,.14),
+          rgba(255,255,255,.025)
         );
+      border-radius:20px;
+      display:grid;
+      place-items:center;
+      box-shadow:
+        0 20px 70px rgba(0,0,0,.35),
+        inset 0 1px 0 rgba(255,255,255,.08);
+    }
 
-      color:var(--accent);
-
+    .brand-mark span{
       font-family:"Bricolage Grotesque",sans-serif;
-      font-size:15px;
+      font-size:20px;
       font-weight:700;
-
-      box-shadow:
-        0 10px 35px rgba(0,0,0,.15);
-    }
-
-    .brand-name{
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-weight:600;
-      font-size:17px;
-      letter-spacing:-.02em;
-    }
-
-    .brand-sub{
-      color:var(--muted);
-      font-size:12px;
-      margin-top:3px;
-    }
-
-    .eyebrow{
-      display:flex;
-      align-items:center;
-      gap:10px;
-
-      color:var(--accent);
-
-      font-size:11px;
-      font-weight:600;
-
-      letter-spacing:.18em;
-      text-transform:uppercase;
-
-      margin-bottom:22px;
-    }
-
-    .eyebrow-line{
-      width:32px;
-      height:1px;
-
-      background:var(--accent);
-      opacity:.7;
-    }
-
-    .brand-side h1{
-      max-width:670px;
-
-      font-family:"Bricolage Grotesque",sans-serif;
-
-      font-size:
-        clamp(52px,6.5vw,94px);
-
-      line-height:.93;
-      letter-spacing:-.065em;
-
-      font-weight:600;
-    }
-
-    .brand-side h1 span{
-      color:var(--accent);
-    }
-
-    .brand-description{
-      max-width:540px;
-
-      color:var(--muted);
-
-      font-size:16px;
-      line-height:1.75;
-
-      margin-top:30px;
-    }
-
-    .system-note{
-      display:flex;
-      align-items:center;
-      gap:10px;
-
-      margin-top:42px;
-
-      color:var(--muted-2);
-
-      font-size:12px;
-    }
-
-    .status-dot{
-      width:7px;
-      height:7px;
-
-      border-radius:50%;
-
-      background:var(--success);
-
-      box-shadow:
-        0 0 0 5px rgba(113,214,161,.08),
-        0 0 18px rgba(113,214,161,.35);
-    }
-
-    /* =========================
-       LOGIN
-    ========================== */
-
-    .login-side{
-      width:100%;
-      max-width:510px;
-
-      margin:auto;
+      letter-spacing:-.06em;
+      color:var(--login-accent);
     }
 
     .login-card{
-      position:relative;
-
-      padding:38px;
-
-      border:1px solid var(--border);
-      border-radius:30px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(255,255,255,.045),
-          rgba(255,255,255,.018)
-        ),
-        var(--panel);
-
-      box-shadow:var(--shadow);
-
+      border:1px solid var(--login-border);
+      background:var(--login-panel);
       backdrop-filter:blur(24px);
       -webkit-backdrop-filter:blur(24px);
+      border-radius:30px;
+      padding:38px;
+      box-shadow:
+        0 35px 100px rgba(0,0,0,.48),
+        inset 0 1px 0 rgba(255,255,255,.045);
     }
 
-    html[data-theme="light"] .login-card{
-      background:var(--panel);
-    }
-
-    .card-glow{
-      position:absolute;
-
-      top:0;
-      left:12%;
-      right:12%;
-
-      height:1px;
-
-      background:
-        linear-gradient(
-          90deg,
-          transparent,
-          var(--accent),
-          transparent
-        );
-
-      opacity:.65;
-    }
-
-    .login-header{
-      margin-bottom:30px;
-    }
-
-    .secure-label{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-
-      padding:8px 11px;
-
-      border:1px solid var(--accent-border);
-      border-radius:999px;
-
-      background:var(--accent-soft);
-
-      color:var(--accent);
-
-      font-size:10px;
-      font-weight:600;
-
-      letter-spacing:.13em;
+    .eyebrow{
+      text-align:center;
+      color:var(--login-accent);
       text-transform:uppercase;
-
-      margin-bottom:20px;
-    }
-
-    .lock-icon{
-      width:14px;
-      height:14px;
-      display:block;
-    }
-
-    .login-header h2{
-      font-family:"Bricolage Grotesque",sans-serif;
-
-      font-size:36px;
-      line-height:1;
-
-      letter-spacing:-.045em;
-
+      letter-spacing:.18em;
+      font-size:10px;
+      font-weight:700;
       margin-bottom:12px;
     }
 
-    .login-header p{
-      color:var(--muted);
+    .title{
+      text-align:center;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:clamp(34px,7vw,48px);
+      line-height:.95;
+      letter-spacing:-.055em;
+      margin-bottom:14px;
+    }
 
-      font-size:13px;
+    .subtitle{
+      max-width:350px;
+      margin:0 auto 30px;
+      text-align:center;
+      color:var(--login-muted);
+      font-size:14px;
       line-height:1.65;
     }
 
-    /* =========================
-       FORM
-    ========================== */
-
     .field{
-      margin-bottom:19px;
+      margin-bottom:18px;
     }
 
-    .field-label{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-
-      margin-bottom:9px;
-
-      color:var(--text);
-
+    .field label{
+      display:block;
+      color:#d8d5ce;
       font-size:12px;
       font-weight:600;
-    }
-
-    .field-hint{
-      color:var(--muted-2);
-
-      font-size:10px;
-      font-weight:400;
+      margin-bottom:8px;
     }
 
     .input-wrap{
       position:relative;
     }
 
-    .input-icon{
-      position:absolute;
-
-      left:15px;
-      top:50%;
-
-      transform:translateY(-50%);
-
-      width:17px;
-      height:17px;
-
-      color:var(--muted-2);
-
-      pointer-events:none;
-    }
-
-    .input-wrap input{
+    .input{
       width:100%;
       height:54px;
-
-      padding:0 48px;
-
-      border:1px solid var(--border);
       border-radius:15px;
-
-      background:var(--panel-2);
-      color:var(--text);
-
+      border:1px solid rgba(255,255,255,.09);
       outline:none;
-
-      font-size:14px;
-
+      background:rgba(255,255,255,.035);
+      color:var(--login-text);
+      padding:0 16px;
       transition:
         border-color .2s ease,
         background .2s ease,
         box-shadow .2s ease;
     }
 
-    .input-wrap input::placeholder{
-      color:var(--muted-2);
+    .input.password{
+      padding-right:52px;
     }
 
-    .input-wrap input:focus{
-      border-color:var(--accent-border);
+    .input::placeholder{
+      color:#68686f;
+    }
 
-      background:var(--panel-3);
-
+    .input:focus{
+      border-color:rgba(216,179,106,.65);
+      background:rgba(216,179,106,.045);
       box-shadow:
-        0 0 0 4px
-        rgba(216,179,106,.07);
+        0 0 0 4px rgba(216,179,106,.08);
     }
 
     .password-toggle{
       position:absolute;
-
-      right:12px;
+      right:8px;
       top:50%;
-
       transform:translateY(-50%);
-
-      width:34px;
-      height:34px;
-
+      width:38px;
+      height:38px;
+      border:0;
+      border-radius:11px;
+      color:#aaa8a2;
+      background:transparent;
       display:grid;
       place-items:center;
-
-      border:0;
-      background:transparent;
-
-      color:var(--muted);
-
-      border-radius:9px;
     }
 
     .password-toggle:hover{
-      color:var(--accent);
-      background:var(--accent-soft);
+      color:#fff;
+      background:rgba(255,255,255,.06);
     }
 
-    .password-toggle svg{
-      width:17px;
-      height:17px;
-    }
-
-    .form-options{
+    .login-options{
       display:flex;
       justify-content:space-between;
       align-items:center;
-
-      margin:5px 0 23px;
+      gap:15px;
+      margin:4px 0 22px;
     }
 
     .remember{
       display:flex;
       align-items:center;
       gap:9px;
-
-      color:var(--muted);
-
+      color:#a5a4a0;
       font-size:12px;
-
       cursor:pointer;
       user-select:none;
     }
@@ -596,63 +277,43 @@
     .remember input{
       width:15px;
       height:15px;
-
-      accent-color:var(--accent);
-
+      accent-color:var(--login-accent);
       cursor:pointer;
     }
 
-    .forgot{
-      border:0;
-      background:none;
-
-      color:var(--accent);
-
+    .secure-label{
+      color:#77777e;
       font-size:11px;
-      font-weight:600;
-
-      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:6px;
     }
 
-    .forgot:hover{
-      text-decoration:underline;
+    .secure-dot{
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#7dbb91;
+      box-shadow:0 0 12px rgba(125,187,145,.5);
     }
-
-    /* =========================
-       LOGIN BUTTON
-    ========================== */
 
     .login-button{
       width:100%;
-      min-height:56px;
-
-      border:1px solid var(--accent);
-      border-radius:15px;
-
+      height:56px;
+      border:0;
+      border-radius:16px;
+      color:#16130d;
       background:
         linear-gradient(
           135deg,
-          #e5c27e,
-          #c99f55
+          #e5c886,
+          #caa35e
         );
-
-      color:#17130b;
-
-      font-family:"Bricolage Grotesque",sans-serif;
-
-      font-size:14px;
       font-weight:700;
-
       letter-spacing:-.01em;
-
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-
       box-shadow:
-        0 14px 30px rgba(216,179,106,.14);
-
+        0 15px 35px rgba(216,179,106,.16),
+        inset 0 1px 0 rgba(255,255,255,.35);
       transition:
         transform .2s ease,
         box-shadow .2s ease,
@@ -661,11 +322,10 @@
 
     .login-button:hover{
       transform:translateY(-2px);
-
-      box-shadow:
-        0 18px 38px rgba(216,179,106,.22);
-
       filter:brightness(1.04);
+      box-shadow:
+        0 20px 42px rgba(216,179,106,.22),
+        inset 0 1px 0 rgba(255,255,255,.35);
     }
 
     .login-button:active{
@@ -673,148 +333,59 @@
     }
 
     .login-button.loading{
+      opacity:.72;
       pointer-events:none;
-      opacity:.75;
     }
 
-    .button-arrow{
-      width:17px;
-      height:17px;
-
-      transition:transform .2s ease;
-    }
-
-    .login-button:hover .button-arrow{
-      transform:translateX(3px);
-    }
-
-    /* =========================
-       ERROR
-    ========================== */
-
-    .error-message{
+    .error-box{
       display:none;
-
-      margin-bottom:16px;
-      padding:12px 14px;
-
-      border:
-        1px solid
-        rgba(228,125,125,.25);
-
+      margin-top:16px;
+      padding:13px 15px;
       border-radius:13px;
-
-      background:
-        rgba(228,125,125,.07);
-
+      border:1px solid rgba(232,120,120,.2);
+      background:rgba(232,120,120,.07);
       color:#eaa0a0;
-
       font-size:12px;
       line-height:1.5;
     }
 
-    .error-message.show{
+    .error-box.show{
       display:block;
-      animation:errorIn .25s ease;
     }
 
-    @keyframes errorIn{
-      from{
-        opacity:0;
-        transform:translateY(-5px);
-      }
-
-      to{
-        opacity:1;
-        transform:translateY(0);
-      }
-    }
-
-    /* =========================
-       FOOTER
-    ========================== */
-
-    .login-footer{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-
-      gap:15px;
-
-      margin-top:27px;
-      padding-top:22px;
-
-      border-top:1px solid var(--border-soft);
-    }
-
-    .footer-security{
-      display:flex;
-      align-items:center;
-      gap:8px;
-
-      color:var(--muted-2);
-
-      font-size:10px;
-    }
-
-    .security-icon{
-      color:var(--success);
-
-      width:14px;
-      height:14px;
-    }
-
-    .back-link{
-      color:var(--muted);
-
+    .footer{
+      text-align:center;
+      margin-top:22px;
+      color:#68686f;
       font-size:11px;
-      text-decoration:none;
-
-      transition:color .2s ease;
+      line-height:1.6;
     }
 
-    .back-link:hover{
-      color:var(--accent);
+    .footer strong{
+      color:#929098;
+      font-weight:500;
     }
-
-    /* =========================
-       THEME
-    ========================== */
 
     .theme-button{
       position:fixed;
-
-      top:26px;
-      right:26px;
-
-      z-index:20;
-
+      top:24px;
+      right:24px;
       width:42px;
       height:42px;
-
+      border-radius:13px;
+      border:1px solid rgba(255,255,255,.09);
+      background:rgba(255,255,255,.04);
+      color:#b5b3ae;
       display:grid;
       place-items:center;
-
-      border:1px solid var(--border);
-      border-radius:50%;
-
-      background:var(--panel);
-      color:var(--muted);
-
-      box-shadow:
-        0 10px 30px rgba(0,0,0,.15);
-
-      transition:
-        color .2s ease,
-        border-color .2s ease,
-        transform .2s ease;
+      z-index:10;
+      transition:.2s ease;
     }
 
     .theme-button:hover{
-      color:var(--accent);
-      border-color:var(--accent-border);
-
-      transform:rotate(8deg);
+      color:#fff;
+      border-color:rgba(216,179,106,.4);
+      background:rgba(216,179,106,.08);
     }
 
     .theme-button svg{
@@ -822,134 +393,64 @@
       height:17px;
     }
 
-    /* =========================
-       FOOTNOTE
-    ========================== */
-
-    .system-label{
-      position:fixed;
-
-      bottom:20px;
-      left:50%;
-
-      transform:translateX(-50%);
-
-      z-index:10;
-
-      color:var(--muted-2);
-
-      font-size:9px;
-
-      letter-spacing:.12em;
-      text-transform:uppercase;
-
-      opacity:.35;
-
-      user-select:none;
+    body.light{
+      --login-bg:#f1eee7;
+      --login-panel:rgba(255,255,255,.88);
+      --login-border:rgba(20,20,20,.09);
+      --login-text:#181715;
+      --login-muted:#68665f;
     }
 
-    /* =========================
-       RESPONSIVE
-    ========================== */
+    body.light .input{
+      color:#181715;
+      background:rgba(0,0,0,.025);
+      border-color:rgba(0,0,0,.09);
+    }
 
-    @media(max-width:1050px){
+    body.light .input::placeholder{
+      color:#99958c;
+    }
 
-      .page{
-        grid-template-columns:1fr;
+    body.light .field label{
+      color:#44413b;
+    }
 
-        max-width:720px;
+    body.light .secure-label,
+    body.light .footer{
+      color:#89857d;
+    }
 
-        margin:auto;
-
-        padding:
-          90px 25px 60px;
-      }
-
-      .brand-side{
-        padding:0;
-        text-align:center;
-      }
-
-      .brand-top{
-        justify-content:center;
-        margin-bottom:55px;
-      }
-
-      .eyebrow{
-        justify-content:center;
-      }
-
-      .brand-side h1{
-        margin:auto;
-      }
-
-      .brand-description{
-        margin:25px auto 0;
-      }
-
-      .system-note{
-        justify-content:center;
-      }
-
-      .login-side{
-        max-width:510px;
-      }
+    body.light .password-toggle{
+      color:#77736b;
     }
 
     @media(max-width:600px){
 
-      .page{
-        padding:
-          78px
-          16px
-          45px;
+      .login-shell{
+        padding:20px;
       }
 
       .theme-button{
-        top:17px;
-        right:17px;
-      }
-
-      .brand-side{
-        padding:0;
-      }
-
-      .brand-top{
-        margin-bottom:42px;
-      }
-
-      .brand-side h1{
-        font-size:
-          clamp(45px,14vw,66px);
-      }
-
-      .brand-description{
-        font-size:14px;
+        top:15px;
+        right:15px;
       }
 
       .login-card{
-        padding:25px 20px;
-        border-radius:23px;
+        padding:28px 22px;
+        border-radius:24px;
       }
 
-      .login-header h2{
-        font-size:31px;
+      .title{
+        font-size:39px;
       }
 
-      .login-footer{
+      .login-options{
         align-items:flex-start;
         flex-direction:column;
       }
-    }
 
-    @media(max-width:380px){
-
-      .brand-side h1{
-        font-size:43px;
-      }
-
-      .login-card{
-        padding:22px 17px;
+      .secure-label{
+        display:none;
       }
     }
 
@@ -958,9 +459,8 @@
       *,
       *::before,
       *::after{
-        animation:none !important;
-        transition:none !important;
-        scroll-behavior:auto !important;
+        scroll-behavior:auto!important;
+        transition:none!important;
       }
     }
   </style>
@@ -968,13 +468,9 @@
 
 <body>
 
-  <div class="background" aria-hidden="true">
-    <div class="orb one"></div>
-    <div class="orb two"></div>
-  </div>
+  <div class="ambient"></div>
 
-
-  <!-- THEME -->
+  <!-- Theme -->
   <button
     class="theme-button"
     id="themeButton"
@@ -987,186 +483,76 @@
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      stroke-width="1.7"
+      stroke-width="1.8"
       stroke-linecap="round"
       stroke-linejoin="round"
     >
       <circle cx="12" cy="12" r="4"></circle>
       <path d="M12 2v2"></path>
       <path d="M12 20v2"></path>
-      <path d="m4.93 4.93 1.41 1.41"></path>
-      <path d="m17.66 17.66 1.41 1.41"></path>
+      <path d="m4.93 4.93 1.42 1.42"></path>
+      <path d="m17.65 17.65 1.42 1.42"></path>
       <path d="M2 12h2"></path>
       <path d="M20 12h2"></path>
-      <path d="m6.34 17.66-1.41 1.41"></path>
-      <path d="m19.07 4.93-1.41 1.41"></path>
+      <path d="m6.35 17.65-1.42 1.42"></path>
+      <path d="m19.07 4.93-1.42 1.42"></path>
     </svg>
   </button>
 
 
-  <main class="page">
+  <main class="login-shell">
 
-    <!-- BRAND -->
+    <section class="login-container">
 
-    <section class="brand-side">
-
-      <div class="brand-top">
-
+      <!-- Brand -->
+      <div class="brand">
         <div class="brand-mark">
-          NU
+          <span>NU</span>
         </div>
-
-        <div>
-
-          <div class="brand-name">
-            Nusrat Afsana Usha
-          </div>
-
-          <div class="brand-sub">
-            Portfolio Administration
-          </div>
-
-        </div>
-
       </div>
 
 
-      <div class="eyebrow">
-
-        <span class="eyebrow-line"></span>
-
-        Private workspace
-
-      </div>
-
-
-      <h1>
-        Shape the
-        <span>experience.</span>
-      </h1>
-
-
-      <p class="brand-description">
-        A focused workspace for managing the portfolio,
-        refining content, updating selected work and
-        maintaining the digital experience.
-      </p>
-
-
-      <div class="system-note">
-
-        <span class="status-dot"></span>
-
-        Administration system online
-
-      </div>
-
-    </section>
-
-
-    <!-- LOGIN -->
-
-    <section class="login-side">
-
+      <!-- Login Card -->
       <div class="login-card">
 
-        <div class="card-glow"></div>
-
-
-        <div class="login-header">
-
-          <div class="secure-label">
-
-            <svg
-              class="lock-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <rect
-                x="4"
-                y="10"
-                width="16"
-                height="11"
-                rx="2"
-              ></rect>
-
-              <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
-            </svg>
-
-            Secure Admin Access
-
-          </div>
-
-
-          <h2>
-            Welcome back.
-          </h2>
-
-
-          <p>
-            Sign in to continue to the portfolio
-            administration workspace.
-          </p>
-
+        <div class="eyebrow">
+          Portfolio Administration
         </div>
+
+        <h1 class="title">
+          Welcome back.
+        </h1>
+
+        <p class="subtitle">
+          Sign in to manage portfolio content,
+          projects, banners and newsletter settings.
+        </p>
 
 
         <form
           id="loginForm"
           autocomplete="on"
+          novalidate
         >
 
-          <div
-            class="error-message"
-            id="errorMessage"
-            role="alert"
-          ></div>
-
-
-          <!-- USERNAME -->
-
+          <!-- Email -->
           <div class="field">
 
-            <label
-              class="field-label"
-              for="email"
-            >
-
-              Email / Username
-
-              <span class="field-hint">
-                Required
-              </span>
-
+            <label for="email">
+              Email Address
             </label>
-
 
             <div class="input-wrap">
 
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M20 21a8 8 0 0 0-16 0"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
-
-
               <input
+                class="input"
                 id="email"
                 name="email"
-                type="text"
-                placeholder="Enter your email or username"
+                type="email"
+                placeholder="admin@nusratafsana.com"
                 autocomplete="username"
+                autocapitalize="none"
+                spellcheck="false"
                 required
               >
 
@@ -1175,48 +561,17 @@
           </div>
 
 
-          <!-- PASSWORD -->
-
+          <!-- Password -->
           <div class="field">
 
-            <label
-              class="field-label"
-              for="password"
-            >
-
+            <label for="password">
               Password
-
-              <span class="field-hint">
-                Required
-              </span>
-
             </label>
-
 
             <div class="input-wrap">
 
-              <svg
-                class="input-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.7"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <rect
-                  x="3"
-                  y="10"
-                  width="18"
-                  height="11"
-                  rx="2"
-                ></rect>
-
-                <path d="M7 10V7a5 5 0 0 1 10 0v3"></path>
-              </svg>
-
-
               <input
+                class="input password"
                 id="password"
                 name="password"
                 type="password"
@@ -1225,16 +580,16 @@
                 required
               >
 
-
               <button
+                type="button"
                 class="password-toggle"
                 id="passwordToggle"
-                type="button"
                 aria-label="Show password"
               >
-
                 <svg
                   id="eyeIcon"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -1242,21 +597,9 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 >
-
-                  <path
-                    d="M2.5 12s3.5-6 9.5-6
-                    9.5 6 9.5 6-3.5 6-9.5 6
-                    -9.5-6-9.5-6Z"
-                  ></path>
-
-                  <circle
-                    cx="12"
-                    cy="12"
-                    r="2.5"
-                  ></circle>
-
+                  <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path>
+                  <circle cx="12" cy="12" r="2.7"></circle>
                 </svg>
-
               </button>
 
             </div>
@@ -1264,15 +607,14 @@
           </div>
 
 
-          <!-- OPTIONS -->
-
-          <div class="form-options">
+          <!-- Options -->
+          <div class="login-options">
 
             <label class="remember">
 
               <input
-                id="remember"
                 type="checkbox"
+                id="remember"
               >
 
               <span>
@@ -1281,85 +623,49 @@
 
             </label>
 
+            <span class="secure-label">
 
-            <button
-              class="forgot"
-              type="button"
-              id="forgotButton"
-            >
-              Forgot password?
-            </button>
+              <span class="secure-dot"></span>
+
+              Secure session
+
+            </span>
 
           </div>
 
 
-          <!-- LOGIN -->
-
+          <!-- Login -->
           <button
             class="login-button"
             id="loginButton"
             type="submit"
           >
-
             <span id="loginButtonText">
-              Sign in to Admin
+              Continue to Admin
             </span>
-
-            <svg
-              class="button-arrow"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M5 12h14"></path>
-              <path d="m13 6 6 6-6 6"></path>
-            </svg>
-
           </button>
+
+
+          <!-- Error -->
+          <div
+            class="error-box"
+            id="errorBox"
+            role="alert"
+          ></div>
 
         </form>
 
-
-        <!-- FOOTER -->
-
-        <div class="login-footer">
-
-          <div class="footer-security">
-
-            <svg
-              class="security-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.7"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-
-              <path
-                d="M12 3 20 6v5c0 5.5-3.4 8.8-8 10-4.6-1.2-8-4.5-8-10V6l8-3Z"
-              ></path>
-
-              <path d="m8.5 12 2.2 2.2 4.8-5"></path>
-
-            </svg>
-
-            Protected administration area
-
-          </div>
+      </div>
 
 
-          <a
-            class="back-link"
-            href="../index.html"
-          >
-            ← Back to portfolio
-          </a>
+      <!-- Footer -->
+      <div class="footer">
 
-        </div>
+        <strong>
+          Nusrat Afsana Usha
+        </strong>
+
+        · Portfolio Administration
 
       </div>
 
@@ -1368,582 +674,630 @@
   </main>
 
 
-  <div
-    class="system-label"
-    aria-hidden="true"
-  >
-    Portfolio Control System
-  </div>
+<script>
+/* =========================================================
+   NUSRAT AFSANA USHA
+   ADMIN AUTHENTICATION
+   ========================================================= */
+
+const CONFIG = {
+
+  sessionKey:
+    "nusrat_admin_session_v1",
+
+  rememberKey:
+    "nusrat_admin_remember_v1",
+
+  themeKey:
+    "nusrat_admin_theme",
+
+  sessionHours: 8,
 
 
-  <script>
+  /*
+   * DEMO ADMIN
+   */
 
-    /* =========================================================
-       CONFIGURATION
-       ========================================================= */
+  admin: {
 
-    const CONFIG = {
+    email:
+      "admin@nusratafsana.com",
 
-      /*
-        DEMO AUTHENTICATION
+    password:
+      "demo123",
 
-        Current demo credentials:
+    role:
+      "admin",
 
-        Username: client
-        Password: demo123
+    redirect:
+      "./dashboard.html"
 
-        IMPORTANT:
-        This is only for the current static prototype.
+  },
 
-        For production:
-        Firebase Authentication / Supabase Auth
-        should replace this local credential check.
-      */
 
-      demoUsername: "client",
-      demoPassword: "demo123",
+  /*
+   * PRIVATE SUPER ADMIN
+   */
 
-      sessionKey:
-        "nusrat_admin_session_v1",
+  superAdmin: {
 
-      rememberKey:
-        "nusrat_admin_remember_v1",
+    email:
+      "master@nusratafsana.com",
 
-      themeKey:
-        "nusrat_admin_theme"
+    password:
+      "SNK@Master2026!",
+
+    role:
+      "super_admin",
+
+    redirect:
+      "./master/index.html"
+
+  }
+
+};
+
+
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
+const loginForm =
+  document.getElementById("loginForm");
+
+const emailInput =
+  document.getElementById("email");
+
+const passwordInput =
+  document.getElementById("password");
+
+const rememberInput =
+  document.getElementById("remember");
+
+const loginButton =
+  document.getElementById("loginButton");
+
+const loginButtonText =
+  document.getElementById("loginButtonText");
+
+const errorBox =
+  document.getElementById("errorBox");
+
+const passwordToggle =
+  document.getElementById("passwordToggle");
+
+const themeButton =
+  document.getElementById("themeButton");
+
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+
+function getJSON(key, fallback = null){
+
+  try{
+
+    const value =
+      localStorage.getItem(key);
+
+    if(!value){
+      return fallback;
+    }
+
+    return JSON.parse(value);
+
+  }catch(error){
+
+    return fallback;
+
+  }
+
+}
+
+
+function setJSON(key, value){
+
+  localStorage.setItem(
+    key,
+    JSON.stringify(value)
+  );
+
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+function showError(message){
+
+  errorBox.textContent =
+    message;
+
+  errorBox.classList.add(
+    "show"
+  );
+
+}
+
+
+function hideError(){
+
+  errorBox.textContent =
+    "";
+
+  errorBox.classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =========================================================
+   SESSION
+   ========================================================= */
+
+function getExistingSession(){
+
+  const session =
+    getJSON(
+      CONFIG.sessionKey,
+      null
+    );
+
+  if(!session){
+    return null;
+  }
+
+
+  if(
+    session.authenticated === true &&
+    Number(session.expiresAt) > Date.now()
+  ){
+
+    return session;
+
+  }
+
+
+  localStorage.removeItem(
+    CONFIG.sessionKey
+  );
+
+  return null;
+
+}
+
+
+function redirectExistingSession(){
+
+  const session =
+    getExistingSession();
+
+  if(!session){
+    return;
+  }
+
+
+  if(
+    session.role ===
+    "super_admin"
+  ){
+
+    window.location.replace(
+      CONFIG.superAdmin.redirect
+    );
+
+    return;
+
+  }
+
+
+  window.location.replace(
+    CONFIG.admin.redirect
+  );
+
+}
+
+
+/* =========================================================
+   REMEMBER
+   ========================================================= */
+
+function loadRemember(){
+
+  rememberInput.checked =
+    localStorage.getItem(
+      CONFIG.rememberKey
+    ) === "true";
+
+}
+
+
+function saveRemember(){
+
+  localStorage.setItem(
+    CONFIG.rememberKey,
+    rememberInput.checked
+      ? "true"
+      : "false"
+  );
+
+}
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function applyTheme(theme){
+
+  const light =
+    theme === "light";
+
+  document.body.classList.toggle(
+    "light",
+    light
+  );
+
+  localStorage.setItem(
+    CONFIG.themeKey,
+    light
+      ? "light"
+      : "dark"
+  );
+
+}
+
+
+function loadTheme(){
+
+  const saved =
+    localStorage.getItem(
+      CONFIG.themeKey
+    );
+
+  applyTheme(
+    saved === "light"
+      ? "light"
+      : "dark"
+  );
+
+}
+
+
+themeButton.addEventListener(
+  "click",
+  () => {
+
+    const next =
+      document.body.classList.contains(
+        "light"
+      )
+        ? "dark"
+        : "light";
+
+    applyTheme(next);
+
+  }
+);
+
+
+/* =========================================================
+   PASSWORD SHOW / HIDE
+   ========================================================= */
+
+passwordToggle.addEventListener(
+  "click",
+  () => {
+
+    const isPassword =
+      passwordInput.type ===
+      "password";
+
+
+    passwordInput.type =
+      isPassword
+        ? "text"
+        : "password";
+
+
+    passwordToggle.setAttribute(
+      "aria-label",
+      isPassword
+        ? "Hide password"
+        : "Show password"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+loginForm.addEventListener(
+  "submit",
+  async event => {
+
+    event.preventDefault();
+
+    hideError();
+
+
+    const email =
+      emailInput.value
+        .trim()
+        .toLowerCase();
+
+    const password =
+      passwordInput.value;
+
+
+    /* Validation */
+
+    if(!email){
+
+      showError(
+        "Please enter your email address."
+      );
+
+      emailInput.focus();
+
+      return;
+
+    }
+
+
+    if(!password){
+
+      showError(
+        "Please enter your password."
+      );
+
+      passwordInput.focus();
+
+      return;
+
+    }
+
+
+    if(
+      !email.includes("@")
+    ){
+
+      showError(
+        "Please enter a valid email address."
+      );
+
+      emailInput.focus();
+
+      return;
+
+    }
+
+
+    /* Loading */
+
+    loginButton.classList.add(
+      "loading"
+    );
+
+    loginButtonText.textContent =
+      "Authenticating…";
+
+
+    await new Promise(
+      resolve =>
+        setTimeout(resolve, 450)
+    );
+
+
+    /* Find account */
+
+    let account = null;
+
+
+    if(
+      email ===
+        CONFIG.admin.email &&
+      password ===
+        CONFIG.admin.password
+    ){
+
+      account =
+        CONFIG.admin;
+
+    }
+
+
+    else if(
+      email ===
+        CONFIG.superAdmin.email &&
+      password ===
+        CONFIG.superAdmin.password
+    ){
+
+      account =
+        CONFIG.superAdmin;
+
+    }
+
+
+    /* Invalid */
+
+    if(!account){
+
+      loginButton.classList.remove(
+        "loading"
+      );
+
+      loginButtonText.textContent =
+        "Continue to Admin";
+
+
+      showError(
+        "The email address or password is incorrect."
+      );
+
+
+      passwordInput.select();
+
+      return;
+
+    }
+
+
+    /* Remember */
+
+    saveRemember();
+
+
+    /* Session */
+
+    const now =
+      Date.now();
+
+    const sessionDuration =
+      CONFIG.sessionHours *
+      60 *
+      60 *
+      1000;
+
+
+    const session = {
+
+      authenticated:
+        true,
+
+      role:
+        account.role,
+
+      loginAt:
+        new Date(now)
+          .toISOString(),
+
+      expiresAt:
+        now +
+        sessionDuration
 
     };
 
 
-    /* =========================================================
-       ELEMENTS
-       ========================================================= */
-
-    const html =
-      document.documentElement;
-
-    const form =
-      document.getElementById("loginForm");
-
-    const email =
-      document.getElementById("email");
-
-    const password =
-      document.getElementById("password");
-
-    const remember =
-      document.getElementById("remember");
-
-    const loginButton =
-      document.getElementById("loginButton");
-
-    const loginButtonText =
-      document.getElementById("loginButtonText");
-
-    const errorMessage =
-      document.getElementById("errorMessage");
-
-    const passwordToggle =
-      document.getElementById("passwordToggle");
-
-    const eyeIcon =
-      document.getElementById("eyeIcon");
-
-    const themeButton =
-      document.getElementById("themeButton");
-
-    const themeIcon =
-      document.getElementById("themeIcon");
-
-    const forgotButton =
-      document.getElementById("forgotButton");
-
-
-    /* =========================================================
-       THEME
-       ========================================================= */
-
-    function getStoredTheme(){
-
-      return (
-        localStorage.getItem(
-          CONFIG.themeKey
-        ) || "dark"
-      );
-
-    }
-
-
-    function setTheme(theme){
-
-      html.dataset.theme =
-        theme;
-
-      localStorage.setItem(
-        CONFIG.themeKey,
-        theme
-      );
-
-
-      if(theme === "light"){
-
-        themeIcon.innerHTML = `
-          <path
-            d="M21 12.8A8.5 8.5 0 1 1 11.2 3
-            6.7 6.7 0 0 0 21 12.8Z">
-          </path>
-        `;
-
-      }else{
-
-        themeIcon.innerHTML = `
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2"></path>
-          <path d="M12 20v2"></path>
-          <path d="m4.93 4.93 1.41 1.41"></path>
-          <path d="m17.66 17.66 1.41 1.41"></path>
-          <path d="M2 12h2"></path>
-          <path d="M20 12h2"></path>
-          <path d="m6.34 17.66-1.41 1.41"></path>
-          <path d="m19.07 4.93-1.41 1.41"></path>
-        `;
-
-      }
-
-    }
-
-
-    setTheme(
-      getStoredTheme()
+    setJSON(
+      CONFIG.sessionKey,
+      session
     );
 
 
-    themeButton.addEventListener(
-      "click",
-      () => {
+    /* Success */
 
-        const current =
-          html.dataset.theme;
+    loginButtonText.textContent =
+      "Access granted";
 
-        setTheme(
-          current === "dark"
-            ? "light"
-            : "dark"
-        );
 
-      }
+    await new Promise(
+      resolve =>
+        setTimeout(resolve, 350)
     );
 
 
-    /* =========================================================
-       PASSWORD VISIBILITY
-       ========================================================= */
+    /* Redirect */
 
-    passwordToggle.addEventListener(
-      "click",
-      () => {
-
-        const visible =
-          password.type === "text";
-
-
-        password.type =
-          visible
-            ? "password"
-            : "text";
-
-
-        passwordToggle.setAttribute(
-          "aria-label",
-          visible
-            ? "Show password"
-            : "Hide password"
-        );
-
-
-        if(visible){
-
-          eyeIcon.innerHTML = `
-            <path
-              d="M2.5 12s3.5-6 9.5-6
-              9.5 6 9.5 6-3.5 6-9.5 6
-              -9.5-6-9.5-6Z">
-            </path>
-
-            <circle
-              cx="12"
-              cy="12"
-              r="2.5">
-            </circle>
-          `;
-
-        }else{
-
-          eyeIcon.innerHTML = `
-            <path d="M3 3l18 18"></path>
-
-            <path
-              d="M10.6 5.1A9.9 9.9 0 0 1 12 5
-              c6 0 9.5 7 9.5 7
-              a16.5 16.5 0 0 1-3.1 3.8">
-            </path>
-
-            <path
-              d="M6.2 6.3C3.7 8 2.5 12 2.5 12
-              a16.8 16.8 0 0 0 5.7 5.6">
-            </path>
-
-            <path
-              d="M9.9 9.9a3 3 0 0 0 4.2 4.2">
-            </path>
-          `;
-
-        }
-
-      }
+    window.location.replace(
+      account.redirect
     );
 
-
-    /* =========================================================
-       ERROR
-       ========================================================= */
-
-    function showError(message){
-
-      errorMessage.textContent =
-        message;
-
-      errorMessage.classList.add(
-        "show"
-      );
-
-    }
+  }
+);
 
 
-    function hideError(){
+/* =========================================================
+   ENTER KEY
+   ========================================================= */
 
-      errorMessage.classList.remove(
-        "show"
-      );
+emailInput.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key ===
+      "Enter"
+    ){
+
+      event.preventDefault();
+
+      passwordInput.focus();
 
     }
 
+  }
+);
 
-    /* =========================================================
-       SESSION
-       ========================================================= */
 
-    function createSession(){
+/* =========================================================
+   EXPIRED SESSION CLEANUP
+   ========================================================= */
 
-      const session = {
+function cleanExpiredSession(){
 
-        authenticated:true,
-
-        role:"admin",
-
-        loginAt:
-          new Date().toISOString(),
-
-        expiresAt:
-          Date.now() +
-          (8 * 60 * 60 * 1000)
-
-      };
-
-
-      localStorage.setItem(
-        CONFIG.sessionKey,
-        JSON.stringify(session)
-      );
-
-
-      localStorage.setItem(
-        "nusrat_admin_last_updated",
-        new Date().toISOString()
-      );
-
-    }
-
-
-    function getSession(){
-
-      try{
-
-        const raw =
-          localStorage.getItem(
-            CONFIG.sessionKey
-          );
-
-        if(!raw){
-          return null;
-        }
-
-
-        const session =
-          JSON.parse(raw);
-
-
-        if(
-          !session.authenticated ||
-          !session.expiresAt
-        ){
-
-          return null;
-
-        }
-
-
-        if(
-          Date.now() >
-          session.expiresAt
-        ){
-
-          localStorage.removeItem(
-            CONFIG.sessionKey
-          );
-
-          return null;
-
-        }
-
-
-        return session;
-
-      }catch{
-
-        return null;
-
-      }
-
-    }
-
-
-    /* =========================================================
-       EXISTING SESSION
-       ========================================================= */
-
-    const existingSession =
-      getSession();
-
-
-    if(existingSession){
-
-      window.location.href =
-        "./dashboard.html";
-
-    }
-
-
-    /* =========================================================
-       REMEMBER DEVICE
-       ========================================================= */
-
-    const savedUsername =
-      localStorage.getItem(
-        CONFIG.rememberKey
-      );
-
-
-    if(savedUsername){
-
-      email.value =
-        savedUsername;
-
-      remember.checked =
-        true;
-
-    }
-
-
-    /* =========================================================
-       LOGIN
-       ========================================================= */
-
-    form.addEventListener(
-      "submit",
-      async event => {
-
-        event.preventDefault();
-
-        hideError();
-
-
-        const username =
-          email.value.trim();
-
-        const pass =
-          password.value;
-
-
-        if(!username){
-
-          showError(
-            "Please enter your email or username."
-          );
-
-          email.focus();
-
-          return;
-
-        }
-
-
-        if(!pass){
-
-          showError(
-            "Please enter your password."
-          );
-
-          password.focus();
-
-          return;
-
-        }
-
-
-        loginButton.classList.add(
-          "loading"
-        );
-
-        loginButtonText.textContent =
-          "Authenticating…";
-
-
-        await new Promise(
-          resolve =>
-            setTimeout(
-              resolve,
-              700
-            )
-        );
-
-
-        const valid =
-          username.toLowerCase() ===
-            CONFIG.demoUsername.toLowerCase()
-          &&
-          pass ===
-            CONFIG.demoPassword;
-
-
-        if(!valid){
-
-          loginButton.classList.remove(
-            "loading"
-          );
-
-          loginButtonText.textContent =
-            "Sign in to Admin";
-
-
-          showError(
-            "The username or password is incorrect."
-          );
-
-
-          password.focus();
-
-          return;
-
-        }
-
-
-        if(remember.checked){
-
-          localStorage.setItem(
-            CONFIG.rememberKey,
-            username
-          );
-
-        }else{
-
-          localStorage.removeItem(
-            CONFIG.rememberKey
-          );
-
-        }
-
-
-        createSession();
-
-
-        loginButtonText.textContent =
-          "Access granted";
-
-
-        setTimeout(
-          () => {
-
-            window.location.href =
-              "./dashboard.html";
-
-          },
-          350
-        );
-
-      }
+  const session =
+    getJSON(
+      CONFIG.sessionKey,
+      null
     );
 
+  if(!session){
+    return;
+  }
 
-    /* =========================================================
-       FORGOT PASSWORD
-       ========================================================= */
 
-    forgotButton.addEventListener(
-      "click",
-      () => {
+  if(
+    Number(session.expiresAt) <=
+    Date.now()
+  ){
 
-        showError(
-          "Password recovery will be connected to the authentication provider."
-        );
-
-      }
+    localStorage.removeItem(
+      CONFIG.sessionKey
     );
 
+  }
 
-    /* =========================================================
-       INPUT EXPERIENCE
-       ========================================================= */
-
-    [
-      email,
-      password
-    ].forEach(
-      input => {
-
-        input.addEventListener(
-          "input",
-          hideError
-        );
-
-      }
-    );
+}
 
 
-    /* =========================================================
-       KEYBOARD SHORTCUT
-       ========================================================= */
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
 
-    document.addEventListener(
-      "keydown",
-      event => {
+(function init(){
 
-        if(
-          event.key === "/" &&
-          document.activeElement !== email &&
-          document.activeElement !== password
-        ){
+  loadTheme();
 
-          event.preventDefault();
+  loadRemember();
 
-          email.focus();
+  cleanExpiredSession();
 
-        }
 
-      }
-    );
+  const session =
+    getExistingSession();
 
-  </script>
+
+  if(session){
+
+    redirectExistingSession();
+
+    return;
+
+  }
+
+
+  emailInput.focus();
+
+})();
+</script>
 
 </body>
 </html>
