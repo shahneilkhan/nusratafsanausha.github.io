@@ -5,331 +5,660 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Banner — Nusrat Afsana Usha Admin</title>
-  <meta name="description" content="Manage the portfolio hero banner and first impression.">
+  <meta
+    name="description"
+    content="Manage the hero banner and first impression of Nusrat Afsana Usha portfolio."
+  >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
 
   <link rel="stylesheet" href="./admin.css">
 
   <style>
+
     /* =========================================================
        BANNER PAGE
-    ========================================================== */
+       ========================================================= */
 
-    .banner-layout{
+    .banner-hero{
       display:grid;
-      grid-template-columns:minmax(0,1.15fr) minmax(330px,.85fr);
+      grid-template-columns:minmax(0,1fr) auto;
       gap:24px;
-      align-items:start;
+      align-items:end;
+      margin-bottom:28px;
     }
 
-    .banner-main,
-    .banner-side{
-      display:grid;
-      gap:24px;
-      min-width:0;
-    }
-
-    .editor-header{
+    .banner-kicker{
       display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:20px;
-      margin-bottom:24px;
-    }
-
-    .editor-header h2{
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:20px;
-      line-height:1.1;
-      letter-spacing:-.03em;
-    }
-
-    .editor-header p{
+      align-items:center;
+      gap:9px;
+      margin-bottom:10px;
       color:var(--muted);
       font-size:11px;
-      line-height:1.55;
-      margin-top:6px;
-      max-width:560px;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
     }
 
-    .publish-pill{
-      display:inline-flex;
+    .banner-kicker span{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:
+        0 0 0 5px
+        color-mix(
+          in srgb,
+          var(--accent) 10%,
+          transparent
+        );
+    }
+
+    .banner-hero h1{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:clamp(34px,4.4vw,60px);
+      line-height:.96;
+      letter-spacing:-.05em;
+    }
+
+    .banner-hero p{
+      max-width:720px;
+      margin:14px 0 0;
+      color:var(--muted);
+      line-height:1.75;
+    }
+
+    .banner-status{
+      display:flex;
       align-items:center;
-      gap:7px;
-      padding:8px 11px;
-      border:1px solid rgba(113,214,161,.2);
+      gap:9px;
+      padding:12px 15px;
+      border:1px solid var(--border);
       border-radius:999px;
-      background:rgba(113,214,161,.07);
-      color:#86dbaa;
-      font-size:9px;
-      font-weight:600;
+      background:var(--panel);
+      color:var(--text);
+      font-size:12px;
+      font-weight:700;
       white-space:nowrap;
     }
 
-    .publish-pill::before{
-      content:"";
-      width:6px;
-      height:6px;
+    .banner-status i{
+      width:8px;
+      height:8px;
       border-radius:50%;
-      background:#71d6a1;
-      box-shadow:0 0 0 4px rgba(113,214,161,.08);
+      background:#63d88a;
+      box-shadow:0 0 0 5px rgba(99,216,138,.1);
     }
 
-    /* IMAGE UPLOAD */
+    .banner-status.off i{
+      background:#df7777;
+      box-shadow:0 0 0 5px rgba(223,119,119,.1);
+    }
 
-    .upload-zone{
+
+    /* =========================================================
+       MAIN GRID
+       ========================================================= */
+
+    .banner-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(380px,.95fr);
+      gap:20px;
+      align-items:start;
+    }
+
+    .banner-column{
+      display:grid;
+      gap:20px;
+    }
+
+    .banner-panel{
+      padding:24px;
+      border:1px solid var(--border);
+      border-radius:22px;
+      background:var(--panel);
+      box-shadow:0 18px 60px rgba(0,0,0,.07);
+    }
+
+    .banner-panel-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+      margin-bottom:22px;
+    }
+
+    .banner-panel-title{
+      margin:0;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:20px;
+      letter-spacing:-.025em;
+    }
+
+    .banner-panel-copy{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.65;
+    }
+
+    .banner-icon{
+      width:42px;
+      height:42px;
+      flex:0 0 42px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--border);
+      border-radius:14px;
+      color:var(--accent);
+      background:rgba(255,255,255,.025);
+    }
+
+
+    /* =========================================================
+       FIELDS
+       ========================================================= */
+
+    .banner-fields{
+      display:grid;
+      gap:17px;
+    }
+
+    .banner-field{
+      display:grid;
+      gap:8px;
+    }
+
+    .banner-field label{
+      color:var(--text);
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .banner-field input,
+    .banner-field textarea,
+    .banner-field select{
+      width:100%;
+      min-height:47px;
+      padding:12px 14px;
+      border:1px solid var(--border);
+      border-radius:13px;
+      outline:0;
+      background:rgba(255,255,255,.025);
+      color:var(--text);
+      font:inherit;
+      font-size:13px;
+      transition:.2s ease;
+    }
+
+    .banner-field textarea{
+      min-height:112px;
+      resize:vertical;
+      line-height:1.65;
+    }
+
+    .banner-field input:focus,
+    .banner-field textarea:focus,
+    .banner-field select:focus{
+      border-color:
+        color-mix(
+          in srgb,
+          var(--accent) 65%,
+          var(--border)
+        );
+
+      box-shadow:
+        0 0 0 4px
+        color-mix(
+          in srgb,
+          var(--accent) 8%,
+          transparent
+        );
+    }
+
+    .field-note{
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.5;
+    }
+
+    .char-row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      color:var(--muted);
+      font-size:10px;
+    }
+
+
+    /* =========================================================
+       TWO COLUMNS
+       ========================================================= */
+
+    .two-fields{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+
+    /* =========================================================
+       IMAGE UPLOAD
+       ========================================================= */
+
+    .image-upload-box{
       position:relative;
-      min-height:390px;
       overflow:hidden;
-      border:1px dashed var(--accent-border);
-      border-radius:20px;
+      min-height:250px;
+      border:1px dashed
+        color-mix(
+          in srgb,
+          var(--accent) 30%,
+          var(--border)
+        );
+      border-radius:18px;
       background:
         radial-gradient(
-          circle at 50% 35%,
+          circle at 50% 0%,
           rgba(216,179,106,.08),
-          transparent 42%
-        ),
-        var(--panel-2);
-      cursor:pointer;
-      transition:
-        border-color .2s ease,
-        background .2s ease,
-        transform .2s ease;
-    }
-
-    .upload-zone:hover,
-    .upload-zone.dragging{
-      border-color:var(--accent);
-      background:
-        radial-gradient(
-          circle at 50% 35%,
-          rgba(216,179,106,.12),
           transparent 45%
         ),
-        var(--panel-3);
+        rgba(255,255,255,.015);
     }
 
-    .upload-placeholder{
-      min-height:390px;
+    .image-upload-content{
+      min-height:250px;
       display:flex;
       flex-direction:column;
       align-items:center;
       justify-content:center;
+      padding:25px;
       text-align:center;
-      padding:35px;
     }
 
-    .upload-icon{
-      width:62px;
-      height:62px;
+    .upload-symbol{
+      width:52px;
+      height:52px;
       display:grid;
       place-items:center;
-      border:1px solid var(--accent-border);
-      border-radius:18px;
-      background:var(--accent-soft);
+      margin-bottom:14px;
+      border:1px solid var(--border);
+      border-radius:16px;
       color:var(--accent);
-      margin-bottom:18px;
+      font-size:20px;
     }
 
-    .upload-icon svg{
-      width:25px;
-      height:25px;
-    }
-
-    .upload-placeholder h3{
+    .upload-title{
       font-family:"Bricolage Grotesque",sans-serif;
-      font-size:19px;
-      letter-spacing:-.025em;
+      font-size:17px;
+      font-weight:600;
     }
 
-    .upload-placeholder p{
-      max-width:400px;
-      margin-top:8px;
+    .upload-copy{
+      max-width:420px;
+      margin:7px 0 17px;
       color:var(--muted);
-      font-size:11px;
-      line-height:1.65;
-    }
-
-    .upload-button{
-      margin-top:20px;
-      padding:10px 15px;
-      border:1px solid var(--border);
-      border-radius:10px;
-      background:var(--panel);
-      color:var(--text);
-      font-size:10px;
-      font-weight:600;
-    }
-
-    .upload-button:hover{
-      border-color:var(--accent-border);
-      color:var(--accent);
-    }
-
-    .upload-meta{
-      margin-top:14px;
-      color:var(--muted-2);
-      font-size:9px;
-    }
-
-    .banner-preview{
-      position:absolute;
-      inset:0;
-      display:none;
-      background:var(--panel-3);
-    }
-
-    .banner-preview.show{
-      display:block;
-    }
-
-    .banner-preview img{
-      width:100%;
-      height:100%;
-      display:block;
-      object-fit:cover;
-      object-position:center center;
-    }
-
-    .preview-toolbar{
-      position:absolute;
-      left:16px;
-      right:16px;
-      bottom:16px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      padding:10px;
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:13px;
-      background:rgba(10,10,12,.78);
-      backdrop-filter:blur(16px);
-      color:#fff;
-    }
-
-    .preview-file{
-      min-width:0;
-    }
-
-    .preview-file strong{
-      display:block;
-      font-size:10px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      max-width:250px;
-    }
-
-    .preview-file span{
-      display:block;
-      margin-top:3px;
-      color:rgba(255,255,255,.58);
-      font-size:8px;
-    }
-
-    .remove-image{
-      flex:0 0 auto;
-      padding:8px 10px;
-      border:1px solid rgba(255,255,255,.15);
-      border-radius:8px;
-      background:rgba(255,255,255,.06);
-      color:#fff;
-      font-size:9px;
-      cursor:pointer;
-    }
-
-    .remove-image:hover{
-      background:rgba(228,125,125,.13);
-      border-color:rgba(228,125,125,.3);
-    }
-
-    #imageInput{
-      display:none;
-    }
-
-    /* FIELDS */
-
-    .field-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
-    }
-
-    .field.full{
-      grid-column:1/-1;
-    }
-
-    .field label{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:8px;
-      color:var(--text);
-      font-size:11px;
-      font-weight:600;
-    }
-
-    .field label span{
-      color:var(--muted-2);
-      font-size:9px;
-      font-weight:400;
-    }
-
-    .field input,
-    .field textarea,
-    .field select{
-      width:100%;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:var(--panel-2);
-      color:var(--text);
-      outline:none;
-      transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
-    }
-
-    .field input,
-    .field select{
-      min-height:48px;
-      padding:0 13px;
-      font-size:12px;
-    }
-
-    .field textarea{
-      min-height:105px;
-      padding:13px;
-      resize:vertical;
       font-size:12px;
       line-height:1.6;
     }
 
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus{
-      border-color:var(--accent-border);
-      background:var(--panel-3);
-      box-shadow:0 0 0 4px rgba(216,179,106,.06);
+    .hidden-file{
+      display:none;
     }
 
-    .char-counter{
-      text-align:right;
+    .image-preview{
+      position:absolute;
+      inset:0;
+      display:none;
+      background:#111;
+    }
+
+    .image-preview.visible{
+      display:block;
+    }
+
+    .image-preview img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .image-preview-overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      padding:16px;
+      background:
+        linear-gradient(
+          to top,
+          rgba(0,0,0,.7),
+          transparent 50%
+        );
+    }
+
+    .image-file-name{
+      color:#fff;
+      font-size:11px;
+      font-weight:700;
+      text-shadow:0 1px 8px rgba(0,0,0,.5);
+    }
+
+
+    /* =========================================================
+       TOGGLES
+       ========================================================= */
+
+    .toggle-list{
+      display:grid;
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:17px;
+    }
+
+    .toggle-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding:17px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .toggle-row:last-child{
+      border-bottom:0;
+    }
+
+    .toggle-copy strong{
+      display:block;
+      font-size:13px;
+    }
+
+    .toggle-copy span{
+      display:block;
       margin-top:5px;
-      color:var(--muted-2);
-      font-size:8px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.5;
     }
 
-    /* POSITION */
+    .toggle{
+      position:relative;
+      width:48px;
+      height:28px;
+      flex:0 0 48px;
+    }
+
+    .toggle input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .toggle-track{
+      position:absolute;
+      inset:0;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:#28292e;
+      cursor:pointer;
+      transition:.22s ease;
+    }
+
+    .toggle-track::after{
+      content:"";
+      position:absolute;
+      top:3px;
+      left:3px;
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:#aaa;
+      transition:.22s ease;
+    }
+
+    .toggle input:checked + .toggle-track{
+      background:var(--accent);
+      border-color:var(--accent);
+    }
+
+    .toggle input:checked + .toggle-track::after{
+      transform:translateX(20px);
+      background:#101010;
+    }
+
+
+    /* =========================================================
+       PREVIEW
+       ========================================================= */
+
+    .preview-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:16px;
+    }
+
+    .preview-switch{
+      display:flex;
+      padding:4px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      background:rgba(255,255,255,.02);
+    }
+
+    .preview-switch button{
+      border:0;
+      padding:8px 12px;
+      border-radius:999px;
+      background:transparent;
+      color:var(--muted);
+      cursor:pointer;
+      font:inherit;
+      font-size:10px;
+      font-weight:800;
+      transition:.2s ease;
+    }
+
+    .preview-switch button.active{
+      background:var(--text);
+      color:var(--bg);
+    }
+
+    .preview-label{
+      color:var(--muted);
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+
+
+    /* =========================================================
+       LIVE HERO
+       ========================================================= */
+
+    .live-preview-shell{
+      display:flex;
+      justify-content:center;
+      min-height:650px;
+      padding:18px;
+      border:1px solid var(--border);
+      border-radius:20px;
+      background:
+        radial-gradient(
+          circle at 50% 0%,
+          rgba(216,179,106,.07),
+          transparent 40%
+        ),
+        #08090b;
+    }
+
+    .preview-frame{
+      position:relative;
+      width:100%;
+      min-height:610px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:17px;
+      background:#101114;
+      transition:.3s ease;
+    }
+
+    .preview-frame.mobile{
+      max-width:340px;
+    }
+
+    .preview-image{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      background:
+        linear-gradient(
+          135deg,
+          #202126,
+          #101114
+        );
+    }
+
+    .preview-overlay{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(
+          90deg,
+          rgba(8,9,11,.94) 0%,
+          rgba(8,9,11,.74) 42%,
+          rgba(8,9,11,.15) 100%
+        );
+      transition:.2s ease;
+    }
+
+    .preview-overlay.soft{
+      background:
+        linear-gradient(
+          90deg,
+          rgba(8,9,11,.65) 0%,
+          rgba(8,9,11,.3) 55%,
+          rgba(8,9,11,.08) 100%
+        );
+    }
+
+    .preview-content{
+      position:absolute;
+      left:0;
+      top:0;
+      width:72%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:42px;
+    }
+
+    .preview-frame.mobile .preview-content{
+      width:100%;
+      justify-content:flex-end;
+      padding:28px;
+      padding-bottom:42px;
+      background:
+        linear-gradient(
+          to top,
+          rgba(8,9,11,.85),
+          transparent 75%
+        );
+    }
+
+    .preview-eyebrow{
+      margin-bottom:14px;
+      color:#d8b36a;
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+
+    .preview-title{
+      max-width:600px;
+      margin:0;
+      color:#fff;
+      font-family:"Bricolage Grotesque",sans-serif;
+      font-size:clamp(34px,4vw,66px);
+      line-height:.95;
+      letter-spacing:-.055em;
+    }
+
+    .preview-frame.mobile .preview-title{
+      font-size:39px;
+    }
+
+    .preview-description{
+      max-width:510px;
+      margin:18px 0 0;
+      color:rgba(255,255,255,.76);
+      font-size:13px;
+      line-height:1.7;
+    }
+
+    .preview-actions{
+      display:flex;
+      gap:10px;
+      margin-top:25px;
+      flex-wrap:wrap;
+    }
+
+    .preview-button{
+      min-height:42px;
+      padding:0 16px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      font-size:11px;
+      font-weight:800;
+      backdrop-filter:blur(12px);
+    }
+
+    .preview-button.primary{
+      border-color:#d8b36a;
+      background:#d8b36a;
+      color:#101010;
+    }
+
+    .preview-note{
+      position:absolute;
+      right:22px;
+      bottom:20px;
+      color:rgba(255,255,255,.45);
+      font-size:9px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+
+
+    /* =========================================================
+       POSITION
+       ========================================================= */
 
     .position-grid{
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:8px;
+      gap:10px;
     }
 
     .position-option{
@@ -339,474 +668,216 @@
     .position-option input{
       position:absolute;
       opacity:0;
-      pointer-events:none;
     }
 
     .position-option label{
-      min-height:72px;
-      margin:0;
-      padding:8px;
       display:flex;
-      flex-direction:column;
-      justify-content:center;
       align-items:center;
-      gap:7px;
+      justify-content:center;
+      min-height:45px;
+      padding:10px;
       border:1px solid var(--border);
-      border-radius:11px;
-      background:var(--panel-2);
-      cursor:pointer;
+      border-radius:12px;
       color:var(--muted);
-      font-size:9px;
+      cursor:pointer;
+      font-size:11px;
+      font-weight:700;
       transition:.2s ease;
-    }
-
-    .position-option label::before{
-      content:"";
-      width:30px;
-      height:22px;
-      border:1px solid currentColor;
-      border-radius:4px;
-      background:
-        linear-gradient(
-          135deg,
-          transparent 48%,
-          currentColor 49%,
-          currentColor 53%,
-          transparent 54%
-        );
-      opacity:.55;
     }
 
     .position-option input:checked + label{
       border-color:var(--accent);
-      background:var(--accent-soft);
-      color:var(--accent);
-    }
-
-    .position-option input:checked + label::before{
-      opacity:1;
-    }
-
-    /* SWITCH */
-
-    .setting-list{
-      display:grid;
-      gap:0;
-    }
-
-    .setting-row{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:20px;
-      padding:16px 0;
-      border-bottom:1px solid var(--border-soft);
-    }
-
-    .setting-row:last-child{
-      border-bottom:0;
-      padding-bottom:0;
-    }
-
-    .setting-copy strong{
-      display:block;
-      font-size:11px;
-      font-weight:600;
-    }
-
-    .setting-copy span{
-      display:block;
-      margin-top:4px;
-      color:var(--muted);
-      font-size:9px;
-      line-height:1.5;
-    }
-
-    .switch{
-      position:relative;
-      width:43px;
-      height:24px;
-      flex:0 0 auto;
-    }
-
-    .switch input{
-      opacity:0;
-      width:0;
-      height:0;
-    }
-
-    .slider{
-      position:absolute;
-      inset:0;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:var(--panel-3);
-      cursor:pointer;
-      transition:.2s ease;
-    }
-
-    .slider::before{
-      content:"";
-      position:absolute;
-      width:16px;
-      height:16px;
-      left:3px;
-      top:3px;
-      border-radius:50%;
-      background:var(--muted);
-      transition:.2s ease;
-    }
-
-    .switch input:checked + .slider{
-      background:var(--accent-soft);
-      border-color:var(--accent-border);
-    }
-
-    .switch input:checked + .slider::before{
-      transform:translateX(19px);
-      background:var(--accent);
-    }
-
-    /* CTA PREVIEW */
-
-    .hero-mini{
-      position:relative;
-      min-height:290px;
-      overflow:hidden;
-      border-radius:18px;
       background:
-        radial-gradient(
-          circle at 80% 20%,
-          rgba(216,179,106,.13),
-          transparent 32%
-        ),
-        #0d0e11;
-      border:1px solid var(--border);
-    }
-
-    .hero-mini-image{
-      position:absolute;
-      inset:0;
-      opacity:.36;
-      background:
-        linear-gradient(
-          90deg,
-          #0d0e11 10%,
-          rgba(13,14,17,.6) 48%,
-          rgba(13,14,17,.15)
+        color-mix(
+          in srgb,
+          var(--accent) 9%,
+          transparent
         );
-    }
-
-    .hero-mini-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      object-position:center;
-    }
-
-    .hero-mini-content{
-      position:relative;
-      z-index:2;
-      max-width:430px;
-      padding:32px;
-    }
-
-    .mini-kicker{
-      color:#d8b36a;
-      font-size:8px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      font-weight:600;
-    }
-
-    .hero-mini-content h3{
-      margin-top:11px;
-      color:#fff;
-      font-family:"Bricolage Grotesque",sans-serif;
-      font-size:32px;
-      line-height:.98;
-      letter-spacing:-.05em;
-    }
-
-    .hero-mini-content p{
-      margin-top:12px;
-      color:rgba(255,255,255,.62);
-      font-size:10px;
-      line-height:1.55;
-    }
-
-    .mini-cta{
-      display:inline-flex;
-      margin-top:18px;
-      padding:9px 12px;
-      border-radius:8px;
-      background:#d8b36a;
-      color:#16120b;
-      font-size:9px;
-      font-weight:700;
-    }
-
-    /* CHECKLIST */
-
-    .check-list{
-      display:grid;
-      gap:10px;
-    }
-
-    .check-item{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      color:var(--muted);
-      font-size:10px;
-      line-height:1.5;
-    }
-
-    .check{
-      width:17px;
-      height:17px;
-      flex:0 0 auto;
-      display:grid;
-      place-items:center;
-      border-radius:50%;
-      background:rgba(113,214,161,.09);
-      color:#71d6a1;
-    }
-
-    .check svg{
-      width:10px;
-      height:10px;
-    }
-
-    .warning{
-      margin-top:17px;
-      padding:12px 13px;
-      border-left:2px solid var(--accent);
-      border-radius:0 9px 9px 0;
-      background:var(--accent-soft);
-      color:var(--muted);
-      font-size:9px;
-      line-height:1.6;
-    }
-
-    /* FOOTER ACTIONS */
-
-    .bottom-actions{
-      display:flex;
-      justify-content:flex-end;
-      align-items:center;
-      gap:10px;
-      margin-top:24px;
-    }
-
-    .secondary-action,
-    .primary-action{
-      min-height:42px;
-      padding:0 15px;
-      border-radius:10px;
-      font-size:10px;
-      font-weight:600;
-      cursor:pointer;
-    }
-
-    .secondary-action{
-      border:1px solid var(--border);
-      background:var(--panel-2);
       color:var(--text);
     }
 
-    .primary-action{
-      border:1px solid var(--accent);
-      background:var(--accent);
-      color:#18130b;
+
+    /* =========================================================
+       ACTIONS
+       ========================================================= */
+
+    .banner-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top:20px;
     }
 
-    .secondary-action:hover{
-      border-color:var(--accent-border);
+    .editorial-note{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding:15px;
+      border:1px solid rgba(216,179,106,.2);
+      border-radius:16px;
+      background:rgba(216,179,106,.04);
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
     }
 
-    .primary-action:hover{
-      filter:brightness(1.05);
+    .editorial-note strong{
+      color:var(--text);
     }
 
-    @media(max-width:1050px){
-      .banner-layout{
+
+    /* =========================================================
+       RESPONSIVE
+       ========================================================= */
+
+    @media(max-width:1100px){
+
+      .banner-grid{
         grid-template-columns:1fr;
       }
 
-      .banner-side{
-        grid-template-columns:1fr 1fr;
+      .live-preview-shell{
+        min-height:600px;
       }
+
     }
 
-    @media(max-width:800px){
-      .banner-side{
-        grid-template-columns:1fr;
-      }
-    }
+    @media(max-width:700px){
 
-    @media(max-width:600px){
-      .field-grid{
+      .banner-hero{
         grid-template-columns:1fr;
       }
 
-      .field.full{
-        grid-column:auto;
+      .two-fields{
+        grid-template-columns:1fr;
       }
 
-      .upload-zone,
-      .upload-placeholder{
-        min-height:300px;
+      .banner-panel{
+        padding:18px;
       }
 
-      .editor-header{
+      .preview-content{
+        width:100%;
+        padding:28px;
+        justify-content:flex-end;
+        padding-bottom:42px;
+        background:
+          linear-gradient(
+            to top,
+            rgba(8,9,11,.85),
+            transparent 75%
+          );
+      }
+
+      .preview-title{
+        font-size:39px;
+      }
+
+      .live-preview-shell{
+        min-height:560px;
+        padding:10px;
+      }
+
+      .preview-frame{
+        min-height:540px;
+      }
+
+      .banner-actions{
         flex-direction:column;
       }
 
-      .bottom-actions{
-        flex-direction:column-reverse;
-        align-items:stretch;
-      }
-
-      .secondary-action,
-      .primary-action{
+      .banner-actions button{
         width:100%;
       }
+
+      .position-grid{
+        grid-template-columns:1fr;
+      }
+
     }
+
   </style>
 </head>
+
 
 <body>
 
 <div class="app">
 
-  <!-- SIDEBAR -->
+  <!-- =======================================================
+       SIDEBAR
+       ======================================================= -->
+
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
       <div class="brand-mark">NU</div>
-      <div class="brand-copy">
-        <strong>Nusrat Afsana Usha</strong>
+
+      <div>
+        <strong>NUS</strong>
         <span>Portfolio Admin</span>
       </div>
     </div>
 
+
     <nav class="side-nav">
 
-      <div class="nav-label">Workspace</div>
-
-      <a class="nav-item" href="./dashboard.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-          </svg>
-        </span>
-        Dashboard
+      <a class="nav-item" href="./index.html">
+        <span class="nav-icon">⌂</span>
+        <span>Dashboard</span>
       </a>
 
       <a class="nav-item" href="./homepage.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M3 11.5 12 4l9 7.5"></path>
-            <path d="M5 10.5V20h14v-9.5"></path>
-            <path d="M9 20v-5h6v5"></path>
-          </svg>
-        </span>
-        Homepage
+        <span class="nav-icon">✦</span>
+        <span>Homepage</span>
       </a>
 
       <a class="nav-item active" href="./banner.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-            <path d="m3 15 5-5 4 4 3-3 6 6"></path>
-            <circle cx="8" cy="9" r="1.2"></circle>
-          </svg>
-        </span>
-        Banner
+        <span class="nav-icon">▧</span>
+        <span>Banner</span>
       </a>
 
       <a class="nav-item" href="./browser-ui.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="4" width="18" height="16" rx="2"></rect>
-            <path d="M3 9h18"></path>
-            <path d="M7 6.5h.01"></path>
-            <path d="M10 6.5h.01"></path>
-            <path d="M13 6.5h.01"></path>
-          </svg>
-        </span>
-        Browser UI
+        <span class="nav-icon">▣</span>
+        <span>Browser UI</span>
       </a>
 
       <a class="nav-item" href="./newsletter.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-            <path d="m3 7 9 6 9-6"></path>
-          </svg>
-        </span>
-        Newsletter
+        <span class="nav-icon">✉</span>
+        <span>Newsletter</span>
       </a>
 
-      <div class="nav-label">Control</div>
-
       <a class="nav-item" href="./admin-management.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <circle cx="9" cy="8" r="3"></circle>
-            <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"></path>
-            <path d="M16 5.5a3 3 0 0 1 0 5.8"></path>
-            <path d="M18 14c1.9.7 3 2.2 3 4"></path>
-          </svg>
-        </span>
-        Admin Management
+        <span class="nav-icon">♙</span>
+        <span>Admin Management</span>
       </a>
 
       <a class="nav-item" href="./system.html">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M12 3v3"></path>
-            <path d="M12 18v3"></path>
-            <path d="m4.2 5.2 2.1 2.1"></path>
-            <path d="m17.7 16.7 2.1 2.1"></path>
-            <path d="M3 12h3"></path>
-            <path d="M18 12h3"></path>
-            <path d="m4.2 18.8 2.1-2.1"></path>
-            <path d="m17.7 7.3 2.1-2.1"></path>
-            <circle cx="12" cy="12" r="4"></circle>
-          </svg>
-        </span>
-        System
+        <span class="nav-icon">⚙</span>
+        <span>System</span>
       </a>
 
     </nav>
 
+
     <div class="sidebar-bottom">
 
-      <a class="nav-item" href="../index.html" target="_blank">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M14 5h5v5"></path>
-            <path d="M10 14 19 5"></path>
-            <path d="M19 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"></path>
-          </svg>
-        </span>
-        View Portfolio
+      <a
+        class="nav-item"
+        href="../index.html"
+        target="_blank"
+      >
+        <span class="nav-icon">↗</span>
+        <span>View Portfolio</span>
       </a>
 
-      <button class="nav-item logout-button" id="logoutButton" type="button">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M10 17l5-5-5-5"></path>
-            <path d="M15 12H3"></path>
-            <path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"></path>
-          </svg>
-        </span>
-        Sign Out
+      <button
+        class="nav-item"
+        id="logoutBtn"
+        type="button"
+      >
+        <span class="nav-icon">↪</span>
+        <span>Sign Out</span>
       </button>
 
     </div>
@@ -814,43 +885,59 @@
   </aside>
 
 
-  <!-- MAIN -->
+  <div
+    class="mobile-overlay"
+    id="mobileOverlay"
+  ></div>
+
+
+  <!-- =======================================================
+       MAIN
+       ======================================================= -->
+
   <main class="main">
 
     <header class="topbar">
 
       <div class="topbar-left">
 
-        <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open menu">
-          <span></span>
-          <span></span>
-          <span></span>
+        <button
+          class="mobile-menu-button"
+          id="mobileMenuButton"
+          type="button"
+          aria-label="Open menu"
+        >
+          ☰
         </button>
 
         <div>
-          <div class="topbar-title">Banner</div>
-          <div class="topbar-subtitle">Hero visual & first impression</div>
+          <div class="topbar-eyebrow">
+            Homepage presentation
+          </div>
+
+          <div class="topbar-title">
+            Banner Editor
+          </div>
         </div>
 
       </div>
 
+
       <div class="topbar-actions">
 
-        <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2"></path>
-            <path d="M12 20v2"></path>
-            <path d="m4.93 4.93 1.41 1.41"></path>
-            <path d="m17.66 17.66 1.41 1.41"></path>
-            <path d="M2 12h2"></path>
-            <path d="M20 12h2"></path>
-            <path d="m6.34 17.66-1.41 1.41"></path>
-            <path d="m19.07 4.93-1.41 1.41"></path>
-          </svg>
+        <button
+          class="secondary-button"
+          id="themeToggle"
+          type="button"
+        >
+          ◐ Theme
         </button>
 
-        <button class="primary-button" id="topSave" type="button">
+        <button
+          class="primary-button"
+          id="saveChanges"
+          type="button"
+        >
           Save Changes
         </button>
 
@@ -859,306 +946,309 @@
     </header>
 
 
-    <div class="content">
+    <section class="content">
 
-      <section class="page">
+      <!-- ===================================================
+           HERO
+           =================================================== -->
 
-        <div class="page-heading">
+      <div class="banner-hero">
 
-          <div>
-            <div class="page-kicker">Visual identity</div>
+        <div>
 
-            <h1 class="page-title">
-              Hero Banner
-            </h1>
-
-            <p class="page-description">
-              Control the first visual and message visitors see
-              when they enter Nusrat's portfolio.
-            </p>
+          <div class="banner-kicker">
+            <span></span>
+            First impression
           </div>
 
-          <span class="publish-pill">
-            Published
-          </span>
+          <h1>Banner control.</h1>
+
+          <p>
+            Shape the first visual and editorial impression visitors
+            receive when they enter Nusrat Afsana Usha’s portfolio.
+          </p>
 
         </div>
 
 
-        <div class="banner-layout">
+        <div
+          class="banner-status"
+          id="bannerStatus"
+        >
+          <i></i>
+          <span>Banner published</span>
+        </div>
 
-          <!-- LEFT -->
-          <div class="banner-main">
+      </div>
 
-            <!-- IMAGE -->
-            <div class="panel">
 
-              <div class="editor-header">
+      <!-- ===================================================
+           GRID
+           =================================================== -->
 
-                <div>
-                  <h2>Hero image</h2>
-                  <p>
-                    Upload the main visual used by the homepage hero.
-                    Keep the image clean without text overlays.
-                  </p>
-                </div>
+      <div class="banner-grid">
 
+
+        <!-- ================================================
+             LEFT
+             ================================================ -->
+
+        <div class="banner-column">
+
+
+          <!-- CONTENT -->
+
+          <section class="banner-panel">
+
+            <div class="banner-panel-head">
+
+              <div>
+                <h2 class="banner-panel-title">
+                  Banner content
+                </h2>
+
+                <p class="banner-panel-copy">
+                  Write the core message visitors see first.
+                </p>
               </div>
 
-
-              <input
-                id="imageInput"
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-              >
-
-
-              <div
-                class="upload-zone"
-                id="uploadZone"
-              >
-
-                <div
-                  class="upload-placeholder"
-                  id="uploadPlaceholder"
-                >
-
-                  <div class="upload-icon">
-
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                      <path d="M12 16V4"></path>
-                      <path d="m7 9 5-5 5 5"></path>
-                      <path d="M5 20h14"></path>
-                    </svg>
-
-                  </div>
-
-                  <h3>
-                    Drop your hero image here
-                  </h3>
-
-                  <p>
-                    Upload a high-quality JPG, PNG or WebP.
-                    The portfolio layout will automatically
-                    crop the image responsively.
-                  </p>
-
-                  <button
-                    class="upload-button"
-                    id="browseButton"
-                    type="button"
-                  >
-                    Choose Image
-                  </button>
-
-                  <div class="upload-meta">
-                    Recommended: 1600 × 1200px · Max 5MB
-                  </div>
-
-                </div>
-
-
-                <div
-                  class="banner-preview"
-                  id="bannerPreview"
-                >
-
-                  <img
-                    id="previewImage"
-                    src=""
-                    alt="Hero banner preview"
-                  >
-
-                  <div class="preview-toolbar">
-
-                    <div class="preview-file">
-                      <strong id="fileName">
-                        Hero image
-                      </strong>
-
-                      <span id="fileSize">
-                        Local preview
-                      </span>
-                    </div>
-
-                    <button
-                      class="remove-image"
-                      id="removeImage"
-                      type="button"
-                    >
-                      Remove
-                    </button>
-
-                  </div>
-
-                </div>
-
+              <div class="banner-icon">
+                ✦
               </div>
 
             </div>
 
 
-            <!-- COPY -->
-            <div class="panel">
+            <div class="banner-fields">
 
-              <div class="editor-header">
 
-                <div>
-                  <h2>Hero messaging</h2>
-                  <p>
-                    Keep the headline concise and let the supporting
-                    copy explain the design perspective.
-                  </p>
+              <div class="banner-field">
+
+                <label for="eyebrow">
+                  Eyebrow
+                </label>
+
+                <input
+                  id="eyebrow"
+                  type="text"
+                  value="UX/UI DESIGNER"
+                  maxlength="50"
+                >
+
+                <div class="char-row">
+                  <span>Small contextual label</span>
+                  <span id="eyebrowCount">0 / 50</span>
                 </div>
 
               </div>
 
 
-              <div class="field-grid">
+              <div class="banner-field">
 
-                <div class="field">
+                <label for="headline">
+                  Main Headline
+                </label>
 
-                  <label for="eyebrow">
-                    Eyebrow
-                    <span>Short label</span>
-                  </label>
+                <textarea
+                  id="headline"
+                  maxlength="100"
+                >Designing with clarity.</textarea>
 
-                  <input
-                    id="eyebrow"
-                    type="text"
-                    value="UX/UI Designer"
-                    maxlength="50"
-                  >
-
-                </div>
-
-
-                <div class="field">
-
-                  <label for="headline">
-                    Headline
-                    <span>Primary message</span>
-                  </label>
-
-                  <input
-                    id="headline"
-                    type="text"
-                    value="Designing with clarity."
-                    maxlength="80"
-                  >
-
-                  <div class="char-counter">
-                    <span id="headlineCount">23</span>/80
-                  </div>
-
-                </div>
-
-
-                <div class="field full">
-
-                  <label for="description">
-                    Supporting copy
-                    <span>Recommended 120–180 characters</span>
-                  </label>
-
-                  <textarea
-                    id="description"
-                    maxlength="240"
-                  >I design thoughtful digital experiences where structure, usability and visual clarity work together.</textarea>
-
-                  <div class="char-counter">
-                    <span id="descriptionCount">0</span>/240
-                  </div>
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <!-- CTA -->
-            <div class="panel">
-
-              <div class="editor-header">
-
-                <div>
-                  <h2>Call to action</h2>
-                  <p>
-                    Configure the primary action visitors can take
-                    from the hero section.
-                  </p>
+                <div class="char-row">
+                  <span>Primary visual statement</span>
+                  <span id="headlineCount">0 / 100</span>
                 </div>
 
               </div>
 
 
-              <div class="field-grid">
+              <div class="banner-field">
 
-                <div class="field">
+                <label for="description">
+                  Supporting Copy
+                </label>
 
-                  <label for="ctaText">
-                    Button text
-                    <span>Primary CTA</span>
+                <textarea
+                  id="description"
+                  maxlength="240"
+                >I create thoughtful digital experiences where structure, usability and visual clarity work together.</textarea>
+
+                <div class="char-row">
+                  <span>Keep this concise and human</span>
+                  <span id="descriptionCount">0 / 240</span>
+                </div>
+
+              </div>
+
+
+              <div class="two-fields">
+
+
+                <div class="banner-field">
+
+                  <label for="primaryLabel">
+                    Primary CTA
                   </label>
 
                   <input
-                    id="ctaText"
+                    id="primaryLabel"
                     type="text"
-                    value="Explore Selected Work"
-                    maxlength="40"
+                    value="Explore My Work"
+                    maxlength="32"
                   >
 
                 </div>
 
 
-                <div class="field">
+                <div class="banner-field">
 
-                  <label for="ctaLink">
-                    Button link
-                    <span>Section / URL</span>
+                  <label for="primaryLink">
+                    Primary CTA Link
                   </label>
 
                   <input
-                    id="ctaLink"
+                    id="primaryLink"
                     type="text"
                     value="#work"
-                    maxlength="160"
                   >
 
                 </div>
 
 
-                <div class="field">
+              </div>
 
-                  <label for="secondaryText">
-                    Secondary button
-                    <span>Optional</span>
+
+              <div class="two-fields">
+
+
+                <div class="banner-field">
+
+                  <label for="secondaryLabel">
+                    Secondary CTA
                   </label>
 
                   <input
-                    id="secondaryText"
+                    id="secondaryLabel"
                     type="text"
-                    value="About Nusrat"
-                    maxlength="40"
+                    value="About Me"
+                    maxlength="32"
                   >
 
                 </div>
 
 
-                <div class="field">
+                <div class="banner-field">
 
                   <label for="secondaryLink">
-                    Secondary link
-                    <span>Section / URL</span>
+                    Secondary CTA Link
                   </label>
 
                   <input
                     id="secondaryLink"
                     type="text"
                     value="#about"
-                    maxlength="160"
                   >
+
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- IMAGE -->
+
+          <section class="banner-panel">
+
+            <div class="banner-panel-head">
+
+              <div>
+
+                <h2 class="banner-panel-title">
+                  Banner image
+                </h2>
+
+                <p class="banner-panel-copy">
+                  Choose the visual used behind the hero presentation.
+                </p>
+
+              </div>
+
+              <div class="banner-icon">
+                ▧
+              </div>
+
+            </div>
+
+
+            <div class="image-upload-box">
+
+
+              <div
+                class="image-upload-content"
+                id="uploadContent"
+              >
+
+                <div class="upload-symbol">
+                  ↑
+                </div>
+
+                <div class="upload-title">
+                  Upload banner image
+                </div>
+
+                <p class="upload-copy">
+                  JPG, PNG or WebP. A large landscape image works best
+                  for the desktop hero.
+                </p>
+
+                <button
+                  class="secondary-button"
+                  id="chooseImage"
+                  type="button"
+                >
+                  Choose Image
+                </button>
+
+                <input
+                  class="hidden-file"
+                  id="imageInput"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                >
+
+              </div>
+
+
+              <div
+                class="image-preview"
+                id="imagePreview"
+              >
+
+                <img
+                  id="previewUploadedImage"
+                  alt="Banner preview"
+                >
+
+                <div class="image-preview-overlay">
+
+                  <span
+                    class="image-file-name"
+                    id="imageFileName"
+                  >
+                    banner-image
+                  </span>
+
+                  <button
+                    class="secondary-button"
+                    id="replaceImage"
+                    type="button"
+                  >
+                    Replace
+                  </button>
 
                 </div>
 
@@ -1166,1292 +1256,1576 @@
 
             </div>
 
+            <p
+              class="field-note"
+              style="margin-top:10px;"
+            >
+              The current public portfolio can continue using its existing
+              hero image until a real backend media system is connected.
+            </p>
 
-            <!-- POSITION -->
-            <div class="panel">
+          </section>
 
-              <div class="editor-header">
 
-                <div>
-                  <h2>Image positioning</h2>
-                  <p>
-                    Choose how the uploaded image should be cropped
-                    inside the responsive hero frame.
-                  </p>
-                </div>
+          <!-- VISUAL -->
+
+          <section class="banner-panel">
+
+            <div class="banner-panel-head">
+
+              <div>
+
+                <h2 class="banner-panel-title">
+                  Visual treatment
+                </h2>
+
+                <p class="banner-panel-copy">
+                  Control readability and image presentation.
+                </p>
 
               </div>
 
-
-              <div class="position-grid">
-
-                <div class="position-option">
-                  <input
-                    id="posTop"
-                    name="position"
-                    type="radio"
-                    value="center top"
-                  >
-                  <label for="posTop">
-                    Top
-                  </label>
-                </div>
-
-                <div class="position-option">
-                  <input
-                    id="posCenter"
-                    name="position"
-                    type="radio"
-                    value="center center"
-                    checked
-                  >
-                  <label for="posCenter">
-                    Center
-                  </label>
-                </div>
-
-                <div class="position-option">
-                  <input
-                    id="posBottom"
-                    name="position"
-                    type="radio"
-                    value="center bottom"
-                  >
-                  <label for="posBottom">
-                    Bottom
-                  </label>
-                </div>
-
+              <div class="banner-icon">
+                ◌
               </div>
 
             </div>
 
-          </div>
+
+            <div class="banner-fields">
 
 
-          <!-- RIGHT -->
-          <div class="banner-side">
+              <div class="banner-field">
 
-            <!-- PREVIEW -->
-            <div class="panel">
+                <label for="overlayStrength">
+                  Overlay Strength
+                </label>
 
-              <div class="editor-header">
+                <select id="overlayStrength">
 
-                <div>
-                  <h2>Live preview</h2>
-                  <p>
-                    Approximate representation of the hero.
-                  </p>
-                </div>
+                  <option value="strong">
+                    Strong — maximum readability
+                  </option>
+
+                  <option value="medium" selected>
+                    Medium — balanced
+                  </option>
+
+                  <option value="soft">
+                    Soft — image forward
+                  </option>
+
+                </select>
 
               </div>
 
 
-              <div class="hero-mini">
+              <div class="banner-field">
 
-                <div class="hero-mini-image">
-
-                  <img
-                    id="miniPreviewImage"
-                    src=""
-                    alt=""
-                  >
-
-                </div>
+                <label>
+                  Content Position
+                </label>
 
 
-                <div class="hero-mini-content">
+                <div class="position-grid">
 
-                  <div
-                    class="mini-kicker"
-                    id="miniEyebrow"
-                  >
-                    UX/UI Designer
+
+                  <div class="position-option">
+
+                    <input
+                      type="radio"
+                      name="position"
+                      id="posLeft"
+                      value="left"
+                      checked
+                    >
+
+                    <label for="posLeft">
+                      Left
+                    </label>
+
                   </div>
 
-                  <h3 id="miniHeadline">
-                    Designing with clarity.
-                  </h3>
 
-                  <p id="miniDescription">
-                    I design thoughtful digital experiences where
+                  <div class="position-option">
+
+                    <input
+                      type="radio"
+                      name="position"
+                      id="posCenter"
+                      value="center"
+                    >
+
+                    <label for="posCenter">
+                      Center
+                    </label>
+
+                  </div>
+
+
+                  <div class="position-option">
+
+                    <input
+                      type="radio"
+                      name="position"
+                      id="posRight"
+                      value="right"
+                    >
+
+                    <label for="posRight">
+                      Right
+                    </label>
+
+                  </div>
+
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- DISPLAY -->
+
+          <section class="banner-panel">
+
+            <div class="banner-panel-head">
+
+              <div>
+
+                <h2 class="banner-panel-title">
+                  Display controls
+                </h2>
+
+                <p class="banner-panel-copy">
+                  Decide what appears publicly.
+                </p>
+
+              </div>
+
+              <div class="banner-icon">
+                ◉
+              </div>
+
+            </div>
+
+
+            <div class="toggle-list">
+
+
+              <div class="toggle-row">
+
+                <div class="toggle-copy">
+
+                  <strong>
+                    Publish Banner
+                  </strong>
+
+                  <span>
+                    Make the current banner available on the public homepage.
+                  </span>
+
+                </div>
+
+                <label class="toggle">
+
+                  <input
+                    type="checkbox"
+                    id="publishBanner"
+                    checked
+                  >
+
+                  <span class="toggle-track"></span>
+
+                </label>
+
+              </div>
+
+
+              <div class="toggle-row">
+
+                <div class="toggle-copy">
+
+                  <strong>
+                    Show Supporting Copy
+                  </strong>
+
+                  <span>
+                    Display the descriptive paragraph under the headline.
+                  </span>
+
+                </div>
+
+                <label class="toggle">
+
+                  <input
+                    type="checkbox"
+                    id="showDescription"
+                    checked
+                  >
+
+                  <span class="toggle-track"></span>
+
+                </label>
+
+              </div>
+
+
+              <div class="toggle-row">
+
+                <div class="toggle-copy">
+
+                  <strong>
+                    Show Primary CTA
+                  </strong>
+
+                  <span>
+                    Display the main action button.
+                  </span>
+
+                </div>
+
+                <label class="toggle">
+
+                  <input
+                    type="checkbox"
+                    id="showPrimary"
+                    checked
+                  >
+
+                  <span class="toggle-track"></span>
+
+                </label>
+
+              </div>
+
+
+              <div class="toggle-row">
+
+                <div class="toggle-copy">
+
+                  <strong>
+                    Show Secondary CTA
+                  </strong>
+
+                  <span>
+                    Display the secondary navigation action.
+                  </span>
+
+                </div>
+
+                <label class="toggle">
+
+                  <input
+                    type="checkbox"
+                    id="showSecondary"
+                    checked
+                  >
+
+                  <span class="toggle-track"></span>
+
+                </label>
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+        </div>
+
+
+        <!-- ================================================
+             RIGHT
+             ================================================ -->
+
+        <div class="banner-column">
+
+
+          <!-- LIVE PREVIEW -->
+
+          <section class="banner-panel">
+
+            <div class="banner-panel-head">
+
+              <div>
+
+                <h2 class="banner-panel-title">
+                  Live preview
+                </h2>
+
+                <p class="banner-panel-copy">
+                  Preview the first impression before publishing.
+                </p>
+
+              </div>
+
+              <div class="banner-icon">
+                ↗
+              </div>
+
+            </div>
+
+
+            <div class="preview-toolbar">
+
+              <span class="preview-label">
+                Responsive preview
+              </span>
+
+
+              <div class="preview-switch">
+
+                <button
+                  type="button"
+                  class="active"
+                  data-preview="desktop"
+                >
+                  Desktop
+                </button>
+
+                <button
+                  type="button"
+                  data-preview="mobile"
+                >
+                  Mobile
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <div class="live-preview-shell">
+
+              <div
+                class="preview-frame"
+                id="previewFrame"
+              >
+
+                <img
+                  class="preview-image"
+                  id="previewImage"
+                  src="../nusrat-afsana-photo.jpg"
+                  alt=""
+                >
+
+                <div
+                  class="preview-overlay"
+                  id="previewOverlay"
+                ></div>
+
+
+                <div
+                  class="preview-content"
+                  id="previewContent"
+                >
+
+                  <div
+                    class="preview-eyebrow"
+                    id="previewEyebrow"
+                  >
+                    UX/UI DESIGNER
+                  </div>
+
+                  <h2
+                    class="preview-title"
+                    id="previewTitle"
+                  >
+                    Designing with clarity.
+                  </h2>
+
+                  <p
+                    class="preview-description"
+                    id="previewDescription"
+                  >
+                    I create thoughtful digital experiences where
                     structure, usability and visual clarity work together.
                   </p>
 
-                  <span
-                    class="mini-cta"
-                    id="miniCta"
+
+                  <div class="preview-actions">
+
+                    <span
+                      class="preview-button primary"
+                      id="previewPrimary"
+                    >
+                      Explore My Work
+                    </span>
+
+                    <span
+                      class="preview-button"
+                      id="previewSecondary"
+                    >
+                      About Me
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="preview-note">
+                  Preview only
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- PUBLISHING -->
+
+          <section class="banner-panel">
+
+            <div class="banner-panel-head">
+
+              <div>
+
+                <h2 class="banner-panel-title">
+                  Publishing
+                </h2>
+
+                <p class="banner-panel-copy">
+                  Current publication state.
+                </p>
+
+              </div>
+
+              <div class="banner-icon">
+                ●
+              </div>
+
+            </div>
+
+
+            <div class="toggle-list">
+
+              <div class="toggle-row">
+
+                <div class="toggle-copy">
+
+                  <strong>
+                    Public visibility
+                  </strong>
+
+                  <span id="visibilityText">
+                    Banner is currently visible.
+                  </span>
+
+                </div>
+
+                <label class="toggle">
+
+                  <input
+                    type="checkbox"
+                    id="visibilityToggle"
+                    checked
                   >
-                    Explore Selected Work
-                  </span>
 
-                </div>
+                  <span class="toggle-track"></span>
 
-              </div>
-
-            </div>
-
-
-            <!-- SETTINGS -->
-            <div class="panel">
-
-              <div class="editor-header">
-
-                <div>
-                  <h2>Banner settings</h2>
-                  <p>
-                    Publishing and visibility controls.
-                  </p>
-                </div>
-
-              </div>
-
-
-              <div class="setting-list">
-
-                <div class="setting-row">
-
-                  <div class="setting-copy">
-                    <strong>Show hero banner</strong>
-                    <span>Display the banner on the public homepage.</span>
-                  </div>
-
-                  <label class="switch">
-                    <input
-                      id="showBanner"
-                      type="checkbox"
-                      checked
-                    >
-                    <span class="slider"></span>
-                  </label>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                  <div class="setting-copy">
-                    <strong>Show primary CTA</strong>
-                    <span>Display the main hero action.</span>
-                  </div>
-
-                  <label class="switch">
-                    <input
-                      id="showPrimaryCta"
-                      type="checkbox"
-                      checked
-                    >
-                    <span class="slider"></span>
-                  </label>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                  <div class="setting-copy">
-                    <strong>Show secondary CTA</strong>
-                    <span>Display the supporting hero action.</span>
-                  </div>
-
-                  <label class="switch">
-                    <input
-                      id="showSecondaryCta"
-                      type="checkbox"
-                      checked
-                    >
-                    <span class="slider"></span>
-                  </label>
-
-                </div>
-
-
-                <div class="setting-row">
-
-                  <div class="setting-copy">
-                    <strong>Publish changes</strong>
-                    <span>Allow saved banner changes to appear publicly.</span>
-                  </div>
-
-                  <label class="switch">
-                    <input
-                      id="publishBanner"
-                      type="checkbox"
-                      checked
-                    >
-                    <span class="slider"></span>
-                  </label>
-
-                </div>
+                </label>
 
               </div>
 
             </div>
 
 
-            <!-- CHECK -->
-            <div class="panel">
+            <div class="banner-actions">
 
-              <div class="editor-header">
+              <button
+                class="secondary-button"
+                id="resetBanner"
+                type="button"
+              >
+                Reset
+              </button>
 
-                <div>
-                  <h2>Pre-publish check</h2>
-                  <p>
-                    Quick review before saving.
-                  </p>
-                </div>
+              <button
+                class="primary-button"
+                id="publishButton"
+                type="button"
+              >
+                Publish Banner
+              </button>
 
-              </div>
+            </div>
 
-
-              <div class="check-list">
-
-                <div class="check-item">
-
-                  <span class="check">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="m5 12 4 4L19 6"></path>
-                    </svg>
-                  </span>
-
-                  Headline is within the recommended length.
-
-                </div>
+          </section>
 
 
-                <div class="check-item">
+          <!-- EDITORIAL -->
 
-                  <span class="check">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="m5 12 4 4L19 6"></path>
-                    </svg>
-                  </span>
+          <section class="banner-panel">
 
-                  Hero image has no text overlay.
+            <div class="editorial-note">
 
-                </div>
+              <span>◆</span>
 
+              <div>
 
-                <div class="check-item">
+                <strong>
+                  Editorial guidance
+                </strong>
 
-                  <span class="check">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="m5 12 4 4L19 6"></path>
-                    </svg>
-                  </span>
+                <br><br>
 
-                  Primary CTA points to a valid section.
+                Keep the hero message specific and truthful.
+                Avoid unsupported experience counts, fake client
+                metrics, fabricated awards or invented project results.
 
-                </div>
+                <br><br>
 
+                The banner should communicate who Nusrat is,
+                what she designs and where visitors should go next.
 
-                <div class="check-item">
-
-                  <span class="check">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="m5 12 4 4L19 6"></path>
-                    </svg>
-                  </span>
-
-                  Banner is configured for responsive display.
-
-                </div>
-
-              </div>
-
-
-              <div class="warning">
-                Image previews are stored locally in this prototype.
-                Connect Firebase or Supabase Storage before using
-                image upload as a production feature.
               </div>
 
             </div>
 
-          </div>
+          </section>
+
 
         </div>
 
+      </div>
 
-        <!-- ACTIONS -->
-        <div class="bottom-actions">
-
-          <button
-            class="secondary-action"
-            id="resetButton"
-            type="button"
-          >
-            Reset Changes
-          </button>
-
-          <a
-            class="secondary-action"
-            href="../index.html"
-            target="_blank"
-            style="display:inline-flex;align-items:center;text-decoration:none;"
-          >
-            Preview Portfolio
-          </a>
-
-          <button
-            class="primary-action"
-            id="saveButton"
-            type="button"
-          >
-            Save Banner
-          </button>
-
-        </div>
-
-      </section>
-
-    </div>
+    </section>
 
   </main>
 
 </div>
 
 
-<div class="mobile-overlay" id="mobileOverlay"></div>
-
-<div class="toast" id="toast">
-  <span class="toast-dot"></span>
-  <span id="toastMessage">Saved</span>
-</div>
-
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
 
 <script>
 
-  /* =========================================================
-     SESSION
-  ========================================================== */
+(function(){
 
-  const SESSION_KEY =
-    "nusrat_admin_session_v1";
-
-  function getSession(){
-
-    try{
-
-      const raw =
-        localStorage.getItem(SESSION_KEY);
-
-      if(!raw) return null;
-
-      const session =
-        JSON.parse(raw);
-
-      if(
-        !session.authenticated ||
-        !session.expiresAt ||
-        Date.now() > session.expiresAt
-      ){
-
-        localStorage.removeItem(SESSION_KEY);
-
-        return null;
-
-      }
-
-      return session;
-
-    }catch{
-
-      return null;
-
-    }
-
-  }
-
-  if(!getSession()){
-
-    window.location.replace("./index.html");
-
-  }
-
-
-  /* =========================================================
-     ELEMENTS
-  ========================================================== */
-
-  const sidebar =
-    document.getElementById("sidebar");
-
-  const mobileMenu =
-    document.getElementById("mobileMenu");
-
-  const mobileOverlay =
-    document.getElementById("mobileOverlay");
-
-  const logoutButton =
-    document.getElementById("logoutButton");
-
-  const themeToggle =
-    document.getElementById("themeToggle");
-
-  const topSave =
-    document.getElementById("topSave");
-
-  const saveButton =
-    document.getElementById("saveButton");
-
-  const resetButton =
-    document.getElementById("resetButton");
-
-  const toast =
-    document.getElementById("toast");
-
-  const toastMessage =
-    document.getElementById("toastMessage");
-
-
-  /* =========================================================
-     THEME
-  ========================================================== */
-
-  const THEME_KEY =
-    "nusrat_admin_theme";
-
-  function applyTheme(){
-
-    document.documentElement.dataset.theme =
-      localStorage.getItem(THEME_KEY) || "dark";
-
-  }
-
-  applyTheme();
-
-  themeToggle.addEventListener(
-    "click",
-    () => {
-
-      const current =
-        document.documentElement.dataset.theme ||
-        "dark";
-
-      const next =
-        current === "dark"
-          ? "light"
-          : "dark";
-
-      document.documentElement.dataset.theme =
-        next;
-
-      localStorage.setItem(
-        THEME_KEY,
-        next
-      );
-
-    }
-  );
-
-
-  /* =========================================================
-     MOBILE MENU
-  ========================================================== */
-
-  function openMenu(){
-
-    sidebar.classList.add("open");
-    mobileOverlay.classList.add("show");
-
-  }
-
-  function closeMenu(){
-
-    sidebar.classList.remove("open");
-    mobileOverlay.classList.remove("show");
-
-  }
-
-  mobileMenu?.addEventListener(
-    "click",
-    openMenu
-  );
-
-  mobileOverlay?.addEventListener(
-    "click",
-    closeMenu
-  );
-
-
-  document
-    .querySelectorAll(".nav-item")
-    .forEach(item => {
-
-      item.addEventListener(
-        "click",
-        () => {
-
-          if(window.innerWidth <= 900){
-
-            closeMenu();
-
-          }
-
-        }
-      );
-
-    });
-
-
-  /* =========================================================
-     IMAGE UPLOAD
-  ========================================================== */
-
-  const imageInput =
-    document.getElementById("imageInput");
-
-  const uploadZone =
-    document.getElementById("uploadZone");
-
-  const uploadPlaceholder =
-    document.getElementById("uploadPlaceholder");
-
-  const bannerPreview =
-    document.getElementById("bannerPreview");
-
-  const previewImage =
-    document.getElementById("previewImage");
-
-  const miniPreviewImage =
-    document.getElementById("miniPreviewImage");
-
-  const browseButton =
-    document.getElementById("browseButton");
-
-  const removeImage =
-    document.getElementById("removeImage");
-
-  const fileName =
-    document.getElementById("fileName");
-
-  const fileSize =
-    document.getElementById("fileSize");
-
-
-  function formatSize(bytes){
-
-    if(!bytes) return "Local preview";
-
-    if(bytes < 1024){
-
-      return `${bytes} B`;
-
-    }
-
-    if(bytes < 1024 * 1024){
-
-      return `${(bytes / 1024).toFixed(1)} KB`;
-
-    }
-
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-
-  }
-
-
-  function showImage(file){
-
-    if(!file) return;
-
-    if(file.size > 5 * 1024 * 1024){
-
-      showToast(
-        "Image is larger than 5MB."
-      );
-
-      return;
-
-    }
-
-
-    if(!file.type.startsWith("image/")){
-
-      showToast(
-        "Please choose an image file."
-      );
-
-      return;
-
-    }
-
-
-    const reader =
-      new FileReader();
-
-
-    reader.onload = event => {
-
-      const src =
-        event.target.result;
-
-      previewImage.src =
-        src;
-
-      miniPreviewImage.src =
-        src;
-
-      bannerPreview.classList.add(
-        "show"
-      );
-
-      uploadPlaceholder.style.display =
-        "none";
-
-      fileName.textContent =
-        file.name;
-
-      fileSize.textContent =
-        formatSize(file.size);
-
-      localStorage.setItem(
-        "nusrat_banner_image_v1",
-        src
-      );
-
-      markDirty();
-
-    };
-
-
-    reader.readAsDataURL(file);
-
-  }
-
-
-  browseButton.addEventListener(
-    "click",
-    event => {
-
-      event.stopPropagation();
-
-      imageInput.click();
-
-    }
-  );
-
-
-  uploadZone.addEventListener(
-    "click",
-    event => {
-
-      if(
-        event.target.closest(
-          "#removeImage"
-        )
-      ) return;
-
-      imageInput.click();
-
-    }
-  );
-
-
-  imageInput.addEventListener(
-    "change",
-    event => {
-
-      const file =
-        event.target.files?.[0];
-
-      showImage(file);
-
-    }
-  );
-
-
-  [
-    "dragenter",
-    "dragover"
-  ].forEach(type => {
-
-    uploadZone.addEventListener(
-      type,
-      event => {
-
-        event.preventDefault();
-
-        uploadZone.classList.add(
-          "dragging"
-        );
-
-      }
-    );
-
-  });
-
-
-  [
-    "dragleave",
-    "drop"
-  ].forEach(type => {
-
-    uploadZone.addEventListener(
-      type,
-      event => {
-
-        event.preventDefault();
-
-        uploadZone.classList.remove(
-          "dragging"
-        );
-
-      }
-    );
-
-  });
-
-
-  uploadZone.addEventListener(
-    "drop",
-    event => {
-
-      const file =
-        event.dataTransfer.files?.[0];
-
-      showImage(file);
-
-    }
-  );
-
-
-  removeImage.addEventListener(
-    "click",
-    event => {
-
-      event.stopPropagation();
-
-      imageInput.value = "";
-
-      previewImage.src = "";
-      miniPreviewImage.src = "";
-
-      bannerPreview.classList.remove(
-        "show"
-      );
-
-      uploadPlaceholder.style.display =
-        "flex";
-
-      localStorage.removeItem(
-        "nusrat_banner_image_v1"
-      );
-
-      markDirty();
-
-    }
-  );
-
-
-  /* =========================================================
-     FIELDS
-  ========================================================== */
-
-  const eyebrow =
-    document.getElementById("eyebrow");
-
-  const headline =
-    document.getElementById("headline");
-
-  const description =
-    document.getElementById("description");
-
-  const ctaText =
-    document.getElementById("ctaText");
-
-  const ctaLink =
-    document.getElementById("ctaLink");
-
-  const secondaryText =
-    document.getElementById("secondaryText");
-
-  const secondaryLink =
-    document.getElementById("secondaryLink");
-
-  const showBanner =
-    document.getElementById("showBanner");
-
-  const showPrimaryCta =
-    document.getElementById("showPrimaryCta");
-
-  const showSecondaryCta =
-    document.getElementById("showSecondaryCta");
-
-  const publishBanner =
-    document.getElementById("publishBanner");
-
-
-  const miniEyebrow =
-    document.getElementById("miniEyebrow");
-
-  const miniHeadline =
-    document.getElementById("miniHeadline");
-
-  const miniDescription =
-    document.getElementById("miniDescription");
-
-  const miniCta =
-    document.getElementById("miniCta");
-
-
-  /* =========================================================
-     COUNTERS
-  ========================================================== */
-
-  const headlineCount =
-    document.getElementById("headlineCount");
-
-  const descriptionCount =
-    document.getElementById("descriptionCount");
-
-
-  function updateCounters(){
-
-    headlineCount.textContent =
-      headline.value.length;
-
-    descriptionCount.textContent =
-      description.value.length;
-
-  }
-
-
-  /* =========================================================
-     LIVE PREVIEW
-  ========================================================== */
-
-  function updatePreview(){
-
-    miniEyebrow.textContent =
-      eyebrow.value ||
-      "UX/UI Designer";
-
-    miniHeadline.textContent =
-      headline.value ||
-      "Designing with clarity.";
-
-    miniDescription.textContent =
-      description.value ||
-      "";
-
-    miniCta.textContent =
-      ctaText.value ||
-      "Explore Selected Work";
-
-
-    miniCta.style.display =
-      showPrimaryCta.checked
-        ? "inline-flex"
-        : "none";
-
-
-    updateCounters();
-
-  }
-
-
-  [
-    eyebrow,
-    headline,
-    description,
-    ctaText,
-    ctaLink,
-    secondaryText,
-    secondaryLink,
-    showPrimaryCta,
-    showSecondaryCta,
-    showBanner,
-    publishBanner
-  ].forEach(field => {
-
-    field.addEventListener(
-      "input",
-      () => {
-
-        updatePreview();
-        markDirty();
-
-      }
-    );
-
-    field.addEventListener(
-      "change",
-      () => {
-
-        updatePreview();
-        markDirty();
-
-      }
-    );
-
-  });
-
-
-  /* =========================================================
-     IMAGE POSITION
-  ========================================================== */
-
-  document
-    .querySelectorAll(
-      'input[name="position"]'
-    )
-    .forEach(input => {
-
-      input.addEventListener(
-        "change",
-        () => {
-
-          const position =
-            document.querySelector(
-              'input[name="position"]:checked'
-            )?.value ||
-            "center center";
-
-          previewImage.style.objectPosition =
-            position;
-
-          miniPreviewImage.style.objectPosition =
-            position;
-
-          markDirty();
-
-        }
-      );
-
-    });
+  "use strict";
 
 
   /* =========================================================
      STORAGE
-  ========================================================== */
+     ========================================================= */
 
-  const DATA_KEY =
+  const STORAGE_KEY =
     "nusrat_banner_content_v1";
 
+  const THEME_KEY =
+    "nusrat_admin_theme";
 
-  const DEFAULT_DATA = {
 
-    eyebrow:
-      "UX/UI Designer",
+  const defaults = {
+
+    eyebrow:"UX/UI DESIGNER",
 
     headline:
       "Designing with clarity.",
 
     description:
-      "I design thoughtful digital experiences where structure, usability and visual clarity work together.",
+      "I create thoughtful digital experiences where structure, usability and visual clarity work together.",
 
-    ctaText:
-      "Explore Selected Work",
+    primaryLabel:
+      "Explore My Work",
 
-    ctaLink:
+    primaryLink:
       "#work",
 
-    secondaryText:
-      "About Nusrat",
+    secondaryLabel:
+      "About Me",
 
     secondaryLink:
       "#about",
 
-    showBanner:
-      true,
-
-    showPrimaryCta:
-      true,
-
-    showSecondaryCta:
-      true,
-
-    publishBanner:
-      true,
+    overlayStrength:
+      "medium",
 
     position:
-      "center center"
+      "left",
+
+    publishBanner:true,
+
+    showDescription:true,
+
+    showPrimary:true,
+
+    showSecondary:true,
+
+    image:"",
+
+    imageName:"",
+
+    lastSaved:null
 
   };
+
+
+  let data = loadData();
 
 
   function loadData(){
 
     try{
 
-      const raw =
-        localStorage.getItem(
-          DATA_KEY
-        );
+      const saved =
+        localStorage.getItem(STORAGE_KEY);
 
-      if(!raw) return DEFAULT_DATA;
+      if(saved){
 
-      return {
-        ...DEFAULT_DATA,
-        ...JSON.parse(raw)
-      };
+        return {
+          ...defaults,
+          ...JSON.parse(saved)
+        };
 
-    }catch{
+      }
 
-      return DEFAULT_DATA;
+    }catch(error){
 
-    }
-
-  }
-
-
-  function applyData(data){
-
-    eyebrow.value =
-      data.eyebrow;
-
-    headline.value =
-      data.headline;
-
-    description.value =
-      data.description;
-
-    ctaText.value =
-      data.ctaText;
-
-    ctaLink.value =
-      data.ctaLink;
-
-    secondaryText.value =
-      data.secondaryText;
-
-    secondaryLink.value =
-      data.secondaryLink;
-
-    showBanner.checked =
-      data.showBanner;
-
-    showPrimaryCta.checked =
-      data.showPrimaryCta;
-
-    showSecondaryCta.checked =
-      data.showSecondaryCta;
-
-    publishBanner.checked =
-      data.publishBanner;
-
-
-    const position =
-      document.querySelector(
-        `input[name="position"][value="${data.position}"]`
+      console.warn(
+        "Could not load banner data.",
+        error
       );
 
-    if(position){
-
-      position.checked = true;
-
     }
 
-
-    previewImage.style.objectPosition =
-      data.position;
-
-    miniPreviewImage.style.objectPosition =
-      data.position;
-
-
-    updatePreview();
-
-  }
-
-
-  applyData(loadData());
-
-
-  /* =========================================================
-     LOAD IMAGE FROM LOCAL STORAGE
-  ========================================================== */
-
-  const storedImage =
-    localStorage.getItem(
-      "nusrat_banner_image_v1"
-    );
-
-  if(storedImage){
-
-    previewImage.src =
-      storedImage;
-
-    miniPreviewImage.src =
-      storedImage;
-
-    bannerPreview.classList.add(
-      "show"
-    );
-
-    uploadPlaceholder.style.display =
-      "none";
-
-    fileName.textContent =
-      "Saved local preview";
-
-    fileSize.textContent =
-      "Stored in browser";
-
-  }
-
-
-  /* =========================================================
-     DIRTY STATE
-  ========================================================== */
-
-  let dirty =
-    false;
-
-
-  function markDirty(){
-
-    dirty = true;
-
-  }
-
-
-  function collectData(){
-
     return {
-
-      eyebrow:
-        eyebrow.value.trim(),
-
-      headline:
-        headline.value.trim(),
-
-      description:
-        description.value.trim(),
-
-      ctaText:
-        ctaText.value.trim(),
-
-      ctaLink:
-        ctaLink.value.trim(),
-
-      secondaryText:
-        secondaryText.value.trim(),
-
-      secondaryLink:
-        secondaryLink.value.trim(),
-
-      showBanner:
-        showBanner.checked,
-
-      showPrimaryCta:
-        showPrimaryCta.checked,
-
-      showSecondaryCta:
-        showSecondaryCta.checked,
-
-      publishBanner:
-        publishBanner.checked,
-
-      position:
-        document.querySelector(
-          'input[name="position"]:checked'
-        )?.value ||
-        "center center"
-
+      ...defaults
     };
 
   }
 
 
-  /* =========================================================
-     TOAST
-  ========================================================== */
-
-  let toastTimer;
-
-  function showToast(message){
-
-    toastMessage.textContent =
-      message;
-
-    toast.classList.add(
-      "show"
-    );
-
-    clearTimeout(toastTimer);
-
-    toastTimer =
-      setTimeout(
-        () => {
-
-          toast.classList.remove(
-            "show"
-          );
-
-        },
-        2600
-      );
-
-  }
-
-
-  /* =========================================================
-     SAVE
-  ========================================================== */
-
   function saveData(){
 
-    const data =
-      collectData();
+    data.lastSaved =
+      new Date().toISOString();
 
     localStorage.setItem(
-      DATA_KEY,
+      STORAGE_KEY,
       JSON.stringify(data)
     );
 
     localStorage.setItem(
       "nusrat_admin_last_updated",
-      new Date().toISOString()
+      data.lastSaved
     );
-
-    localStorage.setItem(
-      "nusrat_admin_current_page",
-      "banner"
-    );
-
-    dirty = false;
 
     showToast(
       "Banner changes saved."
     );
 
+    updateStatus();
+
   }
 
 
-  saveButton.addEventListener(
-    "click",
-    saveData
-  );
+  /* =========================================================
+     HELPERS
+     ========================================================= */
 
-  topSave.addEventListener(
-    "click",
-    saveData
-  );
+  function $(id){
+    return document.getElementById(id);
+  }
+
+
+  function showToast(message){
+
+    if(
+      typeof window.showToast ===
+      "function"
+    ){
+
+      window.showToast(message);
+
+      return;
+
+    }
+
+
+    const toast =
+      document.createElement("div");
+
+    toast.textContent =
+      message;
+
+    Object.assign(
+      toast.style,
+      {
+        position:"fixed",
+        right:"22px",
+        bottom:"22px",
+        zIndex:"99999",
+        padding:"13px 17px",
+        border:"1px solid rgba(216,179,106,.3)",
+        borderRadius:"12px",
+        background:"#17181c",
+        color:"#f5f2eb",
+        fontSize:"12px",
+        boxShadow:
+          "0 15px 40px rgba(0,0,0,.3)"
+      }
+    );
+
+    document.body.appendChild(toast);
+
+    setTimeout(
+      ()=>toast.remove(),
+      2400
+    );
+
+  }
+
+
+  /* =========================================================
+     LOAD FORM
+     ========================================================= */
+
+  function loadForm(){
+
+    $("eyebrow").value =
+      data.eyebrow;
+
+    $("headline").value =
+      data.headline;
+
+    $("description").value =
+      data.description;
+
+    $("primaryLabel").value =
+      data.primaryLabel;
+
+    $("primaryLink").value =
+      data.primaryLink;
+
+    $("secondaryLabel").value =
+      data.secondaryLabel;
+
+    $("secondaryLink").value =
+      data.secondaryLink;
+
+    $("overlayStrength").value =
+      data.overlayStrength;
+
+
+    $("publishBanner").checked =
+      data.publishBanner;
+
+    $("showDescription").checked =
+      data.showDescription;
+
+    $("showPrimary").checked =
+      data.showPrimary;
+
+    $("showSecondary").checked =
+      data.showSecondary;
+
+
+    $("visibilityToggle").checked =
+      data.publishBanner;
+
+
+    const radio =
+      document.querySelector(
+        `input[name="position"][value="${data.position}"]`
+      );
+
+    if(radio){
+
+      radio.checked = true;
+
+    }
+
+
+    if(data.image){
+
+      setPreviewImage(
+        data.image,
+        data.imageName || "banner-image"
+      );
+
+    }
+
+
+    updateCounters();
+
+    updatePreview();
+
+    updateStatus();
+
+  }
+
+
+  /* =========================================================
+     COLLECT
+     ========================================================= */
+
+  function collectForm(){
+
+    data.eyebrow =
+      $("eyebrow").value.trim();
+
+    data.headline =
+      $("headline").value.trim();
+
+    data.description =
+      $("description").value.trim();
+
+    data.primaryLabel =
+      $("primaryLabel").value.trim();
+
+    data.primaryLink =
+      $("primaryLink").value.trim();
+
+    data.secondaryLabel =
+      $("secondaryLabel").value.trim();
+
+    data.secondaryLink =
+      $("secondaryLink").value.trim();
+
+    data.overlayStrength =
+      $("overlayStrength").value;
+
+    data.publishBanner =
+      $("publishBanner").checked;
+
+    data.showDescription =
+      $("showDescription").checked;
+
+    data.showPrimary =
+      $("showPrimary").checked;
+
+    data.showSecondary =
+      $("showSecondary").checked;
+
+
+    const selected =
+      document.querySelector(
+        'input[name="position"]:checked'
+      );
+
+    data.position =
+      selected
+        ? selected.value
+        : "left";
+
+
+    data.publishBanner =
+      $("visibilityToggle").checked;
+
+  }
+
+
+  /* =========================================================
+     COUNTERS
+     ========================================================= */
+
+  function updateCounters(){
+
+    $("eyebrowCount").textContent =
+      `${$("eyebrow").value.length} / 50`;
+
+    $("headlineCount").textContent =
+      `${$("headline").value.length} / 100`;
+
+    $("descriptionCount").textContent =
+      `${$("description").value.length} / 240`;
+
+  }
+
+
+  /* =========================================================
+     PREVIEW IMAGE
+     ========================================================= */
+
+  function setPreviewImage(
+    src,
+    filename
+  ){
+
+    if(!src) return;
+
+
+    $("previewImage").src =
+      src;
+
+    $("previewUploadedImage").src =
+      src;
+
+    $("imageFileName").textContent =
+      filename || "banner-image";
+
+
+    $("uploadContent")
+      .style.display =
+      "none";
+
+    $("imagePreview")
+      .classList.add("visible");
+
+  }
+
+
+  /* =========================================================
+     FILE INPUT
+     ========================================================= */
+
+  $("chooseImage")
+    ?.addEventListener(
+      "click",
+      function(){
+
+        $("imageInput").click();
+
+      }
+    );
+
+
+  $("replaceImage")
+    ?.addEventListener(
+      "click",
+      function(){
+
+        $("imageInput").click();
+
+      }
+    );
+
+
+  $("imageInput")
+    ?.addEventListener(
+      "change",
+      function(event){
+
+        const file =
+          event.target.files?.[0];
+
+        if(!file) return;
+
+
+        if(!file.type.startsWith("image/")){
+
+          showToast(
+            "Please choose an image file."
+          );
+
+          return;
+
+        }
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function(e){
+
+            data.image =
+              e.target.result;
+
+            data.imageName =
+              file.name;
+
+            setPreviewImage(
+              data.image,
+              data.imageName
+            );
+
+            updatePreview();
+
+            showToast(
+              "Banner image loaded."
+            );
+
+          };
+
+
+        reader.readAsDataURL(file);
+
+      }
+    );
+
+
+  /* =========================================================
+     PREVIEW
+     ========================================================= */
+
+  function updatePreview(){
+
+    const eyebrow =
+      $("eyebrow").value.trim();
+
+    const headline =
+      $("headline").value.trim();
+
+    const description =
+      $("description").value.trim();
+
+    const primary =
+      $("primaryLabel").value.trim();
+
+    const secondary =
+      $("secondaryLabel").value.trim();
+
+
+    $("previewEyebrow")
+      .textContent =
+      eyebrow || "UX/UI DESIGNER";
+
+
+    $("previewTitle")
+      .textContent =
+      headline || "Designing with clarity.";
+
+
+    $("previewDescription")
+      .textContent =
+      description;
+
+
+    $("previewPrimary")
+      .textContent =
+      primary || "Explore My Work";
+
+
+    $("previewSecondary")
+      .textContent =
+      secondary || "About Me";
+
+
+    $("previewDescription")
+      .style.display =
+      $("showDescription").checked
+        ? ""
+        : "none";
+
+
+    $("previewPrimary")
+      .style.display =
+      $("showPrimary").checked
+        ? ""
+        : "none";
+
+
+    $("previewSecondary")
+      .style.display =
+      $("showSecondary").checked
+        ? ""
+        : "none";
+
+
+    const overlay =
+      $("previewOverlay");
+
+    overlay.classList.remove(
+      "soft"
+    );
+
+
+    if(
+      $("overlayStrength").value ===
+      "soft"
+    ){
+
+      overlay.classList.add(
+        "soft"
+      );
+
+    }
+
+
+    if(
+      $("overlayStrength").value ===
+      "strong"
+    ){
+
+      overlay.style.background =
+        "linear-gradient(90deg,rgba(8,9,11,.98) 0%,rgba(8,9,11,.82) 46%,rgba(8,9,11,.22) 100%)";
+
+    }else if(
+      $("overlayStrength").value ===
+      "medium"
+    ){
+
+      overlay.style.background =
+        "linear-gradient(90deg,rgba(8,9,11,.86) 0%,rgba(8,9,11,.58) 46%,rgba(8,9,11,.12) 100%)";
+
+    }else{
+
+      overlay.style.background =
+        "linear-gradient(90deg,rgba(8,9,11,.58) 0%,rgba(8,9,11,.25) 55%,rgba(8,9,11,.05) 100%)";
+
+    }
+
+
+    updatePosition();
+
+    updateVisibility();
+
+  }
+
+
+  /* =========================================================
+     POSITION
+     ========================================================= */
+
+  function updatePosition(){
+
+    const selected =
+      document.querySelector(
+        'input[name="position"]:checked'
+      );
+
+    if(!selected) return;
+
+
+    const content =
+      $("previewContent");
+
+    content.style.left = "";
+    content.style.right = "";
+    content.style.transform = "";
+    content.style.width = "";
+
+
+    if(
+      selected.value ===
+      "center"
+    ){
+
+      content.style.left =
+        "50%";
+
+      content.style.transform =
+        "translateX(-50%)";
+
+      content.style.width =
+        "82%";
+
+      content.style.textAlign =
+        "center";
+
+      $("previewDescription")
+        .style.marginLeft =
+        "auto";
+
+      $("previewDescription")
+        .style.marginRight =
+        "auto";
+
+      $("previewActions")
+        ?.style;
+
+    }else if(
+      selected.value ===
+      "right"
+    ){
+
+      content.style.left =
+        "auto";
+
+      content.style.right =
+        "0";
+
+      content.style.width =
+        "72%";
+
+      content.style.textAlign =
+        "left";
+
+    }else{
+
+      content.style.left =
+        "0";
+
+      content.style.right =
+        "auto";
+
+      content.style.width =
+        "72%";
+
+      content.style.textAlign =
+        "left";
+
+    }
+
+  }
+
+
+  /* =========================================================
+     VISIBILITY
+     ========================================================= */
+
+  function updateVisibility(){
+
+    const enabled =
+      $("visibilityToggle").checked;
+
+    $("visibilityText").textContent =
+      enabled
+        ? "Banner is currently visible."
+        : "Banner is currently hidden.";
+
+    const status =
+      $("bannerStatus");
+
+    status.classList.toggle(
+      "off",
+      !enabled
+    );
+
+    status.querySelector("span")
+      .textContent =
+      enabled
+        ? "Banner published"
+        : "Banner hidden";
+
+
+    $("publishButton")
+      .textContent =
+      enabled
+        ? "Publish Banner"
+        : "Keep Banner Hidden";
+
+  }
+
+
+  /* =========================================================
+     LIVE INPUTS
+     ========================================================= */
+
+  [
+    "eyebrow",
+    "headline",
+    "description",
+    "primaryLabel",
+    "primaryLink",
+    "secondaryLabel",
+    "secondaryLink",
+    "overlayStrength",
+    "showDescription",
+    "showPrimary",
+    "showSecondary"
+
+  ].forEach(id=>{
+
+    $(id)?.addEventListener(
+      "input",
+      function(){
+
+        updateCounters();
+        updatePreview();
+
+      }
+    );
+
+
+    $(id)?.addEventListener(
+      "change",
+      function(){
+
+        updateCounters();
+        updatePreview();
+
+      }
+    );
+
+  });
+
+
+  document
+    .querySelectorAll(
+      'input[name="position"]'
+    )
+    .forEach(input=>{
+
+      input.addEventListener(
+        "change",
+        updatePreview
+      );
+
+    });
+
+
+  $("visibilityToggle")
+    ?.addEventListener(
+      "change",
+      function(){
+
+        $("publishBanner").checked =
+          this.checked;
+
+        updateVisibility();
+
+      }
+    );
+
+
+  $("publishBanner")
+    ?.addEventListener(
+      "change",
+      function(){
+
+        $("visibilityToggle").checked =
+          this.checked;
+
+        updateVisibility();
+
+      }
+    );
+
+
+  /* =========================================================
+     PREVIEW MODE
+     ========================================================= */
+
+  document
+    .querySelectorAll(
+      "[data-preview]"
+    )
+    .forEach(button=>{
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          document
+            .querySelectorAll(
+              "[data-preview]"
+            )
+            .forEach(btn=>{
+              btn.classList.remove(
+                "active"
+              );
+            });
+
+
+          this.classList.add(
+            "active"
+          );
+
+
+          const mode =
+            this.dataset.preview;
+
+
+          $("previewFrame")
+            .classList.toggle(
+              "mobile",
+              mode === "mobile"
+            );
+
+        }
+      );
+
+    });
+
+
+  /* =========================================================
+     SAVE
+     ========================================================= */
+
+  $("saveChanges")
+    ?.addEventListener(
+      "click",
+      function(){
+
+        collectForm();
+
+        saveData();
+
+      }
+    );
+
+
+  $("publishButton")
+    ?.addEventListener(
+      "click",
+      function(){
+
+        collectForm();
+
+        data.publishBanner = true;
+
+        $("visibilityToggle")
+          .checked = true;
+
+        $("publishBanner")
+          .checked = true;
+
+        saveData();
+
+        updateVisibility();
+
+        showToast(
+          "Banner published."
+        );
+
+      }
+    );
 
 
   /* =========================================================
      RESET
-  ========================================================== */
+     ========================================================= */
 
-  resetButton.addEventListener(
-    "click",
-    () => {
+  $("resetBanner")
+    ?.addEventListener(
+      "click",
+      function(){
 
-      const confirmed =
-        window.confirm(
-          "Reset banner fields to the saved version?"
+        const confirmed =
+          confirm(
+            "Reset banner content to the default version?"
+          );
+
+        if(!confirmed) return;
+
+
+        data = {
+          ...defaults
+        };
+
+
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(data)
         );
 
-      if(!confirmed) return;
 
-      applyData(loadData());
+        $("uploadContent")
+          .style.display =
+          "flex";
 
-      dirty = false;
 
-      showToast(
-        "Changes reset."
+        $("imagePreview")
+          .classList.remove(
+            "visible"
+          );
+
+
+        $("imageInput").value =
+          "";
+
+
+        loadForm();
+
+        showToast(
+          "Banner reset."
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     THEME
+     ========================================================= */
+
+  function loadTheme(){
+
+    const theme =
+      localStorage.getItem(
+        THEME_KEY
+      );
+
+    if(theme){
+
+      document.documentElement
+        .setAttribute(
+          "data-theme",
+          theme
+        );
+
+    }
+
+  }
+
+
+  $("themeToggle")
+    ?.addEventListener(
+      "click",
+      function(){
+
+        const root =
+          document.documentElement;
+
+        const current =
+          root.getAttribute(
+            "data-theme"
+          ) || "dark";
+
+        const next =
+          current === "dark"
+            ? "light"
+            : "dark";
+
+
+        root.setAttribute(
+          "data-theme",
+          next
+        );
+
+
+        localStorage.setItem(
+          THEME_KEY,
+          next
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     MOBILE SIDEBAR
+     ========================================================= */
+
+  const sidebar =
+    $("sidebar");
+
+  const overlay =
+    $("mobileOverlay");
+
+
+  $("mobileMenuButton")
+    ?.addEventListener(
+      "click",
+      function(){
+
+        sidebar?.classList.add(
+          "mobile-open"
+        );
+
+        overlay?.classList.add(
+          "active"
+        );
+
+      }
+    );
+
+
+  overlay?.addEventListener(
+    "click",
+    function(){
+
+      sidebar?.classList.remove(
+        "mobile-open"
+      );
+
+      overlay.classList.remove(
+        "active"
       );
 
     }
@@ -2460,38 +2834,48 @@
 
   /* =========================================================
      LOGOUT
-  ========================================================== */
+     ========================================================= */
 
-  logoutButton.addEventListener(
-    "click",
-    () => {
+  $("logoutBtn")
+    ?.addEventListener(
+      "click",
+      function(){
 
-      localStorage.removeItem(
-        SESSION_KEY
-      );
+        const confirmed =
+          confirm(
+            "Sign out from the admin panel?"
+          );
 
-      window.location.replace(
-        "./index.html"
-      );
+        if(!confirmed) return;
 
-    }
-  );
+        localStorage.removeItem(
+          "nusrat_admin_session_v1"
+        );
+
+        window.location.href =
+          "./index.html";
+
+      }
+    );
 
 
   /* =========================================================
      KEYBOARD SAVE
-  ========================================================== */
+     ========================================================= */
 
   document.addEventListener(
     "keydown",
-    event => {
+    function(event){
 
       if(
-        (event.ctrlKey || event.metaKey) &&
+        (event.ctrlKey ||
+         event.metaKey) &&
         event.key.toLowerCase() === "s"
       ){
 
         event.preventDefault();
+
+        collectForm();
 
         saveData();
 
@@ -2502,38 +2886,14 @@
 
 
   /* =========================================================
-     UNSAVED WARNING
-  ========================================================== */
+     INITIALIZE
+     ========================================================= */
 
-  window.addEventListener(
-    "beforeunload",
-    event => {
+  loadTheme();
 
-      if(!dirty) return;
+  loadForm();
 
-      event.preventDefault();
-      event.returnValue = "";
-
-    }
-  );
-
-
-  /* =========================================================
-     CURRENT PAGE
-  ========================================================== */
-
-  localStorage.setItem(
-    "nusrat_admin_current_page",
-    "banner"
-  );
-
-
-  /* =========================================================
-     INITIAL
-  ========================================================== */
-
-  updatePreview();
-  updateCounters();
+})();
 
 </script>
 
