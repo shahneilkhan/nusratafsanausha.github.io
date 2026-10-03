@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Dashboard — Nusrat Afsana Usha</title>
+  <title>Dashboard — Nusrat Afsana Usha Admin</title>
   <meta
     name="description"
-    content="Portfolio administration dashboard for Nusrat Afsana Usha."
+    content="Nusrat Afsana Usha portfolio administration dashboard."
   >
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,567 +22,718 @@
 
   <style>
     /* =========================================================
-       DASHBOARD-SPECIFIC STYLES
+       DASHBOARD
     ========================================================= */
 
-    .dashboard-hero {
+    .dashboard-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 340px;
-      gap: 24px;
-      margin-bottom: 28px;
+      grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr);
+      gap: 22px;
+      align-items: start;
     }
 
-    .welcome-card {
+    .dashboard-main,
+    .dashboard-side {
+      display: grid;
+      gap: 22px;
+    }
+
+    .welcome-panel {
       position: relative;
+      min-height: 255px;
       overflow: hidden;
-      min-height: 280px;
-      padding: 34px;
+      padding: 32px;
       border: 1px solid var(--border);
-      border-radius: 26px;
+      border-radius: 24px;
       background:
         radial-gradient(
-          circle at 90% 10%,
-          rgba(216, 179, 106, .13),
-          transparent 35%
+          circle at 88% 10%,
+          rgba(216,179,106,.18),
+          transparent 32%
         ),
-        linear-gradient(
-          135deg,
-          rgba(255,255,255,.035),
-          rgba(255,255,255,.015)
+        radial-gradient(
+          circle at 10% 100%,
+          rgba(216,179,106,.06),
+          transparent 34%
         ),
         var(--panel);
     }
 
-    .welcome-card::after {
+    .welcome-panel::before {
       content: "";
       position: absolute;
-      width: 220px;
-      height: 220px;
-      right: -100px;
-      bottom: -120px;
-      border: 1px solid rgba(216,179,106,.16);
+      width: 300px;
+      height: 300px;
+      right: -130px;
+      bottom: -180px;
+      border: 1px solid rgba(216,179,106,.12);
       border-radius: 50%;
       pointer-events: none;
     }
 
-    .welcome-eyebrow {
+    .welcome-panel::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -80px;
+      bottom: -125px;
+      border: 1px solid rgba(216,179,106,.08);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .welcome-content {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+    }
+
+    .welcome-kicker {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 18px;
       color: var(--accent);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
-      letter-spacing: .16em;
+      letter-spacing: .14em;
       text-transform: uppercase;
     }
 
-    .welcome-eyebrow::before {
+    .welcome-kicker::before {
       content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
+      width: 24px;
+      height: 1px;
       background: var(--accent);
-      box-shadow: 0 0 14px rgba(216,179,106,.55);
     }
 
-    .welcome-card h1 {
-      max-width: 720px;
-      margin: 0 0 14px;
+    .welcome-title {
+      margin: 0;
       font-family: "Bricolage Grotesque", sans-serif;
-      font-size: clamp(34px, 4vw, 58px);
-      line-height: .98;
-      letter-spacing: -.045em;
-      color: var(--text);
+      font-size: clamp(35px, 5vw, 58px);
+      line-height: .96;
+      letter-spacing: -.055em;
+      max-width: 650px;
     }
 
-    .welcome-card h1 span {
+    .welcome-title span {
       color: var(--accent);
     }
 
-    .welcome-card p {
-      max-width: 650px;
-      margin: 0;
+    .welcome-copy {
+      margin: 17px 0 0;
+      max-width: 590px;
       color: var(--muted);
-      font-size: 15px;
-      line-height: 1.75;
+      font-size: 13px;
+      line-height: 1.7;
     }
 
     .welcome-actions {
+      margin-top: 24px;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 26px;
+      gap: 9px;
     }
 
-    .system-card {
-      padding: 26px;
+    /* =========================================================
+       STATS
+    ========================================================= */
+
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .dashboard-stat {
+      min-height: 125px;
+      padding: 18px;
       border: 1px solid var(--border);
-      border-radius: 26px;
+      border-radius: 18px;
       background: var(--panel);
+      transition: .2s ease;
     }
 
-    .system-card-head {
+    .dashboard-stat:hover {
+      transform: translateY(-2px);
+      border-color: rgba(216,179,106,.3);
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+    }
+
+    .stat-icon {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--accent);
+      font-size: 12px;
+      background: rgba(216,179,106,.05);
+    }
+
+    .stat-value {
+      margin-top: 18px;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 31px;
+      line-height: 1;
+      letter-spacing: -.04em;
+    }
+
+    .stat-note {
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    /* =========================================================
+       PANEL
+    ========================================================= */
+
+    .dash-panel {
+      padding: 22px;
+    }
+
+    .dash-panel-heading {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 24px;
+      gap: 16px;
+      margin-bottom: 19px;
     }
 
-    .system-card-head h3 {
+    .dash-panel-heading h2 {
       margin: 0;
       font-family: "Bricolage Grotesque", sans-serif;
       font-size: 19px;
-      letter-spacing: -.02em;
+      letter-spacing: -.035em;
     }
 
-    .system-card-head p {
+    .dash-panel-heading p {
       margin: 5px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .text-link {
+      color: var(--accent);
+      font-size: 11px;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       QUICK ACTIONS
+    ========================================================= */
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .quick-action {
+      position: relative;
+      min-height: 126px;
+      padding: 17px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      color: var(--text);
+      background: rgba(255,255,255,.015);
+      text-decoration: none;
+      transition: .2s ease;
+    }
+
+    .quick-action:hover {
+      transform: translateY(-2px);
+      border-color: rgba(216,179,106,.38);
+      background: rgba(216,179,106,.04);
+    }
+
+    .quick-action-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--accent);
+      border: 1px solid rgba(216,179,106,.18);
+      background: rgba(216,179,106,.06);
+      font-size: 13px;
+    }
+
+    .quick-action strong {
+      display: block;
+      margin-top: 16px;
+      font-size: 12px;
+    }
+
+    .quick-action span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.4;
+    }
+
+    .quick-arrow {
+      position: absolute;
+      right: 15px;
+      top: 17px;
       color: var(--muted);
       font-size: 12px;
     }
 
-    .online-badge {
+    /* =========================================================
+       CONTENT HEALTH
+    ========================================================= */
+
+    .health-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .health-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      min-height: 63px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,.015);
+    }
+
+    .health-info {
+      min-width: 0;
+    }
+
+    .health-info strong {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .health-info span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+    }
+
+    .health-status {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      flex-shrink: 0;
-      padding: 7px 10px;
-      border: 1px solid rgba(103, 213, 142, .2);
+      min-height: 28px;
+      padding: 0 9px;
       border-radius: 999px;
-      color: #7ee3a0;
-      background: rgba(103, 213, 142, .07);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      border: 1px solid var(--border);
+      font-size: 9px;
+      color: var(--muted);
     }
 
-    .online-badge::before {
+    .health-status::before {
       content: "";
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #6edb92;
-      box-shadow: 0 0 10px rgba(110,219,146,.65);
+      background: currentColor;
     }
 
-    .system-list {
-      display: grid;
-      gap: 2px;
+    .health-status.good {
+      color: #63ca91;
+      background: rgba(99,202,145,.06);
+      border-color: rgba(99,202,145,.16);
     }
 
-    .system-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .system-row:last-child {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-
-    .system-label {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .system-value {
-      color: var(--text);
-      font-size: 12px;
-      font-weight: 600;
-      text-align: right;
-    }
-
-    .stats-grid {
-      margin-bottom: 28px;
-    }
-
-    .stat-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 145px;
-    }
-
-    .stat-card::after {
-      content: "";
-      position: absolute;
-      width: 90px;
-      height: 90px;
-      right: -42px;
-      bottom: -48px;
-      border: 1px solid rgba(216,179,106,.12);
-      border-radius: 50%;
-    }
-
-    .stat-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 38px;
-      height: 38px;
-      margin-bottom: 20px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
+    .health-status.attention {
       color: var(--accent);
-      background: rgba(216,179,106,.055);
+      background: rgba(216,179,106,.06);
+      border-color: rgba(216,179,106,.16);
     }
 
-    .stat-icon svg {
-      width: 17px;
-      height: 17px;
-    }
-
-    .stat-number {
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 32px;
-      font-weight: 600;
-      letter-spacing: -.04em;
-    }
-
-    .stat-description {
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(300px, .75fr);
-      gap: 24px;
-      margin-bottom: 28px;
-    }
-
-    .dashboard-panel {
-      min-width: 0;
-      padding: 25px;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      background: var(--panel);
-    }
-
-    .panel-heading {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 22px;
-    }
-
-    .panel-heading h2 {
-      margin: 0;
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 19px;
-      letter-spacing: -.025em;
-    }
-
-    .panel-heading p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .panel-link {
-      flex-shrink: 0;
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 700;
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    .panel-link:hover {
-      text-decoration: underline;
-    }
+    /* =========================================================
+       ACTIVITY
+    ========================================================= */
 
     .activity-list {
       display: grid;
-      gap: 0;
     }
 
     .activity-item {
       display: grid;
-      grid-template-columns: 40px minmax(0, 1fr) auto;
-      gap: 13px;
-      align-items: center;
-      padding: 15px 0;
+      grid-template-columns: 30px minmax(0, 1fr) auto;
+      gap: 11px;
+      align-items: start;
+      padding: 13px 0;
       border-bottom: 1px solid var(--border);
     }
 
     .activity-item:last-child {
       border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .activity-item:first-child {
+      padding-top: 0;
     }
 
     .activity-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
       border: 1px solid var(--border);
-      border-radius: 13px;
+      background: rgba(255,255,255,.025);
       color: var(--accent);
-      background: rgba(216,179,106,.045);
+      font-size: 10px;
     }
 
-    .activity-icon svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    .activity-main strong {
+    .activity-copy strong {
       display: block;
-      margin-bottom: 4px;
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .activity-main span {
-      display: block;
-      color: var(--muted);
       font-size: 11px;
-      line-height: 1.5;
+      line-height: 1.4;
+    }
+
+    .activity-copy span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 9px;
     }
 
     .activity-time {
       color: var(--muted);
-      font-size: 10px;
+      font-size: 9px;
       white-space: nowrap;
     }
 
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: 10px;
+    /* =========================================================
+       VISIBILITY
+    ========================================================= */
+
+    .visibility-card {
+      padding: 22px;
     }
 
-    .quick-card {
-      position: relative;
-      min-height: 130px;
-      padding: 17px;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      color: inherit;
-      text-decoration: none;
-      background: rgba(255,255,255,.018);
-      transition:
-        transform .2s ease,
-        border-color .2s ease,
-        background .2s ease;
+    .visibility-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
     }
 
-    .quick-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(216,179,106,.28);
-      background: rgba(216,179,106,.045);
+    .visibility-title {
+      margin: 0;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 18px;
+      letter-spacing: -.03em;
     }
 
-    .quick-card-icon {
+    .visibility-copy {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 29px;
+      padding: 0 10px;
+      border-radius: 999px;
+      color: #63ca91;
+      background: rgba(99,202,145,.07);
+      border: 1px solid rgba(99,202,145,.16);
+      font-size: 9px;
+      white-space: nowrap;
+    }
+
+    .live-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 4px rgba(99,202,145,.08);
+    }
+
+    .visibility-footer {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      color: var(--accent);
-      background: rgba(216,179,106,.07);
+      justify-content: space-between;
+      gap: 12px;
     }
 
-    .quick-card-icon svg {
-      width: 15px;
-      height: 15px;
+    .visibility-url {
+      min-width: 0;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 9px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .quick-card strong {
+    /* =========================================================
+       PROFILE
+    ========================================================= */
+
+    .profile-mini {
+      display: grid;
+      grid-template-columns: 62px minmax(0, 1fr);
+      gap: 13px;
+      align-items: center;
+    }
+
+    .profile-avatar {
+      width: 62px;
+      height: 62px;
+      overflow: hidden;
+      border-radius: 17px;
+      border: 1px solid var(--border);
+      background: #111216;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
       display: block;
-      margin-bottom: 4px;
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 14px;
+      object-fit: cover;
     }
 
-    .quick-card span {
+    .profile-mini strong {
+      display: block;
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 15px;
+      letter-spacing: -.02em;
+    }
+
+    .profile-mini span {
+      display: block;
+      margin-top: 4px;
       color: var(--muted);
       font-size: 10px;
-      line-height: 1.5;
     }
 
-    .content-status {
+    .profile-details {
+      margin-top: 18px;
       display: grid;
-      gap: 11px;
+      gap: 9px;
     }
 
-    .content-status-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 15px;
-      align-items: center;
-      padding: 13px 0;
+    .profile-detail {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 9px;
       border-bottom: 1px solid var(--border);
+      font-size: 10px;
     }
 
-    .content-status-row:last-child {
+    .profile-detail:last-child {
       border-bottom: 0;
+      padding-bottom: 0;
     }
 
-    .content-status-info strong {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
+    .profile-detail span:first-child {
+      color: var(--muted);
     }
 
-    .content-status-info span {
-      display: block;
+    .profile-detail span:last-child {
+      text-align: right;
+      max-width: 65%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       NEWSLETTER
+    ========================================================= */
+
+    .newsletter-stat {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .newsletter-number {
+      font-family: "Bricolage Grotesque", sans-serif;
+      font-size: 38px;
+      letter-spacing: -.045em;
+    }
+
+    .newsletter-label {
       margin-top: 3px;
       color: var(--muted);
       font-size: 10px;
     }
 
-    .status-pill {
-      display: inline-flex;
+    .newsletter-icon {
+      width: 45px;
+      height: 45px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: var(--accent);
+      border: 1px solid rgba(216,179,106,.18);
+      background: rgba(216,179,106,.06);
+      font-size: 16px;
+    }
+
+    /* =========================================================
+       SWITCH
+    ========================================================= */
+
+    .switch-row-dashboard {
+      margin-top: 17px;
+      padding-top: 17px;
+      border-top: 1px solid var(--border);
+      display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 9px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .switch-row-dashboard strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .switch-row-dashboard span {
+      display: block;
+      margin-top: 4px;
       color: var(--muted);
       font-size: 9px;
-      font-weight: 700;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      white-space: nowrap;
     }
 
-    .status-pill.live {
-      color: #7ee3a0;
-      border-color: rgba(103,213,142,.2);
-      background: rgba(103,213,142,.06);
-    }
-
-    .status-pill.live::before {
-      content: "";
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #6edb92;
-    }
-
-    .status-pill.draft {
-      color: var(--accent);
-      border-color: rgba(216,179,106,.22);
-      background: rgba(216,179,106,.05);
-    }
-
-    .completion-card {
-      padding: 25px;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      background:
-        linear-gradient(
-          135deg,
-          rgba(216,179,106,.065),
-          transparent 60%
-        ),
-        var(--panel);
-    }
-
-    .completion-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 14px;
-    }
-
-    .completion-head h2 {
-      margin: 0;
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 19px;
-    }
-
-    .completion-percent {
-      color: var(--accent);
-      font-family: "Bricolage Grotesque", sans-serif;
-      font-size: 28px;
-      letter-spacing: -.04em;
-    }
-
-    .progress {
+    .switch {
       position: relative;
-      width: 100%;
-      height: 7px;
-      overflow: hidden;
+      width: 46px;
+      height: 26px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-track {
+      position: absolute;
+      inset: 0;
       border-radius: 999px;
-      background: rgba(255,255,255,.07);
+      background: rgba(255,255,255,.12);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: .2s ease;
     }
 
-    .progress span {
-      display: block;
-      width: 86%;
-      height: 100%;
-      border-radius: inherit;
+    .switch-track::after {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      transition: .2s ease;
+    }
+
+    .switch input:checked + .switch-track {
+      background: rgba(216,179,106,.25);
+      border-color: rgba(216,179,106,.65);
+    }
+
+    .switch input:checked + .switch-track::after {
+      transform: translateX(20px);
       background: var(--accent);
-      box-shadow: 0 0 18px rgba(216,179,106,.28);
     }
 
-    .completion-note {
-      margin: 12px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
-    }
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
 
-    .dashboard-footer-note {
-      margin-top: 22px;
-      color: var(--muted);
-      font-size: 10px;
-      text-align: center;
-    }
-
-    @media (max-width: 1180px) {
-      .dashboard-hero {
+    @media (max-width: 1200px) {
+      .dashboard-grid {
         grid-template-columns: 1fr;
       }
 
-      .system-card {
-        min-height: auto;
+      .dashboard-side {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
       }
     }
 
     @media (max-width: 900px) {
-      .dashboard-grid {
+      .dashboard-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dashboard-side {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 700px) {
-      .welcome-card {
-        padding: 26px;
+    @media (max-width: 600px) {
+      .welcome-panel {
+        padding: 24px;
       }
 
-      .dashboard-panel,
-      .completion-card,
-      .system-card {
-        padding: 20px;
-      }
-
-      .quick-grid {
+      .dashboard-stats,
+      .quick-actions {
         grid-template-columns: 1fr;
       }
 
-      .activity-item {
-        grid-template-columns: 38px minmax(0,1fr);
+      .dash-panel,
+      .visibility-card {
+        padding: 18px;
       }
 
-      .activity-time {
-        display: none;
+      .visibility-head {
+        flex-direction: column;
+      }
+
+      .visibility-footer {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .visibility-url {
+        width: 100%;
       }
     }
   </style>
@@ -598,125 +749,113 @@
   <aside class="sidebar" id="sidebar">
 
     <div class="brand">
+
       <div class="brand-mark">NU</div>
 
       <div class="brand-copy">
-        <strong>Nusrat Afsana</strong>
+        <strong>Nusrat Afsana Usha</strong>
         <span>Portfolio Admin</span>
       </div>
+
     </div>
 
-    <div class="sidebar-label">Workspace</div>
 
     <nav class="side-nav">
 
-      <a href="./dashboard.html" class="nav-item active">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
-        </span>
+      <div class="nav-label">
+        Manage
+      </div>
+
+      <a
+        class="nav-item active"
+        href="./dashboard.html"
+      >
+        <span class="nav-icon">⌂</span>
         <span>Dashboard</span>
       </a>
 
-      <a href="./homepage.html" class="nav-item">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M3 11.5 12 4l9 7.5"/>
-            <path d="M5.5 10.5V20h13v-9.5"/>
-            <path d="M9.5 20v-5.5h5V20"/>
-          </svg>
-        </span>
+      <a
+        class="nav-item"
+        href="./homepage.html"
+      >
+        <span class="nav-icon">◈</span>
         <span>Homepage</span>
       </a>
 
-      <a href="./banner.html" class="nav-item">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="4" width="18" height="16" rx="2"/>
-            <circle cx="8" cy="9" r="1.5"/>
-            <path d="m5 17 4.5-4 3 2.5 2.5-2 4 3.5"/>
-          </svg>
-        </span>
+      <a
+        class="nav-item"
+        href="./banner.html"
+      >
+        <span class="nav-icon">▣</span>
         <span>Banner</span>
       </a>
 
-      <a href="./browser-ui.html" class="nav-item">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <rect x="3" y="4" width="18" height="16" rx="2"/>
-            <path d="M3 8h18"/>
-            <circle cx="6" cy="6" r=".7" fill="currentColor"/>
-            <circle cx="8.5" cy="6" r=".7" fill="currentColor"/>
-            <circle cx="11" cy="6" r=".7" fill="currentColor"/>
-          </svg>
-        </span>
+      <a
+        class="nav-item"
+        href="./browser-ui.html"
+      >
+        <span class="nav-icon">▤</span>
         <span>Browser UI</span>
       </a>
 
-      <a href="./newsletter.html" class="nav-item">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M4 6.5h16v11H4z"/>
-            <path d="m4 7 8 6 8-6"/>
-          </svg>
-        </span>
+      <a
+        class="nav-item"
+        href="./newsletter.html"
+      >
+        <span class="nav-icon">✉</span>
         <span>Newsletter</span>
       </a>
 
-      <div class="sidebar-divider"></div>
 
-      <div class="sidebar-label">Site</div>
+      <div class="nav-label">
+        Portfolio
+      </div>
 
-      <a href="../index.html" target="_blank" class="nav-item">
-        <span class="nav-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M14 4h6v6"/>
-            <path d="M10 14 20 4"/>
-            <path d="M20 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5"/>
-          </svg>
-        </span>
+      <a
+        class="nav-item"
+        href="../index.html"
+        target="_blank"
+        rel="noopener"
+      >
+        <span class="nav-icon">↗</span>
         <span>View Portfolio</span>
-        <span class="external-mark">↗</span>
       </a>
 
     </nav>
 
-    <div class="sidebar-bottom">
 
-      <button class="sidebar-account" id="accountButton" type="button">
-        <span class="account-avatar">NU</span>
+    <div class="sidebar-footer">
 
-        <span class="account-info">
-          <strong>Administrator</strong>
-          <small>Portfolio access</small>
-        </span>
-
-        <span class="account-chevron">⌄</span>
-      </button>
-
-      <div class="account-menu" id="accountMenu">
-        <button type="button" id="logoutButton">
-          <span>Sign Out</span>
-          <span>↗</span>
-        </button>
+      <div class="sidebar-status">
+        <span class="status-dot"></span>
+        <span>System ready</span>
       </div>
+
+      <button
+        class="nav-item logout-button"
+        id="logoutButton"
+        type="button"
+      >
+        <span class="nav-icon">↪</span>
+        <span>Sign Out</span>
+      </button>
 
     </div>
 
   </aside>
 
-  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <div
+    class="mobile-overlay"
+    id="mobileOverlay"
+  ></div>
+
 
   <!-- =======================================================
        MAIN
   ======================================================== -->
   <main class="main">
 
-    <!-- TOPBAR -->
     <header class="topbar">
 
       <div class="topbar-left">
@@ -725,19 +864,23 @@
           class="mobile-menu-button"
           id="mobileMenuButton"
           type="button"
-          aria-label="Open navigation"
+          aria-label="Open menu"
         >
-          <span></span>
-          <span></span>
-          <span></span>
+          ☰
         </button>
 
         <div>
-          <div class="topbar-kicker">Administration</div>
-          <div class="topbar-title">Dashboard</div>
+          <div class="topbar-eyebrow">
+            Portfolio administration
+          </div>
+
+          <div class="topbar-title">
+            Dashboard
+          </div>
         </div>
 
       </div>
+
 
       <div class="topbar-actions">
 
@@ -745,497 +888,929 @@
           class="icon-button"
           id="themeToggle"
           type="button"
-          aria-label="Toggle theme"
           title="Toggle theme"
         >
-          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-          </svg>
-
-          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-            <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/>
-          </svg>
+          ◐
         </button>
 
+
         <a
+          class="topbar-view"
           href="../index.html"
           target="_blank"
-          class="topbar-view"
+          rel="noopener"
         >
-          View site
-          <span>↗</span>
+          View site ↗
         </a>
+
+
+        <div class="account-menu">
+
+          <button
+            class="account-button"
+            id="accountButton"
+            type="button"
+          >
+            <span class="account-avatar">
+              NU
+            </span>
+
+            <span class="account-name">
+              Admin
+            </span>
+
+            <span class="account-chevron">
+              ⌄
+            </span>
+          </button>
+
+
+          <div
+            class="account-dropdown"
+            id="accountDropdown"
+          >
+
+            <div class="account-dropdown-head">
+              <strong>
+                Nusrat Portfolio
+              </strong>
+
+              <span>
+                Administrator access
+              </span>
+            </div>
+
+            <button
+              type="button"
+              id="dropdownSignOut"
+            >
+              Sign out
+            </button>
+
+          </div>
+
+        </div>
 
       </div>
 
     </header>
 
-    <!-- CONTENT -->
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
     <section class="content">
 
-      <div class="page">
+      <div class="page-heading">
 
-        <!-- =================================================
-             HERO
-        ================================================== -->
-        <section class="dashboard-hero">
+        <div>
 
-          <div class="welcome-card">
+          <div class="eyebrow">
+            Overview
+          </div>
 
-            <div class="welcome-eyebrow">
-              Portfolio administration
+          <h1>
+            Portfolio control.
+          </h1>
+
+          <p>
+            A clean overview of the portfolio content,
+            presentation and publishing status.
+          </p>
+
+        </div>
+
+
+        <div class="page-heading-actions">
+
+          <a
+            class="secondary-button"
+            href="./homepage.html"
+          >
+            Edit homepage
+          </a>
+
+          <a
+            class="primary-button"
+            href="../index.html"
+            target="_blank"
+            rel="noopener"
+          >
+            Open portfolio ↗
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           WELCOME
+      ==================================================== -->
+
+      <section class="welcome-panel">
+
+        <div class="welcome-content">
+
+          <div class="welcome-kicker">
+            Good to see you
+          </div>
+
+          <h2 class="welcome-title">
+            Shape the portfolio
+            <span>with intention.</span>
+          </h2>
+
+          <p class="welcome-copy">
+            Manage the public presentation of Nusrat Afsana Usha's
+            portfolio from one focused workspace. Update the homepage,
+            banner, selected work and newsletter content without
+            changing the visual foundation.
+          </p>
+
+
+          <div class="welcome-actions">
+
+            <a
+              class="primary-button"
+              href="./homepage.html"
+            >
+              Edit content
+            </a>
+
+            <a
+              class="secondary-button"
+              href="./banner.html"
+            >
+              Manage banner
+            </a>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ===================================================
+           STATS
+      ==================================================== -->
+
+      <div class="dashboard-stats">
+
+        <div class="dashboard-stat">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Projects
+            </span>
+
+            <span class="stat-icon">
+              ◇
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="projectCount"
+          >
+            04
+          </div>
+
+          <div class="stat-note">
+            Selected work items
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Services
+            </span>
+
+            <span class="stat-icon">
+              ✦
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="serviceCount"
+          >
+            05
+          </div>
+
+          <div class="stat-note">
+            Published offerings
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Visibility
+            </span>
+
+            <span class="stat-icon">
+              ◉
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="visibilityValue"
+          >
+            ON
+          </div>
+
+          <div class="stat-note">
+            Portfolio publishing
+          </div>
+
+        </div>
+
+
+        <div class="dashboard-stat">
+
+          <div class="stat-top">
+
+            <span class="stat-label">
+              Updates
+            </span>
+
+            <span class="stat-icon">
+              ↻
+            </span>
+
+          </div>
+
+          <div
+            class="stat-value"
+            id="updateValue"
+          >
+            —
+          </div>
+
+          <div class="stat-note">
+            Latest saved change
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           MAIN GRID
+      ==================================================== -->
+
+      <div class="dashboard-grid">
+
+        <div class="dashboard-main">
+
+
+          <!-- QUICK ACTIONS -->
+          <section class="panel dash-panel">
+
+            <div class="dash-panel-heading">
+
+              <div>
+
+                <h2>
+                  Quick actions
+                </h2>
+
+                <p>
+                  Jump directly to the area you want to update.
+                </p>
+
+              </div>
+
             </div>
 
-            <h1>
-              Welcome back,<br>
-              <span>Nusrat.</span>
-            </h1>
 
-            <p>
-              Manage the portfolio experience, update content, refine
-              project presentation, and keep the public site consistent
-              from one workspace.
-            </p>
+            <div class="quick-actions">
 
-            <div class="welcome-actions">
+              <a
+                class="quick-action"
+                href="./homepage.html"
+              >
 
-              <a href="./homepage.html" class="primary-button">
-                Edit Homepage
-                <span>→</span>
+                <span class="quick-action-icon">
+                  ◈
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+                <div>
+                  <strong>
+                    Homepage
+                  </strong>
+
+                  <span>
+                    Hero, about, services and work
+                  </span>
+                </div>
+
               </a>
 
-              <a href="../index.html" target="_blank" class="secondary-button">
-                View Portfolio
-                <span>↗</span>
+
+              <a
+                class="quick-action"
+                href="./banner.html"
+              >
+
+                <span class="quick-action-icon">
+                  ▣
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+                <div>
+                  <strong>
+                    Banner
+                  </strong>
+
+                  <span>
+                    Hero visual and presentation
+                  </span>
+                </div>
+
+              </a>
+
+
+              <a
+                class="quick-action"
+                href="./browser-ui.html"
+              >
+
+                <span class="quick-action-icon">
+                  ▤
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+                <div>
+                  <strong>
+                    Browser UI
+                  </strong>
+
+                  <span>
+                    Project browser presentations
+                  </span>
+                </div>
+
+              </a>
+
+
+              <a
+                class="quick-action"
+                href="./newsletter.html"
+              >
+
+                <span class="quick-action-icon">
+                  ✉
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+                <div>
+                  <strong>
+                    Newsletter
+                  </strong>
+
+                  <span>
+                    Subscribers and signup settings
+                  </span>
+                </div>
+
+              </a>
+
+
+              <a
+                class="quick-action"
+                href="../index.html#work"
+                target="_blank"
+                rel="noopener"
+              >
+
+                <span class="quick-action-icon">
+                  ◇
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+                <div>
+                  <strong>
+                    Selected work
+                  </strong>
+
+                  <span>
+                    Review the public project section
+                  </span>
+                </div>
+
+              </a>
+
+
+              <a
+                class="quick-action"
+                href="../index.html"
+                target="_blank"
+                rel="noopener"
+              >
+
+                <span class="quick-action-icon">
+                  ↗
+                </span>
+
+                <span class="quick-arrow">
+                  ↗
+                </span>
+
+                <div>
+                  <strong>
+                    Live portfolio
+                  </strong>
+
+                  <span>
+                    Open the public website
+                  </span>
+                </div>
+
               </a>
 
             </div>
 
-          </div>
+          </section>
 
-          <div class="system-card">
 
-            <div class="system-card-head">
+          <!-- CONTENT HEALTH -->
+          <section class="panel dash-panel">
+
+            <div class="dash-panel-heading">
+
               <div>
-                <h3>Site Status</h3>
-                <p>Current public experience</p>
+
+                <h2>
+                  Content health
+                </h2>
+
+                <p>
+                  A quick check of the main portfolio sections.
+                </p>
+
               </div>
 
-              <span class="online-badge">Live</span>
-            </div>
-
-            <div class="system-list">
-
-              <div class="system-row">
-                <span class="system-label">Portfolio</span>
-                <span class="system-value">Published</span>
-              </div>
-
-              <div class="system-row">
-                <span class="system-label">Homepage</span>
-                <span class="system-value">Updated</span>
-              </div>
-
-              <div class="system-row">
-                <span class="system-label">Banner</span>
-                <span class="system-value">Visible</span>
-              </div>
-
-              <div class="system-row">
-                <span class="system-label">Last update</span>
-                <span class="system-value" id="lastUpdate">—</span>
-              </div>
+              <span
+                class="health-status good"
+                id="overallHealth"
+              >
+                Ready
+              </span>
 
             </div>
 
-          </div>
 
-        </section>
+            <div class="health-list">
+
+              <div class="health-row">
+
+                <div class="health-info">
+
+                  <strong>
+                    Homepage content
+                  </strong>
+
+                  <span id="homepageHealth">
+                    Checking saved content…
+                  </span>
+
+                </div>
+
+                <span
+                  class="health-status"
+                  id="homepageStatus"
+                >
+                  Checking
+                </span>
+
+              </div>
+
+
+              <div class="health-row">
+
+                <div class="health-info">
+
+                  <strong>
+                    Hero banner
+                  </strong>
+
+                  <span id="bannerHealth">
+                    Checking banner settings…
+                  </span>
+
+                </div>
+
+                <span
+                  class="health-status"
+                  id="bannerStatus"
+                >
+                  Checking
+                </span>
+
+              </div>
+
+
+              <div class="health-row">
+
+                <div class="health-info">
+
+                  <strong>
+                    Selected work
+                  </strong>
+
+                  <span id="browserHealth">
+                    Checking project presentation…
+                  </span>
+
+                </div>
+
+                <span
+                  class="health-status"
+                  id="browserStatus"
+                >
+                  Checking
+                </span>
+
+              </div>
+
+
+              <div class="health-row">
+
+                <div class="health-info">
+
+                  <strong>
+                    Newsletter
+                  </strong>
+
+                  <span>
+                    Subscriber management is available.
+                  </span>
+
+                </div>
+
+                <span class="health-status good">
+                  Ready
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- ACTIVITY -->
+          <section class="panel dash-panel">
+
+            <div class="dash-panel-heading">
+
+              <div>
+
+                <h2>
+                  Recent activity
+                </h2>
+
+                <p>
+                  Latest local portfolio administration events.
+                </p>
+
+              </div>
+
+              <span
+                class="text-link"
+                id="activityCount"
+              >
+                0 updates
+              </span>
+
+            </div>
+
+
+            <div
+              class="activity-list"
+              id="activityList"
+            ></div>
+
+          </section>
+
+
+        </div>
 
 
         <!-- =================================================
-             STATS
+             SIDE
         ================================================== -->
-        <section class="stats-grid">
 
-          <div class="stat-card">
-
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                <path d="M4 19V5"/>
-                <path d="M4 19h16"/>
-                <path d="m7 15 4-4 3 2 5-6"/>
-              </svg>
-            </div>
-
-            <div class="stat-number">05</div>
-            <div class="stat-description">Active services</div>
-
-          </div>
+        <div class="dashboard-side">
 
 
-          <div class="stat-card">
+          <!-- VISIBILITY -->
+          <section class="panel visibility-card">
 
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                <rect x="3" y="4" width="18" height="16" rx="2"/>
-                <path d="M3 8h18"/>
-                <path d="M7 12h4M7 16h7"/>
-              </svg>
-            </div>
-
-            <div class="stat-number">04</div>
-            <div class="stat-description">Featured projects</div>
-
-          </div>
-
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                <path d="M5 20V10"/>
-                <path d="M12 20V4"/>
-                <path d="M19 20v-7"/>
-              </svg>
-            </div>
-
-            <div class="stat-number">86%</div>
-            <div class="stat-description">Content completion</div>
-
-          </div>
-
-
-          <div class="stat-card">
-
-            <div class="stat-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                <path d="M12 3v18"/>
-                <path d="M17 7.5A4.5 4.5 0 0 0 12.5 4C10 4 8 5.5 8 7.5S10 11 12.5 11 17 12.5 17 15s-2 4-4.5 4A4.5 4.5 0 0 1 8 15"/>
-              </svg>
-            </div>
-
-            <div class="stat-number">01</div>
-            <div class="stat-description">Active publication</div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =================================================
-             MAIN DASHBOARD GRID
-        ================================================== -->
-        <section class="dashboard-grid">
-
-          <!-- RECENT ACTIVITY -->
-          <div class="dashboard-panel">
-
-            <div class="panel-heading">
+            <div class="visibility-head">
 
               <div>
-                <h2>Recent Activity</h2>
-                <p>Latest administration events</p>
+
+                <h2 class="visibility-title">
+                  Portfolio status
+                </h2>
+
+                <p class="visibility-copy">
+                  Public portfolio visibility is controlled
+                  from the current content state.
+                </p>
+
               </div>
 
-              <a href="./homepage.html" class="panel-link">
+              <span
+                class="live-badge"
+                id="liveBadge"
+              >
+                Live
+              </span>
+
+            </div>
+
+
+            <div class="visibility-footer">
+
+              <span class="visibility-url">
+                shahneilkhan.github.io/nusratafsanausha
+              </span>
+
+              <a
+                class="secondary-button"
+                href="../index.html"
+                target="_blank"
+                rel="noopener"
+              >
+                Visit
+              </a>
+
+            </div>
+
+          </section>
+
+
+          <!-- PROFILE -->
+          <section class="panel dash-panel">
+
+            <div class="dash-panel-heading">
+
+              <div>
+
+                <h2>
+                  Profile
+                </h2>
+
+                <p>
+                  Current portfolio identity.
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="profile-mini">
+
+              <div class="profile-avatar">
+
+                <img
+                  src="../nusrat-afsana-photo.jpg"
+                  alt="Nusrat Afsana Usha"
+                >
+
+              </div>
+
+
+              <div>
+
+                <strong>
+                  Nusrat Afsana Usha
+                </strong>
+
+                <span>
+                  UX/UI Designer
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <div class="profile-details">
+
+              <div class="profile-detail">
+
+                <span>
+                  Location
+                </span>
+
+                <span>
+                  Dhaka, Bangladesh
+                </span>
+
+              </div>
+
+
+              <div class="profile-detail">
+
+                <span>
+                  Education
+                </span>
+
+                <span>
+                  MA UX Design
+                </span>
+
+              </div>
+
+
+              <div class="profile-detail">
+
+                <span>
+                  Focus
+                </span>
+
+                <span>
+                  UX / UI & Digital Products
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- NEWSLETTER -->
+          <section class="panel dash-panel">
+
+            <div class="dash-panel-heading">
+
+              <div>
+
+                <h2>
+                  Newsletter
+                </h2>
+
+                <p>
+                  Subscriber overview.
+                </p>
+
+              </div>
+
+              <a
+                class="text-link"
+                href="./newsletter.html"
+              >
                 Manage
               </a>
 
             </div>
 
-            <div class="activity-list">
 
-              <div class="activity-item">
-
-                <div class="activity-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <path d="M4 5h16v14H4z"/>
-                    <path d="M8 9h8M8 13h5"/>
-                  </svg>
-                </div>
-
-                <div class="activity-main">
-                  <strong>Homepage content is available</strong>
-                  <span>Hero, About, Services, Work and Experience can be edited.</span>
-                </div>
-
-                <div class="activity-time">Ready</div>
-
-              </div>
-
-
-              <div class="activity-item">
-
-                <div class="activity-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <rect x="3" y="5" width="18" height="14" rx="2"/>
-                    <circle cx="8" cy="10" r="1.5"/>
-                    <path d="m5 16 4-3 3 2 3-3 4 4"/>
-                  </svg>
-                </div>
-
-                <div class="activity-main">
-                  <strong>Banner presentation is active</strong>
-                  <span>Hero image, copy, CTA and visibility can be controlled.</span>
-                </div>
-
-                <div class="activity-time">Live</div>
-
-              </div>
-
-
-              <div class="activity-item">
-
-                <div class="activity-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <path d="M4 6h16v12H4z"/>
-                    <path d="M4 9h16"/>
-                    <path d="M8 6v12"/>
-                  </svg>
-                </div>
-
-                <div class="activity-main">
-                  <strong>Project browser controls are ready</strong>
-                  <span>Manage visual presentation for selected work.</span>
-                </div>
-
-                <div class="activity-time">Ready</div>
-
-              </div>
-
-
-              <div class="activity-item">
-
-                <div class="activity-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <path d="M4 6h16v12H4z"/>
-                    <path d="m4 7 8 6 8-6"/>
-                  </svg>
-                </div>
-
-                <div class="activity-main">
-                  <strong>Newsletter workspace connected</strong>
-                  <span>Subscriber and signup settings are available.</span>
-                </div>
-
-                <div class="activity-time">Ready</div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- QUICK ACTIONS -->
-          <div class="dashboard-panel">
-
-            <div class="panel-heading">
+            <div class="newsletter-stat">
 
               <div>
-                <h2>Quick Actions</h2>
-                <p>Common tasks</p>
+
+                <div
+                  class="newsletter-number"
+                  id="subscriberCount"
+                >
+                  00
+                </div>
+
+                <div class="newsletter-label">
+                  Current subscribers
+                </div>
+
+              </div>
+
+
+              <div class="newsletter-icon">
+                ✉
               </div>
 
             </div>
 
-            <div class="quick-grid">
 
-              <a href="./homepage.html" class="quick-card">
-
-                <div class="quick-card-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <path d="M4 5h16v14H4z"/>
-                    <path d="M8 9h8M8 13h5"/>
-                  </svg>
-                </div>
-
-                <strong>Edit Homepage</strong>
-                <span>Update the main portfolio content.</span>
-
-              </a>
-
-
-              <a href="./banner.html" class="quick-card">
-
-                <div class="quick-card-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <rect x="3" y="4" width="18" height="16" rx="2"/>
-                    <path d="m5 17 5-5 3 3 2-2 4 4"/>
-                  </svg>
-                </div>
-
-                <strong>Edit Banner</strong>
-                <span>Refine the first visual impression.</span>
-
-              </a>
-
-
-              <a href="./browser-ui.html" class="quick-card">
-
-                <div class="quick-card-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <rect x="3" y="4" width="18" height="16" rx="2"/>
-                    <path d="M3 8h18"/>
-                    <path d="M8 12h8M8 15h5"/>
-                  </svg>
-                </div>
-
-                <strong>Browser UI</strong>
-                <span>Manage project browser presentation.</span>
-
-              </a>
-
-
-              <a href="./newsletter.html" class="quick-card">
-
-                <div class="quick-card-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
-                    <path d="M4 6h16v12H4z"/>
-                    <path d="m4 7 8 6 8-6"/>
-                  </svg>
-                </div>
-
-                <strong>Newsletter</strong>
-                <span>Review subscribers and signup settings.</span>
-
-              </a>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        <!-- =================================================
-             SECOND ROW
-        ================================================== -->
-        <section class="dashboard-grid">
-
-          <!-- CONTENT STATUS -->
-          <div class="dashboard-panel">
-
-            <div class="panel-heading">
+            <div class="switch-row-dashboard">
 
               <div>
-                <h2>Content Status</h2>
-                <p>Public-facing portfolio areas</p>
+
+                <strong>
+                  Signup enabled
+                </strong>
+
+                <span>
+                  Portfolio newsletter form
+                </span>
+
               </div>
 
-              <a href="../index.html" target="_blank" class="panel-link">
-                Preview
-              </a>
+
+              <label class="switch">
+
+                <input
+                  id="newsletterSwitch"
+                  type="checkbox"
+                  checked
+                >
+
+                <span class="switch-track"></span>
+
+              </label>
 
             </div>
 
-            <div class="content-status">
-
-              <div class="content-status-row">
-
-                <div class="content-status-info">
-                  <strong>Homepage</strong>
-                  <span>Primary portfolio experience</span>
-                </div>
-
-                <span class="status-pill live">Published</span>
-
-              </div>
+          </section>
 
 
-              <div class="content-status-row">
+          <!-- LAST UPDATE -->
+          <section class="panel dash-panel">
 
-                <div class="content-status-info">
-                  <strong>Hero Banner</strong>
-                  <span>First impression and CTA area</span>
-                </div>
-
-                <span class="status-pill live">Visible</span>
-
-              </div>
-
-
-              <div class="content-status-row">
-
-                <div class="content-status-info">
-                  <strong>Selected Work</strong>
-                  <span>Portfolio project presentation</span>
-                </div>
-
-                <span class="status-pill live">Published</span>
-
-              </div>
-
-
-              <div class="content-status-row">
-
-                <div class="content-status-info">
-                  <strong>About & Experience</strong>
-                  <span>Profile and professional history</span>
-                </div>
-
-                <span class="status-pill live">Published</span>
-
-              </div>
-
-
-              <div class="content-status-row">
-
-                <div class="content-status-info">
-                  <strong>Newsletter</strong>
-                  <span>Signup and subscriber experience</span>
-                </div>
-
-                <span class="status-pill draft">Setup</span>
-
-              </div>
-
-            </div>
-
-          </div>
-
-
-          <!-- COMPLETION -->
-          <div class="completion-card">
-
-            <div class="completion-head">
+            <div class="dash-panel-heading">
 
               <div>
-                <h2>Portfolio readiness</h2>
+
+                <h2>
+                  Last saved
+                </h2>
+
+                <p>
+                  Shared portfolio update timestamp.
+                </p>
+
               </div>
 
-              <div class="completion-percent">86%</div>
+            </div>
+
+
+            <div
+              class="status-card"
+              style="margin:0;"
+            >
+
+              <div
+                class="status-card-label"
+              >
+                Latest change
+              </div>
+
+              <div
+                class="status-card-value"
+                id="lastSavedFull"
+              >
+                No saved update yet
+              </div>
+
+              <div
+                class="status-card-note"
+              >
+                Changes are currently stored in the browser.
+              </div>
 
             </div>
 
-            <div class="progress">
-              <span></span>
-            </div>
-
-            <p class="completion-note">
-              The core portfolio structure is configured. Review
-              project details, links and publication settings before
-              making further content changes.
-            </p>
-
-            <div style="margin-top:20px;">
-
-              <a href="./homepage.html" class="secondary-button">
-                Review Content
-                <span>→</span>
-              </a>
-
-            </div>
-
-          </div>
-
-        </section>
+          </section>
 
 
-        <div class="dashboard-footer-note">
-          Portfolio administration workspace · Nusrat Afsana Usha
         </div>
 
       </div>
@@ -1247,276 +1822,1115 @@
 </div>
 
 
-<!-- =========================================================
-     DASHBOARD SCRIPT
-========================================================= -->
+<div
+  class="toast"
+  id="toast"
+></div>
+
+
 <script>
-(function () {
+(() => {
+
   "use strict";
 
-  const SESSION_KEY = "nusrat_admin_session_v1";
-  const THEME_KEY = "nusrat_admin_theme";
-  const LAST_UPDATED_KEY = "nusrat_admin_last_updated";
 
-  /* ---------------------------------------------
-     AUTH CHECK
-  --------------------------------------------- */
+  /* =========================================================
+     CONFIG
+  ========================================================= */
+
+  const SESSION_KEY =
+    "nusrat_admin_session_v1";
+
+  const THEME_KEY =
+    "nusrat_admin_theme";
+
+  const HOMEPAGE_KEY =
+    "nusrat_homepage_content_v1";
+
+  const BANNER_KEY =
+    "nusrat_banner_content_v1";
+
+  const BROWSER_KEY =
+    "nusrat_browser_ui_v1";
+
+  const NEWSLETTER_KEY =
+    "nusrat_newsletter_v1";
+
+  const LAST_UPDATED_KEY =
+    "nusrat_admin_last_updated";
+
+
+  /* =========================================================
+     DOM
+  ========================================================= */
+
+  const $ = selector =>
+    document.querySelector(selector);
+
+
+  const sidebar =
+    $("#sidebar");
+
+  const mobileOverlay =
+    $("#mobileOverlay");
+
+  const mobileMenuButton =
+    $("#mobileMenuButton");
+
+  const themeToggle =
+    $("#themeToggle");
+
+  const accountButton =
+    $("#accountButton");
+
+  const accountDropdown =
+    $("#accountDropdown");
+
+  const logoutButton =
+    $("#logoutButton");
+
+  const dropdownSignOut =
+    $("#dropdownSignOut");
+
+  const toast =
+    $("#toast");
+
+
+  /* =========================================================
+     AUTH
+  ========================================================= */
 
   function getSession() {
+
     try {
-      const raw = localStorage.getItem(SESSION_KEY);
-      return raw ? JSON.parse(raw) : null;
-    } catch (error) {
+
+      return JSON.parse(
+        localStorage.getItem(
+          SESSION_KEY
+        ) || "null"
+      );
+
+    } catch {
+
       return null;
+
     }
-  }
 
-  const session = getSession();
-
-  if (!session || !session.authenticated) {
-    window.location.replace("./index.html");
-    return;
-  }
-
-  if (session.expiresAt && Date.now() > session.expiresAt) {
-    localStorage.removeItem(SESSION_KEY);
-    window.location.replace("./index.html");
-    return;
   }
 
 
-  /* ---------------------------------------------
-     THEME
-  --------------------------------------------- */
+  function isSessionValid() {
 
-  const savedTheme = localStorage.getItem(THEME_KEY);
-
-  if (savedTheme === "light") {
-    document.documentElement.setAttribute("data-theme", "light");
-  } else {
-    document.documentElement.setAttribute("data-theme", "dark");
-  }
-
-
-  /* ---------------------------------------------
-     ELEMENTS
-  --------------------------------------------- */
-
-  const themeToggle = document.getElementById("themeToggle");
-  const sidebar = document.getElementById("sidebar");
-  const mobileMenuButton = document.getElementById("mobileMenuButton");
-  const mobileOverlay = document.getElementById("mobileOverlay");
-
-  const accountButton = document.getElementById("accountButton");
-  const accountMenu = document.getElementById("accountMenu");
-  const logoutButton = document.getElementById("logoutButton");
-
-  const lastUpdateElement = document.getElementById("lastUpdate");
-
-
-  /* ---------------------------------------------
-     THEME TOGGLE
-  --------------------------------------------- */
-
-  function updateThemeIcon() {
-    const isLight =
-      document.documentElement.getAttribute("data-theme") === "light";
-
-    const sun = document.querySelector(".sun-icon");
-    const moon = document.querySelector(".moon-icon");
-
-    if (sun) sun.style.display = isLight ? "none" : "block";
-    if (moon) moon.style.display = isLight ? "block" : "none";
-  }
-
-  if (themeToggle) {
-    themeToggle.addEventListener("click", function () {
-
-      const current =
-        document.documentElement.getAttribute("data-theme") || "dark";
-
-      const next = current === "dark" ? "light" : "dark";
-
-      document.documentElement.setAttribute("data-theme", next);
-      localStorage.setItem(THEME_KEY, next);
-
-      updateThemeIcon();
-    });
-  }
-
-  updateThemeIcon();
-
-
-  /* ---------------------------------------------
-     MOBILE SIDEBAR
-  --------------------------------------------- */
-
-  function openSidebar() {
-    if (sidebar) sidebar.classList.add("open");
-    if (mobileOverlay) mobileOverlay.classList.add("show");
-    document.body.classList.add("sidebar-open");
-  }
-
-  function closeSidebar() {
-    if (sidebar) sidebar.classList.remove("open");
-    if (mobileOverlay) mobileOverlay.classList.remove("show");
-    document.body.classList.remove("sidebar-open");
-  }
-
-  if (mobileMenuButton) {
-    mobileMenuButton.addEventListener("click", function () {
-      if (sidebar && sidebar.classList.contains("open")) {
-        closeSidebar();
-      } else {
-        openSidebar();
-      }
-    });
-  }
-
-  if (mobileOverlay) {
-    mobileOverlay.addEventListener("click", closeSidebar);
-  }
-
-  document.querySelectorAll(".nav-item").forEach(function (item) {
-    item.addEventListener("click", function () {
-      if (window.innerWidth <= 900) {
-        closeSidebar();
-      }
-    });
-  });
-
-
-  /* ---------------------------------------------
-     ACCOUNT MENU
-  --------------------------------------------- */
-
-  if (accountButton) {
-    accountButton.addEventListener("click", function (event) {
-      event.stopPropagation();
-
-      if (accountMenu) {
-        accountMenu.classList.toggle("show");
-      }
-    });
-  }
-
-  document.addEventListener("click", function () {
-    if (accountMenu) {
-      accountMenu.classList.remove("show");
-    }
-  });
-
-  if (accountMenu) {
-    accountMenu.addEventListener("click", function (event) {
-      event.stopPropagation();
-    });
-  }
-
-
-  /* ---------------------------------------------
-     LOGOUT
-  --------------------------------------------- */
-
-  if (logoutButton) {
-    logoutButton.addEventListener("click", function () {
-
-      localStorage.removeItem(SESSION_KEY);
-
-      window.location.replace("./index.html");
-    });
-  }
-
-
-  /* ---------------------------------------------
-     LAST UPDATED
-  --------------------------------------------- */
-
-  function formatDate(date) {
-
-    try {
-      return new Intl.DateTimeFormat("en", {
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-      }).format(date);
-    } catch (error) {
-      return "Recently";
-    }
-  }
-
-  if (lastUpdateElement) {
-
-    const storedDate =
-      localStorage.getItem(LAST_UPDATED_KEY);
-
-    if (storedDate) {
-
-      const parsed = new Date(storedDate);
-
-      if (!Number.isNaN(parsed.getTime())) {
-        lastUpdateElement.textContent = formatDate(parsed);
-      } else {
-        lastUpdateElement.textContent = "Recently";
-      }
-
-    } else {
-      lastUpdateElement.textContent = "Recently";
-    }
-  }
-
-
-  /* ---------------------------------------------
-     KEYBOARD SHORTCUT
-  --------------------------------------------- */
-
-  document.addEventListener("keydown", function (event) {
+    const session =
+      getSession();
 
     if (
-      (event.ctrlKey || event.metaKey) &&
-      event.key.toLowerCase() === "k"
+      !session ||
+      session.authenticated !== true
     ) {
 
-      event.preventDefault();
+      return false;
 
-      const homepage =
-        document.querySelector('a[href="./homepage.html"]');
-
-      if (homepage) {
-        homepage.click();
-      }
     }
 
-  });
 
+    if (
+      session.expiresAt &&
+      Date.now() >
+      Number(session.expiresAt)
+    ) {
 
-  /* ---------------------------------------------
-     RESIZE
-  --------------------------------------------- */
+      localStorage.removeItem(
+        SESSION_KEY
+      );
 
-  window.addEventListener("resize", function () {
+      return false;
 
-    if (window.innerWidth > 900) {
-      closeSidebar();
     }
 
-  });
+
+    return true;
+
+  }
 
 
-  /* ---------------------------------------------
-     ACCESSIBLE FOCUS
-  --------------------------------------------- */
+  if (!isSessionValid()) {
 
-  document.querySelectorAll("a, button").forEach(function (element) {
+    window.location.href =
+      "./index.html";
 
-    element.addEventListener("keydown", function (event) {
+    return;
 
-      if (event.key === "Enter") {
-        element.classList.add("keyboard-focus");
+  }
+
+
+  /* =========================================================
+     THEME
+  ========================================================= */
+
+  function applyTheme(theme) {
+
+    const value =
+      theme === "light"
+        ? "light"
+        : "dark";
+
+    document.documentElement
+      .setAttribute(
+        "data-theme",
+        value
+      );
+
+    localStorage.setItem(
+      THEME_KEY,
+      value
+    );
+
+    if (themeToggle) {
+
+      themeToggle.textContent =
+        value === "light"
+          ? "☀"
+          : "◐";
+
+    }
+
+  }
+
+
+  applyTheme(
+    localStorage.getItem(
+      THEME_KEY
+    ) || "dark"
+  );
+
+
+  themeToggle?.addEventListener(
+    "click",
+    () => {
+
+      const current =
+        document.documentElement
+          .getAttribute(
+            "data-theme"
+          ) || "dark";
+
+      applyTheme(
+        current === "dark"
+          ? "light"
+          : "dark"
+      );
+
+    }
+  );
+
+
+  /* =========================================================
+     MOBILE MENU
+  ========================================================= */
+
+  function openSidebar() {
+
+    sidebar?.classList.add(
+      "open"
+    );
+
+    mobileOverlay?.classList.add(
+      "show"
+    );
+
+    document.body.classList.add(
+      "menu-open"
+    );
+
+  }
+
+
+  function closeSidebar() {
+
+    sidebar?.classList.remove(
+      "open"
+    );
+
+    mobileOverlay?.classList.remove(
+      "show"
+    );
+
+    document.body.classList.remove(
+      "menu-open"
+    );
+
+  }
+
+
+  mobileMenuButton?.addEventListener(
+    "click",
+    openSidebar
+  );
+
+  mobileOverlay?.addEventListener(
+    "click",
+    closeSidebar
+  );
+
+
+  /* =========================================================
+     ACCOUNT
+  ========================================================= */
+
+  accountButton?.addEventListener(
+    "click",
+    event => {
+
+      event.stopPropagation();
+
+      accountDropdown?.classList.toggle(
+        "show"
+      );
+
+    }
+  );
+
+
+  document.addEventListener(
+    "click",
+    () => {
+
+      accountDropdown?.classList.remove(
+        "show"
+      );
+
+    }
+  );
+
+
+  /* =========================================================
+     LOGOUT
+  ========================================================= */
+
+  function logout() {
+
+    localStorage.removeItem(
+      SESSION_KEY
+    );
+
+    window.location.href =
+      "./index.html";
+
+  }
+
+
+  logoutButton?.addEventListener(
+    "click",
+    logout
+  );
+
+  dropdownSignOut?.addEventListener(
+    "click",
+    logout
+  );
+
+
+  /* =========================================================
+     STORAGE HELPERS
+  ========================================================= */
+
+  function readJSON(
+    key,
+    fallback = null
+  ) {
+
+    try {
+
+      const value =
+        localStorage.getItem(
+          key
+        );
+
+      if (!value)
+        return fallback;
+
+      return JSON.parse(
+        value
+      );
+
+    } catch {
+
+      return fallback;
+
+    }
+
+  }
+
+
+  function formatDate(
+    value,
+    short = false
+  ) {
+
+    if (!value)
+      return "—";
+
+    const date =
+      new Date(value);
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+
+      return "—";
+
+    }
+
+
+    if (short) {
+
+      return date.toLocaleDateString(
+        undefined,
+        {
+          month: "short",
+          day: "numeric"
+        }
+      );
+
+    }
+
+
+    return date.toLocaleString(
+      undefined,
+      {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }
+    );
+
+  }
+
+
+  /* =========================================================
+     HOMEPAGE DATA
+  ========================================================= */
+
+  function getHomepageData() {
+
+    return readJSON(
+      HOMEPAGE_KEY,
+      null
+    );
+
+  }
+
+
+  function getProjectsFromHomepage() {
+
+    const data =
+      getHomepageData();
+
+    if (
+      data &&
+      Array.isArray(
+        data.projects
+      )
+    ) {
+
+      return data.projects;
+
+    }
+
+    return [];
+
+  }
+
+
+  function getServicesFromHomepage() {
+
+    const data =
+      getHomepageData();
+
+    if (
+      data &&
+      Array.isArray(
+        data.services
+      )
+    ) {
+
+      return data.services;
+
+    }
+
+    return [];
+
+  }
+
+
+  /* =========================================================
+     STATS
+  ========================================================= */
+
+  function updateStats() {
+
+    const homepage =
+      getHomepageData();
+
+    const projects =
+      getProjectsFromHomepage();
+
+    const services =
+      getServicesFromHomepage();
+
+    const browserProjects =
+      readJSON(
+        BROWSER_KEY,
+        []
+      );
+
+    const projectTotal =
+      browserProjects.length ||
+      projects.length ||
+      4;
+
+    const serviceTotal =
+      services.length ||
+      5;
+
+
+    $("#projectCount")
+      .textContent =
+      String(
+        projectTotal
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    $("#serviceCount")
+      .textContent =
+      String(
+        serviceTotal
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    const visibility =
+      homepage?.published !== false;
+
+    $("#visibilityValue")
+      .textContent =
+      visibility
+        ? "ON"
+        : "OFF";
+
+
+    $("#liveBadge")
+      .textContent =
+      visibility
+        ? "Live"
+        : "Offline";
+
+
+    $("#liveBadge")
+      .style.color =
+      visibility
+        ? "#63ca91"
+        : "var(--accent)";
+
+
+    const lastUpdated =
+      localStorage.getItem(
+        LAST_UPDATED_KEY
+      );
+
+
+    $("#updateValue")
+      .textContent =
+      lastUpdated
+        ? formatDate(
+            lastUpdated,
+            true
+          )
+        : "—";
+
+
+    $("#lastSavedFull")
+      .textContent =
+      lastUpdated
+        ? formatDate(
+            lastUpdated
+          )
+        : "No saved update yet";
+
+  }
+
+
+  /* =========================================================
+     HEALTH
+  ========================================================= */
+
+  function setHealth(
+    statusElement,
+    descriptionElement,
+    good,
+    statusText,
+    description
+  ) {
+
+    if (!statusElement)
+      return;
+
+
+    statusElement.textContent =
+      statusText;
+
+    statusElement.classList.remove(
+      "good",
+      "attention"
+    );
+
+    statusElement.classList.add(
+      good
+        ? "good"
+        : "attention"
+    );
+
+
+    if (descriptionElement) {
+
+      descriptionElement.textContent =
+        description;
+
+    }
+
+  }
+
+
+  function updateHealth() {
+
+    const homepage =
+      getHomepageData();
+
+    const banner =
+      readJSON(
+        BANNER_KEY,
+        null
+      );
+
+    const browser =
+      readJSON(
+        BROWSER_KEY,
+        []
+      );
+
+
+    const homepageReady =
+      Boolean(
+        homepage &&
+        (
+          homepage.hero ||
+          homepage.about ||
+          homepage.projects
+        )
+      );
+
+
+    setHealth(
+
+      $("#homepageStatus"),
+
+      $("#homepageHealth"),
+
+      homepageReady,
+
+      homepageReady
+        ? "Ready"
+        : "Attention",
+
+      homepageReady
+        ? "Homepage content is available."
+        : "No saved homepage content found."
+
+    );
+
+
+    const bannerReady =
+      Boolean(
+        banner &&
+        (
+          banner.headline ||
+          banner.title ||
+          banner.image
+        )
+      );
+
+
+    setHealth(
+
+      $("#bannerStatus"),
+
+      $("#bannerHealth"),
+
+      bannerReady,
+
+      bannerReady
+        ? "Ready"
+        : "Default",
+
+      bannerReady
+        ? "Banner settings are available."
+        : "Using the default banner presentation."
+
+    );
+
+
+    const browserReady =
+      Array.isArray(browser) &&
+      browser.length > 0;
+
+
+    setHealth(
+
+      $("#browserStatus"),
+
+      $("#browserHealth"),
+
+      browserReady,
+
+      browserReady
+        ? "Ready"
+        : "Default",
+
+      browserReady
+        ? `${browser.length} project presentation${browser.length === 1 ? "" : "s"} configured.`
+        : "Browser UI is using its default project set."
+
+    );
+
+
+    const overall =
+      homepageReady &&
+      browserReady;
+
+
+    const overallHealth =
+      $("#overallHealth");
+
+    overallHealth.textContent =
+      overall
+        ? "Ready"
+        : "Review";
+
+    overallHealth.classList.remove(
+      "good",
+      "attention"
+    );
+
+    overallHealth.classList.add(
+      overall
+        ? "good"
+        : "attention"
+    );
+
+  }
+
+
+  /* =========================================================
+     NEWSLETTER
+  ========================================================= */
+
+  function updateNewsletter() {
+
+    const newsletter =
+      readJSON(
+        NEWSLETTER_KEY,
+        null
+      );
+
+
+    let subscribers = 0;
+
+    let enabled = true;
+
+
+    if (
+      newsletter &&
+      Array.isArray(
+        newsletter.subscribers
+      )
+    ) {
+
+      subscribers =
+        newsletter.subscribers
+          .filter(
+            subscriber =>
+              subscriber.status !==
+              "unsubscribed"
+          )
+          .length;
+
+    }
+
+
+    if (
+      newsletter &&
+      typeof newsletter.enabled ===
+      "boolean"
+    ) {
+
+      enabled =
+        newsletter.enabled;
+
+    }
+
+
+    $("#subscriberCount")
+      .textContent =
+      String(
+        subscribers
+      ).padStart(
+        2,
+        "0"
+      );
+
+
+    $("#newsletterSwitch")
+      .checked =
+      enabled;
+
+  }
+
+
+  $("#newsletterSwitch")
+    ?.addEventListener(
+      "change",
+      event => {
+
+        const data =
+          readJSON(
+            NEWSLETTER_KEY,
+            {}
+          );
+
+
+        data.enabled =
+          event.target.checked;
+
+
+        localStorage.setItem(
+          NEWSLETTER_KEY,
+          JSON.stringify(data)
+        );
+
+
+        showToast(
+          event.target.checked
+            ? "Newsletter signup enabled."
+            : "Newsletter signup disabled."
+        );
+
+      }
+    );
+
+
+  /* =========================================================
+     ACTIVITY
+  ========================================================= */
+
+  function buildActivity() {
+
+    const activities = [];
+
+
+    const homepage =
+      readJSON(
+        HOMEPAGE_KEY,
+        null
+      );
+
+    const banner =
+      readJSON(
+        BANNER_KEY,
+        null
+      );
+
+    const browser =
+      readJSON(
+        BROWSER_KEY,
+        null
+      );
+
+    const lastUpdated =
+      localStorage.getItem(
+        LAST_UPDATED_KEY
+      );
+
+
+    if (lastUpdated) {
+
+      activities.push({
+        icon: "↻",
+        title: "Portfolio content updated",
+        detail: "A portfolio section was recently saved.",
+        time: lastUpdated
+      });
+
+    }
+
+
+    if (homepage) {
+
+      activities.push({
+        icon: "◈",
+        title: "Homepage content available",
+        detail: "Homepage editor data is stored locally.",
+        time: lastUpdated
+      });
+
+    }
+
+
+    if (banner) {
+
+      activities.push({
+        icon: "▣",
+        title: "Banner configuration available",
+        detail: "Hero presentation settings are ready.",
+        time: lastUpdated
+      });
+
+    }
+
+
+    if (
+      Array.isArray(browser) &&
+      browser.length
+    ) {
+
+      activities.push({
+        icon: "▤",
+        title: "Project browser configured",
+        detail: `${browser.length} project presentation${browser.length === 1 ? "" : "s"} available.`,
+        time: lastUpdated
+      });
+
+    }
+
+
+    if (!activities.length) {
+
+      activities.push({
+        icon: "○",
+        title: "Workspace initialized",
+        detail: "No saved activity yet.",
+        time: null
+      });
+
+    }
+
+
+    const list =
+      $("#activityList");
+
+    list.innerHTML = "";
+
+
+    activities
+      .slice(0, 6)
+      .forEach(
+        activity => {
+
+          const item =
+            document.createElement(
+              "div"
+            );
+
+          item.className =
+            "activity-item";
+
+
+          item.innerHTML = `
+
+            <div class="activity-icon">
+              ${activity.icon}
+            </div>
+
+            <div class="activity-copy">
+
+              <strong>
+                ${escapeHtml(
+                  activity.title
+                )}
+              </strong>
+
+              <span>
+                ${escapeHtml(
+                  activity.detail
+                )}
+              </span>
+
+            </div>
+
+            <div class="activity-time">
+              ${
+                activity.time
+                  ? formatDate(
+                      activity.time,
+                      true
+                    )
+                  : "—"
+              }
+            </div>
+
+          `;
+
+
+          list.appendChild(
+            item
+          );
+
+        }
+      );
+
+
+    $("#activityCount")
+      .textContent =
+      `${activities.length} update${activities.length === 1 ? "" : "s"}`;
+
+  }
+
+
+  /* =========================================================
+     ESCAPE
+  ========================================================= */
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(
+      value ?? ""
+    )
+      .replaceAll(
+        "&",
+        "&amp;"
+      )
+      .replaceAll(
+        "<",
+        "&lt;"
+      )
+      .replaceAll(
+        ">",
+        "&gt;"
+      )
+      .replaceAll(
+        '"',
+        "&quot;"
+      )
+      .replaceAll(
+        "'",
+        "&#039;"
+      );
+
+  }
+
+
+  /* =========================================================
+     TOAST
+  ========================================================= */
+
+  let toastTimer = null;
+
+
+  function showToast(
+    message
+  ) {
+
+    toast.textContent =
+      message;
+
+    toast.classList.add(
+      "show"
+    );
+
+
+    clearTimeout(
+      toastTimer
+    );
+
+
+    toastTimer =
+      setTimeout(
+        () => {
+
+          toast.classList.remove(
+            "show"
+          );
+
+        },
+        2500
+      );
+
+  }
+
+
+  /* =========================================================
+     KEYBOARD
+  ========================================================= */
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if (
+        event.key === "Escape"
+      ) {
+
+        accountDropdown?.classList.remove(
+          "show"
+        );
+
       }
 
-    });
+    }
+  );
 
-  });
+
+  /* =========================================================
+     INITIALIZE
+  ========================================================= */
+
+  updateStats();
+
+  updateHealth();
+
+  updateNewsletter();
+
+  buildActivity();
+
+
+  /*
+    Refresh dashboard when another admin page
+    has changed localStorage in another tab.
+  */
+
+  window.addEventListener(
+    "storage",
+    () => {
+
+      updateStats();
+
+      updateHealth();
+
+      updateNewsletter();
+
+      buildActivity();
+
+    }
+  );
+
 
 })();
 </script>
