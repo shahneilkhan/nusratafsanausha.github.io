@@ -1,610 +1,134 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>Nusrat Afsana Usha — UX/UI Designer</title>
-
-<meta name="description" content="Portfolio of Nusrat Afsana Usha, UX/UI designer in Dhaka, Bangladesh. Explore website design, UX research and Figma prototypes.">
-<meta name="theme-color" content="#f7f7f5">
-
+<meta name="description" content="Portfolio of Nusrat Afsana Usha, UX/UI designer in Dhaka. Websites, interfaces and prototypes designed in Figma.">
+<meta name="theme-color" content="#F2F1F7">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="page-noise" aria-hidden="true"></div>
-
-<header class="header" id="top">
-
-  <a class="brand" href="#top" aria-label="Nusrat Afsana Usha home">
-    <span class="brand-icon">NU</span>
-    <span class="brand-name">Nusrat Afsana Usha</span>
-  </a>
-
-  <button class="menu-toggle" aria-expanded="false" aria-controls="mainNav">
-    <span></span>
-    <span></span>
-    <span class="sr-only">Toggle navigation</span>
-  </button>
-
-  <nav class="nav" id="mainNav" aria-label="Main navigation">
+<header class="bar">
+  <a class="mark" href="#top" aria-label="Nusrat Afsana Usha, home">NU</a>
+  <button class="menu-btn" aria-expanded="false" aria-controls="nav">Menu</button>
+  <nav id="nav" class="nav" aria-label="Main">
     <a href="#about">About</a>
-    <a href="#work">Selected Work</a>
+    <a href="#work">Work</a>
     <a href="#experience">Experience</a>
-    <a href="#skills">Expertise</a>
-    <a class="nav-contact" href="#contact">
-      Let's Talk <span>↗</span>
-    </a>
+    <a href="#skills">Skills</a>
+    <a class="pill" href="#contact">Contact</a>
   </nav>
-
 </header>
 
-<main>
-
-<!-- HERO -->
-
-<section class="hero">
-
-  <div class="hero-grid"></div>
-
-  <div class="hero-content">
-
-    <div class="availability">
-      <span class="availability-dot"></span>
-      UX/UI Designer · Dhaka, Bangladesh
-    </div>
-
-    <p class="eyebrow">DESIGNING DIGITAL EXPERIENCES</p>
-
-    <h1>
-      Thoughtful design.<br>
-      <span class="heading-accent">Meaningful</span>
-      <span class="heading-outline">experiences.</span>
-    </h1>
-
-    <div class="hero-bottom">
-
-      <p class="hero-description">
-        I'm Nusrat Afsana Usha, a UX/UI designer creating intuitive websites,
-        thoughtful interfaces and interactive prototypes in Figma.
-      </p>
-
-      <div class="hero-actions">
-        <a class="button button-dark" href="#work">
-          Explore my work <span>↗</span>
-        </a>
-
-        <a class="button button-outline" href="#contact">
-          Get in touch
-        </a>
-      </div>
-
-    </div>
-
-  </div>
-
-  <div class="hero-visual" aria-hidden="true">
-
-    <div class="visual-orbit orbit-one"></div>
-    <div class="visual-orbit orbit-two"></div>
-
-    <div class="visual-card">
-
-      <div class="visual-card-top">
-        <span class="visual-label">DESIGN PHILOSOPHY</span>
-        <span class="visual-number">01 / 03</span>
-      </div>
-
-      <div class="visual-art">
-        <div class="art-circle"></div>
-        <div class="art-square"></div>
-        <div class="art-line"></div>
-        <div class="art-dot"></div>
-      </div>
-
-      <div class="visual-card-bottom">
-        <div>
-          <span class="visual-small">THE APPROACH</span>
-          <h3>Clarity over<br>complexity.</h3>
-        </div>
-        <span class="visual-arrow">↗</span>
-      </div>
-
-    </div>
-
-    <div class="floating-note note-top">
-      <span class="note-icon">✳</span>
-      Human-centered
-    </div>
-
-    <div class="floating-note note-bottom">
-      <span class="note-icon">✦</span>
-      Made with intention
-    </div>
-
-  </div>
-
-  <div class="hero-footer">
-    <span>SCROLL TO EXPLORE</span>
-    <span class="scroll-line"></span>
-    <span>01 — 05</span>
-  </div>
-
-</section>
-
-<!-- ABOUT -->
-
-<section class="section about-section" id="about">
-
-  <div class="section-heading">
-    <span class="section-index">01 / ABOUT</span>
-    <h2>A little about<br><span>the person behind the pixels.</span></h2>
-  </div>
-
-  <div class="about-layout">
-
-    <div class="portrait-wrap">
-
-      <div class="portrait-frame">
-        <img
-          src="assets/nusrat.jpg"
-          alt="Portrait of Nusrat Afsana Usha"
-          loading="lazy"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='grid';"
-        >
-
-        <div class="portrait-placeholder" style="display:none">
-          NU
-        </div>
-      </div>
-
-      <div class="portrait-caption">
-        <span>BASED IN DHAKA, BANGLADESH</span>
-        <span>23°48' N / 90°24' E</span>
-      </div>
-
-      <div class="portrait-decoration">NU.</div>
-
-    </div>
-
-    <div class="about-copy">
-
-      <p class="intro-text">
-        I believe good design should feel effortless.
-        Behind every intuitive interface is a thoughtful process:
-        understanding people, simplifying complexity and making
-        digital experiences feel natural.
-      </p>
-
-      <p>
-        I'm currently pursuing a Master's degree in UX Design at the
-        London School of Design and Marketing. Before transitioning
-        into design, I spent over six years working in operations,
-        administration and stakeholder management in the shipping industry.
-      </p>
-
-      <p>
-        That experience shaped my approach to design. I listen carefully,
-        understand business requirements and translate user needs into
-        clear, functional interfaces.
-      </p>
-
-      <p>
-        At Website Deals, I design client websites, develop interface
-        concepts and collaborate on marketplace operations and project delivery.
-      </p>
-
-      <div class="about-signature">
-        <span class="signature-mark">Nusrat.</span>
-        <span class="signature-caption">DESIGNING WITH PURPOSE</span>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<!-- SELECTED WORK -->
-
-<section class="section work-section" id="work">
-
-  <div class="section-heading work-heading">
-
-    <div>
-      <span class="section-index">02 / SELECTED WORK</span>
-      <h2>Ideas into<br><span>experiences.</span></h2>
-    </div>
-
-    <p class="section-description">
-      A selection of design projects, interface explorations
-      and digital experiences. Detailed case studies are being prepared.
-    </p>
-
-  </div>
-
-  <div class="project-grid">
-
-    <article class="project project-large">
-
-      <a class="project-cover cover-one" href="#contact" aria-label="Ask about client website redesign">
-
-        <div class="project-window">
-          <div class="window-bar">
-            <span></span><span></span><span></span>
-            <div class="window-address">website / experience</div>
-          </div>
-
-          <div class="mock-site">
-            <div class="mock-nav">
-              <strong>STUDIO.</strong>
-              <span>ABOUT　 WORK　 CONTACT</span>
-            </div>
-
-            <div class="mock-hero">
-              <span>DESIGN THAT CONNECTS</span>
-              <h3>Digital<br>made human.</h3>
-              <div class="mock-button">Explore project ↗</div>
-            </div>
-
-            <div class="mock-shapes">
-              <div></div><div></div><div></div>
-            </div>
-          </div>
-        </div>
-
-        <span class="cover-tag">01 — WEBSITE DESIGN</span>
-        <span class="cover-open">↗</span>
-
-      </a>
-
-      <div class="project-info">
-        <div>
-          <span class="project-category">WEBSITE DEALS · UX/UI</span>
-          <h3>Client Website Redesign</h3>
-          <p>Research, wireframes, visual design and Figma prototype.</p>
-        </div>
-        <span class="project-index">01</span>
-      </div>
-
-    </article>
-
-    <article class="project">
-
-      <a class="project-cover cover-two" href="#contact" aria-label="Ask about marketplace interface">
-
-        <div class="marketplace-preview">
-
-          <div class="market-top">
-            <strong>marketplace.</strong>
-            <span>⌕　♡　☰</span>
-          </div>
-
-          <div class="market-title">
-            <span>DISCOVER SOMETHING NEW</span>
-            <h3>Find your<br>next favorite.</h3>
-          </div>
-
-          <div class="market-products">
-            <div class="market-product product-a"><span>01</span></div>
-            <div class="market-product product-b"><span>02</span></div>
-            <div class="market-product product-c"><span>03</span></div>
-          </div>
-
-        </div>
-
-        <span class="cover-tag">02 — PRODUCT INTERFACE</span>
-        <span class="cover-open">↗</span>
-
-      </a>
-
-      <div class="project-info">
-        <div>
-          <span class="project-category">WEBSITE DEALS · PRODUCT DESIGN</span>
-          <h3>Marketplace Interface</h3>
-          <p>UI design, interaction patterns and user-friendly browsing.</p>
-        </div>
-        <span class="project-index">02</span>
-      </div>
-
-    </article>
-
-    <article class="project">
-
-      <a class="project-cover cover-three" href="#contact" aria-label="Ask about university UX project">
-
-        <div class="research-preview">
-
-          <div class="research-top">
-            <span>UX RESEARCH / 2026</span>
-            <span>↗</span>
-          </div>
-
-          <div class="research-content">
-            <div class="research-circle">UX</div>
-            <h3>Understand<br>before designing.</h3>
-            <p>Research · Insight · Iteration</p>
-          </div>
-
-          <div class="research-footer">
-            <span>USER-CENTERED DESIGN</span>
-            <span>03 / 03</span>
-          </div>
-
-        </div>
-
-        <span class="cover-tag">03 — UX RESEARCH</span>
-        <span class="cover-open">↗</span>
-
-      </a>
-
-      <div class="project-info">
-        <div>
-          <span class="project-category">LSDM · ACADEMIC PROJECT</span>
-          <h3>University UX Project</h3>
-          <p>User research, usability testing and experience design.</p>
-        </div>
-        <span class="project-index">03</span>
-      </div>
-
-    </article>
-
-  </div>
-
-  <div class="work-note">
-    <span class="note-star">✳</span>
-    More projects and detailed case studies coming soon.
-  </div>
-
-</section>
-
-<!-- EXPERIENCE -->
-
-<section class="section experience-section" id="experience">
-
-  <div class="section-heading">
-    <span class="section-index">03 / EXPERIENCE</span>
-    <h2>Where I've been.<br><span>What I've learned.</span></h2>
-  </div>
-
-  <div class="experience-layout">
-
-    <div class="experience-intro">
-      <p>
-        My professional journey combines design, operations,
-        communication and a deep understanding of how people work.
-      </p>
-
-      <div class="experience-stamp">
-        <span>6+</span>
-        <small>YEARS OF<br>PROFESSIONAL EXPERIENCE</small>
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1 class="name">Nusrat<br>Afsana<br>Usha</h1>
+      <p class="lead">I design clear, easy-to-use websites and interfaces in Figma, from first sketch to a prototype you can click.</p>
+      <div class="cta">
+        <a class="btn solid" href="#work">See my work</a>
+        <a class="btn" href="#contact">Get in touch</a>
       </div>
     </div>
+    <figure class="portrait">
+      <div class="frame">
+        <span class="h tl"></span><span class="h tr"></span><span class="h bl"></span><span class="h br"></span>
+        <img src="photo.jpg" alt="Portrait of Nusrat Afsana Usha" width="640" height="800" fetchpriority="high">
+        <span class="tag">Nusrat · UX/UI Designer</span>
+      </div>
+      <figcaption class="chip">Partner at Website Deals · Dhaka</figcaption>
+    </figure>
+  </section>
 
-    <div class="timeline">
+  <section id="about" class="sec about">
+    <h2>About</h2>
+    <div class="about-grid">
+      <dl class="facts">
+        <div><dt>Based in</dt><dd>Dhaka, Bangladesh</dd></div>
+        <div><dt>Studying</dt><dd>MA UX Design, London School of Design and Marketing</dd></div>
+        <div><dt>Working at</dt><dd>Website Deals (UI Designer &amp; Partner)</dd></div>
+        <div><dt>Tool</dt><dd>Figma</dd></div>
+      </dl>
+      <div class="prose">
+        <p>I'm a UX/UI designer and a Master's student in UX Design. Before design, I spent over six years in operations and stakeholder management in the shipping industry.</p>
+        <p>That background shapes how I work. I listen closely to what a client needs, ask what users are trying to do, and turn both into screens that are simple to understand.</p>
+        <p>At Website Deals I design and deliver client websites, and I help run the marketplace and project delivery as a partner.</p>
+      </div>
+    </div>
+  </section>
 
-      <article class="timeline-item current">
-        <div class="timeline-date">PRESENT</div>
-
-        <div class="timeline-content">
-          <span class="timeline-type">DESIGN & PARTNERSHIP</span>
-          <h3>UI Designer & Partner</h3>
-          <h4>Website Deals</h4>
-          <p>
-            Design website layouts, UI screens and interactive prototypes
-            in Figma. Collaborate with clients to translate requirements
-            into clear designs while co-managing marketplace operations
-            and project delivery.
-          </p>
-        </div>
+  <section id="work" class="sec">
+    <h2>Selected work</h2>
+    <p class="sub">Case studies are being added. Each one will show the problem, my process and the final design.</p>
+    <div class="work">
+      <!-- EDIT: replace title, text, link. Add your cover image in assets/ and uncomment the <img>. -->
+      <article class="case c1">
+        <div class="cover"><!-- <img src="assets/project-1.jpg" alt="Project 1 cover"> --></div>
+        <h3>Client website redesign</h3>
+        <p>Website Deals · Research, wireframes, Figma prototype</p>
+        <a href="#contact">Ask for the full case study</a>
       </article>
-
-      <article class="timeline-item">
-        <div class="timeline-date">SEP 2019 — PRESENT</div>
-
-        <div class="timeline-content">
-          <span class="timeline-type">OPERATIONS & ADMINISTRATION</span>
-          <h3>Operations & Administration Manager</h3>
-          <h4>United Marine Transport Limited</h4>
-          <p>
-            Coordinate daily operations and administration, manage
-            client relationships, resolve operational issues and
-            handle HR and workplace administration.
-          </p>
-        </div>
+      <article class="case c2">
+        <div class="cover"></div>
+        <h3>Marketplace interface</h3>
+        <p>Website Deals · UI design, interaction design</p>
+        <a href="#contact">Ask for the full case study</a>
       </article>
-
-      <article class="timeline-item">
-        <div class="timeline-date">JUL 2017 — MAY 2018</div>
-
-        <div class="timeline-content">
-          <span class="timeline-type">OPERATIONS</span>
-          <h3>Executive</h3>
-          <h4>Mentor's Education</h4>
-          <p>
-            Coordinated administrative and operational activities
-            and communicated with students and stakeholders.
-          </p>
-        </div>
+      <article class="case c3">
+        <div class="cover"></div>
+        <h3>University UX project</h3>
+        <p>LSDM · User research, usability testing</p>
+        <a href="#contact">Ask for the full case study</a>
       </article>
-
-      <article class="timeline-item">
-        <div class="timeline-date">JAN 2017 — APR 2017</div>
-
-        <div class="timeline-content">
-          <span class="timeline-type">INTERNSHIP</span>
-          <h3>Intern</h3>
-          <h4>FSIBL</h4>
-          <p>
-            Assisted with daily banking operations, documentation
-            and customer service.
-          </p>
-        </div>
-      </article>
-
     </div>
+  </section>
 
-  </div>
+  <section id="experience" class="sec">
+    <h2>Experience</h2>
+    <ol class="timeline">
+      <li><span class="when">Present</span><div><h3>UI Designer &amp; Partner</h3><p class="org">Website Deals</p><p>Design website layouts, UI screens and interactive prototypes in Figma. Work directly with clients to turn requirements into clear designs, and co-manage the marketplace and project delivery.</p></div></li>
+      <li><span class="when">Sep 2019 – Present</span><div><h3>Operations &amp; Administration Manager</h3><p class="org">United Marine Transport Limited</p><p>Coordinate daily operations and administration, manage client relationships, resolve operational issues, and handle HR and workplace administration.</p></div></li>
+      <li><span class="when">Jul 2017 – May 2018</span><div><h3>Executive</h3><p class="org">Mentor's Education</p><p>Coordinated administrative and operational activities and communicated with students and stakeholders.</p></div></li>
+      <li><span class="when">Jan 2017 – Apr 2017</span><div><h3>Intern</h3><p class="org">FSIBL</p><p>Assisted with daily banking operations, documentation and customer service.</p></div></li>
+    </ol>
+    <h3 class="edu-h">Education</h3>
+    <ul class="edu">
+      <li><strong>Master's degree, UX Design</strong> London School of Design and Marketing, 2026–2027</li>
+      <li><strong>Bachelor of Business Administration</strong> North South University</li>
+    </ul>
+  </section>
 
-  <div class="education">
-
-    <span class="section-index">EDUCATION</span>
-
-    <div class="education-grid">
-
-      <article class="education-card">
-        <span class="education-icon">✳</span>
-        <span class="education-year">2026 — 2027</span>
-        <h3>Master's Degree, UX Design</h3>
-        <p>London School of Design and Marketing</p>
-      </article>
-
-      <article class="education-card">
-        <span class="education-icon">✳</span>
-        <span class="education-year">UNDERGRADUATE</span>
-        <h3>Bachelor of Business Administration</h3>
-        <p>North South University</p>
-      </article>
-
+  <section id="skills" class="sec">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div><h3>Design</h3><ul><li>UX/UI design</li><li>Website design</li><li>Wireframing</li><li>Prototyping</li><li>Interaction design</li><li>Information architecture</li></ul></div>
+      <div><h3>Research</h3><ul><li>User research</li><li>Usability testing</li></ul></div>
+      <div><h3>Tools</h3><ul><li>Figma</li></ul></div>
+      <div><h3>Working with people</h3><ul><li>Project management</li><li>Stakeholder communication</li><li>Critical thinking</li></ul></div>
     </div>
+    <p class="lang">Languages: Bangla (native), English (upper-intermediate)</p>
+  </section>
 
-  </div>
-
-</section>
-
-<!-- SKILLS -->
-
-<section class="section skills-section" id="skills">
-
-  <div class="section-heading">
-    <span class="section-index">04 / EXPERTISE</span>
-    <h2>My creative<br><span>toolkit.</span></h2>
-  </div>
-
-  <div class="skills-grid">
-
-    <article class="skill-card">
-      <span class="skill-number">01</span>
-      <div class="skill-symbol">✳</div>
-      <h3>Design</h3>
-      <p>Turning ideas into intuitive, purposeful interfaces.</p>
-      <div class="skill-tags">
-        <span>UX/UI Design</span>
-        <span>Website Design</span>
-        <span>Wireframing</span>
-        <span>Prototyping</span>
-        <span>Interaction Design</span>
-        <span>Information Architecture</span>
-      </div>
-    </article>
-
-    <article class="skill-card">
-      <span class="skill-number">02</span>
-      <div class="skill-symbol">⌕</div>
-      <h3>Research</h3>
-      <p>Understanding users before defining solutions.</p>
-      <div class="skill-tags">
-        <span>User Research</span>
-        <span>Usability Testing</span>
-      </div>
-    </article>
-
-    <article class="skill-card">
-      <span class="skill-number">03</span>
-      <div class="skill-symbol">◈</div>
-      <h3>Tools</h3>
-      <p>Bringing concepts to life through design tools.</p>
-      <div class="skill-tags">
-        <span>Figma</span>
-      </div>
-    </article>
-
-    <article class="skill-card">
-      <span class="skill-number">04</span>
-      <div class="skill-symbol">↗</div>
-      <h3>Collaboration</h3>
-      <p>Connecting people, goals and project outcomes.</p>
-      <div class="skill-tags">
-        <span>Project Management</span>
-        <span>Stakeholder Communication</span>
-        <span>Critical Thinking</span>
-      </div>
-    </article>
-
-  </div>
-
-  <div class="language-row">
-    <span>LANGUAGES</span>
-    <p>Bangla <small>Native</small></p>
-    <p>English <small>Upper-intermediate</small></p>
-  </div>
-
-</section>
-
-<!-- CONTACT -->
-
-<section class="contact-section" id="contact">
-
-  <div class="contact-decoration decoration-one"></div>
-  <div class="contact-decoration decoration-two"></div>
-
-  <div class="contact-inner">
-
-    <span class="contact-eyebrow">05 / LET'S CONNECT</span>
-
-    <h2>
-      Have an idea?<br>
-      <span>Let's make it happen.</span>
-    </h2>
-
-    <p>
-      Have a website, product or digital experience in mind?
-      I'd love to hear what you're working on.
-    </p>
-
-    <a class="contact-button" href="mailto:nusrat.afsana1992@gmail.com">
-      Start a conversation <span>↗</span>
-    </a>
-
-    <a class="contact-email" href="mailto:nusrat.afsana1992@gmail.com">
-      nusrat.afsana1992@gmail.com
-    </a>
-
-    <div class="social-links">
-      <a href="https://www.linkedin.com/in/YOUR-LINKEDIN" target="_blank" rel="noopener noreferrer">
-        LinkedIn ↗
-      </a>
-
-      <a href="https://www.behance.net/YOUR-BEHANCE" target="_blank" rel="noopener noreferrer">
-        Behance ↗
-      </a>
+  <section id="contact" class="sec contact">
+    <h2>Let's work together</h2>
+    <p class="sub">Have a website or product to design? Send me a short note about it.</p>
+    <a class="mail" href="mailto:nusrat.afsana1992@gmail.com">nusrat.afsana1992@gmail.com</a>
+    <div class="links">
+      <!-- EDIT: put your real links, then remove this comment -->
+      <a href="https://www.linkedin.com/in/YOUR-LINKEDIN" rel="noopener">LinkedIn</a>
+      <a href="https://www.behance.net/YOUR-BEHANCE" rel="noopener">Behance</a>
     </div>
-
-  </div>
-
-</section>
-
+  </section>
 </main>
 
-<footer class="footer">
-
-  <a class="footer-brand" href="#top">NU.</a>
-
-  <p>© <span id="year">2026</span> Nusrat Afsana Usha</p>
-
-  <a href="#top">Back to top ↑</a>
-
-</footer>
+<footer class="foot">© <span id="yr">2026</span> Nusrat Afsana Usha. Designed and built by me.</footer>
 
 <script src="script.js"></script>
-
 </body>
 </html>
