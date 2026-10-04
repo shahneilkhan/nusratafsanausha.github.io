@@ -1,0 +1,2349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Media Upload — Restricted Admin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#0a0a0c;
+  --panel:#111216;
+  --panel-2:#15161a;
+  --panel-3:#1b1c21;
+  --border:#27282e;
+  --border-soft:#202126;
+  --text:#f5f2eb;
+  --muted:#96979e;
+  --muted-2:#686a72;
+  --accent:#d8b36a;
+  --accent-soft:rgba(216,179,106,.12);
+  --success:#7fd6a2;
+  --danger:#ef7777;
+  --warning:#e9c878;
+  --sidebar:272px;
+  --radius:20px;
+  --shadow:0 20px 60px rgba(0,0,0,.28);
+}
+
+html[data-theme="light"]{
+  --bg:#f5f3ef;
+  --panel:#ffffff;
+  --panel-2:#faf9f6;
+  --panel-3:#f0eee9;
+  --border:#dfdcd4;
+  --border-soft:#e9e6df;
+  --text:#161617;
+  --muted:#68686c;
+  --muted-2:#999a9f;
+  --accent:#9a7025;
+  --accent-soft:rgba(154,112,37,.10);
+  --success:#26754c;
+  --danger:#b84242;
+  --warning:#94701e;
+  --shadow:0 20px 60px rgba(30,25,15,.08);
+}
+
+body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",sans-serif;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.app{
+  min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:var(--sidebar);
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+}
+
+.brand{
+  min-height:88px;
+  padding:22px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.brand-mark{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:var(--accent);
+  color:#111;
+  display:grid;
+  place-items:center;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:800;
+  font-size:14px;
+}
+
+.brand-copy strong{
+  display:block;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:16px;
+}
+
+.brand-copy span{
+  display:block;
+  margin-top:3px;
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.side-nav{
+  flex:1;
+  padding:18px 12px;
+  overflow:auto;
+}
+
+.nav-label{
+  padding:12px 12px 8px;
+  color:var(--muted-2);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-height:43px;
+  padding:0 13px;
+  margin:3px 0;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:13px;
+  transition:.2s ease;
+}
+
+.nav-item:hover{
+  background:var(--panel-3);
+  color:var(--text);
+}
+
+.nav-item.active{
+  background:var(--accent-soft);
+  color:var(--accent);
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+  opacity:.9;
+}
+
+.sidebar-footer{
+  padding:16px;
+  border-top:1px solid var(--border);
+}
+
+.security-chip{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:11px 12px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.security-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 0 4px rgba(127,214,162,.08);
+}
+
+/* MAIN */
+.main{
+  margin-left:var(--sidebar);
+  min-height:100vh;
+}
+
+.topbar{
+  height:78px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:color-mix(in srgb,var(--panel) 90%,transparent);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 34px;
+}
+
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.breadcrumb{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.breadcrumb strong{
+  color:var(--text);
+  font-weight:600;
+}
+
+.restricted{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid rgba(216,179,106,.25);
+  background:var(--accent-soft);
+  color:var(--accent);
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.icon-button{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  color:var(--muted);
+  display:grid;
+  place-items:center;
+  transition:.2s;
+}
+
+.icon-button:hover{
+  color:var(--text);
+  border-color:var(--accent);
+}
+
+.lock-button{
+  padding:0 13px;
+  height:38px;
+  border-radius:11px;
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.lock-button:hover{
+  color:var(--danger);
+  border-color:var(--danger);
+}
+
+.content{
+  padding:34px;
+  max-width:1500px;
+  margin:auto;
+}
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
+  margin-bottom:30px;
+}
+
+.eyebrow{
+  color:var(--accent);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  margin-bottom:9px;
+}
+
+h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(32px,4vw,54px);
+  line-height:1;
+  letter-spacing:-.045em;
+}
+
+.heading-copy{
+  max-width:650px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+  margin-top:12px;
+}
+
+/* BUTTONS */
+.primary-button,
+.secondary-button,
+.danger-button{
+  min-height:43px;
+  padding:0 16px;
+  border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:600;
+  transition:.2s;
+}
+
+.primary-button{
+  background:var(--accent);
+  color:#16130e;
+}
+
+.primary-button:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+}
+
+.secondary-button{
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+
+.secondary-button:hover{
+  border-color:var(--accent);
+}
+
+.danger-button{
+  background:rgba(239,119,119,.1);
+  border:1px solid rgba(239,119,119,.25);
+  color:var(--danger);
+}
+
+/* UPLOAD AREA */
+.upload-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(300px,.7fr);
+  gap:20px;
+}
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+
+.panel-header{
+  padding:21px 23px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.panel-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:16px;
+}
+
+.panel-subtitle{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.panel-body{
+  padding:23px;
+}
+
+.dropzone{
+  min-height:370px;
+  border:1px dashed #45464d;
+  border-radius:18px;
+  background:var(--panel-2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:35px;
+  transition:.2s;
+  position:relative;
+  overflow:hidden;
+}
+
+.dropzone.dragover{
+  border-color:var(--accent);
+  background:var(--accent-soft);
+  transform:scale(.995);
+}
+
+.upload-icon{
+  width:70px;
+  height:70px;
+  margin:0 auto 20px;
+  border:1px solid var(--border);
+  border-radius:22px;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  background:var(--panel-3);
+}
+
+.drop-content h2{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:22px;
+  margin-bottom:8px;
+}
+
+.drop-content p{
+  color:var(--muted);
+  max-width:430px;
+  margin:auto;
+  line-height:1.6;
+  font-size:13px;
+}
+
+.file-types{
+  margin:17px auto 20px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.type-pill{
+  padding:6px 9px;
+  border-radius:999px;
+  background:var(--panel-3);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:10px;
+}
+
+input[type=file]{
+  display:none;
+}
+
+/* QUEUE */
+.queue{
+  margin-top:20px;
+}
+
+.queue-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.queue-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:15px;
+}
+
+.queue-count{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.queue-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.empty-queue{
+  padding:24px;
+  text-align:center;
+  border:1px dashed var(--border);
+  border-radius:15px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.queue-item{
+  display:grid;
+  grid-template-columns:70px minmax(0,1fr) auto;
+  align-items:center;
+  gap:13px;
+  padding:10px;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  border-radius:14px;
+}
+
+.queue-thumb{
+  width:70px;
+  height:58px;
+  border-radius:10px;
+  overflow:hidden;
+  background:var(--panel-3);
+}
+
+.queue-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.queue-info{
+  min-width:0;
+}
+
+.queue-name{
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.queue-meta{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+}
+
+.queue-status{
+  color:var(--success);
+  font-size:10px;
+}
+
+.remove-file{
+  width:30px;
+  height:30px;
+  border-radius:9px;
+  background:transparent;
+  color:var(--muted);
+}
+
+.remove-file:hover{
+  color:var(--danger);
+  background:rgba(239,119,119,.08);
+}
+
+/* FORM */
+.form-stack{
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+}
+
+.field label{
+  display:block;
+  margin-bottom:7px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:600;
+}
+
+.input,
+.textarea,
+.select{
+  width:100%;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  color:var(--text);
+  border-radius:11px;
+  outline:none;
+  padding:12px 13px;
+  transition:.2s;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px var(--accent-soft);
+}
+
+.textarea{
+  min-height:100px;
+  resize:vertical;
+  line-height:1.5;
+}
+
+.hint{
+  color:var(--muted-2);
+  font-size:10px;
+  line-height:1.5;
+  margin-top:6px;
+}
+
+.toggle-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:13px 0;
+  border-bottom:1px solid var(--border-soft);
+}
+
+.toggle-row:last-child{
+  border-bottom:0;
+}
+
+.toggle-copy strong{
+  display:block;
+  font-size:12px;
+}
+
+.toggle-copy span{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.4;
+}
+
+.switch{
+  position:relative;
+  width:42px;
+  height:24px;
+  flex:none;
+}
+
+.switch input{
+  opacity:0;
+  width:0;
+  height:0;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  background:var(--panel-3);
+  border:1px solid var(--border);
+  border-radius:999px;
+  transition:.2s;
+  cursor:pointer;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  width:16px;
+  height:16px;
+  left:3px;
+  top:3px;
+  border-radius:50%;
+  background:var(--muted);
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:var(--accent-soft);
+  border-color:var(--accent);
+}
+
+.switch input:checked + .slider:before{
+  transform:translateX(18px);
+  background:var(--accent);
+}
+
+/* SUMMARY */
+.summary{
+  margin-top:20px;
+  padding:17px;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  border-radius:15px;
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  padding:8px 0;
+  font-size:11px;
+}
+
+.summary-row span:first-child{
+  color:var(--muted);
+}
+
+.summary-row strong{
+  font-weight:600;
+  text-align:right;
+}
+
+/* INFO */
+.info-card{
+  margin-top:20px;
+  padding:18px;
+  border:1px solid rgba(216,179,106,.2);
+  background:var(--accent-soft);
+  border-radius:15px;
+}
+
+.info-card strong{
+  display:block;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+.info-card p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+}
+
+.bottom-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+  margin-top:20px;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:300;
+  min-width:250px;
+  max-width:380px;
+  padding:14px 16px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  border-radius:14px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  transform:translateY(30px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.toast-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--success);
+  margin-top:5px;
+  flex:none;
+}
+
+.toast strong{
+  font-size:12px;
+}
+
+.toast p{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+/* MOBILE */
+.mobile-menu{
+  display:none;
+}
+
+.mobile-overlay{
+  display:none;
+}
+
+@media(max-width:1100px){
+  .upload-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
+  :root{
+    --sidebar:0px;
+  }
+
+  .sidebar{
+    width:272px;
+    transform:translateX(-100%);
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .mobile-menu{
+    display:grid;
+    width:38px;
+    height:38px;
+    place-items:center;
+    border-radius:11px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+  }
+
+  .mobile-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:90;
+  }
+
+  .mobile-overlay.show{
+    display:block;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .breadcrumb{
+    display:none;
+  }
+
+  .content{
+    padding:24px 18px;
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .heading-copy{
+    font-size:13px;
+  }
+}
+
+@media(max-width:540px){
+  .topbar{
+    height:70px;
+  }
+
+  .restricted{
+    display:none;
+  }
+
+  .content{
+    padding:20px 14px;
+  }
+
+  h1{
+    font-size:36px;
+  }
+
+  .panel-body{
+    padding:16px;
+  }
+
+  .dropzone{
+    min-height:310px;
+    padding:22px;
+  }
+
+  .queue-item{
+    grid-template-columns:58px minmax(0,1fr) 30px;
+  }
+
+  .queue-thumb{
+    width:58px;
+    height:52px;
+  }
+
+  .bottom-actions{
+    flex-direction:column-reverse;
+  }
+
+  .bottom-actions button{
+    width:100%;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{
+    scroll-behavior:auto!important;
+    transition:none!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+      <div class="brand-mark">NU</div>
+      <div class="brand-copy">
+        <strong>Portfolio Admin</strong>
+        <span>Restricted Workspace</span>
+      </div>
+    </div>
+
+    <nav class="side-nav">
+
+      <div class="nav-label">Workspace</div>
+
+      <a class="nav-item" href="./index.html">
+        <span class="nav-icon">⌂</span>
+        Control Panel
+      </a>
+
+      <a class="nav-item" href="./security.html">
+        <span class="nav-icon">◈</span>
+        Security
+      </a>
+
+      <a class="nav-item" href="./audit.html">
+        <span class="nav-icon">◷</span>
+        Audit Log
+      </a>
+
+      <div class="nav-label">Recovery</div>
+
+      <a class="nav-item" href="./backups.html">
+        <span class="nav-icon">▣</span>
+        Backups
+      </a>
+
+      <a class="nav-item" href="./restore.html">
+        <span class="nav-icon">↺</span>
+        Restore
+      </a>
+
+      <div class="nav-label">Content</div>
+
+      <a class="nav-item" href="./settings.html">
+        <span class="nav-icon">⚙</span>
+        Settings
+      </a>
+
+      <a class="nav-item" href="./media.html">
+        <span class="nav-icon">▧</span>
+        Media Library
+      </a>
+
+      <a class="nav-item active" href="./media-upload.html">
+        <span class="nav-icon">↑</span>
+        Upload Media
+      </a>
+
+      <div class="nav-label">Administration</div>
+
+      <a class="nav-item" href="../admin-management.html">
+        <span class="nav-icon">♙</span>
+        Access Management
+      </a>
+
+      <a class="nav-item" href="../dashboard.html">
+        <span class="nav-icon">◫</span>
+        Admin Dashboard
+      </a>
+
+      <a class="nav-item" href="../../index.html" target="_blank">
+        <span class="nav-icon">↗</span>
+        View Portfolio
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="security-chip">
+        <span class="security-dot"></span>
+        Restricted session active
+      </div>
+    </div>
+
+  </aside>
+
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <header class="topbar">
+
+      <div class="topbar-left">
+
+        <button class="mobile-menu" id="mobileMenu" aria-label="Open menu">
+          ☰
+        </button>
+
+        <div class="breadcrumb">
+          Restricted / Media / <strong>Upload</strong>
+        </div>
+
+        <span class="restricted">
+          ● Restricted
+        </span>
+
+      </div>
+
+      <div class="top-actions">
+
+        <button
+          class="icon-button"
+          id="themeToggle"
+          title="Toggle theme"
+          aria-label="Toggle theme">
+          ◐
+        </button>
+
+        <button
+          class="lock-button"
+          id="lockWorkspace">
+          Lock
+        </button>
+
+      </div>
+
+    </header>
+
+    <section class="content">
+
+      <div class="page-heading">
+
+        <div>
+          <div class="eyebrow">Media Management</div>
+
+          <h1>Upload media.</h1>
+
+          <p class="heading-copy">
+            Add portfolio images and media assets to the private library.
+            Configure metadata before making an asset available to the portfolio.
+          </p>
+        </div>
+
+        <a class="secondary-button" href="./media.html">
+          ← Media Library
+        </a>
+
+      </div>
+
+
+      <div class="upload-layout">
+
+        <!-- LEFT -->
+        <section>
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">Upload files</div>
+                <div class="panel-subtitle">
+                  Drag and drop or select multiple files
+                </div>
+              </div>
+
+              <span class="queue-count" id="fileCount">
+                0 files
+              </span>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div
+                class="dropzone"
+                id="dropzone">
+
+                <div class="drop-content">
+
+                  <div class="upload-icon">↑</div>
+
+                  <h2>Drop files here</h2>
+
+                  <p>
+                    Upload images from your computer. Multiple files can be
+                    selected at once and reviewed before adding them to the library.
+                  </p>
+
+                  <div class="file-types">
+                    <span class="type-pill">PNG</span>
+                    <span class="type-pill">JPG</span>
+                    <span class="type-pill">JPEG</span>
+                    <span class="type-pill">WEBP</span>
+                    <span class="type-pill">SVG</span>
+                  </div>
+
+                  <label class="primary-button" for="fileInput">
+                    Choose files
+                  </label>
+
+                  <input
+                    id="fileInput"
+                    type="file"
+                    multiple
+                    accept="image/png,image/jpeg,image/webp,image/svg+xml">
+
+                </div>
+
+              </div>
+
+
+              <div class="queue">
+
+                <div class="queue-header">
+                  <div class="queue-title">Upload queue</div>
+                  <div class="queue-count" id="queueCount">Empty</div>
+                </div>
+
+                <div class="queue-list" id="queueList">
+
+                  <div class="empty-queue" id="emptyQueue">
+                    No files selected yet.
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="info-card">
+
+            <strong>Storage note</strong>
+
+            <p>
+              This GitHub Pages version creates local previews and stores
+              metadata in browser storage. Permanent file hosting requires
+              Firebase Storage, Supabase Storage, or another server-side
+              object-storage provider.
+            </p>
+
+          </div>
+
+        </section>
+
+
+        <!-- RIGHT -->
+        <aside>
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div>
+                <div class="panel-title">Asset settings</div>
+                <div class="panel-subtitle">
+                  Applied to the selected upload
+                </div>
+              </div>
+
+            </div>
+
+            <div class="panel-body">
+
+              <div class="form-stack">
+
+                <div class="field">
+
+                  <label for="filename">
+                    File name
+                  </label>
+
+                  <input
+                    class="input"
+                    id="filename"
+                    type="text"
+                    placeholder="portfolio-image">
+
+                  <div class="hint">
+                    Use lowercase letters, numbers and hyphens where possible.
+                  </div>
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="assetTitle">
+                    Asset title
+                  </label>
+
+                  <input
+                    class="input"
+                    id="assetTitle"
+                    type="text"
+                    placeholder="Portfolio image">
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="altText">
+                    Alt text
+                  </label>
+
+                  <input
+                    class="input"
+                    id="altText"
+                    type="text"
+                    placeholder="Describe the image">
+
+                  <div class="hint">
+                    Keep this descriptive and useful for accessibility.
+                  </div>
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="description">
+                    Notes
+                  </label>
+
+                  <textarea
+                    class="textarea"
+                    id="description"
+                    placeholder="Internal notes about this asset"></textarea>
+
+                </div>
+
+
+                <div class="field">
+
+                  <label for="focal">
+                    Focal position
+                  </label>
+
+                  <select
+                    class="select"
+                    id="focal">
+
+                    <option value="center">Center</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+
+                  </select>
+
+                </div>
+
+
+                <div>
+
+                  <div class="toggle-row">
+
+                    <div class="toggle-copy">
+                      <strong>Featured asset</strong>
+                      <span>
+                        Mark this as a preferred portfolio image.
+                      </span>
+                    </div>
+
+                    <label class="switch">
+                      <input id="featured" type="checkbox">
+                      <span class="slider"></span>
+                    </label>
+
+                  </div>
+
+
+                  <div class="toggle-row">
+
+                    <div class="toggle-copy">
+                      <strong>Public asset</strong>
+                      <span>
+                        Allow the asset to be used by public content.
+                      </span>
+                    </div>
+
+                    <label class="switch">
+                      <input id="publicAsset" type="checkbox" checked>
+                      <span class="slider"></span>
+                    </label>
+
+                  </div>
+
+
+                  <div class="toggle-row">
+
+                    <div class="toggle-copy">
+                      <strong>Optimize image</strong>
+                      <span>
+                        Save optimization preference for production storage.
+                      </span>
+                    </div>
+
+                    <label class="switch">
+                      <input id="optimize" type="checkbox" checked>
+                      <span class="slider"></span>
+                    </label>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="summary">
+
+                <div class="summary-row">
+                  <span>Selected files</span>
+                  <strong id="summaryFiles">0</strong>
+                </div>
+
+                <div class="summary-row">
+                  <span>Total size</span>
+                  <strong id="summarySize">0 KB</strong>
+                </div>
+
+                <div class="summary-row">
+                  <span>Public</span>
+                  <strong id="summaryPublic">Yes</strong>
+                </div>
+
+                <div class="summary-row">
+                  <span>Featured</span>
+                  <strong id="summaryFeatured">No</strong>
+                </div>
+
+              </div>
+
+
+              <div class="bottom-actions">
+
+                <button
+                  class="secondary-button"
+                  id="clearQueue">
+                  Clear
+                </button>
+
+                <button
+                  class="primary-button"
+                  id="saveAssets">
+                  Add to Library
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </aside>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<div class="toast" id="toast">
+
+  <span class="toast-dot"></span>
+
+  <div>
+    <strong id="toastTitle">Saved</strong>
+    <p id="toastText">Changes saved successfully.</p>
+  </div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const MASTER_SESSION_KEY = "nusrat_master_session_v1";
+const THEME_KEY = "nusrat_admin_theme";
+const MEDIA_KEY = "nusrat_master_media_v1";
+const AUDIT_KEY = "nusrat_master_audit_v1";
+const LAST_UPDATED_KEY = "nusrat_admin_last_updated";
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function getMasterSession(){
+  try{
+    return JSON.parse(
+      localStorage.getItem(MASTER_SESSION_KEY) || "null"
+    );
+  }catch{
+    return null;
+  }
+}
+
+function validMasterSession(){
+
+  const session = getMasterSession();
+
+  if(!session){
+    return false;
+  }
+
+  if(session.loggedIn !== true){
+    return false;
+  }
+
+  if(session.role !== "master"){
+    return false;
+  }
+
+  if(
+    session.expiresAt &&
+    Date.now() > Number(session.expiresAt)
+  ){
+    return false;
+  }
+
+  return true;
+}
+
+if(!validMasterSession()){
+  window.location.replace("./login.html");
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+const savedTheme =
+  localStorage.getItem(THEME_KEY) || "dark";
+
+document.documentElement.dataset.theme = savedTheme;
+
+document
+  .getElementById("themeToggle")
+  .addEventListener("click", () => {
+
+    const current =
+      document.documentElement.dataset.theme || "dark";
+
+    const next =
+      current === "dark" ? "light" : "dark";
+
+    document.documentElement.dataset.theme = next;
+
+    localStorage.setItem(THEME_KEY,next);
+  });
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const fileInput =
+  document.getElementById("fileInput");
+
+const dropzone =
+  document.getElementById("dropzone");
+
+const queueList =
+  document.getElementById("queueList");
+
+const emptyQueue =
+  document.getElementById("emptyQueue");
+
+const fileCount =
+  document.getElementById("fileCount");
+
+const queueCount =
+  document.getElementById("queueCount");
+
+const summaryFiles =
+  document.getElementById("summaryFiles");
+
+const summarySize =
+  document.getElementById("summarySize");
+
+const summaryPublic =
+  document.getElementById("summaryPublic");
+
+const summaryFeatured =
+  document.getElementById("summaryFeatured");
+
+
+let uploadQueue = [];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function formatBytes(bytes){
+
+  if(!bytes){
+    return "0 KB";
+  }
+
+  const units = [
+    "B",
+    "KB",
+    "MB",
+    "GB"
+  ];
+
+  const index =
+    Math.floor(
+      Math.log(bytes) / Math.log(1024)
+    );
+
+  return (
+    bytes /
+    Math.pow(1024,index)
+  ).toFixed(index ? 1 : 0)
+  + " "
+  + units[index];
+}
+
+
+function cleanFilename(name){
+
+  return name
+    .replace(/\.[^/.]+$/,"")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-")
+    .replace(/^-+|-+$/g,"")
+    .slice(0,80);
+}
+
+
+function showToast(
+  title,
+  text
+){
+
+  document.getElementById("toastTitle").textContent =
+    title;
+
+  document.getElementById("toastText").textContent =
+    text;
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.classList.add("show");
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer =
+    setTimeout(() => {
+      toast.classList.remove("show");
+    },3200);
+}
+
+
+function saveAudit(
+  action,
+  details
+){
+
+  let logs = [];
+
+  try{
+    logs =
+      JSON.parse(
+        localStorage.getItem(AUDIT_KEY) || "[]"
+      );
+  }catch{
+    logs = [];
+  }
+
+  logs.unshift({
+    id:
+      "AUD-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .slice(2,7),
+
+    action,
+    details,
+
+    type:"content",
+
+    createdAt:
+      new Date().toISOString(),
+
+    actor:
+      getMasterSession()?.username || "master"
+  });
+
+  logs =
+    logs.slice(0,500);
+
+  localStorage.setItem(
+    AUDIT_KEY,
+    JSON.stringify(logs)
+  );
+}
+
+
+function getMedia(){
+
+  try{
+
+    const data =
+      JSON.parse(
+        localStorage.getItem(MEDIA_KEY) || "[]"
+      );
+
+    return Array.isArray(data)
+      ? data
+      : [];
+
+  }catch{
+    return [];
+  }
+}
+
+
+function saveMedia(data){
+
+  localStorage.setItem(
+    MEDIA_KEY,
+    JSON.stringify(data)
+  );
+
+  localStorage.setItem(
+    LAST_UPDATED_KEY,
+    new Date().toISOString()
+  );
+}
+
+
+/* =========================================================
+   FILE HANDLING
+========================================================= */
+
+function addFiles(files){
+
+  const validFiles =
+    [...files].filter(file => {
+
+      const validType = [
+        "image/png",
+        "image/jpeg",
+        "image/webp",
+        "image/svg+xml"
+      ].includes(file.type);
+
+      return validType;
+    });
+
+  if(!validFiles.length){
+
+    showToast(
+      "Unsupported file",
+      "Please select PNG, JPG, JPEG, WEBP or SVG files."
+    );
+
+    return;
+  }
+
+  validFiles.forEach(file => {
+
+    const id =
+      "upload-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .slice(2,8);
+
+    const item = {
+      id,
+      file,
+      preview:
+        URL.createObjectURL(file),
+      filename:
+        cleanFilename(file.name),
+      originalName:
+        file.name,
+      size:
+        file.size,
+      type:
+        file.type
+    };
+
+    uploadQueue.push(item);
+
+  });
+
+  renderQueue();
+
+  saveAudit(
+    "MEDIA_QUEUE_ADDED",
+    `${validFiles.length} file(s) added to upload queue.`
+  );
+}
+
+
+function removeFile(id){
+
+  const item =
+    uploadQueue.find(
+      file => file.id === id
+    );
+
+  if(item?.preview){
+    URL.revokeObjectURL(item.preview);
+  }
+
+  uploadQueue =
+    uploadQueue.filter(
+      file => file.id !== id
+    );
+
+  renderQueue();
+
+  saveAudit(
+    "MEDIA_QUEUE_REMOVED",
+    `Removed ${item?.originalName || "file"} from upload queue.`
+  );
+}
+
+
+function renderQueue(){
+
+  queueList.innerHTML = "";
+
+  if(!uploadQueue.length){
+
+    queueList.appendChild(
+      emptyQueue
+    );
+
+    fileCount.textContent =
+      "0 files";
+
+    queueCount.textContent =
+      "Empty";
+
+    updateSummary();
+
+    return;
+  }
+
+  uploadQueue.forEach(item => {
+
+    const row =
+      document.createElement("div");
+
+    row.className =
+      "queue-item";
+
+    row.innerHTML = `
+      <div class="queue-thumb">
+        <img
+          src="${item.preview}"
+          alt="">
+      </div>
+
+      <div class="queue-info">
+        <div class="queue-name">
+          ${escapeHtml(item.originalName)}
+        </div>
+
+        <div class="queue-meta">
+          ${escapeHtml(item.type || "image")} ·
+          ${formatBytes(item.size)}
+        </div>
+
+        <div class="queue-status">
+          Ready
+        </div>
+      </div>
+
+      <button
+        class="remove-file"
+        data-remove="${item.id}"
+        title="Remove">
+        ×
+      </button>
+    `;
+
+    queueList.appendChild(row);
+
+  });
+
+
+  queueList
+    .querySelectorAll("[data-remove]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+          removeFile(
+            button.dataset.remove
+          );
+        }
+      );
+
+    });
+
+
+  fileCount.textContent =
+    `${uploadQueue.length} ${
+      uploadQueue.length === 1
+        ? "file"
+        : "files"
+    }`;
+
+  queueCount.textContent =
+    `${uploadQueue.length} ready`;
+
+  updateSummary();
+}
+
+
+function updateSummary(){
+
+  const total =
+    uploadQueue.reduce(
+      (sum,item) =>
+        sum + item.size,
+      0
+    );
+
+  summaryFiles.textContent =
+    uploadQueue.length;
+
+  summarySize.textContent =
+    formatBytes(total);
+
+  summaryPublic.textContent =
+    document.getElementById("publicAsset").checked
+      ? "Yes"
+      : "No";
+
+  summaryFeatured.textContent =
+    document.getElementById("featured").checked
+      ? "Yes"
+      : "No";
+}
+
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =========================================================
+   INPUT EVENTS
+========================================================= */
+
+fileInput.addEventListener(
+  "change",
+  event => {
+
+    addFiles(
+      event.target.files
+    );
+
+    fileInput.value = "";
+  }
+);
+
+
+[
+  "featured",
+  "publicAsset"
+].forEach(id => {
+
+  document
+    .getElementById(id)
+    .addEventListener(
+      "change",
+      updateSummary
+    );
+
+});
+
+
+/* =========================================================
+   DRAG & DROP
+========================================================= */
+
+[
+  "dragenter",
+  "dragover"
+].forEach(eventName => {
+
+  dropzone.addEventListener(
+    eventName,
+    event => {
+
+      event.preventDefault();
+
+      dropzone.classList.add(
+        "dragover"
+      );
+
+    }
+  );
+
+});
+
+
+[
+  "dragleave",
+  "drop"
+].forEach(eventName => {
+
+  dropzone.addEventListener(
+    eventName,
+    event => {
+
+      event.preventDefault();
+
+      dropzone.classList.remove(
+        "dragover"
+      );
+
+    }
+  );
+
+});
+
+
+dropzone.addEventListener(
+  "drop",
+  event => {
+
+    addFiles(
+      event.dataTransfer.files
+    );
+
+  }
+);
+
+
+/* =========================================================
+   CLEAR QUEUE
+========================================================= */
+
+document
+  .getElementById("clearQueue")
+  .addEventListener(
+    "click",
+    () => {
+
+      uploadQueue.forEach(item => {
+
+        if(item.preview){
+          URL.revokeObjectURL(
+            item.preview
+          );
+        }
+
+      });
+
+      uploadQueue = [];
+
+      renderQueue();
+
+      saveAudit(
+        "MEDIA_QUEUE_CLEARED",
+        "Upload queue cleared."
+      );
+
+      showToast(
+        "Queue cleared",
+        "No files are waiting to be added."
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   SAVE TO LIBRARY
+========================================================= */
+
+document
+  .getElementById("saveAssets")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(!uploadQueue.length){
+
+        showToast(
+          "Nothing to add",
+          "Select at least one image first."
+        );
+
+        return;
+      }
+
+
+      const filename =
+        document
+          .getElementById("filename")
+          .value
+          .trim();
+
+      const title =
+        document
+          .getElementById("assetTitle")
+          .value
+          .trim();
+
+      const alt =
+        document
+          .getElementById("altText")
+          .value
+          .trim();
+
+      const notes =
+        document
+          .getElementById("description")
+          .value
+          .trim();
+
+      const focal =
+        document
+          .getElementById("focal")
+          .value;
+
+      const featured =
+        document
+          .getElementById("featured")
+          .checked;
+
+      const isPublic =
+        document
+          .getElementById("publicAsset")
+          .checked;
+
+      const optimize =
+        document
+          .getElementById("optimize")
+          .checked;
+
+
+      let media =
+        getMedia();
+
+
+      uploadQueue.forEach(
+        (item,index) => {
+
+          const baseName =
+            filename ||
+            item.filename ||
+            cleanFilename(
+              item.originalName
+            );
+
+          const finalName =
+            uploadQueue.length === 1
+              ? baseName
+              : `${baseName}-${index + 1}`;
+
+
+          const asset = {
+
+            id:
+              "media-" +
+              Date.now() +
+              "-" +
+              Math.random()
+                .toString(36)
+                .slice(2,8),
+
+            name:
+              finalName,
+
+            originalName:
+              item.originalName,
+
+            title:
+              title ||
+              finalName,
+
+            alt:
+              alt ||
+              title ||
+              finalName,
+
+            notes,
+
+            type:
+              item.type,
+
+            size:
+              item.size,
+
+            dimensions:
+              "Local preview",
+
+            url:
+              item.preview,
+
+            publicUrl:
+              item.preview,
+
+            focal,
+
+            featured:
+              featured && index === 0,
+
+            public:
+              isPublic,
+
+            optimize,
+
+            createdAt:
+              new Date().toISOString(),
+
+            source:
+              "media-upload",
+
+            temporary:
+              true
+          };
+
+
+          media.unshift(asset);
+
+        }
+      );
+
+
+      /*
+        IMPORTANT:
+        URL.createObjectURL() is temporary.
+        It works for the current browser session but is
+        NOT permanent file storage on GitHub Pages.
+      */
+
+      saveMedia(media);
+
+
+      saveAudit(
+        "MEDIA_ADDED_TO_LIBRARY",
+        `${uploadQueue.length} media asset(s) added.`
+      );
+
+
+      showToast(
+        "Added to library",
+        `${uploadQueue.length} asset(s) were added to the local media library.`
+      );
+
+
+      setTimeout(() => {
+
+        window.location.href =
+          "./media.html";
+
+      },900);
+
+    }
+  );
+
+
+/* =========================================================
+   LOCK WORKSPACE
+========================================================= */
+
+document
+  .getElementById("lockWorkspace")
+  .addEventListener(
+    "click",
+    () => {
+
+      saveAudit(
+        "MASTER_WORKSPACE_LOCKED",
+        "Restricted workspace manually locked."
+      );
+
+      localStorage.removeItem(
+        MASTER_SESSION_KEY
+      );
+
+      window.location.replace(
+        "./login.html"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   ESCAPE = LOCK
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key === "Escape"
+    ){
+
+      localStorage.removeItem(
+        MASTER_SESSION_KEY
+      );
+
+      window.location.replace(
+        "./login.html"
+      );
+
+    }
+
+    if(
+      (event.ctrlKey || event.metaKey) &&
+      event.key.toLowerCase() === "s"
+    ){
+
+      event.preventDefault();
+
+      document
+        .getElementById("saveAssets")
+        .click();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const sidebar =
+  document.getElementById("sidebar");
+
+const overlay =
+  document.getElementById("mobileOverlay");
+
+document
+  .getElementById("mobileMenu")
+  .addEventListener(
+    "click",
+    () => {
+
+      sidebar.classList.add("open");
+      overlay.classList.add("show");
+
+    }
+  );
+
+overlay.addEventListener(
+  "click",
+  () => {
+
+    sidebar.classList.remove("open");
+    overlay.classList.remove("show");
+
+  }
+);
+
+
+/* =========================================================
+   SESSION WATCHER
+========================================================= */
+
+setInterval(
+  () => {
+
+    if(!validMasterSession()){
+
+      window.location.replace(
+        "./login.html"
+      );
+
+    }
+
+  },
+  30000
+);
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+renderQueue();
+updateSummary();
+</script>
+
+</body>
+</html>
