@@ -1,0 +1,3339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Projects — Restricted Admin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#0a0a0c;
+  --panel:#111216;
+  --panel-2:#15161a;
+  --panel-3:#1b1c21;
+  --border:#28292f;
+  --border-soft:#202126;
+  --text:#f5f2eb;
+  --muted:#96979e;
+  --muted-2:#686a72;
+  --accent:#d8b36a;
+  --accent-soft:rgba(216,179,106,.12);
+  --success:#7fd6a2;
+  --danger:#ef7777;
+  --warning:#e9c878;
+  --sidebar:272px;
+  --radius:20px;
+  --shadow:0 20px 60px rgba(0,0,0,.26);
+}
+
+html[data-theme="light"]{
+  --bg:#f5f3ef;
+  --panel:#fff;
+  --panel-2:#faf9f6;
+  --panel-3:#f0eee9;
+  --border:#dfdcd4;
+  --border-soft:#e9e6df;
+  --text:#161617;
+  --muted:#68686c;
+  --muted-2:#999a9f;
+  --accent:#9a7025;
+  --accent-soft:rgba(154,112,37,.1);
+  --success:#26754c;
+  --danger:#b84242;
+  --warning:#94701e;
+  --shadow:0 20px 60px rgba(30,25,15,.08);
+}
+
+html,body{
+  min-height:100%;
+}
+
+body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",sans-serif;
+}
+
+button,
+input,
+select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:var(--sidebar);
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+}
+
+.brand{
+  min-height:88px;
+  padding:22px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.brand-mark{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:var(--accent);
+  color:#111;
+  display:grid;
+  place-items:center;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:13px;
+  font-weight:800;
+}
+
+.brand-copy strong{
+  display:block;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:16px;
+}
+
+.brand-copy span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.side-nav{
+  flex:1;
+  padding:18px 12px;
+  overflow:auto;
+}
+
+.nav-label{
+  padding:12px 12px 8px;
+  color:var(--muted-2);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-height:43px;
+  padding:0 13px;
+  margin:3px 0;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:13px;
+  transition:.2s;
+}
+
+.nav-item:hover{
+  background:var(--panel-3);
+  color:var(--text);
+}
+
+.nav-item.active{
+  background:var(--accent-soft);
+  color:var(--accent);
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+}
+
+.sidebar-footer{
+  padding:16px;
+  border-top:1px solid var(--border);
+}
+
+.security-chip{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:11px 12px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.security-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 0 4px rgba(127,214,162,.08);
+}
+
+/* =========================================
+   MAIN
+========================================= */
+
+.main{
+  margin-left:var(--sidebar);
+  min-height:100vh;
+}
+
+.topbar{
+  height:78px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:color-mix(in srgb,var(--panel) 90%,transparent);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 34px;
+}
+
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.breadcrumb{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.breadcrumb strong{
+  color:var(--text);
+}
+
+.restricted{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid rgba(216,179,106,.25);
+  background:var(--accent-soft);
+  color:var(--accent);
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.icon-button{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  color:var(--muted);
+  display:grid;
+  place-items:center;
+}
+
+.icon-button:hover{
+  color:var(--text);
+  border-color:var(--accent);
+}
+
+.lock-button{
+  height:38px;
+  padding:0 13px;
+  border-radius:11px;
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.lock-button:hover{
+  color:var(--danger);
+  border-color:var(--danger);
+}
+
+.content{
+  max-width:1500px;
+  margin:auto;
+  padding:34px;
+}
+
+/* =========================================
+   HEADING
+========================================= */
+
+.page-heading{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:25px;
+  margin-bottom:30px;
+}
+
+.eyebrow{
+  color:var(--accent);
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:9px;
+}
+
+h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(35px,4vw,55px);
+  line-height:1;
+  letter-spacing:-.045em;
+}
+
+.heading-copy{
+  max-width:700px;
+  margin-top:12px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.primary-button,
+.secondary-button,
+.danger-button{
+  min-height:43px;
+  padding:0 16px;
+  border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.primary-button{
+  background:var(--accent);
+  color:#17130d;
+}
+
+.secondary-button{
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+
+.secondary-button:hover{
+  border-color:var(--accent);
+}
+
+.danger-button{
+  background:rgba(239,119,119,.1);
+  border:1px solid rgba(239,119,119,.25);
+  color:var(--danger);
+}
+
+/* =========================================
+   STATS
+========================================= */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:19px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.stat-value{
+  margin-top:10px;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:29px;
+  letter-spacing:-.04em;
+}
+
+.stat-note{
+  color:var(--muted-2);
+  font-size:10px;
+  margin-top:5px;
+}
+
+/* =========================================
+   TOOLBAR
+========================================= */
+
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:18px;
+}
+
+.search{
+  flex:1;
+  min-width:180px;
+  position:relative;
+}
+
+.search input{
+  width:100%;
+  height:42px;
+  padding:0 13px 0 38px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel-2);
+  color:var(--text);
+  outline:none;
+}
+
+.search input:focus{
+  border-color:var(--accent);
+}
+
+.search-icon{
+  position:absolute;
+  left:14px;
+  top:12px;
+  color:var(--muted);
+}
+
+.filter{
+  height:42px;
+  min-width:140px;
+  padding:0 12px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel-2);
+  color:var(--text);
+  outline:none;
+}
+
+.view-button{
+  width:42px;
+  height:42px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  color:var(--muted);
+}
+
+.view-button.active{
+  color:var(--accent);
+  border-color:var(--accent);
+}
+
+/* =========================================
+   PROJECT GRID
+========================================= */
+
+.project-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+
+.project-card{
+  overflow:hidden;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:20px;
+  transition:.2s ease;
+}
+
+.project-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(216,179,106,.4);
+}
+
+.project-visual{
+  height:205px;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(216,179,106,.2),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      var(--panel-3),
+      var(--panel-2)
+    );
+}
+
+.project-visual img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.project-placeholder{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  color:var(--muted-2);
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:30px;
+}
+
+.project-top-badges{
+  position:absolute;
+  inset:13px 13px auto 13px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  min-height:25px;
+  padding:0 9px;
+  border-radius:999px;
+  background:rgba(8,8,10,.72);
+  border:1px solid rgba(255,255,255,.1);
+  backdrop-filter:blur(8px);
+  color:#fff;
+  font-size:9px;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+.badge.featured{
+  color:var(--accent);
+}
+
+.badge.published{
+  color:var(--success);
+}
+
+.badge.draft{
+  color:var(--warning);
+}
+
+.project-body{
+  padding:19px;
+}
+
+.project-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:19px;
+  letter-spacing:-.02em;
+}
+
+.project-summary{
+  min-height:42px;
+  margin-top:8px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.55;
+}
+
+.project-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:14px;
+}
+
+.meta-pill{
+  max-width:100%;
+  padding:6px 8px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--panel-3);
+  color:var(--muted);
+  font-size:9px;
+}
+
+.project-footer{
+  padding:13px 19px;
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.project-date{
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.project-actions{
+  display:flex;
+  gap:6px;
+}
+
+.small-button{
+  height:31px;
+  padding:0 10px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  color:var(--muted);
+  font-size:10px;
+}
+
+.small-button:hover{
+  color:var(--text);
+  border-color:var(--accent);
+}
+
+.small-button.danger:hover{
+  color:var(--danger);
+  border-color:var(--danger);
+}
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.empty{
+  grid-column:1/-1;
+  padding:65px 20px;
+  border:1px dashed var(--border);
+  border-radius:18px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.empty strong{
+  display:block;
+  margin-bottom:7px;
+  color:var(--text);
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:19px;
+}
+
+/* =========================================
+   MODAL
+========================================= */
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.7);
+  backdrop-filter:blur(8px);
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.modal{
+  width:min(720px,100%);
+  max-height:91vh;
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:0 40px 100px rgba(0,0,0,.5);
+}
+
+.modal-header{
+  padding:21px 23px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.modal-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:20px;
+}
+
+.modal-subtitle{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.close-button{
+  width:35px;
+  height:35px;
+  border-radius:10px;
+  background:var(--panel-3);
+  color:var(--muted);
+}
+
+.modal-body{
+  padding:23px;
+}
+
+.modal-note{
+  padding:12px 14px;
+  margin-bottom:18px;
+  border:1px solid rgba(216,179,106,.2);
+  background:var(--accent-soft);
+  border-radius:12px;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.5;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  display:block;
+  margin-bottom:7px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+}
+
+.input,
+.select{
+  width:100%;
+  min-height:43px;
+  padding:0 13px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel-2);
+  color:var(--text);
+  outline:none;
+}
+
+.input:focus,
+.select:focus{
+  border-color:var(--accent);
+}
+
+.checkbox-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.checkbox{
+  min-height:46px;
+  padding:0 12px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel-2);
+  color:var(--muted);
+  font-size:11px;
+}
+
+.checkbox input{
+  accent-color:var(--accent);
+}
+
+.modal-footer{
+  padding:16px 23px;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+}
+
+/* =========================================
+   CONFIRM
+========================================= */
+
+.confirm{
+  width:min(440px,100%);
+}
+
+.confirm-body{
+  padding:25px;
+}
+
+.confirm-body h3{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:20px;
+}
+
+.confirm-body p{
+  margin-top:8px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.6;
+}
+
+/* =========================================
+   TOAST
+========================================= */
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:300;
+  min-width:250px;
+  max-width:380px;
+  padding:14px 16px;
+  display:flex;
+  gap:10px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  transform:translateY(30px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.toast-dot{
+  width:8px;
+  height:8px;
+  flex:none;
+  margin-top:5px;
+  border-radius:50%;
+  background:var(--success);
+}
+
+.toast strong{
+  display:block;
+  font-size:12px;
+}
+
+.toast p{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+.mobile-menu{
+  display:none;
+}
+
+.mobile-overlay{
+  display:none;
+}
+
+@media(max-width:1200px){
+
+  .stats-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .project-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:800px){
+
+  :root{
+    --sidebar:0px;
+  }
+
+  .sidebar{
+    width:272px;
+    transform:translateX(-100%);
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .mobile-menu{
+    display:grid;
+    width:38px;
+    height:38px;
+    place-items:center;
+    border-radius:11px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+  }
+
+  .mobile-overlay{
+    position:fixed;
+    inset:0;
+    z-index:90;
+    background:rgba(0,0,0,.55);
+  }
+
+  .mobile-overlay.show{
+    display:block;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .breadcrumb{
+    display:none;
+  }
+
+  .content{
+    padding:24px 18px;
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .toolbar{
+    flex-wrap:wrap;
+  }
+
+  .search{
+    flex-basis:100%;
+  }
+
+}
+
+@media(max-width:580px){
+
+  .content{
+    padding:20px 14px;
+  }
+
+  h1{
+    font-size:38px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:24px;
+  }
+
+  .project-grid{
+    grid-template-columns:1fr;
+  }
+
+  .filter{
+    flex:1;
+    min-width:0;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .checkbox-row{
+    grid-template-columns:1fr;
+  }
+
+  .modal-body{
+    padding:18px;
+  }
+
+  .modal-footer{
+    flex-direction:column-reverse;
+  }
+
+  .modal-footer button{
+    width:100%;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="brand">
+
+    <div class="brand-mark">
+      NU
+    </div>
+
+    <div class="brand-copy">
+      <strong>Portfolio Admin</strong>
+      <span>Restricted Workspace</span>
+    </div>
+
+  </div>
+
+
+  <nav class="side-nav">
+
+    <div class="nav-label">
+      Workspace
+    </div>
+
+    <a class="nav-item" href="./index.html">
+      <span class="nav-icon">⌂</span>
+      Control Panel
+    </a>
+
+    <a class="nav-item" href="./security.html">
+      <span class="nav-icon">◈</span>
+      Security
+    </a>
+
+    <a class="nav-item" href="./audit.html">
+      <span class="nav-icon">◷</span>
+      Audit Log
+    </a>
+
+
+    <div class="nav-label">
+      Recovery
+    </div>
+
+    <a class="nav-item" href="./backups.html">
+      <span class="nav-icon">▣</span>
+      Backups
+    </a>
+
+    <a class="nav-item" href="./restore.html">
+      <span class="nav-icon">↺</span>
+      Restore
+    </a>
+
+
+    <div class="nav-label">
+      Content
+    </div>
+
+    <a class="nav-item" href="./content.html">
+      <span class="nav-icon">▤</span>
+      Content Manager
+    </a>
+
+    <a class="nav-item active" href="./projects.html">
+      <span class="nav-icon">◇</span>
+      Projects
+    </a>
+
+    <a class="nav-item" href="./media.html">
+      <span class="nav-icon">▧</span>
+      Media Library
+    </a>
+
+    <a class="nav-item" href="./settings.html">
+      <span class="nav-icon">⚙</span>
+      Settings
+    </a>
+
+
+    <div class="nav-label">
+      Administration
+    </div>
+
+    <a class="nav-item" href="../admin-management.html">
+      <span class="nav-icon">♙</span>
+      Access Management
+    </a>
+
+    <a class="nav-item" href="../dashboard.html">
+      <span class="nav-icon">◫</span>
+      Admin Dashboard
+    </a>
+
+    <a class="nav-item" href="../../index.html" target="_blank">
+      <span class="nav-icon">↗</span>
+      View Portfolio
+    </a>
+
+  </nav>
+
+
+  <div class="sidebar-footer">
+
+    <div class="security-chip">
+      <span class="security-dot"></span>
+      Restricted session active
+    </div>
+
+  </div>
+
+</aside>
+
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="main">
+
+  <header class="topbar">
+
+    <div class="topbar-left">
+
+      <button
+        class="mobile-menu"
+        id="mobileMenu">
+        ☰
+      </button>
+
+      <div class="breadcrumb">
+        Restricted / <strong>Projects</strong>
+      </div>
+
+      <span class="restricted">
+        ● Restricted
+      </span>
+
+    </div>
+
+
+    <div class="top-actions">
+
+      <button
+        class="icon-button"
+        id="themeToggle"
+        title="Toggle theme">
+        ◐
+      </button>
+
+      <button
+        class="lock-button"
+        id="lockWorkspace">
+        Lock
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <section class="content">
+
+    <!-- =================================================
+         HEADING
+    ================================================= -->
+
+    <div class="page-heading">
+
+      <div>
+
+        <div class="eyebrow">
+          Portfolio Projects
+        </div>
+
+        <h1>Projects.</h1>
+
+        <p class="heading-copy">
+          Manage portfolio projects, publishing state, featured placement,
+          technology information and project metadata from one restricted workspace.
+        </p>
+
+      </div>
+
+
+      <button
+        class="primary-button"
+        id="addProject">
+        + Add Project
+      </button>
+
+    </div>
+
+
+    <!-- =================================================
+         STATS
+    ================================================= -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Total
+        </div>
+
+        <div
+          class="stat-value"
+          id="totalCount">
+          0
+        </div>
+
+        <div class="stat-note">
+          Projects
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Published
+        </div>
+
+        <div
+          class="stat-value"
+          id="publishedCount">
+          0
+        </div>
+
+        <div class="stat-note">
+          Public projects
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Drafts
+        </div>
+
+        <div
+          class="stat-value"
+          id="draftCount">
+          0
+        </div>
+
+        <div class="stat-note">
+          Work in progress
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Featured
+        </div>
+
+        <div
+          class="stat-value"
+          id="featuredCount">
+          0
+        </div>
+
+        <div class="stat-note">
+          Highlighted work
+        </div>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-label">
+          Case Studies
+        </div>
+
+        <div
+          class="stat-value"
+          id="caseStudyCount">
+          0
+        </div>
+
+        <div class="stat-note">
+          Detailed projects
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         TOOLBAR
+    ================================================= -->
+
+    <div class="toolbar">
+
+      <div class="search">
+
+        <span class="search-icon">
+          ⌕
+        </span>
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search projects...">
+
+      </div>
+
+
+      <select
+        class="filter"
+        id="statusFilter">
+
+        <option value="all">
+          All status
+        </option>
+
+        <option value="published">
+          Published
+        </option>
+
+        <option value="draft">
+          Draft
+        </option>
+
+      </select>
+
+
+      <select
+        class="filter"
+        id="featuredFilter">
+
+        <option value="all">
+          All projects
+        </option>
+
+        <option value="featured">
+          Featured
+        </option>
+
+        <option value="standard">
+          Standard
+        </option>
+
+      </select>
+
+
+      <select
+        class="filter"
+        id="typeFilter">
+
+        <option value="all">
+          All types
+        </option>
+
+        <option value="case-study">
+          Case Study
+        </option>
+
+        <option value="project">
+          Project
+        </option>
+
+        <option value="concept">
+          Concept
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- =================================================
+         PROJECT GRID
+    ================================================= -->
+
+    <div
+      class="project-grid"
+      id="projectGrid">
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =====================================================
+     PROJECT MODAL
+===================================================== -->
+
+<div
+  class="modal-backdrop"
+  id="projectModal">
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <div>
+
+        <div
+          class="modal-title"
+          id="modalTitle">
+          Add Project
+        </div>
+
+        <div class="modal-subtitle">
+          Manage basic project information.
+        </div>
+
+      </div>
+
+
+      <button
+        class="close-button"
+        id="closeModal">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <div class="modal-note">
+        For full case-study editing, use the dedicated Project Editor.
+        This manager controls the project's primary portfolio metadata.
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="field full">
+
+          <label>
+            Project name
+          </label>
+
+          <input
+            class="input"
+            id="fieldName"
+            placeholder="Project name">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Type
+          </label>
+
+          <select
+            class="select"
+            id="fieldType">
+
+            <option value="project">
+              Project
+            </option>
+
+            <option value="case-study">
+              Case Study
+            </option>
+
+            <option value="concept">
+              Concept
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Status
+          </label>
+
+          <select
+            class="select"
+            id="fieldStatus">
+
+            <option value="published">
+              Published
+            </option>
+
+            <option value="draft">
+              Draft
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field full">
+
+          <label>
+            Short description
+          </label>
+
+          <input
+            class="input"
+            id="fieldDescription"
+            placeholder="One-line project description">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Role
+          </label>
+
+          <input
+            class="input"
+            id="fieldRole"
+            placeholder="e.g. UX/UI Designer">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Technology / Tools
+          </label>
+
+          <input
+            class="input"
+            id="fieldStack"
+            placeholder="Figma, UX Research">
+
+        </div>
+
+
+        <div class="field full">
+
+          <label>
+            Project image URL
+          </label>
+
+          <input
+            class="input"
+            id="fieldImage"
+            placeholder="./assets/project.jpg">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            Live URL
+          </label>
+
+          <input
+            class="input"
+            id="fieldLive"
+            placeholder="https://...">
+
+        </div>
+
+
+        <div class="field">
+
+          <label>
+            GitHub URL
+          </label>
+
+          <input
+            class="input"
+            id="fieldGithub"
+            placeholder="https://github.com/...">
+
+        </div>
+
+
+        <div class="field full">
+
+          <div class="checkbox-row">
+
+            <label class="checkbox">
+              <input
+                id="fieldFeatured"
+                type="checkbox">
+              Featured project
+            </label>
+
+
+            <label class="checkbox">
+              <input
+                id="fieldCaseStudy"
+                type="checkbox">
+              Case study ready
+            </label>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        class="secondary-button"
+        id="cancelModal">
+        Cancel
+      </button>
+
+      <button
+        class="primary-button"
+        id="saveProject">
+        Save Project
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     DELETE CONFIRM
+===================================================== -->
+
+<div
+  class="modal-backdrop"
+  id="deleteModal">
+
+  <div class="modal confirm">
+
+    <div class="modal-header">
+
+      <div>
+
+        <div class="modal-title">
+          Delete project?
+        </div>
+
+        <div class="modal-subtitle">
+          This removes the local project record.
+        </div>
+
+      </div>
+
+      <button
+        class="close-button"
+        id="closeDelete">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="confirm-body">
+
+      <h3 id="deleteProjectName">
+        Project
+      </h3>
+
+      <p>
+        This action cannot be undone from this page.
+        Make sure the project is not needed before continuing.
+      </p>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        class="secondary-button"
+        id="cancelDelete">
+        Cancel
+      </button>
+
+      <button
+        class="danger-button"
+        id="confirmDelete">
+        Delete Project
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+  class="toast"
+  id="toast">
+
+  <span class="toast-dot"></span>
+
+  <div>
+
+    <strong id="toastTitle">
+      Saved
+    </strong>
+
+    <p id="toastText">
+      Changes saved successfully.
+    </p>
+
+  </div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const MASTER_SESSION_KEY =
+  "nusrat_master_session_v1";
+
+const THEME_KEY =
+  "nusrat_admin_theme";
+
+const PROJECT_KEY =
+  "nusrat_master_projects_v1";
+
+const AUDIT_KEY =
+  "nusrat_master_audit_v1";
+
+const LAST_UPDATED_KEY =
+  "nusrat_admin_last_updated";
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function getSession(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        MASTER_SESSION_KEY
+      ) || "null"
+    );
+
+  }catch{
+
+    return null;
+
+  }
+
+}
+
+
+function validSession(){
+
+  const session =
+    getSession();
+
+  if(!session){
+    return false;
+  }
+
+  if(session.loggedIn !== true){
+    return false;
+  }
+
+  if(session.role !== "master"){
+    return false;
+  }
+
+  if(
+    session.expiresAt &&
+    Date.now() >
+    Number(session.expiresAt)
+  ){
+    return false;
+  }
+
+  return true;
+
+}
+
+
+if(!validSession()){
+
+  window.location.replace(
+    "./login.html"
+  );
+
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+document.documentElement.dataset.theme =
+  localStorage.getItem(
+    THEME_KEY
+  ) || "dark";
+
+
+document
+  .getElementById("themeToggle")
+  .addEventListener(
+    "click",
+    () => {
+
+      const current =
+        document.documentElement.dataset.theme ||
+        "dark";
+
+      const next =
+        current === "dark"
+          ? "light"
+          : "dark";
+
+      document.documentElement.dataset.theme =
+        next;
+
+      localStorage.setItem(
+        THEME_KEY,
+        next
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   DEFAULT PROJECTS
+========================================================= */
+
+const DEFAULT_PROJECTS = [
+
+  {
+    id:"project-01",
+    name:"Restaurant Ordering Website",
+    description:"A restaurant ordering experience focused on clear navigation and streamlined user flows.",
+    type:"project",
+    status:"published",
+    role:"UX/UI Designer",
+    stack:"Figma, UX/UI Design",
+    image:"",
+    liveUrl:"",
+    githubUrl:"",
+    featured:true,
+    caseStudy:true,
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"project-02",
+    name:"SaaS / Video Conferencing",
+    description:"A video-conferencing product concept exploring communication, dashboard and meeting flows.",
+    type:"concept",
+    status:"draft",
+    role:"UX/UI Designer",
+    stack:"Figma, Prototyping",
+    image:"",
+    liveUrl:"",
+    githubUrl:"",
+    featured:true,
+    caseStudy:false,
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"project-03",
+    name:"Digital Product Experience",
+    description:"A structured digital experience focused on information architecture and interaction clarity.",
+    type:"project",
+    status:"draft",
+    role:"UX/UI Designer",
+    stack:"Figma, Wireframing",
+    image:"",
+    liveUrl:"",
+    githubUrl:"",
+    featured:false,
+    caseStudy:false,
+    updatedAt:new Date().toISOString()
+  }
+
+];
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+function getProjects(){
+
+  try{
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          PROJECT_KEY
+        ) || "null"
+      );
+
+    if(
+      Array.isArray(saved)
+    ){
+      return saved;
+    }
+
+  }catch{}
+
+  localStorage.setItem(
+    PROJECT_KEY,
+    JSON.stringify(
+      DEFAULT_PROJECTS
+    )
+  );
+
+  return [...DEFAULT_PROJECTS];
+
+}
+
+
+let projects =
+  getProjects();
+
+let editingId =
+  null;
+
+let deletingId =
+  null;
+
+
+/* =========================================================
+   SAVE DATA
+========================================================= */
+
+function saveProjects(){
+
+  localStorage.setItem(
+    PROJECT_KEY,
+    JSON.stringify(projects)
+  );
+
+  localStorage.setItem(
+    LAST_UPDATED_KEY,
+    new Date().toISOString()
+  );
+
+}
+
+
+/* =========================================================
+   AUDIT
+========================================================= */
+
+function audit(
+  action,
+  details
+){
+
+  let logs = [];
+
+  try{
+
+    logs =
+      JSON.parse(
+        localStorage.getItem(
+          AUDIT_KEY
+        ) || "[]"
+      );
+
+  }catch{
+
+    logs = [];
+
+  }
+
+  logs.unshift({
+
+    id:
+      "AUD-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .slice(2,7),
+
+    action,
+    details,
+
+    type:"project",
+
+    actor:
+      getSession()?.username ||
+      "master",
+
+    createdAt:
+      new Date().toISOString()
+
+  });
+
+  localStorage.setItem(
+    AUDIT_KEY,
+    JSON.stringify(
+      logs.slice(0,500)
+    )
+  );
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function formatDate(value){
+
+  if(!value){
+    return "Not updated";
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return "Not updated";
+  }
+
+  return date.toLocaleDateString(
+    "en-US",
+    {
+      month:"short",
+      day:"numeric",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+function stackList(value){
+
+  if(!value){
+    return [];
+  }
+
+  return String(value)
+    .split(",")
+    .map(item => item.trim())
+    .filter(Boolean)
+    .slice(0,4);
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  const grid =
+    document.getElementById(
+      "projectGrid"
+    );
+
+  const query =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+  const status =
+    document
+      .getElementById(
+        "statusFilter"
+      )
+      .value;
+
+  const featured =
+    document
+      .getElementById(
+        "featuredFilter"
+      )
+      .value;
+
+  const type =
+    document
+      .getElementById(
+        "typeFilter"
+      )
+      .value;
+
+
+  const filtered =
+    projects.filter(project => {
+
+      const searchable =
+        [
+          project.name,
+          project.description,
+          project.role,
+          project.stack,
+          project.type
+        ]
+        .join(" ")
+        .toLowerCase();
+
+      const matchesSearch =
+        !query ||
+        searchable.includes(query);
+
+      const matchesStatus =
+        status === "all" ||
+        project.status === status;
+
+      const matchesFeatured =
+        featured === "all" ||
+        (
+          featured === "featured" &&
+          project.featured === true
+        ) ||
+        (
+          featured === "standard" &&
+          !project.featured
+        );
+
+      const matchesType =
+        type === "all" ||
+        project.type === type;
+
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesFeatured &&
+        matchesType
+      );
+
+    });
+
+
+  grid.innerHTML = "";
+
+
+  if(!filtered.length){
+
+    grid.innerHTML = `
+      <div class="empty">
+        <strong>No projects found</strong>
+        Try changing your search or filters.
+      </div>
+    `;
+
+    updateStats();
+
+    return;
+
+  }
+
+
+  filtered.forEach(project => {
+
+    const card =
+      document.createElement(
+        "article"
+      );
+
+    card.className =
+      "project-card";
+
+
+    const image =
+      project.image
+        ? `
+          <img
+            src="${escapeHtml(project.image)}"
+            alt="${escapeHtml(project.name)}">
+        `
+        : `
+          <div class="project-placeholder">
+            ${escapeHtml(
+              project.name
+                .slice(0,2)
+                .toUpperCase()
+            )}
+          </div>
+        `;
+
+
+    const statusClass =
+      project.status === "published"
+        ? "published"
+        : "draft";
+
+
+    const stack =
+      stackList(project.stack);
+
+
+    const stackHtml =
+      stack.length
+        ? stack
+            .map(item =>
+              `<span class="meta-pill">
+                ${escapeHtml(item)}
+              </span>`
+            )
+            .join("")
+        : `
+          <span class="meta-pill">
+            No stack added
+          </span>
+        `;
+
+
+    card.innerHTML = `
+
+      <div class="project-visual">
+
+        ${image}
+
+        <div class="project-top-badges">
+
+          <div>
+
+            ${
+              project.featured
+                ? `
+                  <span class="badge featured">
+                    ★ Featured
+                  </span>
+                `
+                : ""
+            }
+
+          </div>
+
+
+          <span class="badge ${statusClass}">
+            ● ${escapeHtml(project.status)}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="project-body">
+
+        <div class="project-title">
+          ${escapeHtml(project.name)}
+        </div>
+
+        <div class="project-summary">
+          ${escapeHtml(
+            project.description ||
+            "No project description added."
+          )}
+        </div>
+
+
+        <div class="project-meta">
+
+          <span class="meta-pill">
+            ${escapeHtml(project.type)}
+          </span>
+
+          ${
+            project.role
+              ? `
+                <span class="meta-pill">
+                  ${escapeHtml(project.role)}
+                </span>
+              `
+              : ""
+          }
+
+          ${stackHtml}
+
+        </div>
+
+      </div>
+
+
+      <div class="project-footer">
+
+        <span class="project-date">
+          Updated ${formatDate(project.updatedAt)}
+        </span>
+
+
+        <div class="project-actions">
+
+          <button
+            class="small-button"
+            data-edit="${escapeHtml(project.id)}">
+            Edit
+          </button>
+
+          <button
+            class="small-button"
+            data-toggle="${escapeHtml(project.id)}">
+            ${
+              project.status === "published"
+                ? "Draft"
+                : "Publish"
+            }
+          </button>
+
+          <button
+            class="small-button danger"
+            data-delete="${escapeHtml(project.id)}">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    grid.appendChild(card);
+
+  });
+
+
+  grid
+    .querySelectorAll("[data-edit]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          openEditor(
+            button.dataset.edit
+          );
+
+        }
+      );
+
+    });
+
+
+  grid
+    .querySelectorAll("[data-toggle]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          toggleStatus(
+            button.dataset.toggle
+          );
+
+        }
+      );
+
+    });
+
+
+  grid
+    .querySelectorAll("[data-delete]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          openDelete(
+            button.dataset.delete
+          );
+
+        }
+      );
+
+    });
+
+
+  updateStats();
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    projects.length;
+
+
+  document.getElementById(
+    "publishedCount"
+  ).textContent =
+    projects.filter(
+      p =>
+        p.status === "published"
+    ).length;
+
+
+  document.getElementById(
+    "draftCount"
+  ).textContent =
+    projects.filter(
+      p =>
+        p.status === "draft"
+    ).length;
+
+
+  document.getElementById(
+    "featuredCount"
+  ).textContent =
+    projects.filter(
+      p =>
+        p.featured
+    ).length;
+
+
+  document.getElementById(
+    "caseStudyCount"
+  ).textContent =
+    projects.filter(
+      p =>
+        p.caseStudy
+    ).length;
+
+}
+
+
+/* =========================================================
+   EDITOR
+========================================================= */
+
+function openEditor(id){
+
+  editingId =
+    id || null;
+
+
+  const project =
+    projects.find(
+      item =>
+        item.id === id
+    );
+
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    project
+      ? "Edit Project"
+      : "Add Project";
+
+
+  document.getElementById(
+    "fieldName"
+  ).value =
+    project?.name || "";
+
+
+  document.getElementById(
+    "fieldType"
+  ).value =
+    project?.type || "project";
+
+
+  document.getElementById(
+    "fieldStatus"
+  ).value =
+    project?.status || "draft";
+
+
+  document.getElementById(
+    "fieldDescription"
+  ).value =
+    project?.description || "";
+
+
+  document.getElementById(
+    "fieldRole"
+  ).value =
+    project?.role || "";
+
+
+  document.getElementById(
+    "fieldStack"
+  ).value =
+    project?.stack || "";
+
+
+  document.getElementById(
+    "fieldImage"
+  ).value =
+    project?.image || "";
+
+
+  document.getElementById(
+    "fieldLive"
+  ).value =
+    project?.liveUrl || "";
+
+
+  document.getElementById(
+    "fieldGithub"
+  ).value =
+    project?.githubUrl || "";
+
+
+  document.getElementById(
+    "fieldFeatured"
+  ).checked =
+    Boolean(
+      project?.featured
+    );
+
+
+  document.getElementById(
+    "fieldCaseStudy"
+  ).checked =
+    Boolean(
+      project?.caseStudy
+    );
+
+
+  document.getElementById(
+    "projectModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* =========================================================
+   ADD PROJECT
+========================================================= */
+
+document
+  .getElementById("addProject")
+  .addEventListener(
+    "click",
+    () => {
+
+      openEditor(null);
+
+    }
+  );
+
+
+/* =========================================================
+   SAVE PROJECT
+========================================================= */
+
+document
+  .getElementById("saveProject")
+  .addEventListener(
+    "click",
+    () => {
+
+      const name =
+        document.getElementById(
+          "fieldName"
+        ).value.trim();
+
+      const type =
+        document.getElementById(
+          "fieldType"
+        ).value;
+
+      const status =
+        document.getElementById(
+          "fieldStatus"
+        ).value;
+
+      const description =
+        document.getElementById(
+          "fieldDescription"
+        ).value.trim();
+
+      const role =
+        document.getElementById(
+          "fieldRole"
+        ).value.trim();
+
+      const stack =
+        document.getElementById(
+          "fieldStack"
+        ).value.trim();
+
+      const image =
+        document.getElementById(
+          "fieldImage"
+        ).value.trim();
+
+      const liveUrl =
+        document.getElementById(
+          "fieldLive"
+        ).value.trim();
+
+      const githubUrl =
+        document.getElementById(
+          "fieldGithub"
+        ).value.trim();
+
+      const featured =
+        document.getElementById(
+          "fieldFeatured"
+        ).checked;
+
+      const caseStudy =
+        document.getElementById(
+          "fieldCaseStudy"
+        ).checked;
+
+
+      if(!name){
+
+        showToast(
+          "Project name required",
+          "Please enter a project name."
+        );
+
+        return;
+
+      }
+
+
+      const now =
+        new Date().toISOString();
+
+
+      if(editingId){
+
+        const project =
+          projects.find(
+            item =>
+              item.id === editingId
+          );
+
+
+        if(project){
+
+          project.name =
+            name;
+
+          project.type =
+            type;
+
+          project.status =
+            status;
+
+          project.description =
+            description;
+
+          project.role =
+            role;
+
+          project.stack =
+            stack;
+
+          project.image =
+            image;
+
+          project.liveUrl =
+            liveUrl;
+
+          project.githubUrl =
+            githubUrl;
+
+          project.featured =
+            featured;
+
+          project.caseStudy =
+            caseStudy;
+
+          project.updatedAt =
+            now;
+
+        }
+
+
+        audit(
+          "PROJECT_UPDATED",
+          `Updated project: ${name}`
+        );
+
+
+        showToast(
+          "Project updated",
+          `${name} was saved successfully.`
+        );
+
+      }else{
+
+        const newProject = {
+
+          id:
+            "project-" +
+            Date.now(),
+
+          name,
+
+          type,
+
+          status,
+
+          description,
+
+          role,
+
+          stack,
+
+          image,
+
+          liveUrl,
+
+          githubUrl,
+
+          featured,
+
+          caseStudy,
+
+          updatedAt:now
+
+        };
+
+
+        projects.unshift(
+          newProject
+        );
+
+
+        audit(
+          "PROJECT_CREATED",
+          `Created project: ${name}`
+        );
+
+
+        showToast(
+          "Project created",
+          `${name} was added to the project manager.`
+        );
+
+      }
+
+
+      saveProjects();
+
+      closeEditor();
+
+      render();
+
+    }
+  );
+
+
+/* =========================================================
+   CLOSE EDITOR
+========================================================= */
+
+function closeEditor(){
+
+  document.getElementById(
+    "projectModal"
+  ).classList.remove(
+    "show"
+  );
+
+  editingId = null;
+
+}
+
+
+document
+  .getElementById("closeModal")
+  .addEventListener(
+    "click",
+    closeEditor
+  );
+
+
+document
+  .getElementById("cancelModal")
+  .addEventListener(
+    "click",
+    closeEditor
+  );
+
+
+document
+  .getElementById("projectModal")
+  .addEventListener(
+    "click",
+    event => {
+
+      if(
+        event.target.id ===
+        "projectModal"
+      ){
+
+        closeEditor();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function toggleStatus(id){
+
+  const project =
+    projects.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(!project){
+    return;
+  }
+
+
+  project.status =
+    project.status === "published"
+      ? "draft"
+      : "published";
+
+
+  project.updatedAt =
+    new Date().toISOString();
+
+
+  saveProjects();
+
+
+  audit(
+    "PROJECT_STATUS_CHANGED",
+    `${project.name} changed to ${project.status}.`
+  );
+
+
+  showToast(
+    project.status === "published"
+      ? "Project published"
+      : "Project moved to draft",
+    project.name
+  );
+
+
+  render();
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+function openDelete(id){
+
+  const project =
+    projects.find(
+      item =>
+        item.id === id
+    );
+
+
+  if(!project){
+    return;
+  }
+
+
+  deletingId =
+    id;
+
+
+  document.getElementById(
+    "deleteProjectName"
+  ).textContent =
+    project.name;
+
+
+  document.getElementById(
+    "deleteModal"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+function closeDelete(){
+
+  document.getElementById(
+    "deleteModal"
+  ).classList.remove(
+    "show"
+  );
+
+  deletingId = null;
+
+}
+
+
+document
+  .getElementById("closeDelete")
+  .addEventListener(
+    "click",
+    closeDelete
+  );
+
+
+document
+  .getElementById("cancelDelete")
+  .addEventListener(
+    "click",
+    closeDelete
+  );
+
+
+document
+  .getElementById("deleteModal")
+  .addEventListener(
+    "click",
+    event => {
+
+      if(
+        event.target.id ===
+        "deleteModal"
+      ){
+
+        closeDelete();
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("confirmDelete")
+  .addEventListener(
+    "click",
+    () => {
+
+      const project =
+        projects.find(
+          item =>
+            item.id === deletingId
+        );
+
+
+      if(!project){
+        closeDelete();
+        return;
+      }
+
+
+      projects =
+        projects.filter(
+          item =>
+            item.id !== deletingId
+        );
+
+
+      saveProjects();
+
+
+      audit(
+        "PROJECT_DELETED",
+        `Deleted project: ${project.name}`
+      );
+
+
+      closeDelete();
+
+
+      showToast(
+        "Project deleted",
+        `${project.name} was removed.`
+      );
+
+
+      render();
+
+    }
+  );
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+[
+  "searchInput",
+  "statusFilter",
+  "featuredFilter",
+  "typeFilter"
+].forEach(id => {
+
+  document
+    .getElementById(id)
+    .addEventListener(
+      "input",
+      render
+    );
+
+});
+
+
+/* =========================================================
+   LOCK
+========================================================= */
+
+document
+  .getElementById("lockWorkspace")
+  .addEventListener(
+    "click",
+    () => {
+
+      audit(
+        "MASTER_WORKSPACE_LOCKED",
+        "Restricted workspace manually locked."
+      );
+
+      localStorage.removeItem(
+        MASTER_SESSION_KEY
+      );
+
+      window.location.replace(
+        "./login.html"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key === "Escape"
+    ){
+
+      const editorOpen =
+        document
+          .getElementById(
+            "projectModal"
+          )
+          .classList
+          .contains("show");
+
+      const deleteOpen =
+        document
+          .getElementById(
+            "deleteModal"
+          )
+          .classList
+          .contains("show");
+
+
+      if(editorOpen){
+
+        closeEditor();
+
+      }else if(deleteOpen){
+
+        closeDelete();
+
+      }else{
+
+        localStorage.removeItem(
+          MASTER_SESSION_KEY
+        );
+
+        window.location.replace(
+          "./login.html"
+        );
+
+      }
+
+    }
+
+
+    if(
+      (event.ctrlKey ||
+       event.metaKey) &&
+      event.key.toLowerCase() === "s"
+    ){
+
+      if(
+        document
+          .getElementById(
+            "projectModal"
+          )
+          .classList
+          .contains("show")
+      ){
+
+        event.preventDefault();
+
+        document
+          .getElementById(
+            "saveProject"
+          )
+          .click();
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+const sidebar =
+  document.getElementById(
+    "sidebar"
+  );
+
+const overlay =
+  document.getElementById(
+    "mobileOverlay"
+  );
+
+
+document
+  .getElementById("mobileMenu")
+  .addEventListener(
+    "click",
+    () => {
+
+      sidebar.classList.add(
+        "open"
+      );
+
+      overlay.classList.add(
+        "show"
+      );
+
+    }
+  );
+
+
+overlay.addEventListener(
+  "click",
+  () => {
+
+    sidebar.classList.remove(
+      "open"
+    );
+
+    overlay.classList.remove(
+      "show"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   SESSION WATCHER
+========================================================= */
+
+setInterval(
+  () => {
+
+    if(!validSession()){
+
+      window.location.replace(
+        "./login.html"
+      );
+
+    }
+
+  },
+  30000
+);
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+  title,
+  message
+){
+
+  document.getElementById(
+    "toastTitle"
+  ).textContent =
+    title;
+
+  document.getElementById(
+    "toastText"
+  ).textContent =
+    message;
+
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+
+  toast.classList.add(
+    "show"
+  );
+
+
+  clearTimeout(
+    window.__toastTimer
+  );
+
+
+  window.__toastTimer =
+    setTimeout(
+      () => {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3200
+    );
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+render();
+
+</script>
+
+</body>
+</html>
