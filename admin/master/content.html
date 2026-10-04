@@ -1,1 +1,2663 @@
-#
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Content Manager — Restricted Admin</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#0a0a0c;
+  --panel:#111216;
+  --panel-2:#15161a;
+  --panel-3:#1b1c21;
+  --border:#28292f;
+  --border-soft:#202126;
+  --text:#f5f2eb;
+  --muted:#96979e;
+  --muted-2:#686a72;
+  --accent:#d8b36a;
+  --accent-soft:rgba(216,179,106,.12);
+  --success:#7fd6a2;
+  --danger:#ef7777;
+  --warning:#e9c878;
+  --sidebar:272px;
+  --radius:20px;
+  --shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+html[data-theme="light"]{
+  --bg:#f5f3ef;
+  --panel:#fff;
+  --panel-2:#faf9f6;
+  --panel-3:#f0eee9;
+  --border:#dfdcd4;
+  --border-soft:#e9e6df;
+  --text:#161617;
+  --muted:#68686c;
+  --muted-2:#999a9f;
+  --accent:#9a7025;
+  --accent-soft:rgba(154,112,37,.1);
+  --success:#26754c;
+  --danger:#b84242;
+  --warning:#94701e;
+  --shadow:0 20px 60px rgba(30,25,15,.08);
+}
+
+html,
+body{
+  min-height:100%;
+}
+
+body{
+  min-height:100vh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Instrument Sans",sans-serif;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+/* =========================
+   APP
+========================= */
+
+.sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:var(--sidebar);
+  background:var(--panel);
+  border-right:1px solid var(--border);
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+}
+
+.brand{
+  min-height:88px;
+  padding:22px 24px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.brand-mark{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:var(--accent);
+  color:#111;
+  display:grid;
+  place-items:center;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-weight:800;
+  font-size:13px;
+}
+
+.brand-copy strong{
+  display:block;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:16px;
+}
+
+.brand-copy span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.side-nav{
+  flex:1;
+  padding:18px 12px;
+  overflow:auto;
+}
+
+.nav-label{
+  padding:12px 12px 8px;
+  color:var(--muted-2);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-height:43px;
+  padding:0 13px;
+  margin:3px 0;
+  border-radius:12px;
+  color:var(--muted);
+  font-size:13px;
+  transition:.2s ease;
+}
+
+.nav-item:hover{
+  background:var(--panel-3);
+  color:var(--text);
+}
+
+.nav-item.active{
+  background:var(--accent-soft);
+  color:var(--accent);
+}
+
+.nav-icon{
+  width:18px;
+  text-align:center;
+}
+
+.sidebar-footer{
+  padding:16px;
+  border-top:1px solid var(--border);
+}
+
+.security-chip{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:11px 12px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.security-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--success);
+  box-shadow:0 0 0 4px rgba(127,214,162,.08);
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  margin-left:var(--sidebar);
+  min-height:100vh;
+}
+
+.topbar{
+  height:78px;
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:color-mix(in srgb,var(--panel) 90%,transparent);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 34px;
+}
+
+.topbar-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.breadcrumb{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.breadcrumb strong{
+  color:var(--text);
+}
+
+.restricted{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid rgba(216,179,106,.25);
+  background:var(--accent-soft);
+  color:var(--accent);
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:10px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.icon-button{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  color:var(--muted);
+  display:grid;
+  place-items:center;
+}
+
+.icon-button:hover{
+  color:var(--text);
+  border-color:var(--accent);
+}
+
+.lock-button{
+  height:38px;
+  padding:0 13px;
+  border-radius:11px;
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+}
+
+.lock-button:hover{
+  color:var(--danger);
+  border-color:var(--danger);
+}
+
+.content{
+  max-width:1500px;
+  margin:auto;
+  padding:34px;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.page-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:25px;
+  margin-bottom:30px;
+}
+
+.eyebrow{
+  color:var(--accent);
+  font-size:10px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:9px;
+}
+
+h1{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:clamp(34px,4vw,54px);
+  letter-spacing:-.045em;
+  line-height:1;
+}
+
+.heading-copy{
+  max-width:690px;
+  margin-top:12px;
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.7;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary-button,
+.secondary-button,
+.danger-button{
+  min-height:42px;
+  padding:0 15px;
+  border-radius:11px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:12px;
+  font-weight:600;
+}
+
+.primary-button{
+  background:var(--accent);
+  color:#17130d;
+}
+
+.secondary-button{
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+
+.secondary-button:hover{
+  border-color:var(--accent);
+}
+
+.danger-button{
+  background:rgba(239,119,119,.1);
+  border:1px solid rgba(239,119,119,.25);
+  color:var(--danger);
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:20px;
+}
+
+.stat-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.stat-value{
+  margin-top:10px;
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:30px;
+  letter-spacing:-.04em;
+}
+
+.stat-note{
+  color:var(--muted-2);
+  font-size:10px;
+  margin-top:5px;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.search{
+  flex:1;
+  min-width:180px;
+  position:relative;
+}
+
+.search input{
+  width:100%;
+  height:42px;
+  padding:0 13px 0 38px;
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  border-radius:11px;
+  color:var(--text);
+  outline:none;
+}
+
+.search input:focus{
+  border-color:var(--accent);
+}
+
+.search-icon{
+  position:absolute;
+  left:14px;
+  top:12px;
+  color:var(--muted);
+  font-size:13px;
+}
+
+.filter{
+  height:42px;
+  min-width:145px;
+  padding:0 12px;
+  background:var(--panel-2);
+  border:1px solid var(--border);
+  border-radius:11px;
+  color:var(--text);
+  outline:none;
+}
+
+.view-button{
+  width:42px;
+  height:42px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:var(--panel-2);
+  color:var(--muted);
+}
+
+.view-button.active{
+  color:var(--accent);
+  border-color:var(--accent);
+}
+
+/* =========================
+   CONTENT GRID
+========================= */
+
+.content-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.content-card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:19px;
+  overflow:hidden;
+  transition:.2s ease;
+}
+
+.content-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(216,179,106,.4);
+}
+
+.card-top{
+  padding:20px 20px 17px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.card-icon{
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:var(--accent-soft);
+  color:var(--accent);
+  display:grid;
+  place-items:center;
+  font-size:17px;
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  height:25px;
+  padding:0 9px;
+  border-radius:999px;
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.status.published{
+  color:var(--success);
+  background:rgba(127,214,162,.09);
+}
+
+.status.draft{
+  color:var(--warning);
+  background:rgba(233,200,120,.09);
+}
+
+.status-dot{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:currentColor;
+}
+
+.card-body{
+  padding:19px 20px;
+}
+
+.card-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:18px;
+}
+
+.card-description{
+  margin-top:8px;
+  min-height:43px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.55;
+}
+
+.card-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:15px;
+}
+
+.meta-pill{
+  padding:6px 8px;
+  background:var(--panel-3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.card-footer{
+  padding:14px 20px;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.updated{
+  color:var(--muted-2);
+  font-size:9px;
+}
+
+.card-actions{
+  display:flex;
+  gap:6px;
+}
+
+.small-button{
+  height:31px;
+  padding:0 10px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  color:var(--muted);
+  font-size:10px;
+}
+
+.small-button:hover{
+  color:var(--text);
+  border-color:var(--accent);
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+  grid-column:1/-1;
+  padding:60px 20px;
+  text-align:center;
+  background:var(--panel);
+  border:1px dashed var(--border);
+  border-radius:18px;
+  color:var(--muted);
+}
+
+.empty strong{
+  display:block;
+  color:var(--text);
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:18px;
+  margin-bottom:7px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:rgba(0,0,0,.68);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.modal{
+  width:min(650px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:0 40px 100px rgba(0,0,0,.45);
+}
+
+.modal-header{
+  padding:21px 23px;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.modal-title{
+  font-family:"Bricolage Grotesque",sans-serif;
+  font-size:19px;
+}
+
+.modal-subtitle{
+  color:var(--muted);
+  font-size:11px;
+  margin-top:4px;
+}
+
+.close-button{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:var(--panel-3);
+  color:var(--muted);
+}
+
+.modal-body{
+  padding:23px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  display:block;
+  margin-bottom:7px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:600;
+}
+
+.input,
+.textarea,
+.select{
+  width:100%;
+  border:1px solid var(--border);
+  background:var(--panel-2);
+  color:var(--text);
+  border-radius:11px;
+  outline:none;
+  padding:12px 13px;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus{
+  border-color:var(--accent);
+}
+
+.textarea{
+  min-height:125px;
+  resize:vertical;
+  line-height:1.5;
+}
+
+.modal-footer{
+  padding:16px 23px;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  right:25px;
+  bottom:25px;
+  z-index:300;
+  min-width:250px;
+  padding:14px 16px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+  border-radius:14px;
+  display:flex;
+  gap:10px;
+  transform:translateY(30px);
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+}
+
+.toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+.toast-dot{
+  width:8px;
+  height:8px;
+  margin-top:5px;
+  border-radius:50%;
+  background:var(--success);
+}
+
+.toast strong{
+  display:block;
+  font-size:12px;
+}
+
+.toast p{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+.mobile-menu{
+  display:none;
+}
+
+.mobile-overlay{
+  display:none;
+}
+
+@media(max-width:1100px){
+  .content-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:800px){
+
+  :root{
+    --sidebar:0px;
+  }
+
+  .sidebar{
+    width:272px;
+    transform:translateX(-100%);
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .mobile-menu{
+    display:grid;
+    width:38px;
+    height:38px;
+    place-items:center;
+    border-radius:11px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+  }
+
+  .mobile-overlay{
+    position:fixed;
+    inset:0;
+    z-index:90;
+    background:rgba(0,0,0,.55);
+  }
+
+  .mobile-overlay.show{
+    display:block;
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .breadcrumb{
+    display:none;
+  }
+
+  .content{
+    padding:24px 18px;
+  }
+
+  .page-heading{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .toolbar{
+    flex-wrap:wrap;
+  }
+
+  .search{
+    flex-basis:100%;
+  }
+}
+
+@media(max-width:560px){
+
+  .content{
+    padding:20px 14px;
+  }
+
+  h1{
+    font-size:37px;
+  }
+
+  .content-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .stat-card{
+    padding:15px;
+  }
+
+  .stat-value{
+    font-size:24px;
+  }
+
+  .filter{
+    flex:1;
+    min-width:0;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .modal-body{
+    padding:18px;
+  }
+
+  .modal-footer{
+    flex-direction:column-reverse;
+  }
+
+  .modal-footer button{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="brand">
+    <div class="brand-mark">NU</div>
+
+    <div class="brand-copy">
+      <strong>Portfolio Admin</strong>
+      <span>Restricted Workspace</span>
+    </div>
+  </div>
+
+  <nav class="side-nav">
+
+    <div class="nav-label">Workspace</div>
+
+    <a class="nav-item" href="./index.html">
+      <span class="nav-icon">⌂</span>
+      Control Panel
+    </a>
+
+    <a class="nav-item" href="./security.html">
+      <span class="nav-icon">◈</span>
+      Security
+    </a>
+
+    <a class="nav-item" href="./audit.html">
+      <span class="nav-icon">◷</span>
+      Audit Log
+    </a>
+
+    <div class="nav-label">Recovery</div>
+
+    <a class="nav-item" href="./backups.html">
+      <span class="nav-icon">▣</span>
+      Backups
+    </a>
+
+    <a class="nav-item" href="./restore.html">
+      <span class="nav-icon">↺</span>
+      Restore
+    </a>
+
+    <div class="nav-label">Content</div>
+
+    <a class="nav-item active" href="./content.html">
+      <span class="nav-icon">▤</span>
+      Content Manager
+    </a>
+
+    <a class="nav-item" href="./projects.html">
+      <span class="nav-icon">◇</span>
+      Projects
+    </a>
+
+    <a class="nav-item" href="./media.html">
+      <span class="nav-icon">▧</span>
+      Media Library
+    </a>
+
+    <a class="nav-item" href="./settings.html">
+      <span class="nav-icon">⚙</span>
+      Settings
+    </a>
+
+    <div class="nav-label">Administration</div>
+
+    <a class="nav-item" href="../admin-management.html">
+      <span class="nav-icon">♙</span>
+      Access Management
+    </a>
+
+    <a class="nav-item" href="../dashboard.html">
+      <span class="nav-icon">◫</span>
+      Admin Dashboard
+    </a>
+
+    <a class="nav-item" href="../../index.html" target="_blank">
+      <span class="nav-icon">↗</span>
+      View Portfolio
+    </a>
+
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="security-chip">
+      <span class="security-dot"></span>
+      Restricted session active
+    </div>
+  </div>
+
+</aside>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+  <header class="topbar">
+
+    <div class="topbar-left">
+
+      <button
+        class="mobile-menu"
+        id="mobileMenu">
+        ☰
+      </button>
+
+      <div class="breadcrumb">
+        Restricted / <strong>Content Manager</strong>
+      </div>
+
+      <span class="restricted">
+        ● Restricted
+      </span>
+
+    </div>
+
+    <div class="top-actions">
+
+      <button
+        class="icon-button"
+        id="themeToggle"
+        title="Toggle theme">
+        ◐
+      </button>
+
+      <button
+        class="lock-button"
+        id="lockWorkspace">
+        Lock
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <section class="content">
+
+    <div class="page-heading">
+
+      <div>
+
+        <div class="eyebrow">
+          Portfolio Content
+        </div>
+
+        <h1>Content Manager.</h1>
+
+        <p class="heading-copy">
+          Manage the main portfolio content from one controlled workspace.
+          Edit copy, publishing state, and section metadata without changing
+          the visual structure of the public site.
+        </p>
+
+      </div>
+
+      <button
+        class="primary-button"
+        id="addContent">
+        + Add Content
+      </button>
+
+    </div>
+
+
+    <!-- =========================
+         STATS
+    ========================= -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-label">Total Content</div>
+        <div class="stat-value" id="totalCount">0</div>
+        <div class="stat-note">Managed entries</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Published</div>
+        <div class="stat-value" id="publishedCount">0</div>
+        <div class="stat-note">Visible entries</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Drafts</div>
+        <div class="stat-value" id="draftCount">0</div>
+        <div class="stat-note">Not currently published</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Sections</div>
+        <div class="stat-value" id="sectionCount">0</div>
+        <div class="stat-note">Portfolio areas</div>
+      </div>
+
+    </div>
+
+
+    <!-- =========================
+         TOOLBAR
+    ========================= -->
+
+    <div class="toolbar">
+
+      <div class="search">
+
+        <span class="search-icon">⌕</span>
+
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Search content...">
+
+      </div>
+
+      <select
+        class="filter"
+        id="sectionFilter">
+
+        <option value="all">All sections</option>
+        <option value="homepage">Homepage</option>
+        <option value="about">About</option>
+        <option value="services">Services</option>
+        <option value="work">Selected Work</option>
+        <option value="experience">Experience</option>
+        <option value="education">Education</option>
+        <option value="skills">Skills</option>
+        <option value="contact">Contact</option>
+
+      </select>
+
+      <select
+        class="filter"
+        id="statusFilter">
+
+        <option value="all">All status</option>
+        <option value="published">Published</option>
+        <option value="draft">Draft</option>
+
+      </select>
+
+      <button
+        class="view-button active"
+        id="gridView">
+        ▦
+      </button>
+
+    </div>
+
+
+    <!-- =========================
+         CONTENT GRID
+    ========================= -->
+
+    <div
+      class="content-grid"
+      id="contentGrid">
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =========================
+     MODAL
+========================= -->
+
+<div
+  class="modal-backdrop"
+  id="modalBackdrop">
+
+  <div class="modal">
+
+    <div class="modal-header">
+
+      <div>
+        <div
+          class="modal-title"
+          id="modalTitle">
+          Edit Content
+        </div>
+
+        <div class="modal-subtitle">
+          Update the selected portfolio content entry.
+        </div>
+      </div>
+
+      <button
+        class="close-button"
+        id="closeModal">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="modal-body">
+
+      <div class="form-grid">
+
+        <div class="field">
+
+          <label>Section</label>
+
+          <select
+            class="select"
+            id="fieldSection">
+
+            <option value="homepage">Homepage</option>
+            <option value="about">About</option>
+            <option value="services">Services</option>
+            <option value="work">Selected Work</option>
+            <option value="experience">Experience</option>
+            <option value="education">Education</option>
+            <option value="skills">Skills</option>
+            <option value="contact">Contact</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Status</label>
+
+          <select
+            class="select"
+            id="fieldStatus">
+
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field full">
+
+          <label>Title</label>
+
+          <input
+            class="input"
+            id="fieldTitle"
+            placeholder="Content title">
+
+        </div>
+
+
+        <div class="field full">
+
+          <label>Summary</label>
+
+          <input
+            class="input"
+            id="fieldSummary"
+            placeholder="Short description">
+
+        </div>
+
+
+        <div class="field full">
+
+          <label>Content</label>
+
+          <textarea
+            class="textarea"
+            id="fieldBody"
+            placeholder="Write the content here..."></textarea>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="modal-footer">
+
+      <button
+        class="secondary-button"
+        id="cancelModal">
+        Cancel
+      </button>
+
+      <button
+        class="primary-button"
+        id="saveContent">
+        Save Content
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     TOAST
+========================= -->
+
+<div
+  class="toast"
+  id="toast">
+
+  <span class="toast-dot"></span>
+
+  <div>
+    <strong id="toastTitle">
+      Saved
+    </strong>
+
+    <p id="toastText">
+      Changes saved successfully.
+    </p>
+  </div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   CONFIG
+========================================================= */
+
+const MASTER_SESSION_KEY =
+  "nusrat_master_session_v1";
+
+const THEME_KEY =
+  "nusrat_admin_theme";
+
+const CONTENT_KEY =
+  "nusrat_master_content_v1";
+
+const AUDIT_KEY =
+  "nusrat_master_audit_v1";
+
+const LAST_UPDATED_KEY =
+  "nusrat_admin_last_updated";
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+function getSession(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(
+        MASTER_SESSION_KEY
+      ) || "null"
+    );
+
+  }catch{
+
+    return null;
+
+  }
+
+}
+
+
+function validSession(){
+
+  const session =
+    getSession();
+
+  if(!session){
+    return false;
+  }
+
+  if(session.loggedIn !== true){
+    return false;
+  }
+
+  if(session.role !== "master"){
+    return false;
+  }
+
+  if(
+    session.expiresAt &&
+    Date.now() >
+    Number(session.expiresAt)
+  ){
+    return false;
+  }
+
+  return true;
+}
+
+
+if(!validSession()){
+
+  window.location.replace(
+    "./login.html"
+  );
+
+}
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+document.documentElement.dataset.theme =
+  localStorage.getItem(THEME_KEY) ||
+  "dark";
+
+
+document
+  .getElementById("themeToggle")
+  .addEventListener(
+    "click",
+    () => {
+
+      const current =
+        document.documentElement.dataset.theme ||
+        "dark";
+
+      const next =
+        current === "dark"
+          ? "light"
+          : "dark";
+
+      document.documentElement.dataset.theme =
+        next;
+
+      localStorage.setItem(
+        THEME_KEY,
+        next
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   DEFAULT CONTENT
+========================================================= */
+
+const DEFAULT_CONTENT = [
+
+  {
+    id:"content-home-hero",
+    section:"homepage",
+    title:"Homepage Hero",
+    summary:"Primary introduction and first-screen messaging.",
+    body:"UX/UI Designer focused on thoughtful, clear and useful digital experiences.",
+    status:"published",
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"content-about",
+    section:"about",
+    title:"About",
+    summary:"Professional introduction and design perspective.",
+    body:"A concise professional introduction for Nusrat Afsana Usha.",
+    status:"published",
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"content-services",
+    section:"services",
+    title:"Design Services",
+    summary:"Core design services offered through the portfolio.",
+    body:"UX/UI Design, Website Design, Wireframing, Prototyping and Interaction Design.",
+    status:"published",
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"content-work",
+    section:"work",
+    title:"Selected Work",
+    summary:"Curated portfolio projects and design work.",
+    body:"Selected work entries can be managed individually from the Projects area.",
+    status:"published",
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"content-experience",
+    section:"experience",
+    title:"Professional Experience",
+    summary:"Career timeline and professional background.",
+    body:"Professional experience and selected responsibilities.",
+    status:"published",
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"content-education",
+    section:"education",
+    title:"Education",
+    summary:"Academic background and current studies.",
+    body:"Academic qualifications and ongoing learning.",
+    status:"published",
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"content-skills",
+    section:"skills",
+    title:"Skills",
+    summary:"UX/UI, research, prototyping and professional capabilities.",
+    body:"UX/UI design, wireframing, prototyping, interaction design, information architecture, user research, usability testing and Figma.",
+    status:"published",
+    updatedAt:new Date().toISOString()
+  },
+
+  {
+    id:"content-contact",
+    section:"contact",
+    title:"Contact",
+    summary:"Primary contact information and inquiry CTA.",
+    body:"Use the portfolio contact section for professional inquiries.",
+    status:"published",
+    updatedAt:new Date().toISOString()
+  }
+
+];
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+function getContent(){
+
+  try{
+
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          CONTENT_KEY
+        ) || "null"
+      );
+
+    if(
+      Array.isArray(saved) &&
+      saved.length
+    ){
+      return saved;
+    }
+
+  }catch{}
+
+  localStorage.setItem(
+    CONTENT_KEY,
+    JSON.stringify(
+      DEFAULT_CONTENT
+    )
+  );
+
+  return [...DEFAULT_CONTENT];
+}
+
+
+function saveContentData(data){
+
+  localStorage.setItem(
+    CONTENT_KEY,
+    JSON.stringify(data)
+  );
+
+  localStorage.setItem(
+    LAST_UPDATED_KEY,
+    new Date().toISOString()
+  );
+
+}
+
+
+/* =========================================================
+   AUDIT
+========================================================= */
+
+function audit(
+  action,
+  details
+){
+
+  let logs = [];
+
+  try{
+
+    logs =
+      JSON.parse(
+        localStorage.getItem(
+          AUDIT_KEY
+        ) || "[]"
+      );
+
+  }catch{
+
+    logs = [];
+
+  }
+
+  logs.unshift({
+
+    id:
+      "AUD-" +
+      Date.now() +
+      "-" +
+      Math.random()
+        .toString(36)
+        .slice(2,7),
+
+    action,
+    details,
+
+    type:"content",
+
+    actor:
+      getSession()?.username ||
+      "master",
+
+    createdAt:
+      new Date().toISOString()
+
+  });
+
+  localStorage.setItem(
+    AUDIT_KEY,
+    JSON.stringify(
+      logs.slice(0,500)
+    )
+  );
+
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function sectionLabel(section){
+
+  const labels = {
+
+    homepage:"Homepage",
+    about:"About",
+    services:"Services",
+    work:"Selected Work",
+    experience:"Experience",
+    education:"Education",
+    skills:"Skills",
+    contact:"Contact"
+
+  };
+
+  return labels[section] ||
+    section;
+
+}
+
+
+function formatDate(value){
+
+  if(!value){
+    return "Not updated";
+  }
+
+  const date =
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return "Not updated";
+  }
+
+  return date.toLocaleDateString(
+    "en-US",
+    {
+      month:"short",
+      day:"numeric",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let contentData =
+  getContent();
+
+let editingId =
+  null;
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  const grid =
+    document.getElementById(
+      "contentGrid"
+    );
+
+  const query =
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+  const section =
+    document
+      .getElementById(
+        "sectionFilter"
+      )
+      .value;
+
+  const status =
+    document
+      .getElementById(
+        "statusFilter"
+      )
+      .value;
+
+
+  const filtered =
+    contentData.filter(item => {
+
+      const matchesQuery =
+        !query ||
+        [
+          item.title,
+          item.summary,
+          item.body,
+          item.section
+        ]
+        .join(" ")
+        .toLowerCase()
+        .includes(query);
+
+      const matchesSection =
+        section === "all" ||
+        item.section === section;
+
+      const matchesStatus =
+        status === "all" ||
+        item.status === status;
+
+      return (
+        matchesQuery &&
+        matchesSection &&
+        matchesStatus
+      );
+
+    });
+
+
+  grid.innerHTML = "";
+
+
+  if(!filtered.length){
+
+    grid.innerHTML = `
+      <div class="empty">
+        <strong>No content found</strong>
+        Try another search or filter.
+      </div>
+    `;
+
+    updateStats();
+
+    return;
+  }
+
+
+  filtered.forEach(item => {
+
+    const card =
+      document.createElement(
+        "article"
+      );
+
+    card.className =
+      "content-card";
+
+    const statusClass =
+      item.status === "published"
+        ? "published"
+        : "draft";
+
+    card.innerHTML = `
+
+      <div class="card-top">
+
+        <div class="card-icon">
+          ${iconFor(item.section)}
+        </div>
+
+        <span class="status ${statusClass}">
+          <span class="status-dot"></span>
+          ${escapeHtml(item.status)}
+        </span>
+
+      </div>
+
+
+      <div class="card-body">
+
+        <div class="card-title">
+          ${escapeHtml(item.title)}
+        </div>
+
+        <div class="card-description">
+          ${escapeHtml(item.summary || "No summary added.")}
+        </div>
+
+        <div class="card-meta">
+
+          <span class="meta-pill">
+            ${escapeHtml(
+              sectionLabel(item.section)
+            )}
+          </span>
+
+          <span class="meta-pill">
+            ID: ${escapeHtml(item.id)}
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="card-footer">
+
+        <span class="updated">
+          Updated ${formatDate(item.updatedAt)}
+        </span>
+
+        <div class="card-actions">
+
+          <button
+            class="small-button"
+            data-edit="${item.id}">
+            Edit
+          </button>
+
+          <button
+            class="small-button"
+            data-toggle="${item.id}">
+            ${item.status === "published"
+              ? "Unpublish"
+              : "Publish"}
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+    grid.appendChild(card);
+
+  });
+
+
+  grid
+    .querySelectorAll("[data-edit]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          openEditor(
+            button.dataset.edit
+          );
+
+        }
+      );
+
+    });
+
+
+  grid
+    .querySelectorAll("[data-toggle]")
+    .forEach(button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          toggleStatus(
+            button.dataset.toggle
+          );
+
+        }
+      );
+
+    });
+
+
+  updateStats();
+
+}
+
+
+/* =========================================================
+   ICONS
+========================================================= */
+
+function iconFor(section){
+
+  const icons = {
+
+    homepage:"⌂",
+    about:"◎",
+    services:"✦",
+    work:"◇",
+    experience:"◷",
+    education:"▤",
+    skills:"✧",
+    contact:"↗"
+
+  };
+
+  return icons[section] || "•";
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function updateStats(){
+
+  const published =
+    contentData.filter(
+      item =>
+        item.status === "published"
+    ).length;
+
+  const drafts =
+    contentData.filter(
+      item =>
+        item.status === "draft"
+    ).length;
+
+  const sections =
+    new Set(
+      contentData.map(
+        item => item.section
+      )
+    ).size;
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    contentData.length;
+
+  document.getElementById(
+    "publishedCount"
+  ).textContent =
+    published;
+
+  document.getElementById(
+    "draftCount"
+  ).textContent =
+    drafts;
+
+  document.getElementById(
+    "sectionCount"
+  ).textContent =
+    sections;
+
+}
+
+
+/* =========================================================
+   OPEN EDITOR
+========================================================= */
+
+function openEditor(id){
+
+  const item =
+    contentData.find(
+      content => content.id === id
+    );
+
+  if(!item){
+    return;
+  }
+
+  editingId = id;
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    "Edit Content";
+
+  document.getElementById(
+    "fieldSection"
+  ).value =
+    item.section;
+
+  document.getElementById(
+    "fieldStatus"
+  ).value =
+    item.status;
+
+  document.getElementById(
+    "fieldTitle"
+  ).value =
+    item.title;
+
+  document.getElementById(
+    "fieldSummary"
+  ).value =
+    item.summary || "";
+
+  document.getElementById(
+    "fieldBody"
+  ).value =
+    item.body || "";
+
+  document.getElementById(
+    "modalBackdrop"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* =========================================================
+   NEW CONTENT
+========================================================= */
+
+function openNew(){
+
+  editingId = null;
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent =
+    "Add Content";
+
+  document.getElementById(
+    "fieldSection"
+  ).value =
+    "homepage";
+
+  document.getElementById(
+    "fieldStatus"
+  ).value =
+    "draft";
+
+  document.getElementById(
+    "fieldTitle"
+  ).value =
+    "";
+
+  document.getElementById(
+    "fieldSummary"
+  ).value =
+    "";
+
+  document.getElementById(
+    "fieldBody"
+  ).value =
+    "";
+
+  document.getElementById(
+    "modalBackdrop"
+  ).classList.add(
+    "show"
+  );
+
+}
+
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function closeModal(){
+
+  document.getElementById(
+    "modalBackdrop"
+  ).classList.remove(
+    "show"
+  );
+
+  editingId = null;
+
+}
+
+
+document
+  .getElementById("closeModal")
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+document
+  .getElementById("cancelModal")
+  .addEventListener(
+    "click",
+    closeModal
+  );
+
+
+document
+  .getElementById("modalBackdrop")
+  .addEventListener(
+    "click",
+    event => {
+
+      if(
+        event.target.id ===
+        "modalBackdrop"
+      ){
+        closeModal();
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+document
+  .getElementById("saveContent")
+  .addEventListener(
+    "click",
+    () => {
+
+      const section =
+        document.getElementById(
+          "fieldSection"
+        ).value;
+
+      const status =
+        document.getElementById(
+          "fieldStatus"
+        ).value;
+
+      const title =
+        document.getElementById(
+          "fieldTitle"
+        ).value
+        .trim();
+
+      const summary =
+        document.getElementById(
+          "fieldSummary"
+        ).value
+        .trim();
+
+      const body =
+        document.getElementById(
+          "fieldBody"
+        ).value
+        .trim();
+
+
+      if(!title){
+
+        showToast(
+          "Title required",
+          "Please enter a content title."
+        );
+
+        return;
+      }
+
+
+      const now =
+        new Date().toISOString();
+
+
+      if(editingId){
+
+        const item =
+          contentData.find(
+            entry =>
+              entry.id === editingId
+          );
+
+        if(item){
+
+          item.section =
+            section;
+
+          item.status =
+            status;
+
+          item.title =
+            title;
+
+          item.summary =
+            summary;
+
+          item.body =
+            body;
+
+          item.updatedAt =
+            now;
+
+        }
+
+
+        audit(
+          "CONTENT_UPDATED",
+          `Updated content: ${title}`
+        );
+
+
+        showToast(
+          "Content updated",
+          `${title} was saved successfully.`
+        );
+
+      }else{
+
+        const newItem = {
+
+          id:
+            "content-" +
+            Date.now(),
+
+          section,
+
+          title,
+
+          summary,
+
+          body,
+
+          status,
+
+          updatedAt:now
+
+        };
+
+        contentData.unshift(
+          newItem
+        );
+
+
+        audit(
+          "CONTENT_CREATED",
+          `Created content: ${title}`
+        );
+
+
+        showToast(
+          "Content created",
+          `${title} was added.`
+        );
+
+      }
+
+
+      saveContentData(
+        contentData
+      );
+
+      closeModal();
+
+      render();
+
+    }
+  );
+
+
+/* =========================================================
+   TOGGLE STATUS
+========================================================= */
+
+function toggleStatus(id){
+
+  const item =
+    contentData.find(
+      entry =>
+        entry.id === id
+    );
+
+  if(!item){
+    return;
+  }
+
+  item.status =
+    item.status === "published"
+      ? "draft"
+      : "published";
+
+  item.updatedAt =
+    new Date().toISOString();
+
+
+  saveContentData(
+    contentData
+  );
+
+
+  audit(
+    "CONTENT_STATUS_CHANGED",
+    `${item.title} changed to ${item.status}.`
+  );
+
+
+  showToast(
+    item.status === "published"
+      ? "Published"
+      : "Moved to draft",
+    item.title
+  );
+
+
+  render();
+
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+document
+  .getElementById("addContent")
+  .addEventListener(
+    "click",
+    openNew
+  );
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+[
+  "searchInput",
+  "sectionFilter",
+  "statusFilter"
+].forEach(id => {
+
+  document
+    .getElementById(id)
+    .addEventListener(
+      "input",
+      render
+    );
+
+});
+
+
+/* =========================================================
+   LOCK
+========================================================= */
+
+document
+  .getElementById("lockWorkspace")
+  .addEventListener(
+    "click",
+    () => {
+
+      audit(
+        "MASTER_WORKSPACE_LOCKED",
+        "Restricted workspace manually locked."
+      );
+
+      localStorage.removeItem(
+        MASTER_SESSION_KEY
+      );
+
+      window.location.replace(
+        "./login.html"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if(
+      event.key === "Escape"
+    ){
+
+      if(
+        document
+          .getElementById(
+            "modalBackdrop"
+          )
+          .classList
+          .contains("show")
+      ){
+
+        closeModal();
+
+      }else{
+
+        localStorage.removeItem(
+          MASTER_SESSION_KEY
+        );
+
+        window.location.replace(
+          "./login.html"
+        );
+
+      }
+
+    }
+
+
+    if(
+      (event.ctrlKey ||
+       event.metaKey) &&
+      event.key.toLowerCase() === "s"
+    ){
+
+      if(
+        document
+          .getElementById(
+            "modalBackdrop"
+          )
+          .classList
+          .contains("show")
+      ){
+
+        event.preventDefault();
+
+        document
+          .getElementById(
+            "saveContent"
+          )
+          .click();
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+const sidebar =
+  document.getElementById(
+    "sidebar"
+  );
+
+const overlay =
+  document.getElementById(
+    "mobileOverlay"
+  );
+
+
+document
+  .getElementById("mobileMenu")
+  .addEventListener(
+    "click",
+    () => {
+
+      sidebar.classList.add(
+        "open"
+      );
+
+      overlay.classList.add(
+        "show"
+      );
+
+    }
+  );
+
+
+overlay.addEventListener(
+  "click",
+  () => {
+
+    sidebar.classList.remove(
+      "open"
+    );
+
+    overlay.classList.remove(
+      "show"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   SESSION WATCHER
+========================================================= */
+
+setInterval(
+  () => {
+
+    if(!validSession()){
+
+      window.location.replace(
+        "./login.html"
+      );
+
+    }
+
+  },
+  30000
+);
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(
+  title,
+  message
+){
+
+  document.getElementById(
+    "toastTitle"
+  ).textContent =
+    title;
+
+  document.getElementById(
+    "toastText"
+  ).textContent =
+    message;
+
+  const toast =
+    document.getElementById(
+      "toast"
+    );
+
+  toast.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    window.__toastTimer
+  );
+
+  window.__toastTimer =
+    setTimeout(
+      () => {
+        toast.classList.remove(
+          "show"
+        );
+      },
+      3200
+    );
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+render();
+
+</script>
+
+</body>
+</html>
